@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { TranslateModule } from '@ngx-translate/core'
 import { addInitializeModuleGuard } from '@onecx/angular-integration-interface'
-export const routes: Routes = []
+import { startsWith } from '@onecx/angular-webcomponents'
+export const routes: Routes = [
+  {
+    matcher: startsWith('aiknowledge-base'),
+    loadChildren: () => import('./aiknowledge-base/aiknowledge-base.module').then((mod) => mod.AIKnowledgeBaseModule)
+  }
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(addInitializeModuleGuard(routes)), TranslateModule],

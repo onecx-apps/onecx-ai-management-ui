@@ -1,0 +1,41 @@
+import { DataTableColumn, ColumnType } from '@onecx/angular-accelerator'
+
+export const aIKnowledgeBaseSearchColumns: DataTableColumn[] = [
+    {
+        columnType: ColumnType.STRING,
+        id: 'id',
+        nameKey: 'AI_KNOWLEDGE_BASE_SEARCH.COLUMNS.ID',
+        filterable: true,
+        sortable: true,
+        predefinedGroupKeys: [
+          'AI_KNOWLEDGE_BASE_SEARCH.PREDEFINED_GROUP.DEFAULT',
+          'AI_KNOWLEDGE_BASE_SEARCH.PREDEFINED_GROUP.EXTENDED',
+          'AI_KNOWLEDGE_BASE_SEARCH.PREDEFINED_GROUP.FULL',
+        ],
+      },
+      {
+        columnType: ColumnType.STRING,
+        id: 'title',
+        nameKey: 'AI_KNOWLEDGE_BASE_SEARCH.COLUMNS.NAME',
+        filterable: true,
+        sortable: true,
+        predefinedGroupKeys: [
+          'AI_KNOWLEDGE_BASE_SEARCH.PREDEFINED_GROUP.DEFAULT',
+          'AI_KNOWLEDGE_BASE_SEARCH.PREDEFINED_GROUP.EXTENDED',
+          'AI_KNOWLEDGE_BASE_SEARCH.PREDEFINED_GROUP.FULL',
+        ],
+      },
+      {
+        columnType: ColumnType.STRING,
+        id: 'author',
+        nameKey: 'AI_KNOWLEDGE_BASE_SEARCH.COLUMNS.DESCRIPTION',
+        filterable: true,
+        sortable: true,
+        predefinedGroupKeys: [
+          'AI_KNOWLEDGE_BASE_SEARCH.PREDEFINED_GROUP.DEFAULT',
+          'AI_KNOWLEDGE_BASE_SEARCH.PREDEFINED_GROUP.EXTENDED',
+          'AI_KNOWLEDGE_BASE_SEARCH.PREDEFINED_GROUP.FULL',
+        ],
+      },
+]
+

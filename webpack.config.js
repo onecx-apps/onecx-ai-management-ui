@@ -5,11 +5,13 @@ const {
   share,
   withModuleFederationPlugin,
 } = require('@angular-architects/module-federation/webpack');
+const webpack = require('webpack');
+
 const config = withModuleFederationPlugin({
   name: 'onecx-ai-ui-app',
   filename: 'remoteEntry.js',
   exposes: {
-    './OnecxAiUiModule': './src/bootstrap.ts',
+    './OnecxAiUiModule': './src/main.ts',
   },
   shared: share({
     '@angular/core': {
@@ -93,7 +95,12 @@ const plugins = config.plugins.filter(
 
 module.exports = {
   ...config,
-  plugins,
+  plugins: [
+    new webpack.DefinePlugin({
+      ngDevMode: "undefined",
+    }),
+    ...plugins
+  ],
   output: {
     uniqueName: 'onecx-ai-ui',
     publicPath: 'auto',
