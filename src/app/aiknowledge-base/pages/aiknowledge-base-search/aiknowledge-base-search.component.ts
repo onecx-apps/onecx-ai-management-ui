@@ -47,7 +47,9 @@ export class AIKnowledgeBaseSearchComponent implements OnInit {
       return actions
     })
   )
-
+  // ngAfterContentChecked() {
+  //   console.log(this.viewModel$)
+  // }
   // ACTION S9: Please select the column to be displayed in the diagram
   diagramColumnId = 'id'
   diagramColumn$ = this.viewModel$.pipe(
@@ -74,10 +76,12 @@ export class AIKnowledgeBaseSearchComponent implements OnInit {
       {
         titleKey: 'AI_KNOWLEDGE_BASE_SEARCH.BREADCRUMB',
         labelKey: 'AI_KNOWLEDGE_BASE_SEARCH.BREADCRUMB',
-        routerLink: '/aiknowledge-base'
+        routerLink: '/ai/aiknowledge-base'
       }
     ])
-    this.viewModel$.subscribe((vm) => this.aIKnowledgeBaseSearchFormGroup.patchValue(vm.searchCriteria))
+    this.viewModel$.subscribe((vm) => {
+      console.log(vm)
+      return this.aIKnowledgeBaseSearchFormGroup.patchValue(vm.searchCriteria)})
   }
 
   search(formValue: FormGroup) {
