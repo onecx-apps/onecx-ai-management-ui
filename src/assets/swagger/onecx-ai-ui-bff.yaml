@@ -607,4 +607,4 @@ components:
           enum:
             - NEW
             - PROCESSING
-            - EMBEDD
+            - EMBEDDED          
