@@ -290,7 +290,149 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetailResponse'                
+                $ref: '#/components/schemas/ProblemDetailResponse'
+  /aIProvider:
+    post:
+      operationId: createAIProvider
+      tags:
+        - AIProviderBffService
+      description: This operation performs a create.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAIProvider'
+      responses:
+        '201':
+          description: New AIProvider created
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: url
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIProviderCreateResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+  /aIProvider/search:
+    post:
+      operationId: searchAIProvider
+      tags:
+        - AIProviderBffService
+      description: This operation performs a search based on provided search criteria.
+        Search for AIProvider results.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AIProviderSearchRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIProviderSearchResponse'
+        '400':
+          description: Bad request
+        '500':
+          description: Something went wrong
+  /aIProvider/{id}:
+    get:
+      x-onecx:
+        permissions:
+          AIProvider:
+            - read
+      operationId: getAIProviderById
+      tags:
+        - AIProviderBffService
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAIProviderByIdResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+    put:
+      operationId: updateAIProvider
+      tags:
+        - AIProviderBffService
+      description: This operation performs an update.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAIProvider'
+      responses:
+        '204':
+          description: AIProvider updated
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: url
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AIProviderUpdateResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: AIProvider not found
+    delete:
+      tags:
+        - AIProviderBffService
+      operationId: deleteAIProvider
+      description: Delete AIProvider by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: AIProvider deleted
 components:
   schemas:
     AIKnowledgeVectorDb:
@@ -483,7 +625,7 @@ components:
         totalNumberOfResults:
           type: integer
           format: int32
-          description: Total number of results on the server.    
+          description: Total number of results on the server.
     GetAIKnowledgeDocumentByIdResponse:
       type: object
       required:
@@ -542,4 +684,120 @@ components:
           enum:
             - NEW
             - PROCESSING
-            - EMBEDDED          
+            - EMBEDDED
+    AIProvider:
+      type: object
+      required:
+        - id
+      properties:
+        modificationCount:
+          type: integer
+          format: int32
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        llmUrl:
+          type: string
+        appId:
+          type: string
+        modelName:
+          type: string
+        modelVersion:
+          type: string
+        apiKey:
+          type: string
+    AIProviderSearchRequest:
+      type: object
+      properties:
+        limit:
+          type: integer
+          maximum: 2500
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        description:
+          type: string
+        llmUrl:
+          type: string
+        appId:
+          type: string
+        modelName:
+          type: string
+        modelVersion:
+          type: string
+    AIProviderSearchResponse:
+      type: object
+      required:
+        - results
+        - totalNumberOfResults
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIProvider'
+        totalNumberOfResults:
+          type: integer
+          format: int32
+          description: Total number of results on the server.
+    GetAIProviderByIdResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          $ref: '#/components/schemas/AIProvider'
+    CreateAIProvider:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: AIProvider
+    UpdateAIProvider:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: AIProvider
+    AIProviderCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        llmUrl:
+          type: string
+        appId:
+          type: string
+        modelName:
+          type: string
+        modelVersion:
+          type: string
+        apiKey:
+          type: string
+    AIProviderUpdateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        llmUrl:
+          type: string
+        appId:
+          type: string
+        modelName:
+          type: string
+        modelVersion:
+          type: string
+        apiKey:
+          type: string

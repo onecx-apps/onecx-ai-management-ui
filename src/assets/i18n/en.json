@@ -1,4 +1,112 @@
 {
+  "AI_PROVIDER_DELETE": {
+    "HEADER": "Delete AIProvider",
+    "MESSAGE": "Please confirm that you want to delete this AIProvider.",
+    "CONFIRM": "Confirm",
+    "CANCEL": "Cancel",
+    "SUCCESS": "AIProvider deleted successfully",
+    "ERROR": "Could not delete AIProvider"
+  },
+  "AI_PROVIDER_CREATE_UPDATE": {
+    "ACTION": {
+      "CREATE": "Create"
+    },
+    "CREATE": {
+      "HEADER": "Create AIProvider",
+      "SUCCESS": "Creation succesful",
+      "ERROR": "Creation failed",
+      "FORM": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      }
+    },
+    "UPDATE": {
+      "SUCCESS": "Update successful",
+      "FAILED": "ACTION: Add Translation",
+      "ERROR": "Update failed",
+      "FORM": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "HEADER": "Update AIProvider"
+    },
+    "FORM": {
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "APPID": "App Id"
+    }
+  },
+  "AI_PROVIDER_DETAILS": {
+    "HELP_ARTICLE_ID": "Help Article",
+    "BREADCRUMB": "Details",
+    "HEADER": "AIProvider Details",
+    "SUB_HEADER": "Display of AIProvider Details",
+    "ERROR_MESSAGES": {
+      "DETAILS_LOADING_FAILED": "Loading details failed."
+    },
+    "GENERAL": {
+      "BACK": "Back",
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    },
+    "FORM": {
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "LLMURL": "LlmUrl",
+      "MODELNAME": "Modelname",
+      "MODELVERSION": "Modelversion",
+      "APPID": "App Id",
+      "APIKEY": "API Key"
+    }
+  },
+  "AI_PROVIDER_SEARCH": {
+    "HEADER": "AIProvider Search",
+    "SUB_HEADER": "Searching and displaying of AIProvider",
+    "HELP_ARTICLE_ID": "Help Article",
+    "EMPTY_RESULTS": "No results.",
+    "BREADCRUMB": "Search",
+    "DIAGRAM": {
+      "SUM": "Total"
+    },
+    "HEADER_ACTIONS": {
+      "EXPORT_ALL": "Export all",
+      "SHOW_CHART": "Show chart",
+      "HIDE_CHART": "Hide chart",
+      "CREATE_SEARCH_CONFIG": "Create search configuration",
+      "UPDATE_SEARCH_CONFIG": "Update search configuration",
+      "DIALOG_CONFIRM": "Confirm",
+      "DIALOG_CANCEL": "Cancel"
+    },
+    "ERROR_MESSAGES": {
+      "SEARCH_RESULTS_LOADING_FAILED": "Loading search results failed.",
+      "SEARCH_CONFIG_CREATION_FAILED": "Create search configuration failed.",
+      "SEARCH_CONFIG_UPDATE_FAILED": "Update search configuration failed.",
+      "SEARCH_CONFIGS_LOADING_FAILED": "Loading search configurations failed."
+    },
+    "CRITERIA": {
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "LLMURL": "LlmUrl",
+      "MODELNAME": "Modelname",
+      "MODELVERSION": "Modelversion",
+      "APPID": "App Id"
+    },
+    "COLUMNS": {
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "LLMURL": "LlmUrl",
+      "MODELNAME": "Modelname",
+      "MODELVERSION": "Modelversion",
+      "APPID": "App Id"
+    },
+    "PREDEFINED_GROUP": {
+      "DEFAULT": "Default",
+      "EXTENDED": "Extended",
+      "FULL": "Full"
+    }
+  },
   "AI_KNOWLEDGE_VECTOR_DB_DELETE": {
     "HEADER": "Delete AIKnowledgeVectorDb",
     "MESSAGE": "Please confirm that you want to delete this AIKnowledgeVectorDb.",
