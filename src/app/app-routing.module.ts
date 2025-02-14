@@ -3,10 +3,21 @@ import { RouterModule, Routes } from '@angular/router'
 import { TranslateModule } from '@ngx-translate/core'
 import { addInitializeModuleGuard } from '@onecx/angular-integration-interface'
 import { startsWith } from '@onecx/angular-webcomponents'
+
 export const routes: Routes = [
   {
     matcher: startsWith('aiknowledge-base'),
     loadChildren: () => import('./aiknowledge-base/aiknowledge-base.module').then((mod) => mod.AIKnowledgeBaseModule)
+  },
+  {
+    matcher: startsWith('aiknowledge-document'),
+    loadChildren: () =>
+      import('./aiknowledge-document/aiknowledge-document.module').then((mod) => mod.AIKnowledgeDocumentModule)
+  },
+  {
+    matcher: startsWith('ai-knowledge-vector-db'),
+    loadChildren: () =>
+      import('./ai-knowledge-vector-db/ai-knowledge-vector-db.module').then((mod) => mod.AIKnowledgeVectorDbModule)
   }
 ]
 

@@ -10,7 +10,13 @@
     "lint": "nx lint",
     "lint:fix": "nx lint --fix",
     "test": "nx test",
-    "test:ci": "nx test --watch=false --browsers=ChromeHeadless --code-coverage"
+    "test:ci": "nx test --watch=false --browsers=ChromeHeadless --code-coverage",
+    "prepare": "husky || true"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   },
   "private": true,
   "dependencies": {
@@ -48,6 +54,7 @@
     "@onecx/portal-integration-angular": "^5.12.1",
     "@onecx/portal-layout-styles": "^5.12.1",
     "@webcomponents/webcomponentsjs": "^2.8.0",
+    "husky": "^9.1.7",
     "keycloak-angular": "^16.0.1",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
@@ -87,6 +94,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
+    "jest-marbles": "^3.1.0",
     "jest-preset-angular": "~14.2.2",
     "ngx-translate-testing": "^7.0.0",
     "nx": "19.6.4",
@@ -97,6 +105,8 @@
     "tslib": "^2.3.0",
     "typescript": "~5.5.4",
     "typescript-eslint": "^8.0.0",
-    "webpack": "5.94.0"
+    "webpack": "5.94.0",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0"
   }
 }
