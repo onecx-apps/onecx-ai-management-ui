@@ -21,6 +21,15 @@ app:
       enabled: true
       spec:
         permissions:
+          AI_KNOWLEDGE_BASE:
+            CREATE: Create AIKnowledgeBase
+            EDIT: Edit AIKnowledgeBase
+            DELETE: Delete AIKnowledgeBase
+            SAVE: Update and save AIKnowledgeBase
+            IMPORT: Import AIKnowledgeBase
+            EXPORT: Export AIKnowledgeBase
+            VIEW: View mode for AIKnowledgeBase
+            SEARCH: Search AIKnowledgeBase
           AI_KNOWLEDGE_DOCUMENT:
             CREATE: Create AIKnowledgeDocument
             EDIT: Edit AIKnowledgeDocument

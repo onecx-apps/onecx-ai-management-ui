@@ -18,3 +18,6 @@ export * from './searchAIKnowledgeVectorDbRequest';
 export * from './searchAIKnowledgeVectorDbResponse';
 export * from './updateAIKnowledgeDocument';
 export * from './updateAIKnowledgeVectorDb';
+export * from './aIKnowledgeBase';
+export * from './aIKnowledgeBaseSearchRequest';
+export * from './aIKnowledgeBaseSearchResponse';
