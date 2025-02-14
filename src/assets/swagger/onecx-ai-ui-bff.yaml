@@ -313,7 +313,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetailRes        
+                $ref: '#/components/schemas/ProblemDetailResponse'        
 components:
   schemas:
     AIKnowledgeBase:
