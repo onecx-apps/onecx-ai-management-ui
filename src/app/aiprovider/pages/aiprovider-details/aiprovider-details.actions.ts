@@ -10,9 +10,6 @@ export const AIProviderDetailsActions = createActionGroup({
     'aiprovider details received': props<{
       details: AIProvider
     }>(),
-    'aiprovider details loading failed': props<{ error: string | null }>(),
-    'Edit aiprovider details button clicked': props<{
-      id: number | string
-    }>(),
+    'aiprovider details loading failed': props<{ error: string | null }>()
   }
 })
