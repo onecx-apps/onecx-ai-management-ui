@@ -103,7 +103,7 @@
             <span class="p-float-label" controlErrorAnchor>
               <input
                 pInputText
-                [type]="isApiKeyHidden ? 'password' : 'text'"
+                [type]="(isApiKeyHidden$ | async) ? 'password' : 'text'"
                 id="aIProvider_detail_apiKey"
                 class="w-full pt-3 pb-2 text-responsive"
                 formControlName="apiKey"
@@ -114,10 +114,10 @@
               *ocxIfPermission="'AI_PROVIDER#CHANGE_API_KEY'"
               class="p-inputgroup-addon bg-primary pseudo-button pi pi-eye"
               [ngClass]="{
-                'pi-eye': isApiKeyHidden, 
-                'pi-eye-slash': !isApiKeyHidden, 
-                'cursor-pointer': (editMode$ | async),
-                'p-disabled': (editMode$ | async) === false
+                'pi-eye': (isApiKeyHidden$ | async), 
+                'pi-eye-slash': (isApiKeyHidden$ | async) === false, 
+                'cursor-pointer': vm.editMode,
+                'p-disabled': !vm.editMode
               }"
               tabindex="0"
               (click)="toggleApiKeyVisibility()"

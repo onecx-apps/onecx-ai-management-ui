@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Action, BreadcrumbService, UserService } from '@onecx/portal-integration-angular'
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs'
+import { map, Observable } from 'rxjs'
 
 import { PrimeIcons } from 'primeng/api'
-import { selectAIProviderDetailsViewModel } from './aiprovider-details.selectors'
+import { AIProviderDetailsSelectors, selectAIProviderDetailsViewModel } from './aiprovider-details.selectors'
 import { AIProviderDetailsViewModel } from './aiprovider-details.viewmodel'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { AIProviderSearchActions } from '../aiprovider-search/aiprovider-search.actions'
+import { AIProviderDetailsActions } from './aiprovider-details.actions'
 
 @Component({
   selector: 'app-aiprovider-details',
@@ -19,17 +20,13 @@ export class AIProviderDetailsComponent implements OnInit {
   headerActions$!: Observable<Action[]>
   public AIProviderFormGroup!: FormGroup
   public formGroup: FormGroup
-
-  public editMode$ = new BehaviorSubject<boolean>(false)
-  hasApiKeyPermission = false
-  isApiKeyHidden = true
+  isApiKeyHidden$!: Observable<boolean>
 
   constructor(
     private store: Store,
     private breadcrumbService: BreadcrumbService,
     private user: UserService
   ) {
-    this.hasApiKeyPermission = this.user.hasPermission('AI_PROVIDER#CHANGE_API_KEY')
     this.formGroup = new FormGroup({
       name: new FormControl(null, [Validators.maxLength(255)]),
       description: new FormControl(null, [Validators.maxLength(255)]),
@@ -43,9 +40,10 @@ export class AIProviderDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.viewModel$ = this.store.select(selectAIProviderDetailsViewModel)
-
-    this.headerActions$ = combineLatest([this.viewModel$, this.editMode$]).pipe(
-      map(([vm, editMode]) => {
+    this.isApiKeyHidden$ = this.store.select(AIProviderDetailsSelectors.selectIsApiKeyHidden)
+    
+    this.headerActions$ = this.viewModel$.pipe(
+      map((vm) => {
         const actions: Action[] = [
           {
             titleKey: 'AI_PROVIDER_DETAILS.GENERAL.BACK',
@@ -53,7 +51,7 @@ export class AIProviderDetailsComponent implements OnInit {
             show: 'always',
             icon: PrimeIcons.ARROW_LEFT,
             conditional: true,
-            showCondition: !editMode,
+            showCondition: !vm.editMode,
             actionCallback: () => {
               window.history.back()
             }
@@ -64,7 +62,7 @@ export class AIProviderDetailsComponent implements OnInit {
             show: 'always',
             icon: PrimeIcons.PENCIL,
             conditional: true,
-            showCondition: !editMode,
+            showCondition: !vm.editMode,
             actionCallback: () => {
               this.toggleEditMode(true)
             }
@@ -76,7 +74,7 @@ export class AIProviderDetailsComponent implements OnInit {
             show: 'asOverflow',
             btnClass: '',
             conditional: true,
-            showCondition: !editMode,
+            showCondition: !vm.editMode,
             actionCallback: () => {
               this.delete(vm.details?.id ?? '')
             },
@@ -87,19 +85,8 @@ export class AIProviderDetailsComponent implements OnInit {
             show: 'always',
             icon: PrimeIcons.TIMES,
             conditional: true,
-            showCondition: editMode,
+            showCondition: vm.editMode,
             actionCallback: () => {
-              this.viewModel$.subscribe((AIProvider) => {
-                this.formGroup.patchValue({
-                  name: AIProvider.details?.name ?? '',
-                  description: AIProvider.details?.description,
-                  llmUrl: AIProvider.details?.llmUrl,
-                  appId: AIProvider.details?.appId,
-                  modelName: AIProvider.details?.modelName,
-                  modelVersion: AIProvider.details?.modelVersion,
-                  apiKey: AIProvider.details?.apiKey
-                })
-              })
               this.toggleEditMode(false)
             }
           },
@@ -109,7 +96,7 @@ export class AIProviderDetailsComponent implements OnInit {
             show: 'always',
             icon: PrimeIcons.SAVE,
             conditional: true,
-            showCondition: editMode,
+            showCondition: vm.editMode,
             actionCallback: () => {
               this.edit(vm.details?.id ?? '')
               this.toggleEditMode(false)
@@ -151,17 +138,18 @@ export class AIProviderDetailsComponent implements OnInit {
   }
 
   toggleEditMode(value: boolean) {
-    this.editMode$.next(value)
+    this.store.dispatch(AIProviderDetailsActions.aiproviderDetailsEditModeSet({editMode: value}))
     if (!value) {
       this.formGroup.disable()
     } else {
       this.formGroup.enable()
     }
-    if(!this.hasApiKeyPermission)
-    this.formGroup.get('apiKey')?.disable()
+    if(!this.user.hasPermission('AI_PROVIDER#CHANGE_API_KEY')) {
+      this.formGroup.get('apiKey')?.disable()
+    }
   }
 
   toggleApiKeyVisibility() {
-    this.isApiKeyHidden = !this.isApiKeyHidden
+    this.store.dispatch(AIProviderDetailsActions.apiKeyVisibilityToggled())
   }
 }

@@ -9,7 +9,15 @@ export const AIProviderDetailsSelectors = createChildSelectors(AIProviderFeature
 
 export const selectAIProviderDetailsViewModel = createSelector(
   AIProviderDetailsSelectors.selectDetails,
-  (details: AIProvider | undefined): AIProviderDetailsViewModel => ({
-    details
+  AIProviderDetailsSelectors.selectEditMode,
+  AIProviderDetailsSelectors.selectIsApiKeyHidden,
+  (
+    details: AIProvider | undefined, 
+    editMode,
+    isApiKeyHidden
+  ): AIProviderDetailsViewModel => ({
+    details,
+    editMode,
+    isApiKeyHidden
   })
 )

@@ -3,7 +3,9 @@ import { AIProviderDetailsActions } from './aiprovider-details.actions'
 import { AIProviderDetailsState } from './aiprovider-details.state'
 
 export const initialState: AIProviderDetailsState = {
-  details: undefined
+  details: undefined,
+  editMode: false,
+  isApiKeyHidden: true
 }
 
 export const aIProviderDetailsReducer = createReducer(
@@ -27,5 +29,26 @@ export const aIProviderDetailsReducer = createReducer(
     (): AIProviderDetailsState => ({
       ...initialState
     })
-  )
+  ),
+  on(
+    AIProviderDetailsActions.aiproviderDetailsEditModeSet,
+    (state: AIProviderDetailsState, {editMode}): AIProviderDetailsState => ({
+      ...state,
+      editMode
+    })
+  ),
+  on(
+    AIProviderDetailsActions.apiKeyVisibilityToggled,
+    (state: AIProviderDetailsState): AIProviderDetailsState => ({
+      ...state,
+      isApiKeyHidden: !state.isApiKeyHidden
+    })
+  ),
+  // on(
+  //   AIProviderDetailsActions.apiKeyPermissionSet,
+  //   (state: AIProviderDetailsState, {hasApiKeyPermission}): AIProviderDetailsState => ({
+  //     ...state,
+  //     hasApiKeyPermission: 
+  //   })
+  // )
 )

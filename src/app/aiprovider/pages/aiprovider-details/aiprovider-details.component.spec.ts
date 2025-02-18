@@ -70,7 +70,9 @@ describe('AIProviderDetailsComponent', () => {
       modelVersion: 'Test modelVersion',
       appId: 'Test AppId',
       apiKey: 'TestAPIKey'
-    }
+    },
+    editMode: false,
+    isApiKeyHidden: false
   }
 
   beforeEach(async () => {

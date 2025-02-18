@@ -1,4 +1,4 @@
-import { createActionGroup, props } from '@ngrx/store'
+import { createActionGroup, emptyProps, props } from '@ngrx/store'
 import { AIProvider } from '../../../shared/generated'
 
 export const AIProviderDetailsActions = createActionGroup({
@@ -10,6 +10,8 @@ export const AIProviderDetailsActions = createActionGroup({
     'aiprovider details received': props<{
       details: AIProvider
     }>(),
-    'aiprovider details loading failed': props<{ error: string | null }>()
+    'aiprovider details loading failed': props<{ error: string | null }>(),
+    'aiprovider details edit mode set': props<{ editMode: boolean }>(),
+    'api key visibility toggled': emptyProps(),
   }
 })
