@@ -18,7 +18,6 @@ import { AIProviderDetailsActions } from './aiprovider-details.actions'
 export class AIProviderDetailsComponent implements OnInit {
   viewModel$!: Observable<AIProviderDetailsViewModel> 
   headerActions$!: Observable<Action[]>
-  public AIProviderFormGroup!: FormGroup
   public formGroup: FormGroup
 
   constructor(
