@@ -43,12 +43,5 @@ export const aIProviderDetailsReducer = createReducer(
       ...state,
       isApiKeyHidden: !state.isApiKeyHidden
     })
-  ),
-  // on(
-  //   AIProviderDetailsActions.apiKeyPermissionSet,
-  //   (state: AIProviderDetailsState, {hasApiKeyPermission}): AIProviderDetailsState => ({
-  //     ...state,
-  //     hasApiKeyPermission: 
-  //   })
-  // )
+  )
 )

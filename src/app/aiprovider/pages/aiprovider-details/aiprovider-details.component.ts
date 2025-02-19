@@ -4,7 +4,7 @@ import { Action, BreadcrumbService, UserService } from '@onecx/portal-integratio
 import { map, Observable } from 'rxjs'
 
 import { PrimeIcons } from 'primeng/api'
-import { AIProviderDetailsSelectors, selectAIProviderDetailsViewModel } from './aiprovider-details.selectors'
+import { selectAIProviderDetailsViewModel } from './aiprovider-details.selectors'
 import { AIProviderDetailsViewModel } from './aiprovider-details.viewmodel'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { AIProviderSearchActions } from '../aiprovider-search/aiprovider-search.actions'
@@ -20,7 +20,6 @@ export class AIProviderDetailsComponent implements OnInit {
   headerActions$!: Observable<Action[]>
   public AIProviderFormGroup!: FormGroup
   public formGroup: FormGroup
-  isApiKeyHidden$!: Observable<boolean>
 
   constructor(
     private store: Store,
@@ -40,7 +39,6 @@ export class AIProviderDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.viewModel$ = this.store.select(selectAIProviderDetailsViewModel)
-    this.isApiKeyHidden$ = this.store.select(AIProviderDetailsSelectors.selectIsApiKeyHidden)
     
     this.headerActions$ = this.viewModel$.pipe(
       map((vm) => {
