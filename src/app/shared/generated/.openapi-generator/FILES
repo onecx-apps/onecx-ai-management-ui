@@ -1,9 +1,9 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.module.ts
 api/aIKnowledgeDocumentBffService.service.ts
 api/aIKnowledgeVectorDbBffService.service.ts
+api/aIProviderBffService.service.ts
 api/api.ts
 configuration.ts
 encoder.ts
@@ -18,10 +18,17 @@ model/aIKnowledgeDocumentUpdateResponse.ts
 model/aIKnowledgeVectorDb.ts
 model/aIKnowledgeVectorDbCreateResponse.ts
 model/aIKnowledgeVectorDbUpdateResponse.ts
+model/aIProvider.ts
+model/aIProviderCreateResponse.ts
+model/aIProviderSearchRequest.ts
+model/aIProviderSearchResponse.ts
+model/aIProviderUpdateResponse.ts
 model/createAIKnowledgeDocument.ts
 model/createAIKnowledgeVectorDb.ts
+model/createAIProvider.ts
 model/getAIKnowledgeDocumentByIdResponse.ts
 model/getAIKnowledgeVectorDbByIdResponse.ts
+model/getAIProviderByIdResponse.ts
 model/models.ts
 model/problemDetailInvalidParam.ts
 model/problemDetailParam.ts
@@ -30,5 +37,6 @@ model/searchAIKnowledgeVectorDbRequest.ts
 model/searchAIKnowledgeVectorDbResponse.ts
 model/updateAIKnowledgeDocument.ts
 model/updateAIKnowledgeVectorDb.ts
+model/updateAIProvider.ts
 param.ts
 variables.ts
