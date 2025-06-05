@@ -2,14 +2,14 @@ openapi: 3.0.3
 info:
   title: onecx-ai-ui-bff
   version: '1.0'
+  description: Last update on 05.06.2025
 paths:
   /AIKnowledgeVectorDb/search:
     post:
       operationId: searchAIKnowledgeVectorDbs
       tags:
         - AIKnowledgeVectorDbBffService
-      description: This operation performs a search based on provided search criteria.
-        Search for AIKnowledgeVectorDb results.
+      description: This operation performs a search based on provided search criteria. Search for AIKnowledgeVectorDb results.
       requestBody:
         content:
           application/json:
@@ -154,8 +154,7 @@ paths:
       operationId: searchAIKnowledgeDocuments
       tags:
         - AIKnowledgeDocumentBffService
-      description: This operation performs a search based on provided search criteria.
-        Search for AIKnowledgeDocument results.
+      description: This operation performs a search based on provided search criteria. Search for AIKnowledgeDocument results.
       requestBody:
         content:
           application/json:
@@ -327,8 +326,7 @@ paths:
       operationId: searchAIProvider
       tags:
         - AIProviderBffService
-      description: This operation performs a search based on provided search criteria.
-        Search for AIProvider results.
+      description: This operation performs a search based on provided search criteria. Search for AIProvider results.
       requestBody:
         content:
           application/json:
@@ -433,6 +431,116 @@ paths:
       responses:
         '204':
           description: AIProvider deleted
+  /aiContext/{id}:
+    get:
+      x-onecx:
+        permissions:
+          aiContext:
+            - read
+      operationId: getAiContextById
+      tags:
+        - AiContextBffService
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAiContextByIdResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+    put:
+      operationId: updateAiContext
+      tags:
+        - AiContextBffService
+      description: This operation performs an update.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAiContextRequest'
+      responses:
+        '204':
+          description: AiContext updated
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: url
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAiContextResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: AiContext not found
+    delete:
+      tags:
+        - AiContextBffService
+      operationId: deleteAiContext
+      description: Delete AiContext by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: AiContext deleted
+  /aiContext/search:
+    post:
+      operationId: searchAiContexts
+      tags:
+        - AiContextBffService
+      description: This operation performs a search based on provided search criteria. Search for aiContext results.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAiContextRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchAiContextResponse'
+        '400':
+          description: Bad request
+        '500':
+          description: Something went wrong
 components:
   schemas:
     AIKnowledgeVectorDb:
@@ -801,3 +909,86 @@ components:
           type: string
         apiKey:
           type: string
+    UpdateAiContextRequest:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: '#/components/schemas/AiContext'
+    UpdateAiContextResponse:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: '#/components/schemas/AiContext'
+    AiContext:
+      type: object
+      required:
+        - modificationCount
+        - id
+      properties:
+        modificationCount:
+          type: integer
+          format: int32
+        id:
+          type: string
+    GetAiContextByIdResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          $ref: '#/components/schemas/AiContext'
+    SearchAiContextRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+          default: 0
+          description: The number of the page
+        pageSize:
+          type: integer
+          format: int32
+          default: 100
+          maximum: 1000
+          description: The size of the page.
+        name:
+          type: string
+        description:
+          type: string
+        appId:
+          type: string
+        # " DONE: ACTION S1: Add additional properties: https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/configure-search-criteria.html#action-1"
+    SearchAiContextResponse:
+      type: object
+      required:
+        - stream
+        - size
+        - number
+        - totalPages
+        - totalElements
+      properties:
+        stream:
+          type: array
+          items:
+            $ref: '#/components/schemas/AiContext'
+        size:
+          type: integer
+          format: int32
+          description: Current page size.
+        number:
+          type: integer
+          format: int32
+          description: Current page number.
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of results on the server.
+        totalPages:
+          type: integer
+          format: int64
+          description: Total pages.
