@@ -2,7 +2,6 @@ openapi: 3.0.3
 info:
   title: onecx-ai-ui-bff
   version: '1.0'
-  description: Last update on 05.06.2025
 paths:
   /AIKnowledgeVectorDb/search:
     post:
@@ -563,7 +562,7 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: AIContext
+          $ref: '#/components/schemas/AIContext'
     SearchAIKnowledgeVectorDbRequest:
       type: object
       properties:
@@ -662,7 +661,7 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: AIContext
+          $ref: '#/components/schemas/AIContext'
     AIKnowledgeVectorDbUpdateResponse:
       type: object
       properties:
@@ -676,12 +675,49 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: AIContext
+          $ref: '#/components/schemas/AIContext'
     AIContext:
       type: object
       properties:
+        type: object
+      properties:
+        id:
+          type: string
         appId:
           type: string
+        name:
+          type: string
+        description:
+          type: string
+        modificationCount:
+          type: integer
+          format: int32
+        modificationUser:
+          type: string
+        creationUser:
+          type: string
+        creationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        modificationDate:
+          $ref: '#/components/schemas/OffsetDateTime'
+        aIKnowledgeBase:
+          $ref: '#/components/schemas/AIKnowledgeBase'
+        aIKnowledgeVectorDb:
+          $ref: '#/components/schemas/AIKnowledgeVectorDb'
+        aIKnowledgeUrl:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeUrl'
+        aIKnowledgeDbs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeDatabase'
+        aIKnowledgeDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeDocument'
+        provider:
+          $ref: '#/components/schemas/AIProvider'
     AIKnowledgeDocument:
       type: object
       required:
@@ -914,18 +950,13 @@ components:
       properties:
         dataObject:
           type: object
-          $ref: '#/components/schemas/AiContext'
+          $ref: '#/components/schemas/AIContext'
     UpdateAiContextResponse:
       type: object
       properties:
         dataObject:
           type: object
-          $ref: '#/components/schemas/AiContext'
-    AiContext:
-      type: object
-      required:
-        - modificationCount
-        - id
+          $ref: '#/components/schemas/AIContext'
       properties:
         modificationCount:
           type: integer
@@ -938,7 +969,7 @@ components:
         - result
       properties:
         result:
-          $ref: '#/components/schemas/AiContext'
+          $ref: '#/components/schemas/AIContext'
     SearchAiContextRequest:
       type: object
       properties:
@@ -962,7 +993,6 @@ components:
           type: string
         appId:
           type: string
-        # " DONE: ACTION S1: Add additional properties: https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/configure-search-criteria.html#action-1"
     SearchAiContextResponse:
       type: object
       required:
@@ -975,7 +1005,7 @@ components:
         stream:
           type: array
           items:
-            $ref: '#/components/schemas/AiContext'
+            $ref: '#/components/schemas/AIContext'
         size:
           type: integer
           format: int32
