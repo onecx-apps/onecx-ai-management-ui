@@ -2,6 +2,7 @@ openapi: 3.0.3
 info:
   title: onecx-ai-ui-bff
   version: '1.0'
+  description: Updated on 05.06.2025 at 08:41
 paths:
   /AIKnowledgeVectorDb/search:
     post:
@@ -679,8 +680,6 @@ components:
     AIContext:
       type: object
       properties:
-        type: object
-      properties:
         id:
           type: string
         appId:
@@ -696,10 +695,6 @@ components:
           type: string
         creationUser:
           type: string
-        creationDate:
-          $ref: '#/components/schemas/OffsetDateTime'
-        modificationDate:
-          $ref: '#/components/schemas/OffsetDateTime'
         aIKnowledgeBase:
           $ref: '#/components/schemas/AIKnowledgeBase'
         aIKnowledgeVectorDb:
@@ -718,6 +713,73 @@ components:
             $ref: '#/components/schemas/AIKnowledgeDocument'
         provider:
           $ref: '#/components/schemas/AIProvider'
+    AIKnowledgeBase:
+      properties:
+        modificationCount:
+          format: int32
+          type: integer
+        modificationUser:
+          type: string
+        creationUser:
+          type: string
+        id:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        appId:
+          type: string
+        contexts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIContext'
+    AIKnowledgeUrl:
+      type: object
+      properties:
+        modificationCount:
+          format: int32
+          type: integer
+        modificationUser:
+          type: string
+        creationUser:
+          type: string
+        id:
+          type: string
+        url:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    AIKnowledgeDatabase:
+      required:
+        - db
+        - user
+        - pwd
+      type: object
+      properties:
+        modificationCount:
+          format: int32
+          type: integer
+        modificationUser:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        db:
+          type: string
+        user:
+          type: string
+        pwd:
+          type: string
+        tables:
+          type: array
+          items:
+            type: string
     AIKnowledgeDocument:
       type: object
       required:
@@ -957,12 +1019,6 @@ components:
         dataObject:
           type: object
           $ref: '#/components/schemas/AIContext'
-      properties:
-        modificationCount:
-          type: integer
-          format: int32
-        id:
-          type: string
     GetAiContextByIdResponse:
       type: object
       required:
