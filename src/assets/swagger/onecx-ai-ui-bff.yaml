@@ -563,7 +563,7 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: '#/components/schemas/AIContext'
+          $ref: '#/components/schemas/AiContext'
     SearchAIKnowledgeVectorDbRequest:
       type: object
       properties:
@@ -662,7 +662,7 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: '#/components/schemas/AIContext'
+          $ref: '#/components/schemas/AiContext'
     AIKnowledgeVectorDbUpdateResponse:
       type: object
       properties:
@@ -676,43 +676,7 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: '#/components/schemas/AIContext'
-    AIContext:
-      type: object
-      properties:
-        id:
-          type: string
-        appId:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        modificationCount:
-          type: integer
-          format: int32
-        modificationUser:
-          type: string
-        creationUser:
-          type: string
-        aIKnowledgeBase:
-          $ref: '#/components/schemas/AIKnowledgeBase'
-        aIKnowledgeVectorDb:
-          $ref: '#/components/schemas/AIKnowledgeVectorDb'
-        aIKnowledgeUrl:
-          type: array
-          items:
-            $ref: '#/components/schemas/AIKnowledgeUrl'
-        aIKnowledgeDbs:
-          type: array
-          items:
-            $ref: '#/components/schemas/AIKnowledgeDatabase'
-        aIKnowledgeDocuments:
-          type: array
-          items:
-            $ref: '#/components/schemas/AIKnowledgeDocument'
-        provider:
-          $ref: '#/components/schemas/AIProvider'
+          $ref: '#/components/schemas/AiContext'
     AIKnowledgeBase:
       properties:
         modificationCount:
@@ -733,7 +697,7 @@ components:
         contexts:
           type: array
           items:
-            $ref: '#/components/schemas/AIContext'
+            $ref: '#/components/schemas/AiContext'
     AIKnowledgeUrl:
       type: object
       properties:
@@ -1012,20 +976,20 @@ components:
       properties:
         dataObject:
           type: object
-          $ref: '#/components/schemas/AIContext'
+          $ref: '#/components/schemas/AiContext'
     UpdateAiContextResponse:
       type: object
       properties:
         dataObject:
           type: object
-          $ref: '#/components/schemas/AIContext'
+          $ref: '#/components/schemas/AiContext'
     GetAiContextByIdResponse:
       type: object
       required:
         - result
       properties:
         result:
-          $ref: '#/components/schemas/AIContext'
+          $ref: '#/components/schemas/AiContext'
     SearchAiContextRequest:
       type: object
       properties:
@@ -1061,7 +1025,7 @@ components:
         stream:
           type: array
           items:
-            $ref: '#/components/schemas/AIContext'
+            $ref: '#/components/schemas/AiContext'
         size:
           type: integer
           format: int32
@@ -1078,3 +1042,39 @@ components:
           type: integer
           format: int64
           description: Total pages.
+    AiContext:
+      type: object
+      properties:
+        id:
+          type: string
+        appId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        modificationCount:
+          type: integer
+          format: int32
+        modificationUser:
+          type: string
+        creationUser:
+          type: string
+        aIKnowledgeBase:
+          $ref: '#/components/schemas/AIKnowledgeBase'
+        aIKnowledgeVectorDb:
+          $ref: '#/components/schemas/AIKnowledgeVectorDb'
+        aIKnowledgeUrl:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeUrl'
+        aIKnowledgeDbs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeDatabase'
+        aIKnowledgeDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeDocument'
+        provider:
+          $ref: '#/components/schemas/AIProvider'
