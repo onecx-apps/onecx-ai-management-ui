@@ -39,6 +39,35 @@
       "FULL": "Full"
     }
   },
+    "AI_CONTEXT_CREATE_UPDATE": {
+    "ACTION": {
+      "CREATE": "Create"
+    },
+    "CREATE": {
+      "HEADER": "Create AiContext",
+      "SUCCESS": "Creation succesful",
+      "ERROR": "Creation failed",
+      "FORM": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      }
+    },
+    "UPDATE": {
+      "SUCCESS": "Update successful",
+      "FAILED": "ACTION: Add Translation",
+      "ERROR": "Update failed",
+      "FORM": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "HEADER": "Update AiContext"
+    },
+    "FORM": {
+      "APPID": "App Id",
+      "NAME": "Name",
+      "DESCRIPTION": "Description"
+    }
+  },
   "AI_PROVIDER_DELETE": {
     "HEADER": "Delete AIProvider",
     "MESSAGE": "Please confirm that you want to delete this AIProvider.",

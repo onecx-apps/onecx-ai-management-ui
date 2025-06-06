@@ -62,6 +62,12 @@
   <ocx-content-container layout="horizontal">
     <ocx-content class="w-full">
       <ocx-interactive-data-view
+        (deleteItem)="delete($event)"
+        deletePermission="AI_CONTEXT#DELETE"
+        (editItem)="edit($event)"
+        editPermission="AI_CONTEXT#EDIT"
+        (viewItem)="details($event)"
+        viewPermission="AI_CONTEXT#VIEW"
         [data]="vm.results"
         [columns]="vm.columns"
         [emptyResultsMessage]="
@@ -81,7 +87,6 @@
         [actionColumnPosition]="vm.resultComponentState?.actionColumnConfig?.position?? 'right'"
         [frozenActionColumn]="vm.resultComponentState?.actionColumnConfig?.frozen ?? false"
       >
-        >
       </ocx-interactive-data-view>
     </ocx-content>
     <ocx-content

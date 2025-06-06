@@ -11,6 +11,7 @@ import {
   DiagramType,
   ExportDataService,
   InteractiveDataViewComponentState,
+  RowListGridData,
   SearchHeaderComponentState
 } from '@onecx/portal-integration-angular'
 import { PrimeIcons } from 'primeng/api'
@@ -123,6 +124,22 @@ export class AiContextSearchComponent implements OnInit {
     )
     this.store.dispatch(AiContextSearchActions.searchButtonClicked({ searchCriteria }))
   }
+
+    details({ id }: RowListGridData) {
+      this.store.dispatch(AiContextSearchActions.detailsButtonClicked({ id }))
+    }
+
+    create() {
+      this.store.dispatch(AiContextSearchActions.createAiContextButtonClicked())
+    }
+
+    edit({ id }: RowListGridData) {
+      this.store.dispatch(AiContextSearchActions.editAiContextButtonClicked({ id }))
+    }
+
+    delete({ id }: RowListGridData) {
+      this.store.dispatch(AiContextSearchActions.deleteAiContextButtonClicked({ id }))
+    }
 
   resetSearch() {
     this.store.dispatch(AiContextSearchActions.resetButtonClicked())

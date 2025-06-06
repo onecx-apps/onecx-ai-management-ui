@@ -13,9 +13,10 @@ import { aiContextFeature } from './ai-context.reducers'
 import { routes } from './ai-context.routes'
 import { AiContextSearchComponent } from './pages/ai-context-search/ai-context-search.component'
 import { AiContextSearchEffects } from './pages/ai-context-search/ai-context-search.effects'
+import { AiContextCreateUpdateComponent } from './pages/ai-context-search/dialogs/ai-context-create-update/ai-context-create-update.component'
 
 @NgModule({
-  declarations: [AiContextSearchComponent],
+  declarations: [AiContextCreateUpdateComponent, AiContextSearchComponent],
   imports: [
     CommonModule,
     SharedModule,
