@@ -11,9 +11,11 @@ import { CalendarModule } from 'primeng/calendar'
 import { SharedModule } from '../shared/shared.module'
 import { aiContextFeature } from './ai-context.reducers'
 import { routes } from './ai-context.routes'
+import { AiContextSearchComponent } from './pages/ai-context-search/ai-context-search.component'
+import { AiContextSearchEffects } from './pages/ai-context-search/ai-context-search.effects'
 
 @NgModule({
-  declarations: [],
+  declarations: [AiContextSearchComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -24,7 +26,7 @@ import { routes } from './ai-context.routes'
     ReactiveFormsModule,
     CalendarModule,
     StoreModule.forFeature(aiContextFeature),
-    EffectsModule.forFeature(),
+    EffectsModule.forFeature([AiContextSearchEffects]),
     TranslateModule
   ]
 })

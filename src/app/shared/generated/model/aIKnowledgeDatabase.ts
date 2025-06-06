@@ -7,16 +7,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { AiContext } from './aiContext';
 
 
-export interface AIKnowledgeVectorDb { 
+export interface AIKnowledgeDatabase { 
     modificationCount?: number;
-    id: string;
+    modificationUser?: string;
+    id?: string;
     name?: string;
     description?: string;
-    vdb?: string;
-    vdbCollection?: string;
-    aiContext?: AiContext;
+    db: string;
+    user: string;
+    pwd: string;
+    tables?: Array<string>;
 }
 

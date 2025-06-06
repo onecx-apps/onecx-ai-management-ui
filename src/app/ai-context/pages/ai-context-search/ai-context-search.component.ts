@@ -1,0 +1,138 @@
+import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup } from '@angular/forms'
+import { Store } from '@ngrx/store'
+import { isValidDate } from '@onecx/accelerator'
+import {
+  Action,
+  BreadcrumbService,
+  DataSortDirection,
+  DataTableColumn,
+  DiagramComponentState,
+  DiagramType,
+  ExportDataService,
+  InteractiveDataViewComponentState,
+  SearchHeaderComponentState
+} from '@onecx/portal-integration-angular'
+import { PrimeIcons } from 'primeng/api'
+import { map, Observable } from 'rxjs'
+import { AiContextSearchActions } from './ai-context-search.actions'
+import { AiContextSearchCriteria, aiContextSearchCriteriasSchema } from './ai-context-search.parameters'
+import { selectAiContextSearchViewModel } from './ai-context-search.selectors'
+import { AiContextSearchViewModel } from './ai-context-search.viewmodel'
+
+@Component({
+  selector: 'app-ai-context-search',
+  templateUrl: './ai-context-search.component.html',
+  styleUrls: ['./ai-context-search.component.scss']
+})
+export class AiContextSearchComponent implements OnInit {
+  viewModel$: Observable<AiContextSearchViewModel> = this.store.select(selectAiContextSearchViewModel)
+
+  defaultDataSortDirection = DataSortDirection.NONE
+  defaultDiagramType = DiagramType.PIE
+
+  // ACTION S10: Update header actions: https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/update-header-actions.html#action-10
+  headerActions$: Observable<Action[]> = this.viewModel$.pipe(
+    map((vm) => {
+      const actions: Action[] = [
+        {
+          labelKey: 'AI_CONTEXT_SEARCH.HEADER_ACTIONS.EXPORT_ALL',
+          icon: PrimeIcons.DOWNLOAD,
+          titleKey: 'AI_CONTEXT_SEARCH.HEADER_ACTIONS.EXPORT_ALL',
+          show: 'asOverflow',
+          actionCallback: () => this.exportItems()
+        },
+        {
+          labelKey: vm.chartVisible
+            ? 'AI_CONTEXT_SEARCH.HEADER_ACTIONS.HIDE_CHART'
+            : 'AI_CONTEXT_SEARCH.HEADER_ACTIONS.SHOW_CHART',
+          icon: PrimeIcons.EYE,
+          titleKey: vm.chartVisible
+            ? 'AI_CONTEXT_SEARCH.HEADER_ACTIONS.HIDE_CHART'
+            : 'AI_CONTEXT_SEARCH.HEADER_ACTIONS.SHOW_CHART',
+          show: 'asOverflow',
+          actionCallback: () => this.toggleChartVisibility()
+        }
+      ]
+      return actions
+    })
+  )
+
+  // ACTION S9: Select the column to be displayed in the diagram: https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/configure-result-diagram.html#action-3
+  diagramColumnId = 'id'
+  diagramColumn$ = this.viewModel$.pipe(
+    map((vm) => vm.columns.find((e) => e.id === this.diagramColumnId) as DataTableColumn)
+  )
+
+  public aiContextSearchFormGroup: FormGroup = this.formBuilder.group({
+    ...(Object.fromEntries(aiContextSearchCriteriasSchema.keyof().options.map((k) => [k, null])) as Record<
+      keyof AiContextSearchCriteria,
+      unknown
+    >)
+  } satisfies Record<keyof AiContextSearchCriteria, unknown>)
+
+  constructor(
+    private readonly breadcrumbService: BreadcrumbService,
+    private readonly store: Store,
+    private readonly formBuilder: FormBuilder,
+    @Inject(LOCALE_ID) public readonly locale: string,
+    private readonly exportDataService: ExportDataService
+  ) {}
+
+  ngOnInit() {
+    this.breadcrumbService.setItems([
+      {
+        titleKey: 'AI_CONTEXT_SEARCH.BREADCRUMB',
+        labelKey: 'AI_CONTEXT_SEARCH.BREADCRUMB',
+        routerLink: '/ai-context'
+      }
+    ])
+    this.viewModel$.subscribe((vm) => this.aiContextSearchFormGroup.patchValue(vm.searchCriteria))
+  }
+
+  resultComponentStateChanged(state: InteractiveDataViewComponentState) {
+    this.store.dispatch(AiContextSearchActions.resultComponentStateChanged(state))
+  }
+
+  searchHeaderComponentStateChanged(state: SearchHeaderComponentState) {
+    this.store.dispatch(AiContextSearchActions.searchHeaderComponentStateChanged(state))
+  }
+
+  diagramComponentStateChanged(state: DiagramComponentState) {
+    this.store.dispatch(AiContextSearchActions.diagramComponentStateChanged(state))
+  }
+
+  search(formValue: FormGroup) {
+    const searchCriteria = Object.entries(formValue.getRawValue()).reduce(
+      (acc: Partial<AiContextSearchCriteria>, [key, value]) => ({
+        ...acc,
+        [key]: isValidDate(value)
+          ? new Date(
+              Date.UTC(
+                value.getFullYear(),
+                value.getMonth(),
+                value.getDate(),
+                value.getHours(),
+                value.getMinutes(),
+                value.getSeconds()
+              )
+            )
+          : value || undefined
+      }),
+      {}
+    )
+    this.store.dispatch(AiContextSearchActions.searchButtonClicked({ searchCriteria }))
+  }
+
+  resetSearch() {
+    this.store.dispatch(AiContextSearchActions.resetButtonClicked())
+  }
+
+  exportItems() {
+    this.store.dispatch(AiContextSearchActions.exportButtonClicked())
+  }
+
+  toggleChartVisibility() {
+    this.store.dispatch(AiContextSearchActions.chartVisibilityToggled())
+  }
+}

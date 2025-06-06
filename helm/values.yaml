@@ -49,6 +49,15 @@ app:
             VIEW: View mode for AIProvider
             SEARCH: Search AIProvider
             CHANGE_API_KEY: Change ApiKey AIProvider
+          AI_CONTEXT:
+            CREATE: Create aiContext
+            EDIT: Edit aiContext
+            DELETE: Delete aiContext
+            SAVE: Update and save aiContext
+            IMPORT: Import aiContext
+            EXPORT: Export aiContext
+            VIEW: View mode for aiContext
+            SEARCH: Search aiContext
     keycloak:
       client:
         enabled: true
