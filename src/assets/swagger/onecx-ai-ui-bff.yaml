@@ -8,8 +8,7 @@ paths:
       operationId: searchAIKnowledgeVectorDbs
       tags:
         - AIKnowledgeVectorDbBffService
-      description: This operation performs a search based on provided search criteria.
-        Search for AIKnowledgeVectorDb results.
+      description: This operation performs a search based on provided search criteria. Search for AIKnowledgeVectorDb results.
       requestBody:
         content:
           application/json:
@@ -154,8 +153,7 @@ paths:
       operationId: searchAIKnowledgeDocuments
       tags:
         - AIKnowledgeDocumentBffService
-      description: This operation performs a search based on provided search criteria.
-        Search for AIKnowledgeDocument results.
+      description: This operation performs a search based on provided search criteria. Search for AIKnowledgeDocument results.
       requestBody:
         content:
           application/json:
@@ -327,8 +325,7 @@ paths:
       operationId: searchAIProvider
       tags:
         - AIProviderBffService
-      description: This operation performs a search based on provided search criteria.
-        Search for AIProvider results.
+      description: This operation performs a search based on provided search criteria. Search for AIProvider results.
       requestBody:
         content:
           application/json:
@@ -433,6 +430,116 @@ paths:
       responses:
         '204':
           description: AIProvider deleted
+  /aiKnowledgeBase/search:
+    post:
+      operationId: searchAiKnowledgeBases
+      tags:
+        - AiKnowledgeBaseBffService
+      description: This operation performs a search based on provided search criteria. Search for aiKnowledgeBase results.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAiKnowledgeBaseRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchAiKnowledgeBaseResponse'
+        '400':
+          description: Bad request
+        '500':
+          description: Something went wrong
+  /aiKnowledgeBase/{id}:
+    get:
+      x-onecx:
+        permissions:
+          aiKnowledgeBase:
+            - read
+      operationId: getAiKnowledgeBaseById
+      tags:
+        - AiKnowledgeBaseBffService
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAiKnowledgeBaseByIdResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+    put:
+      operationId: updateAiKnowledgeBase
+      tags:
+        - AiKnowledgeBaseBffService
+      description: This operation performs an update.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAiKnowledgeBaseRequest'
+      responses:
+        '204':
+          description: AiKnowledgeBase updated
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: url
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAiKnowledgeBaseResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: AiKnowledgeBase not found
+    delete:
+      tags:
+        - AiKnowledgeBaseBffService
+      operationId: deleteAiKnowledgeBase
+      description: Delete AiKnowledgeBase by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: AiKnowledgeBase deleted
 components:
   schemas:
     AIKnowledgeVectorDb:
@@ -801,3 +908,87 @@ components:
           type: string
         apiKey:
           type: string
+    AiKnowledgeBase:
+      type: object
+      required:
+        - id
+      properties:
+        modificationCount:
+          type: integer
+          format: int32
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    SearchAiKnowledgeBaseRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+          default: 0
+          description: The number of the page
+        pageSize:
+          type: integer
+          format: int32
+          default: 100
+          maximum: 1000
+          description: The size of the page.
+        name:
+          type: string
+        description:
+          type: string
+    SearchAiKnowledgeBaseResponse:
+      type: object
+      required:
+        - stream
+        - size
+        - number
+        - totalPages
+        - totalElements
+      properties:
+        stream:
+          type: array
+          items:
+            $ref: '#/components/schemas/AiKnowledgeBase'
+        size:
+          type: integer
+          format: int32
+          description: Current page size.
+        number:
+          type: integer
+          format: int32
+          description: Current page number.
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of results on the server.
+        totalPages:
+          type: integer
+          format: int64
+          description: Total pages.
+    UpdateAiKnowledgeBaseRequest:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: '#/components/schemas/AiKnowledgeBase'
+    UpdateAiKnowledgeBaseResponse:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: '#/components/schemas/AiKnowledgeBase'
+        # "ACTION DE1: modify data object or use flat list here. https://onecx.github.io/docs/nx-plugins/current/general/getting_started/create-update/extend-form-fields.html#action-1"
+    GetAiKnowledgeBaseByIdResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          $ref: '#/components/schemas/AiKnowledgeBase'

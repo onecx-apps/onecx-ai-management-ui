@@ -1,4 +1,86 @@
 {
+  "AI_KNOWLEDGE_BASE_DETAILS": {
+    "HELP_ARTICLE_ID": "Help Article",
+    "BREADCRUMB": "Details",
+    "HEADER": "AiKnowledgeBase Details",
+    "SUB_HEADER": "Display of AiKnowledgeBase Details",
+    "ERROR_MESSAGES": {
+      "DETAILS_LOADING_FAILED": "Loading details failed."
+    },
+    "GENERAL": {
+      "BACK": "Back",
+      "MORE": "More",
+      "EDIT": " Edit",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel",
+      "SAVE": "Save"
+    },
+    "FORM": {
+      "ID": "ID"
+    },
+    "CANCEL": {
+      "HEADER": "Confirm cancel",
+      "MESSAGE": "Please confirm that you want to cancel editing and reset changes.",
+      "CONFIRM": "Confirm"
+    },
+    "UPDATE": {
+      "SUCCESS": "Update successful",
+      "ERROR": "Update failed",
+      "FORM": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "HEADER": "Update AiKnowledgeBase"
+    },
+    "DELETE": {
+      "HEADER": "Delete AiKnowledgeBase",
+      "MESSAGE": "Please confirm that you want to delete this AiKnowledgeBase.",
+      "CONFIRM": "Confirm",
+      "CANCEL": "Cancel",
+      "SUCCESS": "AiKnowledgeBase deleted successfully",
+      "ERROR": "Could not delete AiKnowledgeBase"
+    }
+  },
+  "AI_KNOWLEDGE_BASE_SEARCH": {
+    "HEADER": "AiKnowledgeBase Search",
+    "SUB_HEADER": "Searching and displaying of AiKnowledgeBase",
+    "HELP_ARTICLE_ID": "Help Article",
+    "EMPTY_RESULTS": "No results.",
+    "BREADCRUMB": "Search",
+    "DIAGRAM": {
+      "SUM": "Total"
+    },
+    "HEADER_ACTIONS": {
+      "EXPORT_ALL": "Export all",
+      "SHOW_CHART": "Show chart",
+      "HIDE_CHART": "Hide chart",
+      "CREATE_SEARCH_CONFIG": "Create search configuration",
+      "UPDATE_SEARCH_CONFIG": "Update search configuration",
+      "DIALOG_CONFIRM": "Confirm",
+      "DIALOG_CANCEL": "Cancel"
+    },
+    "ERROR_MESSAGES": {
+      "SEARCH_RESULTS_LOADING_FAILED": "Loading search results failed.",
+      "SEARCH_CONFIG_CREATION_FAILED": "Create search configuration failed.",
+      "SEARCH_CONFIG_UPDATE_FAILED": "Update search configuration failed.",
+      "SEARCH_CONFIGS_LOADING_FAILED": "Loading search configurations failed."
+    },
+    "INPUT_FIELDS": {
+      "ID": "ID",
+      "NAME": "Name",
+      "DESCRIPTION": "Description"
+    },
+    "COLUMNS": {
+      "ID": "ID",
+      "NAME": "Name",
+      "DESCRIPTION": "Description"
+    },
+    "PREDEFINED_GROUP": {
+      "DEFAULT": "Default",
+      "EXTENDED": "Extended",
+      "FULL": "Full"
+    }
+  },
   "AI_PROVIDER_DELETE": {
     "HEADER": "Delete AIProvider",
     "MESSAGE": "Please confirm that you want to delete this AIProvider.",
