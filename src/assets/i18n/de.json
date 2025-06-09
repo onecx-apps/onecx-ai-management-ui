@@ -18,7 +18,8 @@
     "FORM": {
       "ID": "ID",
       "NAME": "NAME",
-      "DESCRIPTION": "BESCHREIBUNG"
+      "DESCRIPTION": "BESCHREIBUNG",
+      "CONTEXTS": "KONTEXTEN"
     },
     "CANCEL": {
       "HEADER": "Abbruch bestätigen",

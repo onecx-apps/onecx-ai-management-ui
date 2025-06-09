@@ -18,7 +18,8 @@
     "FORM": {
       "ID": "ID",
       "NAME": "NAME",
-      "DESCRIPTION": "DESCRIPTION"
+      "DESCRIPTION": "DESCRIPTION",
+      "CONTEXTS": "CONTEXTS"
     },
     "CANCEL": {
       "HEADER": "Confirm cancel",

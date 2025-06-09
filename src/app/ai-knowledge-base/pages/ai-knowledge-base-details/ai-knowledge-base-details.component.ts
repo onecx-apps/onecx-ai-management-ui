@@ -16,6 +16,11 @@ import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.vie
 })
 export class AiKnowledgeBaseDetailsComponent implements OnInit {
   public formGroup: FormGroup
+  contexts = [
+    { id: 1, name: 'name', description: 'description' },
+    { id: 2, name: 'name', description: 'description' }
+  ]
+
   viewModel$: Observable<AiKnowledgeBaseDetailsViewModel> = this.store.select(selectAiKnowledgeBaseDetailsViewModel)
 
   headerLabels$: Observable<ObjectDetailItem[]> = this.viewModel$.pipe(
@@ -35,7 +40,8 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
           labelKey: 'AI_KNOWLEDGE_BASE_DETAILS.GENERAL.BACK',
           show: 'always',
           disabled: !vm.backNavigationPossible,
-          permission: 'AI_KNOWLEDGE_BASE#BACK',
+          icon: PrimeIcons.ARROW_LEFT,
+          // permission: 'AI_KNOWLEDGE_BASE#BACK',
           showCondition: !vm.editMode,
           actionCallback: () => {
             this.store.dispatch(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked())
@@ -91,7 +97,7 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
         {
           titleKey: 'AI_KNOWLEDGE_BASE_DETAILS.GENERAL.MORE',
           icon: PrimeIcons.ELLIPSIS_V,
-          show: 'always',
+          show: undefined,
           btnClass: '',
           actionCallback: () => {
             // TODO: add callback
@@ -109,7 +115,8 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
     this.formGroup = new FormGroup({
       id: new FormControl(null, [Validators.maxLength(255)]),
       name: new FormControl('', [Validators.maxLength(255)]),
-      description: new FormControl('', [Validators.maxLength(255)])
+      description: new FormControl('', [Validators.maxLength(255)]),
+      contexts: new FormControl([], [Validators.maxLength(255)])
     })
     this.formGroup.disable()
 
@@ -118,7 +125,8 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
         this.formGroup.setValue({
           id: vm.details?.id,
           name: vm.details?.name,
-          description: vm.details?.description
+          description: vm.details?.description,
+          contexts: vm.details?.contexts
         })
         this.formGroup.markAsPristine()
       }
@@ -129,7 +137,6 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
         this.formGroup.disable()
       }
     })
-    console.log('Constructor: ', this.viewModel$)
   }
 
   ngOnInit(): void {
