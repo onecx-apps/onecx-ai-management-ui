@@ -16,7 +16,9 @@
       "SAVE": "Speichern"
     },
     "FORM": {
-      "ID": "ID"
+      "ID": "ID",
+      "NAME": "NAME",
+      "DESCRIPTION": "BESCHREIBUNG"
     },
     "CANCEL": {
       "HEADER": "Abbruch bestätigen",

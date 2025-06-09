@@ -22,10 +22,6 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
     map(() => {
       const labels: ObjectDetailItem[] = [
         //ACTION D1: Add header values here
-        { label: 'Value: 1' },
-        { label: 'Value: 2' },
-        { label: 'Value: 3' },
-        { label: 'Value: 4' }
       ]
       return labels
     })
@@ -111,14 +107,18 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
     private breadcrumbService: BreadcrumbService
   ) {
     this.formGroup = new FormGroup({
-      id: new FormControl(null, [Validators.maxLength(255)])
+      id: new FormControl(null, [Validators.maxLength(255)]),
+      name: new FormControl('', [Validators.maxLength(255)]),
+      description: new FormControl('', [Validators.maxLength(255)])
     })
     this.formGroup.disable()
 
     this.viewModel$.subscribe((vm) => {
       if (!vm.editMode) {
         this.formGroup.setValue({
-          id: vm.details?.id
+          id: vm.details?.id,
+          name: vm.details?.name,
+          description: vm.details?.description
         })
         this.formGroup.markAsPristine()
       }
@@ -129,6 +129,7 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
         this.formGroup.disable()
       }
     })
+    console.log('Constructor: ', this.viewModel$)
   }
 
   ngOnInit(): void {

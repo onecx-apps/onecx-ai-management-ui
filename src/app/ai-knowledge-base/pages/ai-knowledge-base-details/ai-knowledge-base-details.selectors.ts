@@ -9,7 +9,8 @@ import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.vie
 // Can't find this selector
 function selectBackNavigationPossible(state: Record<string, any>): boolean {
   console.log('state: ', state)
-  throw new Error('Function not implemented.')
+  // throw new Error('Function not implemented.')
+  return false
 }
 
 export const aiKnowledgeBaseDetailsSelectors = createChildSelectors(aiKnowledgeBaseFeature.selectDetails, initialState)

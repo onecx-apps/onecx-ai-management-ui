@@ -16,7 +16,9 @@
       "SAVE": "Save"
     },
     "FORM": {
-      "ID": "ID"
+      "ID": "ID",
+      "NAME": "NAME",
+      "DESCRIPTION": "DESCRIPTION"
     },
     "CANCEL": {
       "HEADER": "Confirm cancel",

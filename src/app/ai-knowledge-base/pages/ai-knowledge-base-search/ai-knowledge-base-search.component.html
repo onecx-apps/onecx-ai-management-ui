@@ -14,9 +14,20 @@
     [viewMode]="vm.searchHeaderComponentState?.activeViewMode ?? 'basic'"
   >
     <form [formGroup]="aiKnowledgeBaseSearchFormGroup">
-      // ACTION S3: Specify here your desired search criterias:
-      https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/configure-search-criteria.html#action-3
       <div class="grid mt-0 p-fluid">
+        <div class="col-12 md:col-12">
+          <span class="p-float-label">
+            <input
+              id="id"
+              pInputText
+              type="number"
+              formControlName="id"
+              class="p-inputtext p-component"
+              [ngModel]="vm.searchCriteria.id"
+            />
+            <label for="id">{{ 'AI_KNOWLEDGE_BASE_SEARCH.INPUT_FIELDS.ID' | translate }}</label>
+          </span>
+        </div>
         <div class="col-12 md:col-12">
           <span class="p-float-label">
             <input
@@ -28,6 +39,19 @@
               [ngModel]="vm.searchCriteria.name"
             />
             <label for="name">{{ 'AI_KNOWLEDGE_BASE_SEARCH.INPUT_FIELDS.NAME' | translate }}</label>
+          </span>
+        </div>
+        <div class="col-12 md:col-12">
+          <span class="p-float-label">
+            <input
+              id="description"
+              pInputText
+              type="text"
+              formControlName="description"
+              class="p-inputtext p-component"
+              [ngModel]="vm.searchCriteria.description"
+            />
+            <label for="description">{{ 'AI_KNOWLEDGE_BASE_SEARCH.INPUT_FIELDS.DESCRIPTION' | translate }}</label>
           </span>
         </div>
       </div>
