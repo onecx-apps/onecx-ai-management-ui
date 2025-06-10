@@ -202,6 +202,29 @@ export class AiKnowledgeBaseBffService {
         }
 
         let localVarPath = `/aiKnowledgeBase/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+       
+        //        const testMock: GetAiKnowledgeBaseByIdResponse={result:{
+        //         id:'12',name:'1st item',description:'lorem ipsum',contexts:[{appId:'1stContext'}],modificationCount:0
+        //        }}
+        // //         {number:1,size:3,
+        // //     stream:
+        // //     [
+        // //         {
+        // //             id:'12',name:'1st item',description:'lorem ipsum',contexts:[{appId:'1stContext'}],modificationCount:0
+        // //         },
+        // //         {
+        // //             id:'123',name:'2nd item',description:'lorem ipsum',contexts:[{appId:'1stContext'},{appId:'2ndContext'}],modificationCount:0
+        // //         },
+        // //         {
+        // //             id:'1256',name:'3rd item',description:'lorem ipsum',contexts:[{appId:'1stContext'}],modificationCount:0
+        // //         }
+        // //     ],
+        // //     totalElements:3,
+        // //     totalPages:1
+        // // } 
+
+        // return of(testMock);
+       
         return this.httpClient.request<GetAiKnowledgeBaseByIdResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -267,37 +290,17 @@ export class AiKnowledgeBaseBffService {
 
         let localVarPath = `/aiKnowledgeBase/search`;
 
-
-        const testMock: SearchAiKnowledgeBaseResponse= {number:1,size:3,
-            stream:
-            [
-                {
-                    id:'12',name:'1st item',description:'lorem ipsum',contexts:[{appId:'1stContext'}],modificationCount:0
-                },
-                {
-                    id:'123',name:'2nd item',description:'lorem ipsum',contexts:[{appId:'1stContext'},{appId:'2ndContext'}],modificationCount:0
-                },
-                {
-                    id:'1256',name:'3rd item',description:'lorem ipsum',contexts:[{appId:'1stContext'}],modificationCount:0
-                }
-            ],
-            totalElements:3,
-            totalPages:1
-        } 
-
-        return of(testMock);
-
-        // return this.httpClient.request<SearchAiKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
-        //     {
-        //         context: localVarHttpContext,
-        //         body: searchAiKnowledgeBaseRequest,
-        //         responseType: <any>responseType_,
-        //         withCredentials: this.configuration.withCredentials,
-        //         headers: localVarHeaders,
-        //         observe: observe,
-        //         reportProgress: reportProgress
-        //     }
-        // );
+        return this.httpClient.request<SearchAiKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: searchAiKnowledgeBaseRequest,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**
