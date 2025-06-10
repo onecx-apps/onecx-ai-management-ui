@@ -13,7 +13,14 @@ export const AiKnowledgeBaseSearchActions = createActionGroup({
     'Details button clicked': props<{
       id: number | string
     }>(),
-
+    'Delete button clicked': props<{
+      id: number | string
+    }>(),
+    'Delete ai knowledge base cancelled': emptyProps(),
+    'Delete ai knowledge base succeeded': emptyProps(),
+    'Delete ai knowledge base failed': props<{
+      error: string | null
+    }>(),
     'Search button clicked': props<{
       searchCriteria: AiKnowledgeBaseSearchCriteria
     }>(),

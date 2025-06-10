@@ -133,6 +133,10 @@ export class AiKnowledgeBaseSearchComponent implements OnInit {
     this.store.dispatch(AiKnowledgeBaseSearchActions.detailsButtonClicked({ id }))
   }
 
+  delete({ id }: RowListGridData) {
+    this.store.dispatch(AiKnowledgeBaseSearchActions.deleteButtonClicked({ id }))
+  }
+
   resetSearch() {
     this.store.dispatch(AiKnowledgeBaseSearchActions.resetButtonClicked())
   }

@@ -14,7 +14,7 @@ import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
         }       from '@angular/common/http';
 import { CustomHttpParameterCodec }                          from '../encoder';
-import { Observable }                                        from 'rxjs';
+import { Observable, of }                                        from 'rxjs';
 
 // @ts-ignore
 import { GetAiKnowledgeBaseByIdResponse } from '../model/getAiKnowledgeBaseByIdResponse';
@@ -268,36 +268,36 @@ export class AiKnowledgeBaseBffService {
         let localVarPath = `/aiKnowledgeBase/search`;
 
 
-        // const testMock: SearchAiKnowledgeBaseResponse= {number:1,size:3,
-        //     stream:
-        //     [
-        //         {
-        //             id:'12',name:'1st item',description:'lorem ipsum',contexts:[{appId:'1stContext'}],modificationCount:0
-        //         },
-        //         {
-        //             id:'123',name:'2nd item',description:'lorem ipsum',contexts:[{appId:'1stContext'},{appId:'2ndContext'}],modificationCount:0
-        //         },
-        //         {
-        //             id:'1256',name:'3rd item',description:'lorem ipsum',contexts:[{appId:'1stContext'}],modificationCount:0
-        //         }
-        //     ],
-        //     totalElements:3,
-        //     totalPages:1
-        // } 
+        const testMock: SearchAiKnowledgeBaseResponse= {number:1,size:3,
+            stream:
+            [
+                {
+                    id:'12',name:'1st item',description:'lorem ipsum',contexts:[{appId:'1stContext'}],modificationCount:0
+                },
+                {
+                    id:'123',name:'2nd item',description:'lorem ipsum',contexts:[{appId:'1stContext'},{appId:'2ndContext'}],modificationCount:0
+                },
+                {
+                    id:'1256',name:'3rd item',description:'lorem ipsum',contexts:[{appId:'1stContext'}],modificationCount:0
+                }
+            ],
+            totalElements:3,
+            totalPages:1
+        } 
 
-        // return of(testMock);
+        return of(testMock);
 
-        return this.httpClient.request<SearchAiKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
-            {
-                context: localVarHttpContext,
-                body: searchAiKnowledgeBaseRequest,
-                responseType: <any>responseType_,
-                withCredentials: this.configuration.withCredentials,
-                headers: localVarHeaders,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
+        // return this.httpClient.request<SearchAiKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
+        //     {
+        //         context: localVarHttpContext,
+        //         body: searchAiKnowledgeBaseRequest,
+        //         responseType: <any>responseType_,
+        //         withCredentials: this.configuration.withCredentials,
+        //         headers: localVarHeaders,
+        //         observe: observe,
+        //         reportProgress: reportProgress
+        //     }
+        // );
     }
 
     /**

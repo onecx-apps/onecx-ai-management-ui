@@ -5,11 +5,16 @@ import { concatLatestFrom } from '@ngrx/operators'
 import { routerNavigatedAction } from '@ngrx/router-store'
 import { Action, Store } from '@ngrx/store'
 import { filterForNavigatedTo, filterOutQueryParamsHaveNotChanged } from '@onecx/ngrx-accelerator'
-import { ExportDataService, PortalMessageService } from '@onecx/portal-integration-angular'
+import {
+  DialogState,
+  ExportDataService,
+  PortalDialogService,
+  PortalMessageService
+} from '@onecx/portal-integration-angular'
 import equal from 'fast-deep-equal'
-import { catchError, map, of, switchMap, tap } from 'rxjs'
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs'
 import { selectUrl } from 'src/app/shared/selectors/router.selectors'
-import { AiKnowledgeBaseBffService } from '../../../shared/generated'
+import { AiKnowledgeBase, AiKnowledgeBaseBffService } from '../../../shared/generated'
 import { AiKnowledgeBaseSearchActions } from './ai-knowledge-base-search.actions'
 import { AiKnowledgeBaseSearchComponent } from './ai-knowledge-base-search.component'
 import { aiKnowledgeBaseSearchCriteriasSchema } from './ai-knowledge-base-search.parameters'
@@ -17,6 +22,7 @@ import {
   aiKnowledgeBaseSearchSelectors,
   selectAiKnowledgeBaseSearchViewModel
 } from './ai-knowledge-base-search.selectors'
+import { PrimeIcons } from 'primeng/api'
 
 @Injectable()
 export class AiKnowledgeBaseSearchEffects {
@@ -27,6 +33,8 @@ export class AiKnowledgeBaseSearchEffects {
     private router: Router,
     private store: Store,
     private messageService: PortalMessageService,
+    private portalDialogService: PortalDialogService,
+
     private readonly exportDataService: ExportDataService
   ) {}
 
@@ -74,6 +82,62 @@ export class AiKnowledgeBaseSearchEffects {
     },
     { dispatch: false }
   )
+
+  deleteButtonClicked$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AiKnowledgeBaseSearchActions.deleteButtonClicked),
+      concatLatestFrom(() => this.store.select(aiKnowledgeBaseSearchSelectors.selectResults)),
+      mergeMap(([action, results]) => {
+        const itemToDelete = results.find((item) => item.id === action.id)
+        console.log('ItemTO DELETEI: ', itemToDelete)
+        return this.portalDialogService
+          .openDialog<unknown>(
+            'AI_KNOWLEDGE_BASE_DETAILS.DELETE.HEADER',
+            'AI_KNOWLEDGE_BASE_DETAILS.DELETE.MESSAGE',
+            {
+              key: 'AI_KNOWLEDGE_BASE_DETAILS.DELETE.CONFIRM',
+              icon: PrimeIcons.CHECK
+            },
+            {
+              key: 'AI_KNOWLEDGE_BASE_DETAILS.DELETE.CANCEL',
+              icon: PrimeIcons.TIMES
+            }
+          )
+          .pipe(
+            map((state): [DialogState<unknown>, AiKnowledgeBase | undefined] => {
+              return [state, itemToDelete]
+            })
+          )
+      }),
+      switchMap(([dialogResult, itemToDelete]) => {
+        if (!dialogResult || dialogResult.button == 'secondary') {
+          return of(AiKnowledgeBaseSearchActions.deleteAiKnowledgeBaseCancelled())
+        }
+        if (!itemToDelete) {
+          throw new Error('Item to delete not found!')
+        }
+
+        return this.aiKnowledgeBaseService.deleteAiKnowledgeBase(itemToDelete.id).pipe(
+          map(() => {
+            this.messageService.success({
+              summaryKey: 'AI_KNOWLEDGE_BASE_DETAILS.DELETE.SUCCESS'
+            })
+            return AiKnowledgeBaseSearchActions.deleteAiKnowledgeBaseSucceeded()
+          }),
+          catchError((error) => {
+            this.messageService.error({
+              summaryKey: 'AI_KNOWLEDGE_BASE_DETAILS.DELETE.ERROR'
+            })
+            return of(
+              AiKnowledgeBaseSearchActions.deleteAiKnowledgeBaseFailed({
+                error
+              })
+            )
+          })
+        )
+      })
+    )
+  })
 
   searchByUrl$ = createEffect(() => {
     return this.actions$.pipe(
@@ -136,7 +200,7 @@ export class AiKnowledgeBaseSearchEffects {
   errorMessages: { action: Action; key: string }[] = [
     {
       action: AiKnowledgeBaseSearchActions.aiKnowledgeBaseSearchResultsLoadingFailed,
-      key: 'AI_KNOWLEDGE_BASE_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
+      key: 'AI_KNOWLEDGE_BASE_SEARCH_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
     }
   ]
 

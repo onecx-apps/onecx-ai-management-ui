@@ -62,6 +62,8 @@
       <ocx-interactive-data-view
         (viewItem)="details($event)"
         viewPermission="AI_KNOWLEDGE_BASE#VIEW"
+        (deleteItem)="delete($event)"
+        deletePermission="AI_KNOWLEDGE_BASE#DELETE"
         [data]="vm.results"
         [columns]="vm.columns"
         [emptyResultsMessage]="
