@@ -60,6 +60,8 @@
   <ocx-content-container layout="horizontal">
     <ocx-content class="w-full">
       <ocx-interactive-data-view
+        (viewItem)="details($event)"
+        viewPermission="AI_KNOWLEDGE_BASE#VIEW"
         [data]="vm.results"
         [columns]="vm.columns"
         [emptyResultsMessage]="
