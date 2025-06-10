@@ -8,7 +8,7 @@ import { filterForNavigatedTo } from '@onecx/ngrx-accelerator'
 import { DialogState, PortalDialogService, PortalMessageService } from '@onecx/portal-integration-angular'
 import { PrimeIcons } from 'primeng/api'
 import { catchError, filter, map, mergeMap, of, switchMap, tap } from 'rxjs'
-// import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
+import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
 import { selectRouteParam, selectUrl } from 'src/app/shared/selectors/router.selectors'
 import { AiKnowledgeBase, AiKnowledgeBaseBffService, UpdateAiKnowledgeBaseRequest } from '../../../shared/generated'
 import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actions'
@@ -222,17 +222,17 @@ export class AiKnowledgeBaseDetailsEffects {
     { dispatch: false }
   )
 
-  // navigateBack$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked),
-  //     concatLatestFrom(() => [this.store.select(selectBackNavigationPossible)]),
-  //     switchMap(([, backNavigationPossible]) => {
-  //       if (!backNavigationPossible) {
-  //         return of(AiKnowledgeBaseDetailsActions.backNavigationFailed())
-  //       }
-  //       window.history.back()
-  //       return of(AiKnowledgeBaseDetailsActions.backNavigationStarted())
-  //     })
-  //   )
-  // })
+  navigateBack$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked),
+      concatLatestFrom(() => [this.store.select(selectBackNavigationPossible)]),
+      switchMap(([, backNavigationPossible]) => {
+        if (!backNavigationPossible) {
+          return of(AiKnowledgeBaseDetailsActions.backNavigationFailed())
+        }
+        window.history.back()
+        return of(AiKnowledgeBaseDetailsActions.backNavigationStarted())
+      })
+    )
+  })
 }

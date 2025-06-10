@@ -16,10 +16,6 @@ import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.vie
 })
 export class AiKnowledgeBaseDetailsComponent implements OnInit {
   public formGroup: FormGroup
-  contexts = [
-    { id: 1, name: 'name', description: 'description' },
-    { id: 2, name: 'name', description: 'description' }
-  ]
 
   viewModel$: Observable<AiKnowledgeBaseDetailsViewModel> = this.store.select(selectAiKnowledgeBaseDetailsViewModel)
 

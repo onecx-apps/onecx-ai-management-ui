@@ -49,12 +49,7 @@
           </div>
           <div class="mt-3 mb-1">
             <span class="p-float-label mb-1" controlErrorAnchor>
-              <p-multiSelect
-                id="contexts"
-                [options]="contexts"
-                optionLabel="name"
-                styleClass="w-full"
-                formControlName="contexts"
+              <p-multiSelect id="contexts" optionLabel="name" styleClass="w-full" formControlName="contexts"
                 ><ng-template let-item pTemplate="item">
                   <div class="flex flex-col text-sm">
                     <span style="width: 40px" class="font-semibold">ID: {{ item.id }}</span>

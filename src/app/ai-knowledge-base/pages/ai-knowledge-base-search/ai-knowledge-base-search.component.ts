@@ -125,6 +125,7 @@ export class AiKnowledgeBaseSearchComponent implements OnInit {
       }),
       {}
     )
+
     this.store.dispatch(AiKnowledgeBaseSearchActions.searchButtonClicked({ searchCriteria }))
   }
 

@@ -32,12 +32,16 @@ export const aiKnowledgeBaseSearchReducer = createReducer(
   }),
   on(
     AiKnowledgeBaseSearchActions.resetButtonClicked,
-    (state: AiKnowledgeBaseSearchState): AiKnowledgeBaseSearchState => ({
-      ...state,
-      results: initialState.results,
-      criteria: {},
-      searchExecuted: false
-    })
+    (state: AiKnowledgeBaseSearchState): AiKnowledgeBaseSearchState => {
+      // console.log('AAAAAAAAAAAAAAAAAAAAAAAA: ', state)
+
+      return {
+        ...state,
+        results: initialState.results,
+        criteria: {},
+        searchExecuted: false
+      }
+    }
   ),
   on(
     AiKnowledgeBaseSearchActions.searchButtonClicked,

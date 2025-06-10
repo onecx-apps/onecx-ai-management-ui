@@ -16,7 +16,7 @@ export const aiKnowledgeBaseSearchColumns: DataTableColumn[] = [
   },
   {
     columnType: ColumnType.STRING,
-    id: 'title',
+    id: 'name',
     nameKey: 'AI_KNOWLEDGE_BASE_SEARCH.COLUMNS.NAME',
     filterable: true,
     sortable: true,
@@ -28,7 +28,7 @@ export const aiKnowledgeBaseSearchColumns: DataTableColumn[] = [
   },
   {
     columnType: ColumnType.STRING,
-    id: 'author',
+    id: 'description',
     nameKey: 'AI_KNOWLEDGE_BASE_SEARCH.COLUMNS.DESCRIPTION',
     filterable: true,
     sortable: true,

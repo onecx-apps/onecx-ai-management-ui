@@ -3,7 +3,7 @@ import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actio
 import { AiKnowledgeBaseDetailsState } from './ai-knowledge-base-details.state'
 
 export const initialState: AiKnowledgeBaseDetailsState = {
-  details: { id: '0', name: '', description: '', contexts: [], modificationCount: 0 },
+  details: { id: '', name: '', description: '', contexts: [], modificationCount: 0 },
   detailsLoadingIndicator: true,
   detailsLoaded: false,
   editMode: false,
@@ -57,15 +57,11 @@ export const aiKnowledgeBaseDetailsReducer = createReducer(
     AiKnowledgeBaseDetailsActions.cancelEditNotDirty,
     AiKnowledgeBaseDetailsActions.updateAiKnowledgeBaseCancelled,
     AiKnowledgeBaseDetailsActions.updateAiKnowledgeBaseSucceeded,
-    (state: AiKnowledgeBaseDetailsState): AiKnowledgeBaseDetailsState => {
-      console.log('AAAAAAAAAAAAA: ', state)
-
-      return {
-        ...state,
-        editMode: false,
-        isSubmitting: false
-      }
-    }
+    (state: AiKnowledgeBaseDetailsState): AiKnowledgeBaseDetailsState => ({
+      ...state,
+      editMode: false,
+      isSubmitting: false
+    })
   ),
   on(
     AiKnowledgeBaseDetailsActions.updateAiKnowledgeBaseFailed,
