@@ -7,7 +7,26 @@ import { AiContextSearchState } from './ai-context-search.state'
 
 export const initialState: AiContextSearchState = {
   columns: aiContextSearchColumns,
-  results: [],
+  results: [
+    {
+      id: '123',
+      appId: '123123',
+      name: 'name',
+      description: 'desc'
+    },
+    {
+      id: '123',
+      appId: '123123',
+      name: 'name',
+      description: 'desc'
+    },
+    {
+      id: '123',
+      appId: '123123',
+      name: 'name',
+      description: 'desc'
+    }
+  ],
   chartVisible: false,
   resultComponentState: null,
   searchHeaderComponentState: null,

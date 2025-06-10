@@ -1,4 +1,46 @@
 {
+  "AI_CONTEXT_DETAILS": {
+    "HELP_ARTICLE_ID": "Help Article",
+    "BREADCRUMB": "Details",
+    "HEADER": "AiContext Details",
+    "SUB_HEADER": "Display of AiContext Details",
+    "ERROR_MESSAGES": {
+      "DETAILS_LOADING_FAILED": "Loading details failed."
+    },
+    "GENERAL": {
+      "BACK": "Back",
+      "MORE": "More",
+      "EDIT": " Edit",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel",
+      "SAVE": "Save"
+    },
+    "FORM": {
+      "ID": "ID"
+    },
+    "CANCEL": {
+      "HEADER": "Confirm cancel",
+      "MESSAGE": "Please confirm that you want to cancel editing and reset changes.",
+      "CONFIRM": "Confirm"
+    },
+    "UPDATE": {
+      "SUCCESS": "Update successful",
+      "ERROR": "Update failed",
+      "FORM": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "HEADER": "Update AiContext"
+    },
+    "DELETE": {
+      "HEADER": "Delete AiContext",
+      "MESSAGE": "Please confirm that you want to delete this AiContext.",
+      "CONFIRM": "Confirm",
+      "CANCEL": "Cancel",
+      "SUCCESS": "AiContext deleted successfully",
+      "ERROR": "Could not delete AiContext"
+    }
+  },
   "AI_CONTEXT_SEARCH": {
     "HEADER": "AiContext Search",
     "SUB_HEADER": "Searching and displaying of AiContext",
@@ -39,7 +81,7 @@
       "FULL": "Full"
     }
   },
-    "AI_CONTEXT_CREATE_UPDATE": {
+  "AI_CONTEXT_CREATE_UPDATE": {
     "ACTION": {
       "CREATE": "Create"
     },

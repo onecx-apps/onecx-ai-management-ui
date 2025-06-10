@@ -1,4 +1,41 @@
 {
+  "AI_CONTEXT_DETAILS": {
+    "HELP_ARTICLE_ID": "Hilfeartikel",
+    "BREADCRUMB": "Details",
+    "HEADER": "AiContext Details",
+    "SUB_HEADER": "Anzeigen von AiContext Details",
+    "ERROR_MESSAGES": {
+      "DETAILS_LOADING_FAILED": "Details konnten nicht geladen werden."
+    },
+    "GENERAL": {
+      "BACK": "Zurück",
+      "MORE": "Mehr",
+      "EDIT": "Bearbeiten",
+      "DELETE": "Löschen",
+      "CANCEL": "Abbrechen",
+      "SAVE": "Speichern"
+    },
+    "FORM": {
+      "ID": "ID"
+    },
+    "CANCEL": {
+      "HEADER": "Abbruch bestätigen",
+      "MESSAGE": "Bitte bestätigen Sie, dass Sie die Bearbeitung abbrechen und die Änderungen zurücksetzen möchten.",
+      "CONFIRM": "Bestätigen"
+    },
+    "UPDATE": {
+      "SUCCESS": "Speichern erfolgreich",
+      "ERROR": "Speichern fehlgeschlagen"
+    },
+    "DELETE": {
+      "HEADER": "AiContext löschen",
+      "MESSAGE": "Bitte bestätigen Sie, dass Sie dieses AiContext löschen möchten.",
+      "CONFIRM": "Bestätigen",
+      "CANCEL": "Abbrechen",
+      "SUCCESS": "AiContext erfolgreich gelöscht",
+      "ERROR": "Konnte AiContext nicht löschen"
+    }
+  },
   "AI_CONTEXT_SEARCH": {
     "HEADER": "AiContext Suche",
     "SUB_HEADER": "Suchen und Anzeigen von AiContext",

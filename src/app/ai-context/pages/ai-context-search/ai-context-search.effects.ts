@@ -8,6 +8,7 @@ import { filterForNavigatedTo, filterOutQueryParamsHaveNotChanged } from '@onecx
 import { ExportDataService, PortalMessageService } from '@onecx/portal-integration-angular'
 import equal from 'fast-deep-equal'
 import { catchError, map, of, switchMap, tap } from 'rxjs'
+import { selectUrl } from 'src/app/shared/selectors/router.selectors'
 import { AiContextBffService } from '../../../shared/generated'
 import { AiContextSearchActions } from './ai-context-search.actions'
 import { AiContextSearchComponent } from './ai-context-search.component'
@@ -46,6 +47,22 @@ export class AiContextSearchEffects {
               onSameUrlNavigation: 'ignore'
             })
           }
+        })
+      )
+    },
+    { dispatch: false }
+  )
+
+  detailsButtonClicked$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(AiContextSearchActions.detailsButtonClicked),
+        concatLatestFrom(() => this.store.select(selectUrl)),
+        tap(([action, currentUrl]) => {
+          const urlTree = this.router.parseUrl(currentUrl)
+          urlTree.queryParams = {}
+          urlTree.fragment = null
+          this.router.navigate([urlTree.toString(), 'details', action.id])
         })
       )
     },

@@ -125,21 +125,22 @@ export class AiContextSearchComponent implements OnInit {
     this.store.dispatch(AiContextSearchActions.searchButtonClicked({ searchCriteria }))
   }
 
-    details({ id }: RowListGridData) {
-      this.store.dispatch(AiContextSearchActions.detailsButtonClicked({ id }))
-    }
+  create() {
+    this.store.dispatch(AiContextSearchActions.createAiContextButtonClicked())
+  }
 
-    create() {
-      this.store.dispatch(AiContextSearchActions.createAiContextButtonClicked())
-    }
+  edit({ id }: RowListGridData) {
+    this.store.dispatch(AiContextSearchActions.editAiContextButtonClicked({ id }))
+  }
 
-    edit({ id }: RowListGridData) {
-      this.store.dispatch(AiContextSearchActions.editAiContextButtonClicked({ id }))
-    }
+  delete({ id }: RowListGridData) {
+    this.store.dispatch(AiContextSearchActions.deleteAiContextButtonClicked({ id }))
+  }
 
-    delete({ id }: RowListGridData) {
-      this.store.dispatch(AiContextSearchActions.deleteAiContextButtonClicked({ id }))
-    }
+  details({ id }: RowListGridData) {
+    console.log("id: ", id)
+    this.store.dispatch(AiContextSearchActions.detailsButtonClicked({ id }))
+  }
 
   resetSearch() {
     this.store.dispatch(AiContextSearchActions.resetButtonClicked())

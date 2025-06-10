@@ -10,7 +10,11 @@ import { AiContextSearchCriteria } from './ai-context-search.parameters'
 export const AiContextSearchActions = createActionGroup({
   source: 'AiContextSearch',
   events: {
-        'Delete aiContext button clicked': props<{
+    'Details button clicked': props<{
+      id: number | string
+    }>(),
+
+    'Delete aiContext button clicked': props<{
       id: number | string
     }>(),
     'Delete aiContext cancelled': emptyProps(),
@@ -32,10 +36,6 @@ export const AiContextSearchActions = createActionGroup({
     }>(),
     'Update aiContext failed': props<{
       error: string | null
-    }>(),
-
-    'Details button clicked': props<{
-      id: number | string
     }>(),
     'Search button clicked': props<{
       searchCriteria: AiContextSearchCriteria

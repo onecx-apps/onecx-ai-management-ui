@@ -6,7 +6,11 @@ import { LetDirective } from '@ngrx/component'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 import { TranslateModule } from '@ngx-translate/core'
-import { addInitializeModuleGuard, PortalCoreModule } from '@onecx/portal-integration-angular'
+import {
+  addInitializeModuleGuard,
+  PortalCoreModule,
+  providePortalDialogService
+} from '@onecx/portal-integration-angular'
 import { CalendarModule } from 'primeng/calendar'
 import { SharedModule } from '../shared/shared.module'
 import { aiContextFeature } from './ai-context.reducers'
@@ -14,9 +18,12 @@ import { routes } from './ai-context.routes'
 import { AiContextSearchComponent } from './pages/ai-context-search/ai-context-search.component'
 import { AiContextSearchEffects } from './pages/ai-context-search/ai-context-search.effects'
 import { AiContextCreateUpdateComponent } from './pages/ai-context-search/dialogs/ai-context-create-update/ai-context-create-update.component'
+import { AiContextDetailsComponent } from './pages/ai-context-details/ai-context-details.component'
+import { AiContextDetailsEffects } from './pages/ai-context-details/ai-context-details.effects'
 
 @NgModule({
-  declarations: [AiContextCreateUpdateComponent, AiContextSearchComponent],
+  providers: [providePortalDialogService()],
+  declarations: [AiContextDetailsComponent, AiContextCreateUpdateComponent, AiContextSearchComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -27,7 +34,7 @@ import { AiContextCreateUpdateComponent } from './pages/ai-context-search/dialog
     ReactiveFormsModule,
     CalendarModule,
     StoreModule.forFeature(aiContextFeature),
-    EffectsModule.forFeature([AiContextSearchEffects]),
+    EffectsModule.forFeature([AiContextDetailsEffects, AiContextSearchEffects]),
     TranslateModule
   ]
 })
