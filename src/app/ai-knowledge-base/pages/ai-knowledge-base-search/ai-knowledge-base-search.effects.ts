@@ -158,7 +158,8 @@ export class AiKnowledgeBaseSearchEffects {
             [key]: value instanceof Date ? value.toISOString() : value
           }),
           {}
-        )
+        ),
+        id: +searchCriteria['id']
       })
       .pipe(
         map(({ stream, size, number, totalElements, totalPages }) =>

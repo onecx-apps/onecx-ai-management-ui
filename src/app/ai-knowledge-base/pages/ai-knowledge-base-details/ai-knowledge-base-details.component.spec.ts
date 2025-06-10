@@ -138,8 +138,8 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
     const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
     expect(backAction).toBeTruthy()
 
-    // const moreAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.ELLIPSIS_V)
-    // expect(moreAction).toBeTruthy()
+    const moreAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.ELLIPSIS_V)
+    expect(moreAction).toBeTruthy()
   })
 
   it('should dispatch navigateBackButtonClicked action on back button click', async () => {
