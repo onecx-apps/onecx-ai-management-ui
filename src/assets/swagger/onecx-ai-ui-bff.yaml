@@ -541,6 +541,37 @@ paths:
           description: Bad request
         '500':
           description: Something went wrong
+  /aiContext:
+    post:
+      operationId: createAiContext
+      tags:
+        - AiContextBffService
+      description: This operation performs a create.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAiContextRequest'
+      responses:
+        '201':
+          description: New AiContext created
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: url
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAiContextResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
 components:
   schemas:
     AIKnowledgeVectorDb:
@@ -1078,3 +1109,14 @@ components:
             $ref: '#/components/schemas/AIKnowledgeDocument'
         provider:
           $ref: '#/components/schemas/AIProvider'
+    CreateAiContextRequest:
+      type: object
+      properties:
+        dataObject:
+          $ref: '#/components/schemas/AiContext'
+    CreateAiContextResponse:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: '#/components/schemas/AiContext'

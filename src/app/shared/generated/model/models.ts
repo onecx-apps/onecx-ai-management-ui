@@ -18,6 +18,8 @@ export * from './aiContext';
 export * from './createAIKnowledgeDocument';
 export * from './createAIKnowledgeVectorDb';
 export * from './createAIProvider';
+export * from './createAiContextRequest';
+export * from './createAiContextResponse';
 export * from './getAIKnowledgeDocumentByIdResponse';
 export * from './getAIKnowledgeVectorDbByIdResponse';
 export * from './getAIProviderByIdResponse';
