@@ -30,6 +30,8 @@ model/aiContext.ts
 model/createAIKnowledgeDocument.ts
 model/createAIKnowledgeVectorDb.ts
 model/createAIProvider.ts
+model/createAiContextRequest.ts
+model/createAiContextResponse.ts
 model/getAIKnowledgeDocumentByIdResponse.ts
 model/getAIKnowledgeVectorDbByIdResponse.ts
 model/getAIProviderByIdResponse.ts

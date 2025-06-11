@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { Action, BreadcrumbService } from '@onecx/portal-integration-angular'
+import { Action, BreadcrumbService, ObjectDetailItem } from '@onecx/portal-integration-angular'
 import { map, Observable } from 'rxjs'
 
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { PrimeIcons } from 'primeng/api'
 import { AiContextDetailsActions } from './ai-context-details.actions'
 import { AiContextDetailsViewModel } from './ai-context-details.viewmodel'
+import { selectAiContextDetailsViewModel } from './ai-context-details.selectors'
 
 @Component({
   selector: 'app-ai-context-details',
@@ -14,20 +15,76 @@ import { AiContextDetailsViewModel } from './ai-context-details.viewmodel'
   styleUrls: ['./ai-context-details.component.scss']
 })
 export class AiContextDetailsComponent implements OnInit {
-  viewModel$!: Observable<AiContextDetailsViewModel>
+  viewModel$: Observable<AiContextDetailsViewModel> = this.store.select(selectAiContextDetailsViewModel)
 
-  headerActions$: Observable<Action[]> = this.viewModel$.pipe(
+  headerLabels$: Observable<ObjectDetailItem[]> = this.viewModel$.pipe(
+    map((vm) => {
+      const labels: ObjectDetailItem[] = [
+        {
+          label: 'App ID',
+          value: vm.details?.appId || ''
+        },
+        {
+          label: 'Name',
+          value: vm.details?.name || ''
+        },
+        {
+          label: 'Description',
+          value: vm.details?.description || ''
+        }
+      ]
+      return labels
+    })
+  )
+
+  headerActions$!: Observable<Action[]>
+
+  public formGroup: FormGroup
+
+  constructor(
+    private store: Store,
+    private breadcrumbService: BreadcrumbService
+  ) {
+    this.formGroup = new FormGroup({
+      id: new FormControl(null, [Validators.maxLength(255)])
+    })
+    this.formGroup.disable()
+
+    this.viewModel$.subscribe((vm) => {
+      if (!vm.editMode) {
+        this.formGroup.setValue({
+          id: vm.details?.id
+        })
+        this.formGroup.markAsPristine()
+      }
+
+      if (vm.editMode) {
+        this.formGroup.enable()
+      } else {
+        this.formGroup.disable()
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.breadcrumbService.setItems([
+      {
+        titleKey: 'AI_CONTEXT_DETAILS.BREADCRUMB',
+        labelKey: 'AI_CONTEXT_DETAILS.BREADCRUMB',
+        routerLink: '/ai-context'
+      }
+    ])
+
+    this.headerActions$ = this.viewModel$.pipe(
     map((vm) => {
       const actions: Action[] = [
         {
           titleKey: 'AI_CONTEXT_DETAILS.GENERAL.BACK',
           labelKey: 'AI_CONTEXT_DETAILS.GENERAL.BACK',
           show: 'always',
-          disabled: !vm.backNavigationPossible,
-          permission: 'AI_CONTEXT#BACK',
-          showCondition: !vm.editMode,
           actionCallback: () => {
-            this.store.dispatch(AiContextDetailsActions.navigateBackButtonClicked())
+            window.history.back()
+            // this.store.dispatch(AiContextDetailsActions.navigateBackButtonClicked())
           }
         },
         {
@@ -90,42 +147,6 @@ export class AiContextDetailsComponent implements OnInit {
       return actions
     })
   )
-
-  public formGroup: FormGroup
-
-  constructor(
-    private store: Store,
-    private breadcrumbService: BreadcrumbService
-  ) {
-    this.formGroup = new FormGroup({
-      id: new FormControl(null, [Validators.maxLength(255)])
-    })
-    this.formGroup.disable()
-
-    this.viewModel$.subscribe((vm) => {
-      if (!vm.editMode) {
-        this.formGroup.setValue({
-          id: vm.details?.id
-        })
-        this.formGroup.markAsPristine()
-      }
-
-      if (vm.editMode) {
-        this.formGroup.enable()
-      } else {
-        this.formGroup.disable()
-      }
-    })
-  }
-
-  ngOnInit(): void {
-    this.breadcrumbService.setItems([
-      {
-        titleKey: 'AI_CONTEXT_DETAILS.BREADCRUMB',
-        labelKey: 'AI_CONTEXT_DETAILS.BREADCRUMB',
-        routerLink: '/ai-context'
-      }
-    ])
   }
 
   edit() {

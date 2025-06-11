@@ -58,6 +58,7 @@ app:
             EXPORT: Export aiContext
             VIEW: View mode for aiContext
             SEARCH: Search aiContext
+            BACK: Back to aiContext
     keycloak:
       client:
         enabled: true

@@ -23,7 +23,11 @@ import { AiContextDetailsEffects } from './pages/ai-context-details/ai-context-d
 
 @NgModule({
   providers: [providePortalDialogService()],
-  declarations: [AiContextDetailsComponent, AiContextCreateUpdateComponent, AiContextSearchComponent],
+  declarations: [
+    AiContextDetailsComponent,
+    AiContextCreateUpdateComponent,
+    AiContextSearchComponent
+  ],
   imports: [
     CommonModule,
     SharedModule,

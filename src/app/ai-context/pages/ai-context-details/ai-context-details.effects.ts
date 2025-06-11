@@ -8,13 +8,12 @@ import { filterForNavigatedTo } from '@onecx/ngrx-accelerator'
 import { DialogState, PortalDialogService, PortalMessageService } from '@onecx/portal-integration-angular'
 import { PrimeIcons } from 'primeng/api'
 import { catchError, filter, map, mergeMap, of, switchMap, tap } from 'rxjs'
-// import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors';
+import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
 import { selectRouteParam, selectUrl } from 'src/app/shared/selectors/router.selectors'
 import { AiContext, AiContextBffService, UpdateAiContextRequest } from '../../../shared/generated'
 import { AiContextDetailsActions } from './ai-context-details.actions'
 import { AiContextDetailsComponent } from './ai-context-details.component'
 import { aiContextDetailsSelectors } from './ai-context-details.selectors'
-import { selectBackNavigationPossible } from 'src/app/shared/selectors/back-navigation.selector'
 
 @Injectable()
 export class AiContextDetailsEffects {

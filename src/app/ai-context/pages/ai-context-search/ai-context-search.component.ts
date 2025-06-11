@@ -32,10 +32,15 @@ export class AiContextSearchComponent implements OnInit {
   defaultDataSortDirection = DataSortDirection.NONE
   defaultDiagramType = DiagramType.PIE
 
-  // ACTION S10: Update header actions: https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/update-header-actions.html#action-10
   headerActions$: Observable<Action[]> = this.viewModel$.pipe(
     map((vm) => {
       const actions: Action[] = [
+        {
+          labelKey: 'AI_CONTEXT_CREATE_UPDATE.ACTION.CREATE',
+          icon: PrimeIcons.PLUS,
+          show: 'always',
+          actionCallback: () => this.create()
+        },
         {
           labelKey: 'AI_CONTEXT_SEARCH.HEADER_ACTIONS.EXPORT_ALL',
           icon: PrimeIcons.DOWNLOAD,
@@ -138,7 +143,7 @@ export class AiContextSearchComponent implements OnInit {
   }
 
   details({ id }: RowListGridData) {
-    console.log("id: ", id)
+    console.log('id: ', id)
     this.store.dispatch(AiContextSearchActions.detailsButtonClicked({ id }))
   }
 

@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store'
 import { createChildSelectors } from '@onecx/ngrx-accelerator'
-// import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
+import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
 import { AiContext } from '../../../shared/generated'
 import { aiContextFeature } from '../../ai-context.reducers'
 import { initialState } from './ai-context-details.reducers'
@@ -11,7 +11,7 @@ export const aiContextDetailsSelectors = createChildSelectors(aiContextFeature.s
 export const selectAiContextDetailsViewModel = createSelector(
   aiContextDetailsSelectors.selectDetails,
   aiContextDetailsSelectors.selectDetailsLoadingIndicator,
-  // selectBackNavigationPossible,
+  selectBackNavigationPossible,
   aiContextDetailsSelectors.selectDetailsLoaded,
   aiContextDetailsSelectors.selectEditMode,
   aiContextDetailsSelectors.selectIsSubmitting,

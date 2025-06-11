@@ -5,19 +5,22 @@ import { concatLatestFrom } from '@ngrx/operators'
 import { routerNavigatedAction } from '@ngrx/router-store'
 import { Action, Store } from '@ngrx/store'
 import { filterForNavigatedTo, filterOutQueryParamsHaveNotChanged } from '@onecx/ngrx-accelerator'
-import { ExportDataService, PortalMessageService } from '@onecx/portal-integration-angular'
+import { ExportDataService, PortalMessageService, PortalDialogService, DialogState } from '@onecx/portal-integration-angular'
 import equal from 'fast-deep-equal'
-import { catchError, map, of, switchMap, tap } from 'rxjs'
+import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs'
 import { selectUrl } from 'src/app/shared/selectors/router.selectors'
-import { AiContextBffService } from '../../../shared/generated'
+import { AiContext, AiContextBffService, CreateAiContextRequest, UpdateAiContextRequest } from '../../../shared/generated'
 import { AiContextSearchActions } from './ai-context-search.actions'
 import { AiContextSearchComponent } from './ai-context-search.component'
 import { aiContextSearchCriteriasSchema } from './ai-context-search.parameters'
 import { aiContextSearchSelectors, selectAiContextSearchViewModel } from './ai-context-search.selectors'
+import { AiContextCreateUpdateComponent } from './dialogs/ai-context-create-update/ai-context-create-update.component'
+import { PrimeIcons } from 'primeng/api'
 
 @Injectable()
 export class AiContextSearchEffects {
   constructor(
+    private portalDialogService: PortalDialogService,
     private actions$: Actions,
     @SkipSelf() private route: ActivatedRoute,
     private aiContextService: AiContextBffService,
@@ -78,6 +81,205 @@ export class AiContextSearchEffects {
       switchMap(([, searchCriteria]) => this.performSearch(searchCriteria))
     )
   })
+
+  refreshSearchAfterCreateUpdate$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AiContextSearchActions.createAiContextSucceeded, AiContextSearchActions.updateAiContextSucceeded),
+      concatLatestFrom(() => this.store.select(aiContextSearchSelectors.selectCriteria)),
+      switchMap(([, searchCriteria]) => this.performSearch(searchCriteria))
+    )
+  })
+
+  editButtonClicked$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AiContextSearchActions.editAiContextButtonClicked),
+      concatLatestFrom(() => this.store.select(aiContextSearchSelectors.selectResults)),
+      map(([action, results]) => {
+        return results.find((item) => item.id == action.id)
+      }),
+      mergeMap((itemToEdit) => {
+        return this.portalDialogService.openDialog<AiContext | undefined>(
+          'AI_CONTEXT_CREATE_UPDATE.UPDATE.HEADER',
+          {
+            type: AiContextCreateUpdateComponent,
+            inputs: {
+              vm: {
+                itemToEdit
+              }
+            }
+          },
+          'AI_CONTEXT_CREATE_UPDATE.UPDATE.FORM.SAVE',
+          'AI_CONTEXT_CREATE_UPDATE.UPDATE.FORM.CANCEL',
+          {
+            baseZIndex: 100
+          }
+        )
+      }),
+      switchMap((dialogResult) => {
+        if (!dialogResult || dialogResult.button == 'secondary') {
+          return of(AiContextSearchActions.updateAiContextCancelled())
+        }
+        if (!dialogResult?.result) {
+          throw new Error('DialogResult was not set as expected!')
+        }
+        const itemToEditId = dialogResult.result.id
+        if (!itemToEditId) {
+          throw new Error('Item ID is required for update!')
+        }
+        const itemToEdit = {
+          aiContextData: dialogResult.result
+        } as UpdateAiContextRequest
+        return this.aiContextService.updateAiContext(itemToEditId, itemToEdit).pipe(
+          map(() => {
+            this.messageService.success({
+              summaryKey: 'AI_CONTEXT_CREATE_UPDATE.UPDATE.SUCCESS'
+            })
+            return AiContextSearchActions.updateAiContextSucceeded()
+          })
+        )
+      }),
+      catchError((error) => {
+        this.messageService.error({
+          summaryKey: 'AI_CONTEXT_CREATE_UPDATE.UPDATE.ERROR'
+        })
+        return of(
+          AiContextSearchActions.updateAiContextFailed({
+            error
+          })
+        )
+      })
+    )
+  })
+
+  createButtonClicked$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AiContextSearchActions.createAiContextButtonClicked),
+      switchMap(() => {
+        return this.portalDialogService.openDialog<AiContext | undefined>(
+          'AI_CONTEXT_CREATE_UPDATE.CREATE.HEADER',
+          {
+            type: AiContextCreateUpdateComponent,
+            inputs: {
+              vm: {
+                itemToEdit: {}
+              }
+            }
+          },
+          'AI_CONTEXT_CREATE_UPDATE.CREATE.FORM.SAVE',
+          'AI_CONTEXT_CREATE_UPDATE.CREATE.FORM.CANCEL',
+          {
+            baseZIndex: 100
+          }
+        )
+      }),
+      switchMap((dialogResult) => {
+        if (!dialogResult || dialogResult.button == 'secondary') {
+          return of(AiContextSearchActions.createAiContextCancelled())
+        }
+        if (!dialogResult?.result) {
+          throw new Error('DialogResult was not set as expected!')
+        }
+        const toCreateItem = {
+          aiContextData: dialogResult.result
+        } as CreateAiContextRequest
+        return this.aiContextService.createAiContext(toCreateItem).pipe(
+          map(() => {
+            this.messageService.success({
+              summaryKey: 'AI_CONTEXT_CREATE_UPDATE.CREATE.SUCCESS'
+            })
+            return AiContextSearchActions.createAiContextSucceeded()
+          })
+        )
+      }),
+      catchError((error) => {
+        this.messageService.error({
+          summaryKey: 'AI_CONTEXT_CREATE_UPDATE.CREATE.ERROR'
+        })
+        return of(
+          AiContextSearchActions.createAiContextFailed({
+            error
+          })
+        )
+      })
+    )
+  })
+
+  refreshSearchAfterDelete$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AiContextSearchActions.deleteAiContextSucceeded),
+      concatLatestFrom(() => this.store.select(aiContextSearchSelectors.selectCriteria)),
+      switchMap(([, searchCriteria]) => this.performSearch(searchCriteria))
+    )
+  })
+
+  deleteButtonClicked$ = createEffect(() => {
+      return this.actions$.pipe(
+        ofType(AiContextSearchActions.deleteAiContextButtonClicked),
+        concatLatestFrom(() => this.store.select(aiContextSearchSelectors.selectResults)),
+        map(([action, results]) => {
+          console.log('Action:', action)
+          console.log('Results:', results)
+          return results.find((item) => item.id == action.id)
+        }),
+        mergeMap((itemToDelete) => {
+          console.log('Item to delete:', itemToDelete)
+          return this.portalDialogService
+            .openDialog<unknown>(
+              'AI_CONTEXT_DELETE.HEADER',
+              'AI_CONTEXT_DELETE.MESSAGE',
+              {
+                key: 'AI_CONTEXT_DELETE.CONFIRM',
+                icon: PrimeIcons.CHECK
+              },
+              {
+                key: 'AI_CONTEXT_DELETE.CANCEL',
+                icon: PrimeIcons.TIMES
+              }
+            )
+            .pipe(
+              map((state): [DialogState<unknown>, AiContext | undefined] => {
+                console.log('Dialog STATE:', state)
+                console.log('Item to delete after dialog:', itemToDelete)
+                return [state, itemToDelete]
+              })
+            )
+        }),
+        switchMap(([dialogResult, itemToDelete]) => {
+          console.log('Dialog result:', dialogResult)
+          console.log('Item to delete after dialog:', itemToDelete)
+          if (!dialogResult || dialogResult.button == 'secondary') {
+            console.log('Dialog result:', dialogResult)
+            console.log('Item to delete after dialog:', itemToDelete)
+            return of(AiContextSearchActions.deleteAiContextCancelled())
+          }
+          if (!itemToDelete || !itemToDelete.id) {
+            throw new Error('Item to delete or its ID not found!')
+          }
+
+          return this.aiContextService.deleteAiContext(itemToDelete.id).pipe(
+            map(() => {
+              console.log('Dialog result SUCCESS:', dialogResult)
+              console.log('Item to delete after dialog:', itemToDelete)
+              this.messageService.success({
+                summaryKey: 'AI_CONTEXT_DELETE.SUCCESS'
+              })
+              return AiContextSearchActions.deleteAiContextSucceeded()
+            }),
+            catchError((error) => {
+              console.log('Error:', error)
+              this.messageService.error({
+                summaryKey: 'AI_CONTEXT_DELETE.ERROR'
+              })
+              return of(
+                AiContextSearchActions.deleteAiContextFailed({
+                  error
+                })
+              )
+            })
+          )
+        })
+      )
+    })
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearch(searchCriteria: Record<string, any>) {

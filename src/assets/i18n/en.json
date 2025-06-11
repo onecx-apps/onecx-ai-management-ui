@@ -16,7 +16,10 @@
       "SAVE": "Save"
     },
     "FORM": {
-      "ID": "ID"
+      "ID": "ID",
+      "APPID": "App Id",
+      "NAME": "Name",
+      "DESCRIPTION": "Description"
     },
     "CANCEL": {
       "HEADER": "Confirm cancel",
