@@ -8,6 +8,7 @@ import { AiKnowledgeBaseSearchState } from './ai-knowledge-base-search.state'
 export const initialState: AiKnowledgeBaseSearchState = {
   columns: aiKnowledgeBaseSearchColumns,
   results: [],
+  displayedColumns: [],
   chartVisible: false,
   resultComponentState: null,
   searchHeaderComponentState: null,
@@ -89,6 +90,14 @@ export const aiKnowledgeBaseSearchReducer = createReducer(
     (state: AiKnowledgeBaseSearchState, diagramComponentState): AiKnowledgeBaseSearchState => ({
       ...state,
       diagramComponentState
+    })
+  ),
+  on(
+    AiKnowledgeBaseSearchActions.displayedColumnsChanged,
+    (state: AiKnowledgeBaseSearchState, { displayedColumns }): AiKnowledgeBaseSearchState => ({
+      ...state,
+
+      displayedColumns: displayedColumns.map((v) => v.id)
     })
   )
 )

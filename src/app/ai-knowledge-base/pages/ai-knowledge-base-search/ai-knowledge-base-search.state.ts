@@ -10,6 +10,7 @@ import { AiKnowledgeBaseSearchCriteria } from './ai-knowledge-base-search.parame
 export interface AiKnowledgeBaseSearchState {
   columns: DataTableColumn[]
   results: AiKnowledgeBase[]
+  displayedColumns: string[] | null
   chartVisible: boolean
   resultComponentState: InteractiveDataViewComponentState | null
   searchHeaderComponentState: SearchHeaderComponentState | null

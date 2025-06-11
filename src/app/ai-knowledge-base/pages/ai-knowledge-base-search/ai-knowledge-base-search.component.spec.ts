@@ -2,7 +2,6 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { By } from '@angular/platform-browser'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { ActivatedRoute } from '@angular/router'
 import { LetDirective } from '@ngrx/component'
@@ -285,43 +284,59 @@ describe('AiKnowledgeBaseSearchComponent', () => {
 
   it('should dispatch displayedColumnsChanged on data view column change', async () => {
     jest.spyOn(store, 'dispatch')
-    const columns = [
-      {
-        columnType: ColumnType.STRING,
-        nameKey: 'COLUMN_KEY',
-        id: 'column_1'
-      }
-    ]
+
+    fixture = TestBed.createComponent(AiKnowledgeBaseSearchComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+    aiKnowledgeBaseSearch = await TestbedHarnessEnvironment.harnessForFixture(fixture, AiKnowledgeBaseSearchHarness)
+
+    jest.clearAllMocks()
+
     store.overrideSelector(selectAiKnowledgeBaseSearchViewModel, {
       ...baseAiKnowledgeBaseSearchViewModel,
-      results: [],
-      columns: columns,
-      displayedColumns: columns
+      columns: [
+        {
+          columnType: ColumnType.STRING,
+          nameKey: 'COLUMN_KEY',
+          id: 'column_1'
+        },
+        {
+          columnType: ColumnType.STRING,
+          nameKey: 'SECOND_COLUMN_KEY',
+          id: 'column_2'
+        }
+      ]
     })
     store.refreshState()
 
     const interactiveDataView = await aiKnowledgeBaseSearch.getSearchResults()
-    ;(await (await interactiveDataView.getDataLayoutSelection()).getTableLayoutSelectionButton())?.click()
-
     const columnGroupSelector = await interactiveDataView?.getCustomGroupColumnSelector()
     expect(columnGroupSelector).toBeTruthy()
-
     await columnGroupSelector!.openCustomGroupColumnSelectorDialog()
     const pickList = await columnGroupSelector!.getPicklist()
     const transferControlButtons = await pickList.getTransferControlsButtons()
     expect(transferControlButtons.length).toBe(4)
-
-    // Currently, all columns are selected. Next, we are unselecting all to have a clean test setting.
-    const deactivateAllColumnsButton = transferControlButtons[1]
-    await deactivateAllColumnsButton.click()
-    const inactiveItems = await pickList.getTargetListItems()
-    await inactiveItems[0].selectItem()
-    const activateCurrentColumnButton = transferControlButtons[2]
-    await activateCurrentColumnButton.click()
+    const activateAllColumnsButton = transferControlButtons[3]
+    await activateAllColumnsButton.click()
     const saveButton = await columnGroupSelector!.getSaveButton()
     await saveButton.click()
 
-    expect(store.dispatch).toHaveBeenLastCalledWith(expect.objectContaining({ displayedColumns: columns }))
+    expect(store.dispatch).toHaveBeenCalledWith(
+      AiKnowledgeBaseSearchActions.displayedColumnsChanged({
+        displayedColumns: [
+          {
+            columnType: ColumnType.STRING,
+            nameKey: 'COLUMN_KEY',
+            id: 'column_1'
+          },
+          {
+            columnType: ColumnType.STRING,
+            nameKey: 'SECOND_COLUMN_KEY',
+            id: 'column_2'
+          }
+        ]
+      })
+    )
   })
 
   it('should dispatch chartVisibilityToggled on show/hide chart header', async () => {
@@ -368,10 +383,13 @@ describe('AiKnowledgeBaseSearchComponent', () => {
 
     const interactiveDataView = await aiKnowledgeBaseSearch.getSearchResults()
     const dataView = await interactiveDataView.getDataView()
-    const dataTable = await dataView.getDataListGrid()
-    const rows = await dataTable!.getActionButtons('list')
-    expect(rows.length).toBe(0)
-    expect(fixture.debugElement.query(By.css('.p-dataview-emptymessage'))).toBeDefined()
+    const dataTable = await dataView.getDataTable()
+    const rows = await dataTable?.getRows()
+    expect(rows?.length).toBe(1)
+
+    const rowData = await rows?.at(0)?.getData()
+    expect(rowData?.length).toBe(1)
+    expect(rowData?.at(0)).toEqual('No results.')
   })
 
   it('should not display chart when no results or toggled to not visible', async () => {

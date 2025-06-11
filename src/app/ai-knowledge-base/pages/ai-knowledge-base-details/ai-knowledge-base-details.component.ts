@@ -40,7 +40,8 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
           // permission: 'AI_KNOWLEDGE_BASE#BACK',
           showCondition: !vm.editMode,
           actionCallback: () => {
-            this.store.dispatch(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked())
+            // this.store.dispatch(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked())
+            window.history.back()
           }
         },
         {

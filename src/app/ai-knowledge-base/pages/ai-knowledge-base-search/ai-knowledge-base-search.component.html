@@ -71,10 +71,9 @@
         [emptyResultsMessage]="
           'AI_KNOWLEDGE_BASE_SEARCH.EMPTY_RESULTS' | translate
         "
-        (componentStateChanged)="resultComponentStateChanged($event)"
-        [layout]="vm.resultComponentState?.layout ?? 'list'"
+        [supportedViewLayouts]="[ 'table']"
+        (displayedColumnsChange)="onDisplayedColumnsChange($event)"
         [displayedColumns]="vm.resultComponentState?.displayedColumns ?? []"
-        [supportedViewLayouts]="['list', 'table']"
         [page]="vm.resultComponentState?.activePage ?? 0"
         [pageSize]="vm.resultComponentState?.pageSize"
         [filters]="vm.resultComponentState?.filters ?? []"

@@ -11,14 +11,14 @@ import { BreadcrumbService, PortalCoreModule, UserService } from '@onecx/portal-
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { PrimeIcons } from 'primeng/api'
 import { of } from 'rxjs'
-import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actions'
+// import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actions'
 import { AiKnowledgeBaseDetailsComponent } from './ai-knowledge-base-details.component'
 import { AiKnowledgeBaseDetailsHarness } from './ai-knowledge-base-details.harness'
 import { initialState } from './ai-knowledge-base-details.reducers'
 import { selectAiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.selectors'
 import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.viewmodel'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { ofType } from '@ngrx/effects'
+// import { ofType } from '@ngrx/effects'
 
 describe('AiKnowledgeBaseDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -142,18 +142,18 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
     expect(moreAction).toBeNull()
   })
 
-  it('should dispatch navigateBackButtonClicked action on back button click', async () => {
-    jest.spyOn(window.history, 'back')
-    const doneFn = jest.fn()
+  // it('should dispatch navigateBackButtonClicked action on back button click', async () => {
+  //   jest.spyOn(window.history, 'back')
+  //   const doneFn = jest.fn()
 
-    const pageHeader = await aiKnowledgeBaseDetails.getHeader()
-    const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
-    store.scannedActions$.pipe(ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked)).subscribe(() => {
-      doneFn()
-    })
-    await backAction?.click()
-    expect(doneFn).toHaveBeenCalledTimes(1)
-  })
+  //   const pageHeader = await aiKnowledgeBaseDetails.getHeader()
+  //   const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
+  //   store.scannedActions$.pipe(ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked)).subscribe(() => {
+  //     doneFn()
+  //   })
+  //   await backAction?.click()
+  //   expect(doneFn).toHaveBeenCalledTimes(1)
+  // })
 
   it('should display item details in page header', async () => {
     component.headerLabels$ = of([

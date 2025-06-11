@@ -163,4 +163,8 @@ export class AiKnowledgeBaseSearchComponent implements OnInit {
   toggleChartVisibility() {
     this.store.dispatch(AiKnowledgeBaseSearchActions.chartVisibilityToggled())
   }
+
+  onDisplayedColumnsChange(displayedColumns: DataTableColumn[]) {
+    this.store.dispatch(AiKnowledgeBaseSearchActions.displayedColumnsChanged({ displayedColumns }))
+  }
 }
