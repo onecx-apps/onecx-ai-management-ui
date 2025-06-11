@@ -49,7 +49,10 @@ module.exports = tseslint.config(
           prefix: 'app',
           style: 'kebab-case'
         }
-      ]
+      ],
+      '@typescript-eslint/no-require-imports': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-empty-function': 'warn'
     }
   },
   {

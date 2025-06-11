@@ -4,4 +4,6 @@ export * from './aIKnowledgeVectorDbBffService.service';
 import { AIKnowledgeVectorDbBffService } from './aIKnowledgeVectorDbBffService.service';
 export * from './aIProviderBffService.service';
 import { AIProviderBffService } from './aIProviderBffService.service';
-export const APIS = [AIKnowledgeDocumentBffService, AIKnowledgeVectorDbBffService, AIProviderBffService];
+export * from './aiKnowledgeBaseBffService.service';
+import { AiKnowledgeBaseBffService } from './aiKnowledgeBaseBffService.service';
+export const APIS = [AIKnowledgeDocumentBffService, AIKnowledgeVectorDbBffService, AIProviderBffService, AiKnowledgeBaseBffService];
