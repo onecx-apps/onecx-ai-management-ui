@@ -3,6 +3,37 @@ info:
   title: onecx-ai-ui-bff
   version: '1.0'
 paths:
+  /aiKnowledgeBase:
+    post:
+      operationId: createAiKnowledgeBase
+      tags:
+        - AiKnowledgeBaseBffService
+      description: This operation performs a create.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAiKnowledgeBaseRequest'
+      responses:
+        '201':
+          description: New AiKnowledgeBase created
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: url
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAiKnowledgeBaseResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
   /aiKnowledgeBase/search:
     post:
       operationId: searchAiKnowledgeBases
@@ -213,6 +244,17 @@ components:
           type: integer
           format: int64
           description: Total pages.
+    CreateAiKnowledgeBaseRequest:
+      type: object
+      properties:
+        dataObject:
+          $ref: '#/components/schemas/AiKnowledgeBase'
+    CreateAiKnowledgeBaseResponse:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: '#/components/schemas/AiKnowledgeBase'
     UpdateAiKnowledgeBaseRequest:
       type: object
       properties:

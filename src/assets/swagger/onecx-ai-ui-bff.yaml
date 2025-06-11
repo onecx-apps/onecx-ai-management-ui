@@ -540,6 +540,37 @@ paths:
       responses:
         '204':
           description: AiKnowledgeBase deleted
+  /aiKnowledgeBase:
+    post:
+      operationId: createAiKnowledgeBase
+      tags:
+        - AiKnowledgeBaseBffService
+      description: This operation performs a create.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAiKnowledgeBaseRequest'
+      responses:
+        '201':
+          description: New AiKnowledgeBase created
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: url
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAiKnowledgeBaseResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
 components:
   schemas:
     AIKnowledgeVectorDb:
@@ -922,6 +953,17 @@ components:
           type: string
         description:
           type: string
+    CreateAiKnowledgeBaseRequest:
+      type: object
+      properties:
+        dataObject:
+          $ref: '#/components/schemas/AiKnowledgeBase'
+    CreateAiKnowledgeBaseResponse:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: '#/components/schemas/AiKnowledgeBase'
     SearchAiKnowledgeBaseRequest:
       type: object
       properties:
