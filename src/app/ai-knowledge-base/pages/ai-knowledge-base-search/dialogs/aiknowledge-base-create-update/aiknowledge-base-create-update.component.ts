@@ -30,7 +30,7 @@ export class AIKnowledgeBaseCreateUpdateComponent
 
   constructor() {
     this.formGroup = new FormGroup({
-      appId: new FormControl(null, [Validators.maxLength(255), Validators.required]),
+      id: new FormControl(null, [Validators.maxLength(255), Validators.required]),
       name: new FormControl(null, [Validators.maxLength(255), Validators.required]),
       description: new FormControl(null, [Validators.maxLength(255), Validators.required])
     })

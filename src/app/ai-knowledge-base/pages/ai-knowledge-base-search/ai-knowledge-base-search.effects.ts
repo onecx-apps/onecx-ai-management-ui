@@ -15,7 +15,12 @@ import equal from 'fast-deep-equal'
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs'
 import { PrimeIcons } from 'primeng/api'
 import { selectUrl } from 'src/app/shared/selectors/router.selectors'
-import { AiKnowledgeBase, AiKnowledgeBaseBffService, CreateAiKnowledgeBaseRequest } from '../../../shared/generated'
+import {
+  AiKnowledgeBase,
+  AiKnowledgeBaseBffService,
+  CreateAiKnowledgeBaseRequest,
+  UpdateAiKnowledgeBaseRequest
+} from '../../../shared/generated'
 import { AiKnowledgeBaseSearchActions } from './ai-knowledge-base-search.actions'
 import { AiKnowledgeBaseSearchComponent } from './ai-knowledge-base-search.component'
 import { aiKnowledgeBaseSearchCriteriasSchema } from './ai-knowledge-base-search.parameters'
@@ -193,6 +198,64 @@ export class AiKnowledgeBaseSearchEffects {
     )
   })
 
+  editButtonClicked$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AiKnowledgeBaseSearchActions.editButtonClicked),
+      concatLatestFrom(() => this.store.select(aiKnowledgeBaseSearchSelectors.selectResults)),
+      map(([action, results]) => {
+        return results.find((item) => item.id == action.id)
+      }),
+      mergeMap((itemToEdit) => {
+        return this.portalDialogService.openDialog<AiKnowledgeBase | undefined>(
+          'AI_KNOWLEDGE_BASE_CREATE_UPDATE.UPDATE.HEADER',
+          {
+            type: AIKnowledgeBaseCreateUpdateComponent,
+            inputs: {
+              vm: {
+                itemToEdit
+              }
+            }
+          },
+          'AI_KNOWLEDGE_BASE_CREATE_UPDATE.UPDATE.FORM.SAVE',
+          'AI_KNOWLEDGE_BASE_CREATE_UPDATE.UPDATE.FORM.CANCEL',
+          {
+            baseZIndex: 100
+          }
+        )
+      }),
+      switchMap((dialogResult) => {
+        if (!dialogResult || dialogResult.button == 'secondary') {
+          return of(AiKnowledgeBaseSearchActions.editAIKnowledgeBaseCancelled())
+        }
+        if (!dialogResult?.result) {
+          throw new Error('DialogResult was not set as expected!')
+        }
+        const itemToEditId = dialogResult.result.id
+        const itemToEdit = {
+          aIKnowledgeDocumentData: dialogResult.result
+        } as UpdateAiKnowledgeBaseRequest
+        return this.aiKnowledgeBaseService.updateAiKnowledgeBase(itemToEditId, itemToEdit).pipe(
+          map(() => {
+            this.messageService.success({
+              summaryKey: 'AI_KNOWLEDGE_BASE_CREATE_UPDATE.UPDATE.SUCCESS'
+            })
+            return AiKnowledgeBaseSearchActions.editAIKnowledgeBaseSucceeded()
+          })
+        )
+      }),
+      catchError((error) => {
+        this.messageService.error({
+          summaryKey: 'AI_KNOWLEDGE_BASE_CREATE_UPDATE.UPDATE.ERROR'
+        })
+        return of(
+          AiKnowledgeBaseSearchActions.editAIKnowledgeBaseFailed({
+            error
+          })
+        )
+      })
+    )
+  })
+
   searchByUrl$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
@@ -255,7 +318,7 @@ export class AiKnowledgeBaseSearchEffects {
   errorMessages: { action: Action; key: string }[] = [
     {
       action: AiKnowledgeBaseSearchActions.aiKnowledgeBaseSearchResultsLoadingFailed,
-      key: 'AI_KNOWLEDGE_BASE_SEARCH_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
+      key: 'AI_KNOWLEDGE_BASE_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
     }
   ]
 
