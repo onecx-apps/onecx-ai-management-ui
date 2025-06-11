@@ -14,8 +14,12 @@ import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent, HttpParameterCodec, HttpContext 
         }       from '@angular/common/http';
 import { CustomHttpParameterCodec }                          from '../encoder';
-import { Observable, of }                                        from 'rxjs';
+import { Observable }                                        from 'rxjs';
 
+// @ts-ignore
+import { CreateAiKnowledgeBaseRequest } from '../model/createAiKnowledgeBaseRequest';
+// @ts-ignore
+import { CreateAiKnowledgeBaseResponse } from '../model/createAiKnowledgeBaseResponse';
 // @ts-ignore
 import { GetAiKnowledgeBaseByIdResponse } from '../model/getAiKnowledgeBaseByIdResponse';
 // @ts-ignore
@@ -98,6 +102,74 @@ export class AiKnowledgeBaseBffService {
             throw Error("key may not be null if value is not object or array");
         }
         return httpParams;
+    }
+
+    /**
+     * This operation performs a create.
+     * @param createAiKnowledgeBaseRequest 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createAiKnowledgeBase(createAiKnowledgeBaseRequest: CreateAiKnowledgeBaseRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CreateAiKnowledgeBaseResponse>;
+    public createAiKnowledgeBase(createAiKnowledgeBaseRequest: CreateAiKnowledgeBaseRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CreateAiKnowledgeBaseResponse>>;
+    public createAiKnowledgeBase(createAiKnowledgeBaseRequest: CreateAiKnowledgeBaseRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CreateAiKnowledgeBaseResponse>>;
+    public createAiKnowledgeBase(createAiKnowledgeBaseRequest: CreateAiKnowledgeBaseRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (createAiKnowledgeBaseRequest === null || createAiKnowledgeBaseRequest === undefined) {
+            throw new Error('Required parameter createAiKnowledgeBaseRequest was null or undefined when calling createAiKnowledgeBase.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/aiKnowledgeBase`;
+        return this.httpClient.request<CreateAiKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: createAiKnowledgeBaseRequest,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**
@@ -202,7 +274,6 @@ export class AiKnowledgeBaseBffService {
         }
 
         let localVarPath = `/aiKnowledgeBase/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-       
         return this.httpClient.request<GetAiKnowledgeBaseByIdResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -267,7 +338,6 @@ export class AiKnowledgeBaseBffService {
         }
 
         let localVarPath = `/aiKnowledgeBase/search`;
-
         return this.httpClient.request<SearchAiKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

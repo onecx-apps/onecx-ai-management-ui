@@ -19,10 +19,11 @@ import { AiKnowledgeBaseSearchComponent } from './pages/ai-knowledge-base-search
 import { AiKnowledgeBaseSearchEffects } from './pages/ai-knowledge-base-search/ai-knowledge-base-search.effects'
 import { AiKnowledgeBaseDetailsComponent } from './pages/ai-knowledge-base-details/ai-knowledge-base-details.component'
 import { AiKnowledgeBaseDetailsEffects } from './pages/ai-knowledge-base-details/ai-knowledge-base-details.effects'
+import { AIKnowledgeBaseCreateUpdateComponent } from './pages/ai-knowledge-base-search/dialogs/aiknowledge-base-create-update/aiknowledge-base-create-update.component'
 
 @NgModule({
   providers: [providePortalDialogService()],
-  declarations: [AiKnowledgeBaseDetailsComponent, AiKnowledgeBaseSearchComponent],
+  declarations: [AIKnowledgeBaseCreateUpdateComponent, AiKnowledgeBaseDetailsComponent, AiKnowledgeBaseSearchComponent],
   imports: [
     CommonModule,
     SharedModule,

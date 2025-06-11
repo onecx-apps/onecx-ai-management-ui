@@ -28,6 +28,8 @@ model/aiKnowledgeBase.ts
 model/createAIKnowledgeDocument.ts
 model/createAIKnowledgeVectorDb.ts
 model/createAIProvider.ts
+model/createAiKnowledgeBaseRequest.ts
+model/createAiKnowledgeBaseResponse.ts
 model/getAIKnowledgeDocumentByIdResponse.ts
 model/getAIKnowledgeVectorDbByIdResponse.ts
 model/getAIProviderByIdResponse.ts

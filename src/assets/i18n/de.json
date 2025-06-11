@@ -49,6 +49,7 @@
       "SUM": "Gesamtanzahl"
     },
     "HEADER_ACTIONS": {
+      "CREATE_BASE": "Neu",
       "EXPORT_ALL": "Alles exportieren",
       "SHOW_CHART": "Diagramm anzeigen",
       "HIDE_CHART": "Diagramm ausblenden",
@@ -79,6 +80,35 @@
       "FULL": "Vollständig"
     }
   },
+  "AI_KNOWLEDGE_BASE_CREATE_UPDATE": {
+    "ACTION": {
+      "CREATE": "Erstellen"
+    },
+    "CREATE": {
+      "HEADER": "Neues AI Knowledge Base erstellen",
+      "SUCCESS": "Erstellung erfolgreich",
+      "ERROR": "Erstellung fehlgeschlagen",
+      "FORM": {
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
+      }
+    },
+    "UPDATE": {
+      "SUCCESS": "Aktualisierung erfolgreich",
+      "FAILED": "Aktualisierung erfolglos",
+      "ERROR": "Aktualisierung fehlgeschlagen",
+      "FORM": {
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
+      },
+      "HEADER": "AI Knowledge Base bearbeiten"
+    },
+    "FORM": {
+      "NAME": "Name",
+      "DESCRIPTION": "Beschreibung",
+      "APPID": "App Id"
+    }
+  },
   "AI_PROVIDER_DELETE": {
     "HEADER": "AIProvider löschen",
     "MESSAGE": "Bitte bestätigen, dass diese AIProvider gelöscht werden soll.",
@@ -96,8 +126,8 @@
       "SUCCESS": "Erstellung erfolgreich",
       "ERROR": "Erstellung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       }
     },
     "UPDATE": {
@@ -105,8 +135,8 @@
       "FAILED": "ACTION: Add Translation",
       "ERROR": "Aktualisierung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       },
       "HEADER": "AIProvider bearbeiten"
     },
@@ -128,14 +158,14 @@
       "BACK": "Back",
       "EDIT": "Edit",
       "DELETE": "Delete",
-      "SAVE": "Save",
-      "CANCEL": "Cancel"
+      "SAVE": "Speichern",
+      "CANCEL": "Abbrechen"
     },
     "FORM": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "Modelname",
+      "MODELNAME": "ModelName",
       "MODELVERSION": "Modelversion",
       "APPID": "App Id",
       "APIKEY": "API Key"
@@ -169,15 +199,15 @@
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "Modelname",
+      "MODELNAME": "ModelName",
       "MODELVERSION": "Modelversion",
       "APPID": "App Id"
     },
     "COLUMNS": {
       "NAME": "Name",
-      "DESCRIPTION": "Description",
+      "DESCRIPTION": "Beschreibung",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "Modelname",
+      "MODELNAME": "ModelName",
       "MODELVERSION": "Modelversion",
       "APPID": "App Id"
     },
@@ -204,8 +234,8 @@
       "SUCCESS": "Erstellung erfolgreich",
       "ERROR": "Erstellung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       }
     },
     "UPDATE": {
@@ -213,8 +243,8 @@
       "FAILED": "ACTION: Add Translation",
       "ERROR": "Aktualisierung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       },
       "HEADER": "AIKnowledgeVectorDb bearbeiten"
     },
@@ -306,8 +336,8 @@
       "SUCCESS": "Erstellung erfolgreich",
       "ERROR": "Erstellung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       }
     },
     "UPDATE": {
@@ -315,8 +345,8 @@
       "FAILED": "ACTION: Add Translation",
       "ERROR": "Aktualisierung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       },
       "HEADER": "AIKnowledgeDocument bearbeiten"
     },

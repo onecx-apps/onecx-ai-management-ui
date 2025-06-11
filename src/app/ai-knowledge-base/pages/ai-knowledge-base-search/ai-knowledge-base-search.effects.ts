@@ -13,8 +13,9 @@ import {
 } from '@onecx/portal-integration-angular'
 import equal from 'fast-deep-equal'
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs'
+import { PrimeIcons } from 'primeng/api'
 import { selectUrl } from 'src/app/shared/selectors/router.selectors'
-import { AiKnowledgeBase, AiKnowledgeBaseBffService } from '../../../shared/generated'
+import { AiKnowledgeBase, AiKnowledgeBaseBffService, CreateAiKnowledgeBaseRequest } from '../../../shared/generated'
 import { AiKnowledgeBaseSearchActions } from './ai-knowledge-base-search.actions'
 import { AiKnowledgeBaseSearchComponent } from './ai-knowledge-base-search.component'
 import { aiKnowledgeBaseSearchCriteriasSchema } from './ai-knowledge-base-search.parameters'
@@ -22,7 +23,7 @@ import {
   aiKnowledgeBaseSearchSelectors,
   selectAiKnowledgeBaseSearchViewModel
 } from './ai-knowledge-base-search.selectors'
-import { PrimeIcons } from 'primeng/api'
+import { AIKnowledgeBaseCreateUpdateComponent } from './dialogs/aiknowledge-base-create-update/aiknowledge-base-create-update.component'
 
 @Injectable()
 export class AiKnowledgeBaseSearchEffects {
@@ -133,6 +134,59 @@ export class AiKnowledgeBaseSearchEffects {
                 error
               })
             )
+          })
+        )
+      })
+    )
+  })
+
+  createButtonClicked$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AiKnowledgeBaseSearchActions.createButtonClicked),
+      switchMap(() => {
+        return this.portalDialogService.openDialog<AiKnowledgeBase | undefined>(
+          'AI_KNOWLEDGE_BASE_CREATE_UPDATE.CREATE.HEADER',
+          {
+            type: AIKnowledgeBaseCreateUpdateComponent,
+            inputs: {
+              vm: {
+                itemToEdit: {}
+              }
+            }
+          },
+          'AI_KNOWLEDGE_BASE_CREATE_UPDATE.CREATE.FORM.SAVE',
+          'AI_KNOWLEDGE_BASE_CREATE_UPDATE.CREATE.FORM.CANCEL',
+          {
+            baseZIndex: 100
+          }
+        )
+      }),
+      switchMap((dialogResult) => {
+        if (!dialogResult || dialogResult.button == 'secondary') {
+          return of(AiKnowledgeBaseSearchActions.createAIKnowledgeBaseCancelled())
+        }
+        if (!dialogResult?.result) {
+          throw new Error('DialogResult was not set as expected!')
+        }
+        const toCreateItem = {
+          aIKnowledgeDocumentData: dialogResult.result
+        } as CreateAiKnowledgeBaseRequest
+        return this.aiKnowledgeBaseService.createAiKnowledgeBase(toCreateItem).pipe(
+          map(() => {
+            this.messageService.success({
+              summaryKey: 'AI_KNOWLEDGE_BASE_CREATE_UPDATE.CREATE.SUCCESS'
+            })
+            return AiKnowledgeBaseSearchActions.createAIKnowledgeBaseSucceeded()
+          })
+        )
+      }),
+      catchError((error) => {
+        this.messageService.error({
+          summaryKey: 'AI_KNOWLEDGE_BASE_CREATE_UPDATE.CREATE.ERROR'
+        })
+        return of(
+          AiKnowledgeBaseSearchActions.createAIKnowledgeBaseFailed({
+            error
           })
         )
       })

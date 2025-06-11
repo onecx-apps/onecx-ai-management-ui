@@ -10,6 +10,7 @@
     (resetted)="resetSearch()"
     [manualBreadcrumbs]="true"
     [actions]="(headerActions$ | async) ?? []"
+    
     (componentStateChanged)="searchHeaderComponentStateChanged($event)"
     [viewMode]="vm.searchHeaderComponentState?.activeViewMode ?? 'basic'"
   >
@@ -64,6 +65,8 @@
         viewPermission="AI_KNOWLEDGE_BASE#VIEW"
         (deleteItem)="delete($event)"
         deletePermission="AI_KNOWLEDGE_BASE#DELETE"
+
+        
         [data]="vm.results"
         [columns]="vm.columns"
         [emptyResultsMessage]="

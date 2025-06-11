@@ -16,6 +16,8 @@ export * from './aiKnowledgeBase';
 export * from './createAIKnowledgeDocument';
 export * from './createAIKnowledgeVectorDb';
 export * from './createAIProvider';
+export * from './createAiKnowledgeBaseRequest';
+export * from './createAiKnowledgeBaseResponse';
 export * from './getAIKnowledgeDocumentByIdResponse';
 export * from './getAIKnowledgeVectorDbByIdResponse';
 export * from './getAIProviderByIdResponse';

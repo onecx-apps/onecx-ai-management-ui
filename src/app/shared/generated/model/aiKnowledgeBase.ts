@@ -16,6 +16,6 @@ export interface AiKnowledgeBase {
     id: string;
     name?: string;
     description?: string;
-    contexts?: AIContext[];
+    contexts?: AIContext[]
 }
 

@@ -54,6 +54,7 @@
       "SUM": "Total"
     },
     "HEADER_ACTIONS": {
+      "CREATE_BASE": "Create",
       "EXPORT_ALL": "Export all",
       "SHOW_CHART": "Show chart",
       "HIDE_CHART": "Hide chart",
@@ -82,6 +83,35 @@
       "DEFAULT": "Default",
       "EXTENDED": "Extended",
       "FULL": "Full"
+    }
+  },
+  "AI_KNOWLEDGE_BASE_CREATE_UPDATE": {
+    "ACTION": {
+      "CREATE": "Create"
+    },
+    "CREATE": {
+      "HEADER": "Create AI Knowledge Base",
+      "SUCCESS": "Creation succesful",
+      "ERROR": "Creation failed",
+      "FORM": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      }
+    },
+    "UPDATE": {
+      "SUCCESS": "Update successful",
+      "FAILED": "Update unsuccessful",
+      "ERROR": "Update failed",
+      "FORM": {
+        "SAVE": "Save",
+        "CANCEL": "Cancel"
+      },
+      "HEADER": "Update AI Knowledge Base"
+    },
+    "FORM": {
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "APPID": "App Id"
     }
   },
   "AI_PROVIDER_DELETE": {

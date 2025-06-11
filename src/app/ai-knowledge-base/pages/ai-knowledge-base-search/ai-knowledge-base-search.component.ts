@@ -59,6 +59,13 @@ export class AiKnowledgeBaseSearchComponent implements OnInit {
     map((vm) => {
       const actions: Action[] = [
         {
+          labelKey: 'AI_KNOWLEDGE_BASE_SEARCH.HEADER_ACTIONS.CREATE_BASE',
+          icon: PrimeIcons.PLUS,
+          titleKey: 'AI_KNOWLEDGE_BASE_SEARCH.HEADER_ACTIONS.CREATE_BASE',
+          show: 'always',
+          actionCallback: () => this.createAiKnowledgeBase({ id: 1, imagePath: '' })
+        },
+        {
           labelKey: 'AI_KNOWLEDGE_BASE_SEARCH.HEADER_ACTIONS.EXPORT_ALL',
           icon: PrimeIcons.DOWNLOAD,
           titleKey: 'AI_KNOWLEDGE_BASE_SEARCH.HEADER_ACTIONS.EXPORT_ALL',
@@ -131,6 +138,10 @@ export class AiKnowledgeBaseSearchComponent implements OnInit {
 
   details({ id }: RowListGridData) {
     this.store.dispatch(AiKnowledgeBaseSearchActions.detailsButtonClicked({ id }))
+  }
+
+  createAiKnowledgeBase({ id }: RowListGridData) {
+    this.store.dispatch(AiKnowledgeBaseSearchActions.createButtonClicked({ id }))
   }
 
   delete({ id }: RowListGridData) {
