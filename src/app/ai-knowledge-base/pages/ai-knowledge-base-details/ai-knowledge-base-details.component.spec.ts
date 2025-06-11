@@ -139,7 +139,7 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
     expect(backAction).toBeTruthy()
 
     const moreAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.ELLIPSIS_V)
-    expect(moreAction).toBeTruthy()
+    expect(moreAction).toBeNull()
   })
 
   it('should dispatch navigateBackButtonClicked action on back button click', async () => {

@@ -137,7 +137,6 @@ export class AiKnowledgeBaseBffService {
             localVarHttpContext = new HttpContext();
         }
 
-
         // to determine the Content-Type header
         const consumes: string[] = [
             'application/json'
