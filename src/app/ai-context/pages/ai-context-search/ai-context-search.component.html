@@ -55,8 +55,6 @@
           </span>
         </div>
       </div>
-      <!-- // DONE: ACTION S3: Specify here your desired search criterias:
-      https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/configure-search-criteria.html#action-3 -->
     </form>
   </ocx-search-header>
   <ocx-content-container layout="horizontal">
@@ -73,10 +71,9 @@
         [emptyResultsMessage]="
           'AI_CONTEXT_SEARCH.EMPTY_RESULTS' | translate
         "
-        (componentStateChanged)="resultComponentStateChanged($event)"
-        [layout]="vm.resultComponentState?.layout ?? 'list'"
+        [layout]="vm.resultComponentState?.layout ?? 'table'"
         [displayedColumns]="vm.resultComponentState?.displayedColumns ?? []"
-        [supportedViewLayouts]="['list', 'table']"
+        [supportedViewLayouts]="['table']"
         [page]="vm.resultComponentState?.activePage ?? 0"
         [pageSize]="vm.resultComponentState?.pageSize"
         [filters]="vm.resultComponentState?.filters ?? []"

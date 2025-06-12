@@ -19,7 +19,13 @@
       "ID": "ID",
       "APPID": "App Id",
       "NAME": "Name",
-      "DESCRIPTION": "Beschreibung"
+      "DESCRIPTION": "Beschreibung",
+      "AI_KNOWLEDGE_BASE": "AIKnowledgeBase",
+      "AIProvider": "AIProvider",
+      "AI_KNOWLEDGE_VECTOR_DB": "AIKnowledgeVectorDb",
+      "AI_KNOWLEDGE_URLS": "AIKnowledgeURLs",
+      "AI_KNOWLEDGE_DBS": "AIKnowledgeDatabases",
+      "AI_KNOWLEDGE_DOCUMENTS": "AIKnowledgeDocuments"
     },
     "CANCEL": {
       "HEADER": "Abbruch bestätigen",
@@ -37,6 +43,13 @@
       "CANCEL": "Abbrechen",
       "SUCCESS": "AiContext erfolgreich gelöscht",
       "ERROR": "Konnte AiContext nicht löschen"
+    },
+    "TABLE": {
+      "NAME": "Name",
+      "DESCRIPTION": "Beschreibung",
+      "URL": "URL",
+      "AI_KNOWLEDGE_DB": "AIKnowledgeDatabase",
+      "STATUS": "Status"
     }
   },
   "AI_CONTEXT_SEARCH": {

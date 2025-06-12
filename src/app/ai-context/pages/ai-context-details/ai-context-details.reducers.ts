@@ -14,12 +14,15 @@ export const aiContextDetailsReducer = createReducer(
   initialState,
   on(
     AiContextDetailsActions.aiContextDetailsReceived,
-    (state: AiContextDetailsState, { details }): AiContextDetailsState => ({
-      ...state,
-      details,
-      detailsLoadingIndicator: false,
-      detailsLoaded: true
-    })
+    (state: AiContextDetailsState, { details }): AiContextDetailsState => {
+      console.log('aiContextDetailsReceived', details)
+      return {
+        ...state,
+        details,
+        detailsLoadingIndicator: false,
+        detailsLoaded: true
+      }
+    }
   ),
   on(
     AiContextDetailsActions.aiContextDetailsLoadingFailed,

@@ -8,6 +8,14 @@ import { PrimeIcons } from 'primeng/api'
 import { AiContextDetailsActions } from './ai-context-details.actions'
 import { AiContextDetailsViewModel } from './ai-context-details.viewmodel'
 import { selectAiContextDetailsViewModel } from './ai-context-details.selectors'
+import {
+  AIKnowledgeBase,
+  AIKnowledgeDatabase,
+  AIKnowledgeDocument,
+  AIKnowledgeUrl,
+  AIKnowledgeVectorDb,
+  AIProvider
+} from 'src/app/shared/generated'
 
 @Component({
   selector: 'app-ai-context-details',
@@ -18,73 +26,26 @@ export class AiContextDetailsComponent implements OnInit {
   viewModel$: Observable<AiContextDetailsViewModel> = this.store.select(selectAiContextDetailsViewModel)
 
   headerLabels$: Observable<ObjectDetailItem[]> = this.viewModel$.pipe(
-    map((vm) => {
-      const labels: ObjectDetailItem[] = [
-        {
-          label: 'App ID',
-          value: vm.details?.appId || ''
-        },
-        {
-          label: 'Name',
-          value: vm.details?.name || ''
-        },
-        {
-          label: 'Description',
-          value: vm.details?.description || ''
-        }
-      ]
+    map(() => {
+      const labels: ObjectDetailItem[] = []
       return labels
     })
   )
 
-  headerActions$!: Observable<Action[]>
-
-  public formGroup: FormGroup
-
-  constructor(
-    private store: Store,
-    private breadcrumbService: BreadcrumbService
-  ) {
-    this.formGroup = new FormGroup({
-      id: new FormControl(null, [Validators.maxLength(255)])
-    })
-    this.formGroup.disable()
-
-    this.viewModel$.subscribe((vm) => {
-      if (!vm.editMode) {
-        this.formGroup.setValue({
-          id: vm.details?.id
-        })
-        this.formGroup.markAsPristine()
-      }
-
-      if (vm.editMode) {
-        this.formGroup.enable()
-      } else {
-        this.formGroup.disable()
-      }
-    })
-  }
-
-  ngOnInit(): void {
-    this.breadcrumbService.setItems([
-      {
-        titleKey: 'AI_CONTEXT_DETAILS.BREADCRUMB',
-        labelKey: 'AI_CONTEXT_DETAILS.BREADCRUMB',
-        routerLink: '/ai-context'
-      }
-    ])
-
-    this.headerActions$ = this.viewModel$.pipe(
+  headerActions$: Observable<Action[]> = this.viewModel$.pipe(
     map((vm) => {
       const actions: Action[] = [
         {
           titleKey: 'AI_CONTEXT_DETAILS.GENERAL.BACK',
           labelKey: 'AI_CONTEXT_DETAILS.GENERAL.BACK',
           show: 'always',
+          disabled: !vm.backNavigationPossible,
+          icon: PrimeIcons.ARROW_LEFT,
+          // permission: 'AI_KNOWLEDGE_BASE#BACK',
+          showCondition: !vm.editMode,
           actionCallback: () => {
+            // this.store.dispatch(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked())
             window.history.back()
-            // this.store.dispatch(AiContextDetailsActions.navigateBackButtonClicked())
           }
         },
         {
@@ -133,20 +94,83 @@ export class AiContextDetailsComponent implements OnInit {
           actionCallback: () => {
             this.delete()
           }
-        },
-        {
-          titleKey: 'AI_CONTEXT_DETAILS.GENERAL.MORE',
-          icon: PrimeIcons.ELLIPSIS_V,
-          show: 'always',
-          btnClass: '',
-          actionCallback: () => {
-            // TODO: add callback
-          }
         }
       ]
       return actions
     })
   )
+
+  public formGroup: FormGroup
+
+  constructor(
+    private store: Store,
+    private breadcrumbService: BreadcrumbService
+  ) {
+    this.formGroup = new FormGroup({
+      id: new FormControl(null, [Validators.maxLength(255)]),
+      appId: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
+      description: new FormControl(''),
+      knowledgeBase: new FormControl(null),
+      provider: new FormControl(null),
+      aiKnowledgeVectorDb: new FormControl(null),
+      aiKnowledgeUrls: new FormControl([]),
+      aiKnowledgeDbs: new FormControl([]),
+      aiKnowledgeDocuments: new FormControl([])
+    })
+    this.formGroup.disable()
+
+    this.viewModel$.subscribe((vm) => {
+      if (!vm.editMode) {
+        this.formGroup.setValue({
+          appId: vm.details?.appId,
+          name: vm.details?.name,
+          description: vm.details?.description
+        })
+        this.formGroup.markAsPristine()
+      }
+      if (vm.editMode) {
+        this.formGroup.enable()
+      } else {
+        this.formGroup.disable()
+      }
+    })
+  }
+
+  ngOnInit(): void {
+    this.breadcrumbService.setItems([
+      {
+        titleKey: 'AI_CONTEXT_DETAILS.BREADCRUMB',
+        labelKey: 'AI_CONTEXT_DETAILS.BREADCRUMB',
+        routerLink: '/ai-context'
+      }
+    ])
+  }
+
+  knowledgeBases: AIKnowledgeBase[] = []
+  providers: AIProvider[] = []
+  vectorDbs: AIKnowledgeVectorDb[] = []
+  knowledgeUrls: AIKnowledgeUrl[] = []
+  knowledgeDbs: AIKnowledgeDatabase[] = []
+  documents: AIKnowledgeDocument[] = []
+
+  selectedKnowledgeUrls: AIKnowledgeUrl[] = []
+  selectedKnowledgeDbs: AIKnowledgeDatabase[] = []
+  selectedDocuments: AIKnowledgeDocument[] = []
+
+  onKnowledgeUrlsSelection(event: { value: AIKnowledgeUrl[] }) {
+    this.selectedKnowledgeUrls = event.value
+    this.formGroup.patchValue({ aiKnowledgeUrls: this.selectedKnowledgeUrls })
+  }
+
+  onKnowledgeDbsSelection(event: { value: AIKnowledgeDatabase[] }) {
+    this.selectedKnowledgeDbs = event.value
+    this.formGroup.patchValue({ aiKnowledgeDbs: this.selectedKnowledgeDbs })
+  }
+
+  onDocumentsSelection(event: { value: AIKnowledgeDocument[] }) {
+    this.selectedDocuments = event.value
+    this.formGroup.patchValue({ aiKnowledgeDocuments: this.selectedDocuments })
   }
 
   edit() {
