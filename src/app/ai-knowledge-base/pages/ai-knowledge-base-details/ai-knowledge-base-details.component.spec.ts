@@ -3,7 +3,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { ActivatedRoute } from '@angular/router'
 import { LetDirective } from '@ngrx/component'
-// import { ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
@@ -11,14 +10,12 @@ import { BreadcrumbService, PortalCoreModule, UserService } from '@onecx/portal-
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { PrimeIcons } from 'primeng/api'
 import { of } from 'rxjs'
-// import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actions'
 import { AiKnowledgeBaseDetailsComponent } from './ai-knowledge-base-details.component'
 import { AiKnowledgeBaseDetailsHarness } from './ai-knowledge-base-details.harness'
 import { initialState } from './ai-knowledge-base-details.reducers'
 import { selectAiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.selectors'
 import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.viewmodel'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-// import { ofType } from '@ngrx/effects'
 
 describe('AiKnowledgeBaseDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -142,6 +139,7 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
     expect(moreAction).toBeNull()
   })
 
+  // Test for the button, whichs selector doesn't work ( look in selectors file )
   // it('should dispatch navigateBackButtonClicked action on back button click', async () => {
   //   jest.spyOn(window.history, 'back')
   //   const doneFn = jest.fn()

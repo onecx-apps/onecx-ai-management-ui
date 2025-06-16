@@ -221,6 +221,7 @@ export class AiKnowledgeBaseDetailsEffects {
     { dispatch: false }
   )
 
+  // This functionality doesn't work currently, after implementing go back selector i get a lot of undefined errors
   // navigateBack$ = createEffect(() => {
   //   return this.actions$.pipe(
   //     ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked),

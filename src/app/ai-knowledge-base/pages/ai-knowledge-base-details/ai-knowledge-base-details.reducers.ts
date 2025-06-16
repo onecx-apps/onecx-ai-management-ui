@@ -14,12 +14,15 @@ export const aiKnowledgeBaseDetailsReducer = createReducer(
   initialState,
   on(
     AiKnowledgeBaseDetailsActions.aiKnowledgeBaseDetailsReceived,
-    (state: AiKnowledgeBaseDetailsState, { details }): AiKnowledgeBaseDetailsState => ({
-      ...state,
-      details,
-      detailsLoadingIndicator: false,
-      detailsLoaded: true
-    })
+    (state: AiKnowledgeBaseDetailsState, { details }): AiKnowledgeBaseDetailsState => {
+      console.log('aiKnowledgeBaseDetailsReducer: ', details)
+      return {
+        ...state,
+        details,
+        detailsLoadingIndicator: false,
+        detailsLoaded: true
+      }
+    }
   ),
   on(
     AiKnowledgeBaseDetailsActions.aiKnowledgeBaseDetailsLoadingFailed,

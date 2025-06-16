@@ -165,7 +165,7 @@
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "ModelName",
+      "MODELNAME": "Modelname",
       "MODELVERSION": "Modelversion",
       "APPID": "App Id",
       "APIKEY": "API Key"
@@ -199,7 +199,7 @@
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "ModelName",
+      "MODELNAME": "Modelname",
       "MODELVERSION": "Modelversion",
       "APPID": "App Id"
     },
@@ -207,7 +207,7 @@
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "ModelName",
+      "MODELNAME": "Modelname",
       "MODELVERSION": "Modelversion",
       "APPID": "App Id"
     },

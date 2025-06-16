@@ -21,9 +21,7 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
 
   headerLabels$: Observable<ObjectDetailItem[]> = this.viewModel$.pipe(
     map(() => {
-      const labels: ObjectDetailItem[] = [
-        //ACTION D1: Add header values here
-      ]
+      const labels: ObjectDetailItem[] = []
       return labels
     })
   )
@@ -37,10 +35,9 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
           show: 'always',
           disabled: !vm.backNavigationPossible,
           icon: PrimeIcons.ARROW_LEFT,
-          // permission: 'AI_KNOWLEDGE_BASE#BACK',
+          permission: 'AI_KNOWLEDGE_BASE#BACK',
           showCondition: !vm.editMode,
           actionCallback: () => {
-            // this.store.dispatch(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked())
             window.history.back()
           }
         },
@@ -90,15 +87,6 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
           actionCallback: () => {
             this.delete()
           }
-        },
-        {
-          titleKey: 'AI_KNOWLEDGE_BASE_DETAILS.GENERAL.MORE',
-          icon: PrimeIcons.ELLIPSIS_V,
-          show: undefined,
-          btnClass: '',
-          actionCallback: () => {
-            // TODO: add callback
-          }
         }
       ]
       return actions
@@ -110,7 +98,7 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
     private breadcrumbService: BreadcrumbService
   ) {
     this.formGroup = new FormGroup({
-      id: new FormControl(null, [Validators.maxLength(255)]),
+      id: new FormControl('', [Validators.maxLength(255)]),
       name: new FormControl('', [Validators.maxLength(255)]),
       description: new FormControl('', [Validators.maxLength(255)]),
       contexts: new FormControl([], [Validators.maxLength(255)])
@@ -118,12 +106,19 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
     this.formGroup.disable()
 
     this.viewModel$.subscribe((vm) => {
+      console.log('View Model Observable: ', {
+        id: vm.details?.id,
+        name: vm.details?.name,
+        description: vm.details?.description,
+        contexts: vm.details?.contexts ?? []
+      })
+
       if (!vm.editMode) {
         this.formGroup.setValue({
           id: vm.details?.id,
           name: vm.details?.name,
           description: vm.details?.description,
-          contexts: vm.details?.contexts
+          contexts: vm.details?.contexts ?? []
         })
         this.formGroup.markAsPristine()
       }

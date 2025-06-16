@@ -7,9 +7,7 @@ import { initialState } from './ai-knowledge-base-details.reducers'
 import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.viewmodel'
 
 // Taking original from accelerator create a lot of errors,it just doesn't see some variables apparently
-function selectBackNavigationPossible(state: Record<string, any>): boolean {
-  console.log('state: ', state)
-  // throw new Error('Function not implemented.')
+function selectBackNavigationPossible(): boolean {
   return true
 }
 

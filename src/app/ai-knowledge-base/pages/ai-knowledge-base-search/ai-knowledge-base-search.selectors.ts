@@ -13,8 +13,6 @@ export const selectResults = createSelector(
     return results.map((item) => ({
       imagePath: '',
       ...item
-      // ACTION S7: Create a mapping of the items and their corresponding translation keys
-      // https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/configure-search-results.html#action-7
     }))
   }
 )

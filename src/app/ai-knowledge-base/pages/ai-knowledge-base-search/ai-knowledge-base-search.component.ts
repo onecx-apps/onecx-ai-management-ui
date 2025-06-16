@@ -48,13 +48,9 @@ export class AiKnowledgeBaseSearchComponent implements OnInit {
     ])
     this.viewModel$.subscribe((vm) => this.aiKnowledgeBaseSearchFormGroup.patchValue(vm.searchCriteria))
   }
-
   viewModel$: Observable<AiKnowledgeBaseSearchViewModel> = this.store.select(selectAiKnowledgeBaseSearchViewModel)
-
   defaultDataSortDirection = DataSortDirection.NONE
   defaultDiagramType = DiagramType.PIE
-
-  // ACTION S10: Update header actions: https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/update-header-actions.html#action-10
   headerActions$: Observable<Action[]> = this.viewModel$.pipe(
     map((vm) => {
       const actions: Action[] = [
@@ -87,8 +83,6 @@ export class AiKnowledgeBaseSearchComponent implements OnInit {
       return actions
     })
   )
-
-  // ACTION S9: Select the column to be displayed in the diagram: https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/configure-result-diagram.html#action-3
   diagramColumnId = 'id'
   diagramColumn$ = this.viewModel$.pipe(
     map((vm) => vm.columns.find((e) => e.id === this.diagramColumnId) as DataTableColumn)

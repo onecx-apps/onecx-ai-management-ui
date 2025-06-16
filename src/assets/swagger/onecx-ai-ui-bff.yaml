@@ -593,7 +593,7 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: AIContext
+          $ref: '#/components/schemas/AIContext'
     SearchAIKnowledgeVectorDbRequest:
       type: object
       properties:
@@ -692,7 +692,7 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: AIContext
+          $ref: '#/components/schemas/AIContext'
     AIKnowledgeVectorDbUpdateResponse:
       type: object
       properties:
@@ -706,7 +706,7 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: AIContext
+          $ref: '#/components/schemas/AIContext'
     AIContext:
       type: object
       properties:
@@ -894,13 +894,13 @@ components:
       properties:
         dataObject:
           type: object
-          $ref: AIProvider
+          $ref: '#/components/schemas/AIProvider'
     UpdateAIProvider:
       type: object
       properties:
         dataObject:
           type: object
-          $ref: AIProvider
+          $ref: '#/components/schemas/AIProvider'
     AIProviderCreateResponse:
       type: object
       properties:
