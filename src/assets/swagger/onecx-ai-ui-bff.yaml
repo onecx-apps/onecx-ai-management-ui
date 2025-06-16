@@ -571,6 +571,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
+
+
+
+
 components:
   schemas:
     AIKnowledgeVectorDb:
@@ -1026,7 +1030,6 @@ components:
         dataObject:
           type: object
           $ref: '#/components/schemas/AiKnowledgeBase'
-        # "ACTION DE1: modify data object or use flat list here. https://onecx.github.io/docs/nx-plugins/current/general/getting_started/create-update/extend-form-fields.html#action-1"
     GetAiKnowledgeBaseByIdResponse:
       type: object
       required:
