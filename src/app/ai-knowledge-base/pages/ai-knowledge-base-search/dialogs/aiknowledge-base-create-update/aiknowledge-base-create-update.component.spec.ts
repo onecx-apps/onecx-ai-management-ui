@@ -37,9 +37,7 @@ describe('AIKnowledgeBaseCreateUpdateComponent', () => {
         LetDirective,
         TranslateTestingModule.withTranslations(
           'en',
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
           require('./../../../../../../assets/i18n/en.json')
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
         ).withTranslations('de', require('./../../../../../../assets/i18n/de.json')),
         HttpClientTestingModule
       ],
