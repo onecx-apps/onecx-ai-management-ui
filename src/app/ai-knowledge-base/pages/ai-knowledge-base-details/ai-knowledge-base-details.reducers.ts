@@ -6,6 +6,9 @@ export const initialState: AiKnowledgeBaseDetailsState = {
   details: { id: '', name: '', description: '', contexts: [], modificationCount: 0 },
   detailsLoadingIndicator: true,
   detailsLoaded: false,
+  contexts: [],
+  contextsLoadingIndicator: true,
+  contextsLoaded: false,
   editMode: false,
   isSubmitting: false
 }
@@ -14,15 +17,12 @@ export const aiKnowledgeBaseDetailsReducer = createReducer(
   initialState,
   on(
     AiKnowledgeBaseDetailsActions.aiKnowledgeBaseDetailsReceived,
-    (state: AiKnowledgeBaseDetailsState, { details }): AiKnowledgeBaseDetailsState => {
-      console.log('aiKnowledgeBaseDetailsReducer: ', details)
-      return {
-        ...state,
-        details,
-        detailsLoadingIndicator: false,
-        detailsLoaded: true
-      }
-    }
+    (state: AiKnowledgeBaseDetailsState, { details }): AiKnowledgeBaseDetailsState => ({
+      ...state,
+      details,
+      detailsLoadingIndicator: false,
+      detailsLoaded: true
+    })
   ),
   on(
     AiKnowledgeBaseDetailsActions.aiKnowledgeBaseDetailsLoadingFailed,
@@ -31,6 +31,27 @@ export const aiKnowledgeBaseDetailsReducer = createReducer(
       details: initialState.details,
       detailsLoadingIndicator: false,
       detailsLoaded: false
+    })
+  ),
+  on(
+    AiKnowledgeBaseDetailsActions.aiKnowledgeBaseContextsReceived,
+    (state: AiKnowledgeBaseDetailsState, { contexts }): AiKnowledgeBaseDetailsState => {
+      console.log('aiKnowledgeBaseDetailsReducer - contexts: ', contexts)
+      return {
+        ...state,
+        contexts,
+        contextsLoadingIndicator: false,
+        contextsLoaded: true
+      }
+    }
+  ),
+  on(
+    AiKnowledgeBaseDetailsActions.aiKnowledgeBaseContextsLoadingFailed,
+    (state: AiKnowledgeBaseDetailsState): AiKnowledgeBaseDetailsState => ({
+      ...state,
+      contexts: initialState.contexts,
+      contextsLoadingIndicator: false,
+      contextsLoaded: false
     })
   ),
   on(

@@ -13,12 +13,15 @@ import { AiKnowledgeBase, AiKnowledgeBaseBffService, UpdateAiKnowledgeBaseReques
 import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actions'
 import { AiKnowledgeBaseDetailsComponent } from './ai-knowledge-base-details.component'
 import { aiKnowledgeBaseDetailsSelectors } from './ai-knowledge-base-details.selectors'
+import { SearchAIContextRequest } from 'src/app/shared/generated/model/searchAIContextRequest'
+import { AIContextBffService } from 'src/app/shared/generated/api/aIContextBffService.service'
 
 @Injectable()
 export class AiKnowledgeBaseDetailsEffects {
   constructor(
     private actions$: Actions,
     private aiKnowledgeBaseService: AiKnowledgeBaseBffService,
+    private aiContextService: AIContextBffService,
     private router: Router,
     private store: Store,
     private messageService: PortalMessageService,
@@ -57,6 +60,32 @@ export class AiKnowledgeBaseDetailsEffects {
           )
         )
       )
+    )
+  })
+
+  loadContextsById$ = createEffect(() => {
+    return this.actions$.pipe(
+      // tap((action) => console.log('Action dispatched:', action)),
+      ofType(AiKnowledgeBaseDetailsActions.navigatedToDetailsPage),
+      switchMap(({ id }) => {
+        // Fetching all available contexts
+        console.log('loading contexts: ', id)
+        const fetchAllReq: SearchAIContextRequest = { id: undefined, appId: '', name: '', description: '' }
+        return this.aiContextService.searchAIContexts(fetchAllReq).pipe(
+          map(({ stream }) =>
+            AiKnowledgeBaseDetailsActions.aiKnowledgeBaseContextsReceived({
+              contexts: stream
+            })
+          ),
+          catchError((error) =>
+            of(
+              AiKnowledgeBaseDetailsActions.aiKnowledgeBaseContextsLoadingFailed({
+                error
+              })
+            )
+          )
+        )
+      })
     )
   })
 

@@ -106,7 +106,7 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
     this.formGroup.disable()
 
     this.viewModel$.subscribe((vm) => {
-      console.log('View Model Observable: ', {
+      console.log('VIEW MODEL: ', {
         id: vm.details?.id,
         name: vm.details?.name,
         description: vm.details?.description,

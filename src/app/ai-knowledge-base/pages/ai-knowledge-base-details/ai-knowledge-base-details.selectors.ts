@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store'
 import { createChildSelectors } from '@onecx/ngrx-accelerator'
 // import { selectBackNavigationPossible } from '../../../shared/selectors/onecx.selectors'
-import { AiKnowledgeBase } from '../../../shared/generated'
+import { AIContext, AiKnowledgeBase } from '../../../shared/generated'
 import { aiKnowledgeBaseFeature } from '../../ai-knowledge-base.reducers'
 import { initialState } from './ai-knowledge-base-details.reducers'
 import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.viewmodel'
@@ -15,23 +15,38 @@ export const aiKnowledgeBaseDetailsSelectors = createChildSelectors(aiKnowledgeB
 
 export const selectAiKnowledgeBaseDetailsViewModel = createSelector(
   aiKnowledgeBaseDetailsSelectors.selectDetails,
-  aiKnowledgeBaseDetailsSelectors.selectDetailsLoadingIndicator,
-  selectBackNavigationPossible,
   aiKnowledgeBaseDetailsSelectors.selectDetailsLoaded,
+  aiKnowledgeBaseDetailsSelectors.selectDetailsLoadingIndicator,
+
+  aiKnowledgeBaseDetailsSelectors.selectContexts,
+  aiKnowledgeBaseDetailsSelectors.selectContextsLoaded,
+  aiKnowledgeBaseDetailsSelectors.selectContextsLoadingIndicator,
+
+  selectBackNavigationPossible,
   aiKnowledgeBaseDetailsSelectors.selectEditMode,
   aiKnowledgeBaseDetailsSelectors.selectIsSubmitting,
   (
     details: AiKnowledgeBase | undefined,
-    detailsLoadingIndicator: boolean,
-    backNavigationPossible: boolean,
     detailsLoaded: boolean,
+    detailsLoadingIndicator: boolean,
+
+    contexts: AIContext[],
+    contextsLoaded: boolean,
+    contextsLoadingIndicator: boolean,
+
+    backNavigationPossible: boolean,
     editMode: boolean,
     isSubmitting: boolean
   ): AiKnowledgeBaseDetailsViewModel => ({
     details,
-    detailsLoadingIndicator,
-    backNavigationPossible,
     detailsLoaded,
+    detailsLoadingIndicator,
+
+    contexts,
+    contextsLoaded,
+    contextsLoadingIndicator,
+
+    backNavigationPossible,
     editMode,
     isSubmitting
   })
