@@ -15,6 +15,7 @@ import { AiKnowledgeBaseDetailsComponent } from './ai-knowledge-base-details.com
 import { aiKnowledgeBaseDetailsSelectors } from './ai-knowledge-base-details.selectors'
 import { SearchAIContextRequest } from 'src/app/shared/generated/model/searchAIContextRequest'
 import { AIContextBffService } from 'src/app/shared/generated/api/aIContextBffService.service'
+import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
 
 @Injectable()
 export class AiKnowledgeBaseDetailsEffects {
@@ -250,18 +251,17 @@ export class AiKnowledgeBaseDetailsEffects {
     { dispatch: false }
   )
 
-  // This functionality doesn't work currently, after implementing go back selector i get a lot of undefined errors
-  // navigateBack$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked),
-  //     concatLatestFrom(() => [this.store.select(selectBackNavigationPossible)]),
-  //     switchMap(([, backNavigationPossible]) => {
-  //       if (!backNavigationPossible) {
-  //         return of(AiKnowledgeBaseDetailsActions.backNavigationFailed())
-  //       }
-  //       window.history.back()
-  //       return of(AiKnowledgeBaseDetailsActions.backNavigationStarted())
-  //     })
-  //   )
-  // })
+  navigateBack$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked),
+      concatLatestFrom(() => [this.store.select(selectBackNavigationPossible)]),
+      switchMap(([, backNavigationPossible]) => {
+        if (!backNavigationPossible) {
+          return of(AiKnowledgeBaseDetailsActions.backNavigationFailed())
+        }
+        window.history.back()
+        return of(AiKnowledgeBaseDetailsActions.backNavigationStarted())
+      })
+    )
+  })
 }

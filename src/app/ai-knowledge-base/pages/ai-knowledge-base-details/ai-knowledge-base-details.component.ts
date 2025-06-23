@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Action, BreadcrumbService, ObjectDetailItem } from '@onecx/portal-integration-angular'
-import { map, Observable } from 'rxjs'
+import { map, Observable, tap } from 'rxjs'
 
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { PrimeIcons } from 'primeng/api'
@@ -27,6 +27,7 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
   )
 
   headerActions$: Observable<Action[]> = this.viewModel$.pipe(
+    tap((value) => console.log('View Model: ', value)),
     map((vm) => {
       const actions: Action[] = [
         {
@@ -35,10 +36,12 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
           show: 'always',
           disabled: !vm.backNavigationPossible,
           icon: PrimeIcons.ARROW_LEFT,
+          conditional: true,
           permission: 'AI_KNOWLEDGE_BASE#BACK',
           showCondition: !vm.editMode,
+
           actionCallback: () => {
-            window.history.back()
+            this.goBack()
           }
         },
         {
@@ -143,6 +146,9 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
 
   edit() {
     this.store.dispatch(AiKnowledgeBaseDetailsActions.editButtonClicked())
+  }
+  goBack() {
+    this.store.dispatch(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked())
   }
 
   cancel() {

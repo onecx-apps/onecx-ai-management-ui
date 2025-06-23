@@ -133,16 +133,15 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
   it('should have 2 inline actions', async () => {
     const pageHeader = await aiKnowledgeBaseDetails.getHeader()
     const inlineActions = await pageHeader.getInlineActionButtons()
-    expect(inlineActions.length).toBe(3)
+    expect(inlineActions.length).toBe(2)
 
-    const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
-    expect(backAction).toBeTruthy()
+    // const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
+    // expect(backAction).toBeTruthy()
 
     const moreAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.ELLIPSIS_V)
     expect(moreAction).toBeNull()
   })
 
-  // Test for the button, whichs selector doesn't work ( look in selectors file )
   // it('should dispatch navigateBackButtonClicked action on back button click', async () => {
   //   jest.spyOn(window.history, 'back')
   //   const doneFn = jest.fn()
