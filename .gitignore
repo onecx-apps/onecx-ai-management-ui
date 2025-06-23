@@ -5,7 +5,7 @@ dist
 tmp
 /out-tsc
 .eslintcache
-./github/*
+github
 
 # dependencies
 node_modules
