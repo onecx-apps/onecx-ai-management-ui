@@ -59,8 +59,11 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
   }
   const baseAiKnowledgeBaseDetailsViewModel: AiKnowledgeBaseDetailsViewModel = {
     details: undefined,
-    detailsLoadingIndicator: false,
     detailsLoaded: true,
+    detailsLoadingIndicator: false,
+    contexts: [],
+    contextsLoaded: true,
+    contextsLoadingIndicator: false,
     backNavigationPossible: true,
     editMode: true,
     isSubmitting: false
