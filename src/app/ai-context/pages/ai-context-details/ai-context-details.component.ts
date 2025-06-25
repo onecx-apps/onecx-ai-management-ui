@@ -200,7 +200,6 @@ export class AiContextDetailsComponent implements OnInit {
   }
 
   goBack() {
-    console.log("GOBACK!!")
     this.store.dispatch(AiContextDetailsActions.navigateBackButtonClicked())
   }
 }

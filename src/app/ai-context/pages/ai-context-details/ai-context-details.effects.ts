@@ -14,7 +14,6 @@ import { AiContext, AiContextBffService, UpdateAiContextRequest } from '../../..
 import { AiContextDetailsActions } from './ai-context-details.actions'
 import { AiContextDetailsComponent } from './ai-context-details.component'
 import { aiContextDetailsSelectors } from './ai-context-details.selectors'
-
 @Injectable()
 export class AiContextDetailsEffects {
   constructor(

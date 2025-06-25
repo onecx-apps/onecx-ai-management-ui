@@ -6,6 +6,7 @@ export const initialState: AiContextDetailsState = {
   details: undefined,
   detailsLoadingIndicator: true,
   detailsLoaded: false,
+  backNavigationPossible: true,
   editMode: false,
   isSubmitting: false
 }
