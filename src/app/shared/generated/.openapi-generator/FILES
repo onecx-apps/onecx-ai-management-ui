@@ -21,8 +21,6 @@ model/aIKnowledgeDocumentSearchResponse.ts
 model/aIKnowledgeDocumentUpdateResponse.ts
 model/aIKnowledgeUrl.ts
 model/aIKnowledgeVectorDb.ts
-model/aIKnowledgeVectorDbCreateResponse.ts
-model/aIKnowledgeVectorDbUpdateResponse.ts
 model/aIProvider.ts
 model/aIProviderCreateResponse.ts
 model/aIProviderSearchRequest.ts
@@ -33,7 +31,8 @@ model/createAIContextResponse.ts
 model/createAIKnowledgeBaseRequest.ts
 model/createAIKnowledgeBaseResponse.ts
 model/createAIKnowledgeDocument.ts
-model/createAIKnowledgeVectorDb.ts
+model/createAIKnowledgeVectorDbRequest.ts
+model/createAIKnowledgeVectorDbResponse.ts
 model/createAIProvider.ts
 model/getAIContextByIdResponse.ts
 model/getAIKnowledgeBaseByIdResponse.ts
@@ -55,7 +54,8 @@ model/updateAIContextResponse.ts
 model/updateAIKnowledgeBaseRequest.ts
 model/updateAIKnowledgeBaseResponse.ts
 model/updateAIKnowledgeDocument.ts
-model/updateAIKnowledgeVectorDb.ts
+model/updateAIKnowledgeVectorDbRequest.ts
+model/updateAIKnowledgeVectorDbResponse.ts
 model/updateAIProvider.ts
 param.ts
 variables.ts

@@ -110,12 +110,12 @@ export class AiKnowledgeBaseBffService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createAiKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CreateAIKnowledgeBaseResponse>;
-    public createAiKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CreateAIKnowledgeBaseResponse>>;
-    public createAiKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CreateAIKnowledgeBaseResponse>>;
-    public createAiKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public createAIKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CreateAIKnowledgeBaseResponse>;
+    public createAIKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CreateAIKnowledgeBaseResponse>>;
+    public createAIKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CreateAIKnowledgeBaseResponse>>;
+    public createAIKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (createAIKnowledgeBaseRequest === null || createAIKnowledgeBaseRequest === undefined) {
-            throw new Error('Required parameter createAIKnowledgeBaseRequest was null or undefined when calling createAiKnowledgeBase.');
+            throw new Error('Required parameter createAIKnowledgeBaseRequest was null or undefined when calling createAIKnowledgeBase.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -216,7 +216,7 @@ export class AiKnowledgeBaseBffService {
             }
         }
 
-        let localVarPath = `/aiKnowledgeBase/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/AIKnowledgeBase/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -273,7 +273,7 @@ export class AiKnowledgeBaseBffService {
             }
         }
 
-        let localVarPath = `/aiKnowledgeBase/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/AIKnowledgeBase/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<GetAIKnowledgeBaseByIdResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -337,7 +337,7 @@ export class AiKnowledgeBaseBffService {
             }
         }
 
-        let localVarPath = `/aiKnowledgeBase/search`;
+        let localVarPath = `/AIKnowledgeBase/search`;
         return this.httpClient.request<SearchAIKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -409,7 +409,7 @@ export class AiKnowledgeBaseBffService {
             }
         }
 
-        let localVarPath = `/aiKnowledgeBase/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
+        let localVarPath = `/AIKnowledgeBase/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
         return this.httpClient.request<UpdateAIKnowledgeBaseResponse>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

@@ -174,7 +174,7 @@ export class AiKnowledgeBaseSearchEffects {
         const toCreateItem = {
           aIKnowledgeDocumentData: dialogResult.result
         } as CreateAIKnowledgeBaseRequest
-        return this.aiKnowledgeBaseService.createAiKnowledgeBase(toCreateItem).pipe(
+        return this.aiKnowledgeBaseService.createAIKnowledgeBase(toCreateItem).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'AI_KNOWLEDGE_BASE_CREATE_UPDATE.CREATE.SUCCESS'

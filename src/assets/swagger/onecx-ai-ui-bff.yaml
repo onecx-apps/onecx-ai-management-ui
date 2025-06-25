@@ -81,7 +81,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateAIKnowledgeVectorDb'
+              $ref: '#/components/schemas/UpdateAIKnowledgeVectorDbRequest'
       responses:
         '204':
           description: AIKnowledgeVectorDb updated
@@ -94,7 +94,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AIKnowledgeVectorDbUpdateResponse'
+                $ref: '#/components/schemas/UpdateAIKnowledgeVectorDbResponse'
         '400':
           description: Bad request
           content:
@@ -128,7 +128,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateAIKnowledgeVectorDb'
+              $ref: '#/components/schemas/CreateAIKnowledgeVectorDbRequest'
       responses:
         '201':
           description: New AIKnowledgeVectorDb created
@@ -141,7 +141,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AIKnowledgeVectorDbCreateResponse'
+                $ref: '#/components/schemas/CreateAIKnowledgeVectorDbResponse'
         '400':
           description: Bad request
           content:
@@ -153,7 +153,8 @@ paths:
       operationId: searchAIKnowledgeDocuments
       tags:
         - AIKnowledgeDocumentBffService
-      description: This operation performs a search based on provided search criteria. Search for AIKnowledgeDocument results.
+      description: This operation performs a search based on provided search criteria.
+        Search for AIKnowledgeDocument results.
       requestBody:
         content:
           application/json:
@@ -325,7 +326,8 @@ paths:
       operationId: searchAIProvider
       tags:
         - AIProviderBffService
-      description: This operation performs a search based on provided search criteria. Search for AIProvider results.
+      description: This operation performs a search based on provided search criteria.
+        Search for AIProvider results.
       requestBody:
         content:
           application/json:
@@ -430,7 +432,8 @@ paths:
       responses:
         '204':
           description: AIProvider deleted
-  /aiKnowledgeBase/search:
+
+  /AIKnowledgeBase/search:
     post:
       operationId: searchAIKnowledgeBases
       tags:
@@ -452,7 +455,7 @@ paths:
           description: Bad request
         '500':
           description: Something went wrong
-  /aiKnowledgeBase/{id}:
+  /AIKnowledgeBase/{id}:
     get:
       x-onecx:
         permissions:
@@ -542,7 +545,7 @@ paths:
           description: aiKnowledgeBase deleted
   /aiKnowledgeBase:
     post:
-      operationId: createAiKnowledgeBase
+      operationId: createAIKnowledgeBase
       tags:
         - aiKnowledgeBaseBffService
       description: This operation performs a create.
@@ -754,6 +757,7 @@ components:
           type: string
         vdbCollection:
           type: string
+        
     SearchAIKnowledgeVectorDbResponse:
       type: object
       required:
@@ -804,7 +808,7 @@ components:
       properties:
         result:
           $ref: '#/components/schemas/AIKnowledgeVectorDb'
-    CreateAIKnowledgeVectorDb:
+    CreateAIKnowledgeVectorDbRequest:
       type: object
       properties:
         name:
@@ -813,7 +817,7 @@ components:
           type: string
         appId:
           type: string
-    UpdateAIKnowledgeVectorDb:
+    UpdateAIKnowledgeVectorDbRequest:
       type: object
       properties:
         name:
@@ -825,7 +829,7 @@ components:
         aiContext:  
           type: object
           $ref: '#/components/schemas/AIContext'
-    AIKnowledgeVectorDbCreateResponse:
+    CreateAIKnowledgeVectorDbResponse:
       type: object
       properties:
         name:
@@ -839,7 +843,7 @@ components:
         aiContext:
           type: object
           $ref: '#/components/schemas/AIContext'
-    AIKnowledgeVectorDbUpdateResponse:
+    UpdateAIKnowledgeVectorDbResponse:
       type: object
       properties:
         name:
@@ -853,6 +857,7 @@ components:
         aiContext:
           type: object
           $ref: '#/components/schemas/AIContext'
+    
     AIKnowledgeDocument:
       type: object
       required:
