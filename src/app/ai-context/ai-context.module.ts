@@ -13,6 +13,8 @@ import {
 } from '@onecx/portal-integration-angular'
 import { CalendarModule } from 'primeng/calendar'
 import { TableModule } from 'primeng/table'
+import { MultiSelectModule } from 'primeng/multiselect'
+
 import { DropdownModule } from 'primeng/dropdown'
 import { SharedModule } from '../shared/shared.module'
 import { aiContextFeature } from './ai-context.reducers'
@@ -25,11 +27,7 @@ import { AiContextDetailsEffects } from './pages/ai-context-details/ai-context-d
 
 @NgModule({
   providers: [providePortalDialogService()],
-  declarations: [
-    AiContextDetailsComponent,
-    AiContextCreateUpdateComponent,
-    AiContextSearchComponent
-  ],
+  declarations: [AiContextDetailsComponent, AiContextCreateUpdateComponent, AiContextSearchComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -40,6 +38,7 @@ import { AiContextDetailsEffects } from './pages/ai-context-details/ai-context-d
     ReactiveFormsModule,
     CalendarModule,
     TableModule,
+    MultiSelectModule,
     DropdownModule,
     StoreModule.forFeature(aiContextFeature),
     EffectsModule.forFeature([AiContextDetailsEffects, AiContextSearchEffects]),

@@ -38,7 +38,7 @@
                 pInputText
                 type="text"
                 id="aiContext_detail_description"
-                class="w-full pt-3 pb-2 text-responsive"
+                styleClass="w-full"class="w-full pt-3 pb-2 text-responsive"
                 formControlName="description"
               />
               <label class="ocx-required-label" for="aiContext_detail_description">
@@ -70,7 +70,7 @@
                 [filter]="true"
                 filterBy="name,appId"
                 [showClear]="true"
-                class="w-full"
+                styleClass="w-full"
                 placeholder="Select an aIKnowledgeBase"
               >
                 <ng-template pTemplate="item" let-item> {{item.appId}} - {{item.name}} </ng-template>
@@ -91,7 +91,7 @@
                 [filter]="true"
                 filterBy="name,appId"
                 [showClear]="true"
-                class="w-full"
+                styleClass="w-full"
                 placeholder="Select a Provider"
               >
                 <ng-template pTemplate="item" let-item> {{item.appId}} - {{item.name}} </ng-template>
@@ -112,7 +112,7 @@
                 [filter]="true"
                 filterBy="name,description"
                 [showClear]="true"
-                class="w-full"
+                styleClass="w-full"
                 placeholder="Select a Vector DB"
               >
                 <ng-template pTemplate="item" let-item>
@@ -126,96 +126,70 @@
           </div>
 
           <div class="mt-3 mb-1">
-            <label class="block mb-2" for="knowledge-urls-table"
-              >{{ 'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_URLS' | translate }}</label
+            <label class="block mb-2" for="knowledge-urls-multiselect">
+              {{ 'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_URLS' | translate }}
+            </label>
+            <p-multiSelect
+              id="knowledge-urls-multiselect"
+              [options]="knowledgeUrls"
+              [(ngModel)]="selectedKnowledgeUrls"
+              optionLabel="name"
+              display="chip"
+              [filter]="true"
+              placeholder="Select Knowledge URLs"
+              (onChange)="onKnowledgeUrlsSelection($event)"
+              [showClear]="true"
+              [panelStyle]="{ 'max-height': '200px' }"
+              styleClass="w-full"
             >
-            <p-table
-              id="knowledge-urls-table"
-              [value]="knowledgeUrls"
-              [selection]="selectedKnowledgeUrls"
-              dataKey="id"
-              (selectionChange)="onKnowledgeUrlsSelection($event)"
-              [scrollable]="true"
-              [scrollHeight]="'200px'"
-            >
-              <ng-template pTemplate="header">
-                <tr>
-                  <th style="width: 3rem"></th>
-                  <th>{{ 'AI_CONTEXT_DETAILS.TABLE.NAME' | translate }}</th>
-                  <th>{{ 'AI_CONTEXT_DETAILS.TABLE.DESCRIPTION' | translate }}</th>
-                  <th>{{ 'AI_CONTEXT_DETAILS.TABLE.AI_KNOWLEDGE_DB' | translate }}</th>
-                </tr>
+              <ng-template let-url pTemplate="item">
+                {{ url.name }} <span *ngIf="url.description">- {{ url.description }}</span>
               </ng-template>
-              <ng-template pTemplate="body" let-url>
-                <tr>
-                  <td><p-tableCheckbox [value]="url"></p-tableCheckbox></td>
-                  <td>{{url.name}}</td>
-                  <td>{{url.description}}</td>
-                  <td>{{url.url}}</td>
-                </tr>
-              </ng-template>
-            </p-table>
+            </p-multiSelect>
           </div>
 
           <div class="mt-3 mb-1">
-            <label class="block mb-2" for="knowledge-dbs-table"
-              >{{ 'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_DBS' | translate }}</label
+            <label class="block mb-2" for="knowledge-dbs-multiselect">
+              {{ 'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_DBS' | translate }}
+            </label>
+            <p-multiSelect
+              id="knowledge-dbs-multiselect"
+              [options]="knowledgeDbs"
+              [(ngModel)]="selectedKnowledgeDbs"
+              optionLabel="name"
+              display="chip"
+              [filter]="true"
+              placeholder="Select Knowledge DBs"
+              (onChange)="onKnowledgeDbsSelection($event)"
+              [showClear]="true"
+              styleClass="w-full"
             >
-            <p-table
-              id="knowledge-dbs-table"
-              [value]="knowledgeDbs"
-              [selection]="selectedKnowledgeDbs"
-              dataKey="id"
-              (selectionChange)="onKnowledgeDbsSelection($event)"
-              [scrollable]="true"
-              [scrollHeight]="'200px'"
-            >
-              <ng-template pTemplate="header">
-                <tr>
-                  <th style="width: 3rem"></th>
-                  <th>{{ 'AI_CONTEXT_DETAILS.TABLE.NAME' | translate }}</th>
-                  <th>{{ 'AI_CONTEXT_DETAILS.TABLE.DESCRIPTION' | translate }}</th>
-                  <th>{{ 'AI_CONTEXT_DETAILS.TABLE.AI_KNOWLEDGE_DB' | translate }}</th>
-                </tr>
+              <ng-template let-db pTemplate="item">
+                {{ db.name }} <span *ngIf="db.description">- {{ db.description }}</span>
               </ng-template>
-              <ng-template pTemplate="body" let-db>
-                <tr>
-                  <td><p-tableCheckbox [value]="db"></p-tableCheckbox></td>
-                  <td>{{db.name}}</td>
-                  <td>{{db.description}}</td>
-                  <td>{{db.db}}</td>
-                </tr>
-              </ng-template>
-            </p-table>
+            </p-multiSelect>
           </div>
 
           <div class="mt-3 mb-1">
-            <label class="block mb-2" for="knowledge-documents-table"
-              >{{ 'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_DOCUMENTS' | translate }}</label
+            <label class="block mb-2" for="knowledge-documents-multiselect">
+              {{ 'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_DOCUMENTS' | translate }}
+            </label>
+            <p-multiSelect
+              id="knowledge-documents-multiselect"
+              [options]="documents"
+              [(ngModel)]="selectedDocuments"
+              optionLabel="name"
+              display="chip"
+              [filter]="true"
+              placeholder="Select Knowledge Documents"
+              (onChange)="onDocumentsSelection($event)"
+              [showClear]="true"
+              styleClass="w-full"
             >
-            <p-table
-              id="knowledge-documents-table"
-              [value]="documents"
-              [(selection)]="selectedDocuments"
-              dataKey="id"
-              [scrollable]="true"
-              [scrollHeight]="'200px'"
-            >
-              <ng-template pTemplate="header">
-                <tr>
-                  <th style="width: 3rem"></th>
-                  <th>{{ 'AI_CONTEXT_DETAILS.TABLE.NAME' | translate }}</th>
-                  <th>{{ 'AI_CONTEXT_DETAILS.TABLE.STATUS' | translate }}</th>
-                </tr>
+              <ng-template let-doc pTemplate="item">
+                {{ doc.name }} <span *ngIf="doc.status">- {{ doc.status }}</span>
               </ng-template>
-              <ng-template pTemplate="body" let-doc>
-                <tr>
-                  <td><p-tableCheckbox [value]="doc"></p-tableCheckbox></td>
-                  <td>{{doc.name}}</td>
-                  <td>{{doc.status}}</td>
-                </tr>
-              </ng-template>
-            </p-table>
+            </p-multiSelect>
           </div>
         </form>
       </div>
