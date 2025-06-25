@@ -9,7 +9,7 @@ import { DialogState, PortalDialogService, PortalMessageService } from '@onecx/p
 import { PrimeIcons } from 'primeng/api'
 import { catchError, filter, map, mergeMap, of, switchMap, tap } from 'rxjs'
 import { selectRouteParam, selectUrl } from 'src/app/shared/selectors/router.selectors'
-import { AiKnowledgeBase, AiKnowledgeBaseBffService, UpdateAiKnowledgeBaseRequest } from '../../../shared/generated'
+import { AIKnowledgeBase, AiKnowledgeBaseBffService, UpdateAIKnowledgeBaseRequest } from '../../../shared/generated'
 import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actions'
 import { AiKnowledgeBaseDetailsComponent } from './ai-knowledge-base-details.component'
 import { aiKnowledgeBaseDetailsSelectors } from './ai-knowledge-base-details.selectors'
@@ -46,7 +46,7 @@ export class AiKnowledgeBaseDetailsEffects {
     return this.actions$.pipe(
       ofType(AiKnowledgeBaseDetailsActions.navigatedToDetailsPage),
       switchMap(({ id }) =>
-        this.aiKnowledgeBaseService.getAiKnowledgeBaseById(id ?? '').pipe(
+        this.aiKnowledgeBaseService.getAIKnowledgeBaseById(id ?? '').pipe(
           map(({ result }) =>
             AiKnowledgeBaseDetailsActions.aiKnowledgeBaseDetailsReceived({
               details: result
@@ -103,7 +103,7 @@ export class AiKnowledgeBaseDetailsEffects {
       ofType(AiKnowledgeBaseDetailsActions.cancelButtonClicked),
       filter((action) => action.dirty),
       switchMap(() => {
-        return this.portalDialogService.openDialog<AiKnowledgeBase | undefined>(
+        return this.portalDialogService.openDialog<AIKnowledgeBase | undefined>(
           'AI_KNOWLEDGE_BASE_DETAILS.CANCEL.HEADER',
           'AI_KNOWLEDGE_BASE_DETAILS.CANCEL.MESSAGE',
           'AI_KNOWLEDGE_BASE_DETAILS.CANCEL.CONFIRM'
@@ -134,7 +134,7 @@ export class AiKnowledgeBaseDetailsEffects {
         }
         const itemToEdit = {
           dataObject: updatedItem
-        } as UpdateAiKnowledgeBaseRequest
+        } as UpdateAIKnowledgeBaseRequest
         return this.aiKnowledgeBaseService.updateAiKnowledgeBase(itemToEditId, itemToEdit).pipe(
           map(() => {
             this.messageService.success({
@@ -175,7 +175,7 @@ export class AiKnowledgeBaseDetailsEffects {
             }
           )
           .pipe(
-            map((state): [DialogState<unknown>, AiKnowledgeBase | undefined] => {
+            map((state): [DialogState<unknown>, AIKnowledgeBase | undefined] => {
               return [state, itemToDelete]
             })
           )

@@ -1,5 +1,5 @@
-import { AiKnowledgeBase } from 'src/app/shared/generated'
+import { AIKnowledgeBase } from 'src/app/shared/generated'
 
 export interface AIKnowledgeBaseCreateUpdateViewModel {
-  itemToEdit: AiKnowledgeBase | undefined
+  itemToEdit: AIKnowledgeBase | undefined
 }

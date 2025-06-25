@@ -3,7 +3,7 @@ import { DialogButtonClicked, DialogPrimaryButtonDisabled, DialogResult } from '
 
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { map } from 'rxjs'
-import { AiKnowledgeBase, AIKnowledgeDocumentStatusEnum } from 'src/app/shared/generated'
+import { AIKnowledgeBase, AIKnowledgeDocumentStatusEnum } from 'src/app/shared/generated'
 import { AIKnowledgeBaseCreateUpdateViewModel } from './aiknowledge-base-create-update.viewmodel'
 
 @Component({
@@ -14,7 +14,7 @@ import { AIKnowledgeBaseCreateUpdateViewModel } from './aiknowledge-base-create-
 export class AIKnowledgeBaseCreateUpdateComponent
   implements
     DialogPrimaryButtonDisabled,
-    DialogResult<AiKnowledgeBase | undefined>,
+    DialogResult<AIKnowledgeBase | undefined>,
     DialogButtonClicked<AIKnowledgeBaseCreateUpdateComponent>,
     OnInit
 {
@@ -25,7 +25,7 @@ export class AIKnowledgeBaseCreateUpdateComponent
   public formGroup: FormGroup
 
   primaryButtonEnabled = new EventEmitter<boolean>()
-  dialogResult: AiKnowledgeBase | undefined = undefined
+  dialogResult: AIKnowledgeBase | undefined = undefined
   statusValues = Object.values(AIKnowledgeDocumentStatusEnum)
 
   constructor() {

@@ -456,7 +456,7 @@ paths:
     get:
       x-onecx:
         permissions:
-          aIKnowledgeBase:
+          aiKnowledgeBase:
             - read
       operationId: getAIKnowledgeBaseById
       tags:
@@ -489,7 +489,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
     put:
-      operationId: updateAIKnowledgeBase
+      operationId: updateAiKnowledgeBase
       tags:
         - aiKnowledgeBaseBffService
       description: This operation performs an update.
@@ -529,7 +529,7 @@ paths:
     delete:
       tags:
         - aiKnowledgeBaseBffService
-      operationId: deleteAIKnowledgeBase
+      operationId: deleteAiKnowledgeBase
       description: Delete aiKnowledgeBase by id
       parameters:
         - name: id
@@ -1080,7 +1080,7 @@ components:
           type: string
         apiKey:
           type: string
-    aiKnowledgeBase:
+    AIKnowledgeBase:
       type: object
       required:
         - id
@@ -1098,13 +1098,13 @@ components:
       type: object
       properties:
         dataObject:
-          $ref: '#/components/schemas/aiKnowledgeBase'
+          $ref: '#/components/schemas/AIKnowledgeBase'
     CreateAIKnowledgeBaseResponse:
       type: object
       properties:
         dataObject:
           type: object
-          $ref: '#/components/schemas/aiKnowledgeBase'
+          $ref: '#/components/schemas/AIKnowledgeBase'
     SearchAIKnowledgeBaseRequest:
       type: object
       properties:
@@ -1138,7 +1138,7 @@ components:
         stream:
           type: array
           items:
-            $ref: '#/components/schemas/aiKnowledgeBase'
+            $ref: '#/components/schemas/AIKnowledgeBase'
         size:
           type: integer
           format: int32
@@ -1160,13 +1160,13 @@ components:
       properties:
         dataObject:
           type: object
-          $ref: '#/components/schemas/aiKnowledgeBase'
+          $ref: '#/components/schemas/AIKnowledgeBase'
     UpdateAIKnowledgeBaseResponse:
       type: object
       properties:
         dataObject:
           type: object
-          $ref: '#/components/schemas/aiKnowledgeBase'
+          $ref: '#/components/schemas/AIKnowledgeBase'
         # "ACTION DE1: modify data object or use flat list here. https://onecx.github.io/docs/nx-plugins/current/general/getting_started/create-update/extend-form-fields.html#action-1"
     GetAIKnowledgeBaseByIdResponse:
       type: object
@@ -1174,7 +1174,7 @@ components:
         - result
       properties:
         result:
-          $ref: '#/components/schemas/aiKnowledgeBase'
+          $ref: '#/components/schemas/AIKnowledgeBase'
     UpdateAIContextRequest:
       type: object
       properties:
@@ -1264,8 +1264,8 @@ components:
           type: string
         creationUser:
           type: string
-        aIKnowledgeBase:
-          $ref: '#/components/schemas/aiKnowledgeBase'
+        AIKnowledgeBase:
+          $ref: '#/components/schemas/AIKnowledgeBase'
         aIKnowledgeVectorDb:
           $ref: '#/components/schemas/AIKnowledgeVectorDb'
         aIKnowledgeUrl:

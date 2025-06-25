@@ -16,10 +16,10 @@ import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs'
 import { PrimeIcons } from 'primeng/api'
 import { selectUrl } from 'src/app/shared/selectors/router.selectors'
 import {
-  AiKnowledgeBase,
+  AIKnowledgeBase,
   AiKnowledgeBaseBffService,
-  CreateAiKnowledgeBaseRequest,
-  UpdateAiKnowledgeBaseRequest
+  CreateAIKnowledgeBaseRequest,
+  UpdateAIKnowledgeBaseRequest
 } from '../../../shared/generated'
 import { AiKnowledgeBaseSearchActions } from './ai-knowledge-base-search.actions'
 import { AiKnowledgeBaseSearchComponent } from './ai-knowledge-base-search.component'
@@ -108,7 +108,7 @@ export class AiKnowledgeBaseSearchEffects {
             }
           )
           .pipe(
-            map((state): [DialogState<unknown>, AiKnowledgeBase | undefined] => {
+            map((state): [DialogState<unknown>, AIKnowledgeBase | undefined] => {
               return [state, itemToDelete]
             })
           )
@@ -147,7 +147,7 @@ export class AiKnowledgeBaseSearchEffects {
     return this.actions$.pipe(
       ofType(AiKnowledgeBaseSearchActions.createButtonClicked),
       switchMap(() => {
-        return this.portalDialogService.openDialog<AiKnowledgeBase | undefined>(
+        return this.portalDialogService.openDialog<AIKnowledgeBase | undefined>(
           'AI_KNOWLEDGE_BASE_CREATE_UPDATE.CREATE.HEADER',
           {
             type: AIKnowledgeBaseCreateUpdateComponent,
@@ -173,7 +173,7 @@ export class AiKnowledgeBaseSearchEffects {
         }
         const toCreateItem = {
           aIKnowledgeDocumentData: dialogResult.result
-        } as CreateAiKnowledgeBaseRequest
+        } as CreateAIKnowledgeBaseRequest
         return this.aiKnowledgeBaseService.createAiKnowledgeBase(toCreateItem).pipe(
           map(() => {
             this.messageService.success({
@@ -204,7 +204,7 @@ export class AiKnowledgeBaseSearchEffects {
         return results.find((item) => item.id == action.id)
       }),
       mergeMap((itemToEdit) => {
-        return this.portalDialogService.openDialog<AiKnowledgeBase | undefined>(
+        return this.portalDialogService.openDialog<AIKnowledgeBase | undefined>(
           'AI_KNOWLEDGE_BASE_CREATE_UPDATE.UPDATE.HEADER',
           {
             type: AIKnowledgeBaseCreateUpdateComponent,
@@ -231,7 +231,7 @@ export class AiKnowledgeBaseSearchEffects {
         const itemToEditId = dialogResult.result.id
         const itemToEdit = {
           aIKnowledgeDocumentData: dialogResult.result
-        } as UpdateAiKnowledgeBaseRequest
+        } as UpdateAIKnowledgeBaseRequest
         return this.aiKnowledgeBaseService.updateAiKnowledgeBase(itemToEditId, itemToEdit).pipe(
           map(() => {
             this.messageService.success({
@@ -266,7 +266,7 @@ export class AiKnowledgeBaseSearchEffects {
 
   performSearch(searchCriteria: Record<string, any>) {
     return this.aiKnowledgeBaseService
-      .searchAiKnowledgeBases({
+      .searchAIKnowledgeBases({
         ...Object.entries(searchCriteria).reduce(
           (acc, [key, value]) => ({
             ...acc,

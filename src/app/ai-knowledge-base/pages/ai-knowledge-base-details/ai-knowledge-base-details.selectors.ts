@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store'
 import { createChildSelectors } from '@onecx/ngrx-accelerator'
 import { selectBackNavigationPossible } from '../../../shared/selectors/onecx.selectors'
-import { AIContext, AiKnowledgeBase } from '../../../shared/generated'
+import { AIContext, AIKnowledgeBase } from '../../../shared/generated'
 import { aiKnowledgeBaseFeature } from '../../ai-knowledge-base.reducers'
 import { initialState } from './ai-knowledge-base-details.reducers'
 import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.viewmodel'
@@ -21,7 +21,7 @@ export const selectAiKnowledgeBaseDetailsViewModel = createSelector(
   aiKnowledgeBaseDetailsSelectors.selectEditMode,
   aiKnowledgeBaseDetailsSelectors.selectIsSubmitting,
   (
-    details: AiKnowledgeBase | undefined,
+    details: AIKnowledgeBase | undefined,
     detailsLoaded: boolean,
     detailsLoadingIndicator: boolean,
 

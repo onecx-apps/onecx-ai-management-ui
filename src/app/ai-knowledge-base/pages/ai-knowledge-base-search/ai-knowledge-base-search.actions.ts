@@ -5,7 +5,7 @@ import {
   InteractiveDataViewComponentState,
   SearchHeaderComponentState
 } from '@onecx/portal-integration-angular'
-import { AiKnowledgeBase } from '../../../shared/generated'
+import { AIKnowledgeBase } from '../../../shared/generated'
 import { AiKnowledgeBaseSearchCriteria } from './ai-knowledge-base-search.parameters'
 
 export const AiKnowledgeBaseSearchActions = createActionGroup({
@@ -41,7 +41,7 @@ export const AiKnowledgeBaseSearchActions = createActionGroup({
     }>(),
     'Reset button clicked': emptyProps(),
     'aiKnowledgeBase search results received': props<{
-      stream: AiKnowledgeBase[]
+      stream: AIKnowledgeBase[]
       size: number
       number: number
       totalElements: number

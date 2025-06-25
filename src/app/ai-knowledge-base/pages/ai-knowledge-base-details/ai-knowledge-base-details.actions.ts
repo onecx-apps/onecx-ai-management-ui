@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store'
-import { AIContext, AiKnowledgeBase } from '../../../shared/generated'
+import { AIContext, AIKnowledgeBase } from '../../../shared/generated'
 
 export const AiKnowledgeBaseDetailsActions = createActionGroup({
   source: 'AiKnowledgeBaseDetails',
@@ -8,10 +8,10 @@ export const AiKnowledgeBaseDetailsActions = createActionGroup({
       id: string | undefined
     }>(),
     'ai knowledge base details received': props<{
-      details: AiKnowledgeBase
+      details: AIKnowledgeBase
     }>(),
     'ai knowledge base reloaded details received': props<{
-      details: AiKnowledgeBase
+      details: AIKnowledgeBase
     }>(),
     'ai knowledge base details loading failed': props<{ error: string | null }>(),
     'ai knowledge base contexts received': props<{
@@ -37,7 +37,7 @@ export const AiKnowledgeBaseDetailsActions = createActionGroup({
     'cancel edit not dirty': emptyProps(),
     'edit button clicked': emptyProps(),
     'save button clicked': props<{
-      details: AiKnowledgeBase
+      details: AIKnowledgeBase
     }>(),
     'cancel button clicked': props<{
       dirty: boolean

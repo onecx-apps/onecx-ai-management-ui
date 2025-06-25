@@ -4,12 +4,12 @@ import {
   InteractiveDataViewComponentState,
   SearchHeaderComponentState
 } from '@onecx/portal-integration-angular'
-import { AiKnowledgeBase } from 'src/app/shared/generated'
+import { AIKnowledgeBase } from 'src/app/shared/generated'
 import { AiKnowledgeBaseSearchCriteria } from './ai-knowledge-base-search.parameters'
 
 export interface AiKnowledgeBaseSearchState {
   columns: DataTableColumn[]
-  results: AiKnowledgeBase[]
+  results: AIKnowledgeBase[]
   displayedColumns: string[] | null
   chartVisible: boolean
   resultComponentState: InteractiveDataViewComponentState | null

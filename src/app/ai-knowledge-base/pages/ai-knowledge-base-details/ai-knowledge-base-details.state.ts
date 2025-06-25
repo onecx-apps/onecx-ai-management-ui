@@ -1,7 +1,7 @@
-import { AIContext, AiKnowledgeBase } from '../../../shared/generated'
+import { AIContext, AIKnowledgeBase } from '../../../shared/generated'
 
 export interface AiKnowledgeBaseDetailsState {
-  details: AiKnowledgeBase | undefined
+  details: AIKnowledgeBase | undefined
   detailsLoaded: boolean
   detailsLoadingIndicator: boolean
 

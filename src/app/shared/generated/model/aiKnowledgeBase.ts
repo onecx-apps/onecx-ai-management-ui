@@ -8,14 +8,11 @@
  * Do not edit the class manually.
  */
 
-import { AIContext } from "./aIContext";
-
 
 export interface AiKnowledgeBase { 
     modificationCount?: number;
     id: string;
     name?: string;
     description?: string;
-    contexts?: AIContext[]
 }
 

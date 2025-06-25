@@ -17,21 +17,21 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { CreateAiKnowledgeBaseRequest } from '../model/createAiKnowledgeBaseRequest';
+import { CreateAIKnowledgeBaseRequest } from '../model/createAIKnowledgeBaseRequest';
 // @ts-ignore
-import { CreateAiKnowledgeBaseResponse } from '../model/createAiKnowledgeBaseResponse';
+import { CreateAIKnowledgeBaseResponse } from '../model/createAIKnowledgeBaseResponse';
 // @ts-ignore
-import { GetAiKnowledgeBaseByIdResponse } from '../model/getAiKnowledgeBaseByIdResponse';
+import { GetAIKnowledgeBaseByIdResponse } from '../model/getAIKnowledgeBaseByIdResponse';
 // @ts-ignore
 import { ProblemDetailResponse } from '../model/problemDetailResponse';
 // @ts-ignore
-import { SearchAiKnowledgeBaseRequest } from '../model/searchAiKnowledgeBaseRequest';
+import { SearchAIKnowledgeBaseRequest } from '../model/searchAIKnowledgeBaseRequest';
 // @ts-ignore
-import { SearchAiKnowledgeBaseResponse } from '../model/searchAiKnowledgeBaseResponse';
+import { SearchAIKnowledgeBaseResponse } from '../model/searchAIKnowledgeBaseResponse';
 // @ts-ignore
-import { UpdateAiKnowledgeBaseRequest } from '../model/updateAiKnowledgeBaseRequest';
+import { UpdateAIKnowledgeBaseRequest } from '../model/updateAIKnowledgeBaseRequest';
 // @ts-ignore
-import { UpdateAiKnowledgeBaseResponse } from '../model/updateAiKnowledgeBaseResponse';
+import { UpdateAIKnowledgeBaseResponse } from '../model/updateAIKnowledgeBaseResponse';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -106,16 +106,16 @@ export class AiKnowledgeBaseBffService {
 
     /**
      * This operation performs a create.
-     * @param createAiKnowledgeBaseRequest 
+     * @param createAIKnowledgeBaseRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createAiKnowledgeBase(createAiKnowledgeBaseRequest: CreateAiKnowledgeBaseRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CreateAiKnowledgeBaseResponse>;
-    public createAiKnowledgeBase(createAiKnowledgeBaseRequest: CreateAiKnowledgeBaseRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CreateAiKnowledgeBaseResponse>>;
-    public createAiKnowledgeBase(createAiKnowledgeBaseRequest: CreateAiKnowledgeBaseRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CreateAiKnowledgeBaseResponse>>;
-    public createAiKnowledgeBase(createAiKnowledgeBaseRequest: CreateAiKnowledgeBaseRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
-        if (createAiKnowledgeBaseRequest === null || createAiKnowledgeBaseRequest === undefined) {
-            throw new Error('Required parameter createAiKnowledgeBaseRequest was null or undefined when calling createAiKnowledgeBase.');
+    public createAiKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<CreateAIKnowledgeBaseResponse>;
+    public createAiKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<CreateAIKnowledgeBaseResponse>>;
+    public createAiKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<CreateAIKnowledgeBaseResponse>>;
+    public createAiKnowledgeBase(createAIKnowledgeBaseRequest: CreateAIKnowledgeBaseRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (createAIKnowledgeBaseRequest === null || createAIKnowledgeBaseRequest === undefined) {
+            throw new Error('Required parameter createAIKnowledgeBaseRequest was null or undefined when calling createAiKnowledgeBase.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -136,6 +136,7 @@ export class AiKnowledgeBaseBffService {
         if (localVarHttpContext === undefined) {
             localVarHttpContext = new HttpContext();
         }
+
 
         // to determine the Content-Type header
         const consumes: string[] = [
@@ -158,10 +159,10 @@ export class AiKnowledgeBaseBffService {
         }
 
         let localVarPath = `/aiKnowledgeBase`;
-        return this.httpClient.request<CreateAiKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<CreateAIKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: createAiKnowledgeBaseRequest,
+                body: createAIKnowledgeBaseRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -172,7 +173,7 @@ export class AiKnowledgeBaseBffService {
     }
 
     /**
-     * Delete AiKnowledgeBase by id
+     * Delete aiKnowledgeBase by id
      * @param id 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -233,12 +234,12 @@ export class AiKnowledgeBaseBffService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAiKnowledgeBaseById(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<GetAiKnowledgeBaseByIdResponse>;
-    public getAiKnowledgeBaseById(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<GetAiKnowledgeBaseByIdResponse>>;
-    public getAiKnowledgeBaseById(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<GetAiKnowledgeBaseByIdResponse>>;
-    public getAiKnowledgeBaseById(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public getAIKnowledgeBaseById(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<GetAIKnowledgeBaseByIdResponse>;
+    public getAIKnowledgeBaseById(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<GetAIKnowledgeBaseByIdResponse>>;
+    public getAIKnowledgeBaseById(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<GetAIKnowledgeBaseByIdResponse>>;
+    public getAIKnowledgeBaseById(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
-            throw new Error('Required parameter id was null or undefined when calling getAiKnowledgeBaseById.');
+            throw new Error('Required parameter id was null or undefined when calling getAIKnowledgeBaseById.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -273,7 +274,7 @@ export class AiKnowledgeBaseBffService {
         }
 
         let localVarPath = `/aiKnowledgeBase/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<GetAiKnowledgeBaseByIdResponse>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<GetAIKnowledgeBaseByIdResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -287,14 +288,14 @@ export class AiKnowledgeBaseBffService {
 
     /**
      * This operation performs a search based on provided search criteria. Search for aiKnowledgeBase results.
-     * @param searchAiKnowledgeBaseRequest 
+     * @param searchAIKnowledgeBaseRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public searchAiKnowledgeBases(searchAiKnowledgeBaseRequest?: SearchAiKnowledgeBaseRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SearchAiKnowledgeBaseResponse>;
-    public searchAiKnowledgeBases(searchAiKnowledgeBaseRequest?: SearchAiKnowledgeBaseRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SearchAiKnowledgeBaseResponse>>;
-    public searchAiKnowledgeBases(searchAiKnowledgeBaseRequest?: SearchAiKnowledgeBaseRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SearchAiKnowledgeBaseResponse>>;
-    public searchAiKnowledgeBases(searchAiKnowledgeBaseRequest?: SearchAiKnowledgeBaseRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public searchAIKnowledgeBases(searchAIKnowledgeBaseRequest?: SearchAIKnowledgeBaseRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<SearchAIKnowledgeBaseResponse>;
+    public searchAIKnowledgeBases(searchAIKnowledgeBaseRequest?: SearchAIKnowledgeBaseRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<SearchAIKnowledgeBaseResponse>>;
+    public searchAIKnowledgeBases(searchAIKnowledgeBaseRequest?: SearchAIKnowledgeBaseRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<SearchAIKnowledgeBaseResponse>>;
+    public searchAIKnowledgeBases(searchAIKnowledgeBaseRequest?: SearchAIKnowledgeBaseRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -337,10 +338,10 @@ export class AiKnowledgeBaseBffService {
         }
 
         let localVarPath = `/aiKnowledgeBase/search`;
-        return this.httpClient.request<SearchAiKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<SearchAIKnowledgeBaseResponse>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: searchAiKnowledgeBaseRequest,
+                body: searchAIKnowledgeBaseRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
@@ -353,19 +354,19 @@ export class AiKnowledgeBaseBffService {
     /**
      * This operation performs an update.
      * @param id 
-     * @param updateAiKnowledgeBaseRequest 
+     * @param updateAIKnowledgeBaseRequest 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateAiKnowledgeBase(id: string, updateAiKnowledgeBaseRequest: UpdateAiKnowledgeBaseRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<UpdateAiKnowledgeBaseResponse>;
-    public updateAiKnowledgeBase(id: string, updateAiKnowledgeBaseRequest: UpdateAiKnowledgeBaseRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<UpdateAiKnowledgeBaseResponse>>;
-    public updateAiKnowledgeBase(id: string, updateAiKnowledgeBaseRequest: UpdateAiKnowledgeBaseRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<UpdateAiKnowledgeBaseResponse>>;
-    public updateAiKnowledgeBase(id: string, updateAiKnowledgeBaseRequest: UpdateAiKnowledgeBaseRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public updateAiKnowledgeBase(id: string, updateAIKnowledgeBaseRequest: UpdateAIKnowledgeBaseRequest, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<UpdateAIKnowledgeBaseResponse>;
+    public updateAiKnowledgeBase(id: string, updateAIKnowledgeBaseRequest: UpdateAIKnowledgeBaseRequest, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<UpdateAIKnowledgeBaseResponse>>;
+    public updateAiKnowledgeBase(id: string, updateAIKnowledgeBaseRequest: UpdateAIKnowledgeBaseRequest, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<UpdateAIKnowledgeBaseResponse>>;
+    public updateAiKnowledgeBase(id: string, updateAIKnowledgeBaseRequest: UpdateAIKnowledgeBaseRequest, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling updateAiKnowledgeBase.');
         }
-        if (updateAiKnowledgeBaseRequest === null || updateAiKnowledgeBaseRequest === undefined) {
-            throw new Error('Required parameter updateAiKnowledgeBaseRequest was null or undefined when calling updateAiKnowledgeBase.');
+        if (updateAIKnowledgeBaseRequest === null || updateAIKnowledgeBaseRequest === undefined) {
+            throw new Error('Required parameter updateAIKnowledgeBaseRequest was null or undefined when calling updateAiKnowledgeBase.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -409,10 +410,10 @@ export class AiKnowledgeBaseBffService {
         }
 
         let localVarPath = `/aiKnowledgeBase/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: undefined})}`;
-        return this.httpClient.request<UpdateAiKnowledgeBaseResponse>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<UpdateAIKnowledgeBaseResponse>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: updateAiKnowledgeBaseRequest,
+                body: updateAIKnowledgeBaseRequest,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
