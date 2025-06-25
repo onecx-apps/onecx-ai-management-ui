@@ -23,25 +23,9 @@
               <input
                 pInputText
                 type="text"
-                id="aiContext_detail_appId"
-                class="w-full pt-3 pb-2 text-responsive"
-                formControlName="appId"
-                readonly
-              />
-              <label class="ocx-required-label" for="aiContext_detail_appId">
-                {{ 'AI_CONTEXT_DETAILS.FORM.APPID' | translate }}
-              </label>
-            </span>
-          </div>
-          <div class="mt-3 mb-1">
-            <span class="p-float-label mb-1" controlErrorAnchor>
-              <input
-                pInputText
-                type="text"
                 id="aiContext_detail_name"
                 class="w-full pt-3 pb-2 text-responsive"
                 formControlName="name"
-                readonly
               />
               <label class="ocx-required-label" for="aiContext_detail_name">
                 {{ 'AI_CONTEXT_DETAILS.FORM.NAME' | translate }}
@@ -56,26 +40,38 @@
                 id="aiContext_detail_description"
                 class="w-full pt-3 pb-2 text-responsive"
                 formControlName="description"
-                readonly
               />
               <label class="ocx-required-label" for="aiContext_detail_description">
                 {{ 'AI_CONTEXT_DETAILS.FORM.DESCRIPTION' | translate }}
               </label>
             </span>
           </div>
-
+          <div class="mt-3 mb-1">
+            <span class="p-float-label mb-1" controlErrorAnchor>
+              <input
+                pInputText
+                type="text"
+                id="aiContext_detail_appId"
+                class="w-full pt-3 pb-2 text-responsive"
+                formControlName="appId"
+              />
+              <label class="ocx-required-label" for="aiContext_detail_appId">
+                {{ 'AI_CONTEXT_DETAILS.FORM.APPID' | translate }}
+              </label>
+            </span>
+          </div>
           <div class="mt-3 mb-1">
             <span class="p-float-label mb-1" controlErrorAnchor>
               <p-dropdown
                 id="aiContext_detail_knowledgeBase"
                 [options]="knowledgeBases"
-                formControlName="knowledgeBase"
+                formControlName="aiKnowledgeBase"
                 [optionLabel]="'name'"
                 [filter]="true"
                 filterBy="name,appId"
                 [showClear]="true"
                 class="w-full"
-                placeholder="Select a Knowledge Base"
+                placeholder="Select an aIKnowledgeBase"
               >
                 <ng-template pTemplate="item" let-item> {{item.appId}} - {{item.name}} </ng-template>
               </p-dropdown>
@@ -144,9 +140,7 @@
             >
               <ng-template pTemplate="header">
                 <tr>
-                  <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                  </th>
+                  <th style="width: 3rem"></th>
                   <th>{{ 'AI_CONTEXT_DETAILS.TABLE.NAME' | translate }}</th>
                   <th>{{ 'AI_CONTEXT_DETAILS.TABLE.DESCRIPTION' | translate }}</th>
                   <th>{{ 'AI_CONTEXT_DETAILS.TABLE.AI_KNOWLEDGE_DB' | translate }}</th>
@@ -178,9 +172,7 @@
             >
               <ng-template pTemplate="header">
                 <tr>
-                  <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                  </th>
+                  <th style="width: 3rem"></th>
                   <th>{{ 'AI_CONTEXT_DETAILS.TABLE.NAME' | translate }}</th>
                   <th>{{ 'AI_CONTEXT_DETAILS.TABLE.DESCRIPTION' | translate }}</th>
                   <th>{{ 'AI_CONTEXT_DETAILS.TABLE.AI_KNOWLEDGE_DB' | translate }}</th>
@@ -204,17 +196,14 @@
             <p-table
               id="knowledge-documents-table"
               [value]="documents"
-              [selection]="selectedDocuments"
+              [(selection)]="selectedDocuments"
               dataKey="id"
-              (selectionChange)="onDocumentsSelection($event)"
               [scrollable]="true"
               [scrollHeight]="'200px'"
             >
               <ng-template pTemplate="header">
                 <tr>
-                  <th style="width: 3rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                  </th>
+                  <th style="width: 3rem"></th>
                   <th>{{ 'AI_CONTEXT_DETAILS.TABLE.NAME' | translate }}</th>
                   <th>{{ 'AI_CONTEXT_DETAILS.TABLE.STATUS' | translate }}</th>
                 </tr>

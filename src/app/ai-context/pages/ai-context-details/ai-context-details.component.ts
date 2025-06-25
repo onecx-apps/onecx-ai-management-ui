@@ -39,13 +39,10 @@ export class AiContextDetailsComponent implements OnInit {
           titleKey: 'AI_CONTEXT_DETAILS.GENERAL.BACK',
           labelKey: 'AI_CONTEXT_DETAILS.GENERAL.BACK',
           show: 'always',
-          disabled: !vm.backNavigationPossible,
           icon: PrimeIcons.ARROW_LEFT,
-          // permission: 'AI_KNOWLEDGE_BASE#BACK',
           showCondition: !vm.editMode,
           actionCallback: () => {
-            // this.store.dispatch(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked())
-            window.history.back()
+            this.goBack()
           }
         },
         {
@@ -53,7 +50,6 @@ export class AiContextDetailsComponent implements OnInit {
           labelKey: 'AI_CONTEXT_DETAILS.GENERAL.EDIT',
           show: 'always',
           icon: PrimeIcons.PENCIL,
-          conditional: true,
           showCondition: !vm.editMode,
           actionCallback: () => {
             this.edit()
@@ -111,7 +107,7 @@ export class AiContextDetailsComponent implements OnInit {
       appId: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      knowledgeBase: new FormControl(null),
+      aiKnowledgeBase: new FormControl(null),
       provider: new FormControl(null),
       aiKnowledgeVectorDb: new FormControl(null),
       aiKnowledgeUrls: new FormControl([]),
@@ -122,11 +118,21 @@ export class AiContextDetailsComponent implements OnInit {
 
     this.viewModel$.subscribe((vm) => {
       if (!vm.editMode) {
-        this.formGroup.setValue({
+        this.formGroup.patchValue({
           appId: vm.details?.appId,
           name: vm.details?.name,
-          description: vm.details?.description
+          description: vm.details?.description,
+          aiKnowledgeBase: vm.details?.aIKnowledgeBase,
+          provider: vm.details?.provider,
+          aiKnowledgeVectorDb: vm.details?.aIKnowledgeVectorDb,
+          aiKnowledgeUrls: vm.details?.aIKnowledgeUrl || [],
+          aiKnowledgeDbs: vm.details?.aIKnowledgeDbs || [],
+          aiKnowledgeDocuments: vm.details?.aIKnowledgeDocuments || []
         })
+
+        this.knowledgeUrls = vm.details?.aIKnowledgeUrl || []
+        this.knowledgeDbs = vm.details?.aIKnowledgeDbs || []
+        this.documents = vm.details?.aIKnowledgeDocuments || []
         this.formGroup.markAsPristine()
       }
       if (vm.editMode) {
@@ -191,5 +197,10 @@ export class AiContextDetailsComponent implements OnInit {
 
   delete() {
     this.store.dispatch(AiContextDetailsActions.deleteButtonClicked())
+  }
+
+  goBack() {
+    console.log("GOBACK!!")
+    this.store.dispatch(AiContextDetailsActions.navigateBackButtonClicked())
   }
 }
