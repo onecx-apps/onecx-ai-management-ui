@@ -66,10 +66,8 @@ export class AiKnowledgeBaseDetailsEffects {
 
   loadContextsById$ = createEffect(() => {
     return this.actions$.pipe(
-      // tap((action) => console.log('Action dispatched:', action)),
       ofType(AiKnowledgeBaseDetailsActions.navigatedToDetailsPage),
       switchMap(({ id }) => {
-        // Fetching all available contexts
         console.log('loading contexts: ', id)
         const fetchAllReq: SearchAIContextRequest = { id: undefined, appId: '', name: '', description: '' }
         return this.aiContextService.searchAIContexts(fetchAllReq).pipe(
