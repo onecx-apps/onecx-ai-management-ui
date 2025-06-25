@@ -77,6 +77,12 @@ export const aiKnowledgeBaseDetailsReducer = createReducer(
     })
   ),
   on(
+    AiKnowledgeBaseDetailsActions.navigateBackButtonClicked,
+    (state: AiKnowledgeBaseDetailsState): AiKnowledgeBaseDetailsState => ({
+      ...state
+    })
+  ),
+  on(
     AiKnowledgeBaseDetailsActions.cancelEditConfirmClicked,
     AiKnowledgeBaseDetailsActions.cancelEditNotDirty,
     AiKnowledgeBaseDetailsActions.updateAiKnowledgeBaseCancelled,
