@@ -28,7 +28,12 @@
     },
     "UPDATE": {
       "SUCCESS": "Speichern erfolgreich",
-      "ERROR": "Speichern fehlgeschlagen"
+      "ERROR": "Speichern fehlgeschlagen",
+      "FORM": {
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
+      },
+      "HEADER": "Update AiKnowledgeBase"
     },
     "DELETE": {
       "HEADER": "AiKnowledgeBase löschen",

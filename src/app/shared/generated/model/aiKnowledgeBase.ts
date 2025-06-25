@@ -9,7 +9,7 @@
  */
 
 
-export interface AiKnowledgeBase { 
+export interface AIKnowledgeBase { 
     modificationCount?: number;
     id: string;
     name?: string;

@@ -35,7 +35,7 @@
     "@ngrx/effects": "^18.0.2",
     "@ngrx/router-store": "^18.0.2",
     "@ngrx/store": "^18.0.2",
-    "@ngrx/store-devtools": "^18.0.2",
+    "@ngrx/store-devtools": "^18.1.1",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@nx/angular": "^19.5.7",
@@ -70,6 +70,8 @@
     "@angular/cli": "~18.2.0",
     "@angular/compiler-cli": "~18.2.0",
     "@angular/language-service": "~18.2.0",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "@eslint/js": "^9.8.0",
     "@nx/eslint": "19.8.14",
     "@nx/eslint-plugin": "19.8.14",
@@ -105,8 +107,6 @@
     "tslib": "^2.3.0",
     "typescript": "~5.5.4",
     "typescript-eslint": "^8.0.0",
-    "webpack": "5.94.0",
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0"
+    "webpack": "5.94.0"
   }
 }

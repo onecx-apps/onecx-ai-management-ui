@@ -9,7 +9,7 @@
  */
 
 
-export interface SearchAiKnowledgeBaseRequest { 
+export interface SearchAIKnowledgeBaseRequest { 
     id?: number;
     /**
      * The number of the page

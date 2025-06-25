@@ -9,7 +9,7 @@
  */
 
 
-export interface CreateAIKnowledgeVectorDb { 
+export interface CreateAIKnowledgeVectorDbRequest { 
     name?: string;
     description?: string;
     appId?: string;
