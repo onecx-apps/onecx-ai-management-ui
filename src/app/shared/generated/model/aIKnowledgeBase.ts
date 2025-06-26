@@ -7,8 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-
-import { AIContext } from "./aIContext";
+import { AIContext } from './aIContext';
 
 
 export interface AIKnowledgeBase { 
@@ -16,6 +15,6 @@ export interface AIKnowledgeBase {
     id: string;
     name?: string;
     description?: string;
-    contexts?: AIContext[]
+    aiContext?: Array<AIContext>;
 }
 

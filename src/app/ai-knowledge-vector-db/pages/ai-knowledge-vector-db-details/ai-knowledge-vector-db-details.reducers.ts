@@ -83,6 +83,12 @@ export const AIKnowledgeVectorDbDetailsReducer = createReducer(
     })
   ),
   on(
+    AIKnowledgeVectorDbDetailsActions.navigateBackButtonClicked,
+    (state: AIKnowledgeVectorDbDetailsState): AIKnowledgeVectorDbDetailsState => ({
+      ...state
+    })
+  ),
+  on(
     AIKnowledgeVectorDbDetailsActions.cancelEditConfirmClicked,
     AIKnowledgeVectorDbDetailsActions.cancelEditNotDirty,
     AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbCancelled,

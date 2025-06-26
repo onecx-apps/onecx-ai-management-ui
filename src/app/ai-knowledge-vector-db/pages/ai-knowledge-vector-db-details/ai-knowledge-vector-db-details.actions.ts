@@ -38,6 +38,11 @@ export const AIKnowledgeVectorDbDetailsActions = createActionGroup({
     'cancel button clicked': props<{
       dirty: boolean
     }>(),
-    'delete button clicked': emptyProps()
+    'delete button clicked': emptyProps(),
+    'navigate back button clicked': emptyProps(),
+    'back navigation started': emptyProps(),
+    'back navigation failed': emptyProps(),
+    'navigation to search started': emptyProps(),
+    'navigation to search not started': emptyProps()
   }
 })

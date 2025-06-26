@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Action, BreadcrumbService, ObjectDetailItem } from '@onecx/portal-integration-angular'
-import { combineLatest, map, Observable, tap } from 'rxjs'
+import { combineLatest, map, Observable } from 'rxjs'
 
 import { PrimeIcons } from 'primeng/api'
 import { selectAIKnowledgeVectorDbDetailsViewModel } from './ai-knowledge-vector-db-details.selectors'
@@ -38,15 +38,17 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
       map((vm) => {
         const actions: Action[] = [
           {
-            titleKey: 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.GENERAL.BACK',
-            labelKey: 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.GENERAL.BACK',
+            titleKey: 'AI_KNOWLEDGE_BASE_DETAILS.GENERAL.BACK',
+            labelKey: 'AI_KNOWLEDGE_BASE_DETAILS.GENERAL.BACK',
             show: 'always',
             disabled: !vm.backNavigationPossible,
             icon: PrimeIcons.ARROW_LEFT,
-            // permission: 'AI_KNOWLEDGE_BASE#BACK',
+            conditional: true,
+            permission: 'AI_KNOWLEDGE_BASE#BACK',
             showCondition: !vm.editMode,
+
             actionCallback: () => {
-              window.history.back()
+              this.goBack()
             }
           },
           {
@@ -118,7 +120,6 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
     this.formGroup.disable()
 
     combineLatest([this.viewModel$, this.displayContexts$])
-      .pipe(tap(console.log))
       .subscribe(([vm, contexts]) => {
         if (!vm.editMode) {
           const matchedContext = contexts.find((context: any) => context.value.id === vm.details?.aiContext?.id) ?? null
@@ -158,6 +159,11 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
   edit() {
     this.store.dispatch(AIKnowledgeVectorDbDetailsActions.editButtonClicked())
   }
+
+  goBack() {
+    this.store.dispatch(AIKnowledgeVectorDbDetailsActions.navigateBackButtonClicked())
+  }
+
   cancel() {
     this.store.dispatch(AIKnowledgeVectorDbDetailsActions.cancelButtonClicked({ dirty: this.formGroup.dirty }))
   }

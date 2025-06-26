@@ -1,15 +1,10 @@
 import { createSelector } from '@ngrx/store'
 import { createChildSelectors } from '@onecx/ngrx-accelerator'
-// import { selectBackNavigationPossible } from '../../../shared/selectors/onecx.selectors'
+import { selectBackNavigationPossible } from '../../../shared/selectors/onecx.selectors'
 import { AIContext, AIKnowledgeVectorDb } from '../../../shared/generated'
 import { AIKnowledgeVectorDbFeature } from '../../ai-knowledge-vector-db.reducers'
 import { initialState } from './ai-knowledge-vector-db-details.reducers'
 import { AIKnowledgeVectorDbDetailsViewModel } from './ai-knowledge-vector-db-details.viewmodel'
-
-// Taking original from accelerator create a lot of errors,it just doesn't see some variables apparently
-function selectBackNavigationPossible(): boolean {
-  return true
-}
 
 export const AIKnowledgeVectorDbDetailsSelectors = createChildSelectors(
   AIKnowledgeVectorDbFeature.selectDetails,

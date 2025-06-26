@@ -19,6 +19,7 @@ import { AIKnowledgeVectorDbDetailsActions } from './ai-knowledge-vector-db-deta
 import { AIKnowledgeVectorDbDetailsComponent } from './ai-knowledge-vector-db-details.component'
 import { AIKnowledgeVectorDbDetailsSelectors } from './ai-knowledge-vector-db-details.selectors'
 import { PrimeIcons } from 'primeng/api'
+import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
 
 @Injectable()
 export class AIKnowledgeVectorDbDetailsEffects {
@@ -69,11 +70,8 @@ export class AIKnowledgeVectorDbDetailsEffects {
   })
   loadContextsById$ = createEffect(() => {
     return this.actions$.pipe(
-      tap((action) => console.log('Action dispatched:', action)),
       ofType(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage),
-      switchMap(({ id }) => {
-        // Fetching all available contexts
-        console.log('loading contexts: ', id)
+      switchMap(() => {
         const fetchAllReq: SearchAIContextRequest = { id: undefined, appId: '', name: '', description: '' }
         return this.aiContextService.searchAIContexts(fetchAllReq).pipe(
           map(({ stream }) =>
@@ -254,17 +252,17 @@ export class AIKnowledgeVectorDbDetailsEffects {
     { dispatch: false }
   )
 
-  // navigateBack$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(AIKnowledgeBaseDetailsActions.navigateBackButtonClicked),
-  //     concatLatestFrom(() => [this.store.select(selectBackNavigationPossible)]),
-  //     switchMap(([, backNavigationPossible]) => {
-  //       if (!backNavigationPossible) {
-  //         return of(AIKnowledgeBaseDetailsActions.backNavigationFailed())
-  //       }
-  //       window.history.back()
-  //       return of(AIKnowledgeBaseDetailsActions.backNavigationStarted())
-  //     })
-  //   )
-  // })
+  navigateBack$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AIKnowledgeVectorDbDetailsActions.navigateBackButtonClicked),
+      concatLatestFrom(() => [this.store.select(selectBackNavigationPossible)]),
+      switchMap(([, backNavigationPossible]) => {
+        if (!backNavigationPossible) {
+          return of(AIKnowledgeVectorDbDetailsActions.backNavigationFailed())
+        }
+        window.history.back()
+        return of(AIKnowledgeVectorDbDetailsActions.backNavigationStarted())
+      })
+    )
+  })
 }
