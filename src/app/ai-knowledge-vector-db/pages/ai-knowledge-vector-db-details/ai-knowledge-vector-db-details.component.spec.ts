@@ -160,7 +160,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       ],
       providers: [
         provideMockStore({
-          initialState: { AIKnowledgeVectorDb: { details: initialState } }
+          initialState: { AIKnowledgeVectorDb: { details: initialState, backNavigationPossible: true } }
         }),
         BreadcrumbService,
         { provide: ActivatedRoute, useValue: mockActivatedRoute }
@@ -208,10 +208,11 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     expect(await pageHeader.getSubheaderText()).toEqual('Display of AIKnowledgeVectorDb Details')
   })
 
-  it('should have 2 inline actions', async () => {
+  it.only('should have 2 inline actions', async () => {
     const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
     const inlineActions = await pageHeader.getInlineActionButtons()
     expect(inlineActions.length).toBe(2)
+
     const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
     expect(backAction).toBeTruthy()
 
@@ -219,15 +220,19 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     expect(editAction).toBeTruthy()
   })
 
-  // it('should navigate back on back button click', async () => {
-  //   jest.spyOn(window.history, 'back')
+  it('should navigate back on back button click', async () => {
+    jest.spyOn(window.history, 'back')
 
-  //   const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
-  //   const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
-  //   await backAction?.click()
+    const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
+    const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
 
-  //   expect(window.history.back).toHaveBeenCalledTimes(1)
-  // })
+    console.log('backAction: ', backAction)
+    console.log('pageHeader: ', pageHeader)
+
+    await backAction?.click()
+
+    expect(window.history.back).toHaveBeenCalledTimes(1)
+  })
 
   it('should display item details in form fields', async () => {
     store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, baseAIKnowledgeVectorDbDetailsViewModel)

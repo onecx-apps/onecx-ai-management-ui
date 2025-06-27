@@ -16,6 +16,8 @@ import { initialState } from './ai-knowledge-base-details.reducers'
 import { selectAiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.selectors'
 import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.viewmodel'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { ofType } from '@ngrx/effects'
+import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actions'
 
 describe('AiKnowledgeBaseDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -31,7 +33,6 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
   }
 
   window.postMessage = (m: any) => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     listeners.forEach((l) =>
       l({
         data: m,
@@ -65,7 +66,7 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
     contextsLoaded: true,
     contextsLoadingIndicator: false,
     backNavigationPossible: true,
-    editMode: true,
+    editMode: false,
     isSubmitting: false
   }
 
@@ -85,7 +86,7 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
       ],
       providers: [
         provideMockStore({
-          initialState: { aiKnowledgeBase: { details: initialState } }
+          initialState: { aiKnowledgeBase: { details: initialState, backNavigationPossible: true } }
         }),
         BreadcrumbService,
         { provide: ActivatedRoute, useValue: mockActivatedRoute }
@@ -133,27 +134,28 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
   it('should have 2 inline actions', async () => {
     const pageHeader = await aiKnowledgeBaseDetails.getHeader()
     const inlineActions = await pageHeader.getInlineActionButtons()
+
     expect(inlineActions.length).toBe(2)
 
-    // const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
-    // expect(backAction).toBeTruthy()
+    const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
+    expect(backAction).toBeTruthy()
 
     const moreAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.ELLIPSIS_V)
     expect(moreAction).toBeNull()
   })
 
-  // it('should dispatch navigateBackButtonClicked action on back button click', async () => {
-  //   jest.spyOn(window.history, 'back')
-  //   const doneFn = jest.fn()
+  it('should dispatch navigateBackButtonClicked action on back button click', async () => {
+    jest.spyOn(window.history, 'back')
+    const doneFn = jest.fn()
 
-  //   const pageHeader = await aiKnowledgeBaseDetails.getHeader()
-  //   const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
-  //   store.scannedActions$.pipe(ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked)).subscribe(() => {
-  //     doneFn()
-  //   })
-  //   await backAction?.click()
-  //   expect(doneFn).toHaveBeenCalledTimes(1)
-  // })
+    const pageHeader = await aiKnowledgeBaseDetails.getHeader()
+    const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
+    store.scannedActions$.pipe(ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked)).subscribe(() => {
+      doneFn()
+    })
+    await backAction?.click()
+    expect(doneFn).toHaveBeenCalledTimes(1)
+  })
 
   it('should display item details in page header', async () => {
     component.headerLabels$ = of([
