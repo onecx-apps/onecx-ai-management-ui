@@ -82,13 +82,13 @@
                 formControlName="aiContext"
                 [filter]="true"
                 optionLabel="label"
-                placeholder="Select an ai context"
+                placeholder="{{ 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.FORM.AICONTEXT.PLACEHOLDER' | translate }}"
                 styleClass="w-full"
                 [loading]="vm.contextsLoadingIndicator"
               >
               </p-dropdown>
               <label class="ocx-required-label" for="aIKnowledgeVectorDb_detail_aicontext">
-                {{ 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.FORM.AICONTEXT' | translate }}
+                {{ 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.FORM.AICONTEXT.NAME' | translate }}
               </label>
             </span>
           </div>
