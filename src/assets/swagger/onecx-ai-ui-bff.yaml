@@ -1091,10 +1091,18 @@ components:
           type: string
         creationUser:
           type: string
+        provider:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIProvider'
         aIKnowledgeBase:
-          $ref: '#/components/schemas/AIKnowledgeBase'
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeBase'
         aIKnowledgeVectorDb:
-          $ref: '#/components/schemas/AIKnowledgeVectorDb'
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeVectorDb'
         aIKnowledgeUrl:
           type: array
           items:
@@ -1107,8 +1115,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AIKnowledgeDocument'
-        provider:
-          $ref: '#/components/schemas/AIProvider'
     CreateAiContextRequest:
       type: object
       properties:
