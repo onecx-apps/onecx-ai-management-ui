@@ -16,6 +16,8 @@ import { initialState } from './ai-knowledge-base-details.reducers'
 import { selectAiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.selectors'
 import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.viewmodel'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { ofType } from '@ngrx/effects'
+import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actions'
 
 describe('AiKnowledgeBaseDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
