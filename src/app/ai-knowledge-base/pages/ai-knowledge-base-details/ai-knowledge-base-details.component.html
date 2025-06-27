@@ -58,19 +58,24 @@
                 ><ng-template let-item pTemplate="item">
                   <div class="flex flex-col text-sm">
                     <span class="font-semibold">
-                      <span style="width: 40px">ID: {{ item.id }}</span>
+                      <span style="width: 40px"
+                        >{{ 'AI_KNOWLEDGE_BASE_DETAILS.FORM.ID' | translate }}: {{ item.id }}</span
+                      >
                       <span> &nbsp;|&nbsp; </span>
                     </span>
                     <span class="font-semibold">
-                      <span style="width: 120px">NAME: {{ item.name }}</span>
+                      <span style="width: 120px"
+                        >{{ 'AI_KNOWLEDGE_BASE_DETAILS.FORM.NAME' | translate }}: {{ item.name }}</span
+                      >
                       <span> &nbsp;|&nbsp; </span>
                     </span>
 
-                    <span class="font-semibold"> DESCRIPTION: {{ item.description }}</span>
+                    <span class="font-semibold">
+                      {{ 'AI_KNOWLEDGE_BASE_DETAILS.FORM.DESCRIPTION' | translate }}: {{ item.description }}</span
+                    >
                   </div>
                 </ng-template>
-              </p-multiSelect
-              >
+              </p-multiSelect>
               <label class="ocx-required-label" for="aiContext">
                 {{ 'AI_KNOWLEDGE_BASE_DETAILS.FORM.CONTEXTS' | translate }}
               </label>
