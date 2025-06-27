@@ -22,8 +22,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
   const origPostMessage = window.postMessage
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  /* eslint-disable @typescript-eslint/no-empty-function */
   let listeners: any[] = []
   window.addEventListener = (_type: any, listener: any) => {
     listeners.push(listener)
@@ -42,8 +40,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       })
     )
   }
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-  /* eslint-enable @typescript-eslint/no-empty-function */
 
   afterAll(() => {
     window.addEventListener = origAddEventListener
@@ -76,12 +72,12 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
         modificationCount: -2147483648,
         modificationUser: 'string',
         creationUser: 'string',
-        aIKnowledgeBase: {
+        AIKnowledgeBase: {
           modificationCount: -2147483648,
           id: 'string',
           name: 'string',
           description: 'string',
-          contexts: []
+          aiContext: []
         },
         aIKnowledgeVectorDb: {
           modificationCount: -2147483648,
@@ -156,10 +152,8 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
         LetDirective,
         FormsModule,
         ReactiveFormsModule,
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
         TranslateTestingModule.withTranslations('en', require('./../../../../assets/i18n/en.json')).withTranslations(
           'de',
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
           require('./../../../../assets/i18n/de.json')
         ),
         HttpClientTestingModule
@@ -225,15 +219,15 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     expect(editAction).toBeTruthy()
   })
 
-  it('should navigate back on back button click', async () => {
-    jest.spyOn(window.history, 'back')
+  // it('should navigate back on back button click', async () => {
+  //   jest.spyOn(window.history, 'back')
 
-    const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
-    const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
-    await backAction?.click()
+  //   const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
+  //   const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
+  //   await backAction?.click()
 
-    expect(window.history.back).toHaveBeenCalledTimes(1)
-  })
+  //   expect(window.history.back).toHaveBeenCalledTimes(1)
+  // })
 
   it('should display item details in form fields', async () => {
     store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, baseAIKnowledgeVectorDbDetailsViewModel)

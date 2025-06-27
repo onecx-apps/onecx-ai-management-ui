@@ -119,27 +119,26 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
     })
     this.formGroup.disable()
 
-    combineLatest([this.viewModel$, this.displayContexts$])
-      .subscribe(([vm, contexts]) => {
-        if (!vm.editMode) {
-          const matchedContext = contexts.find((context: any) => context.value.id === vm.details?.aiContext?.id) ?? null
-          this.formGroup.patchValue({
-            id: vm.details?.id ?? '',
-            name: vm.details?.name ?? '',
-            description: vm.details?.description,
-            vdb: vm.details?.vdb,
-            vdbCollection: vm.details?.vdbCollection,
-            aiContext: matchedContext
-          })
-          this.formGroup.markAsPristine()
-        }
+    combineLatest([this.viewModel$, this.displayContexts$]).subscribe(([vm, contexts]) => {
+      if (!vm.editMode) {
+        const matchedContext = contexts.find((context: any) => context.value.id === vm.details?.aiContext?.id) ?? null
+        this.formGroup.patchValue({
+          id: vm.details?.id ?? '',
+          name: vm.details?.name ?? '',
+          description: vm.details?.description,
+          vdb: vm.details?.vdb,
+          vdbCollection: vm.details?.vdbCollection,
+          aiContext: matchedContext
+        })
+        this.formGroup.markAsPristine()
+      }
 
-        if (vm.editMode) {
-          this.formGroup.enable()
-        } else {
-          this.formGroup.disable()
-        }
-      })
+      if (vm.editMode) {
+        this.formGroup.enable()
+      } else {
+        this.formGroup.disable()
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -170,7 +169,7 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
   save() {
     this.store.dispatch(
       AIKnowledgeVectorDbDetailsActions.saveButtonClicked({
-        details: this.formGroup.value
+        details: { ...this.formGroup.value, aiContext: this.formGroup.value.aiContext.value }
       })
     )
   }
