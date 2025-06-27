@@ -38,7 +38,8 @@
                 pInputText
                 type="text"
                 id="aiContext_detail_description"
-                styleClass="w-full"class="w-full pt-3 pb-2 text-responsive"
+                styleClass="w-full"
+                class="w-full pt-3 pb-2 text-responsive"
                 formControlName="description"
               />
               <label class="ocx-required-label" for="aiContext_detail_description">
@@ -60,21 +61,21 @@
               </label>
             </span>
           </div>
+
           <div class="mt-3 mb-1">
             <span class="p-float-label mb-1" controlErrorAnchor>
-              <p-dropdown
+              <p-autoComplete
                 id="aiContext_detail_knowledgeBase"
-                [options]="knowledgeBases"
                 formControlName="aiKnowledgeBase"
-                [optionLabel]="'name'"
-                [filter]="true"
-                filterBy="name,appId"
-                [showClear]="true"
+                [suggestions]="knowledgeBaseSuggestions"
+                (completeMethod)="searchKnowledgeBases($event)"
+                [dropdown]="true"
+                [field]="'name'"
+                [forceSelection]="true"
                 styleClass="w-full"
-                placeholder="Select an aIKnowledgeBase"
               >
-                <ng-template pTemplate="item" let-item> {{item.appId}} - {{item.name}} </ng-template>
-              </p-dropdown>
+                <ng-template let-item pTemplate="item"> {{ item.appId }} - {{ item.name }} </ng-template>
+              </p-autoComplete>
               <label class="ocx-required-label" for="aiContext_detail_knowledgeBase">
                 {{ 'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_BASE' | translate }}
               </label>
@@ -83,19 +84,18 @@
 
           <div class="mt-3 mb-1">
             <span class="p-float-label mb-1" controlErrorAnchor>
-              <p-dropdown
+              <p-autoComplete
                 id="aiContext_detail_provider"
-                [options]="providers"
                 formControlName="provider"
-                [optionLabel]="'name'"
-                [filter]="true"
-                filterBy="name,appId"
-                [showClear]="true"
+                [suggestions]="providerSuggestions"
+                (completeMethod)="searchProviders($event)"
+                [dropdown]="true"
+                [field]="'name'"
+                [forceSelection]="true"
                 styleClass="w-full"
-                placeholder="Select a Provider"
               >
-                <ng-template pTemplate="item" let-item> {{item.appId}} - {{item.name}} </ng-template>
-              </p-dropdown>
+                <ng-template let-item pTemplate="item"> {{ item.appId }} - {{ item.name }} </ng-template>
+              </p-autoComplete>
               <label class="ocx-required-label" for="aiContext_detail_provider">
                 {{ 'AI_CONTEXT_DETAILS.FORM.AIProvider' | translate }}
               </label>
@@ -104,21 +104,20 @@
 
           <div class="mt-3 mb-1">
             <span class="p-float-label mb-1" controlErrorAnchor>
-              <p-dropdown
+              <p-autoComplete
                 id="aiContext_detail_vectorDb"
-                [options]="vectorDbs"
                 formControlName="aiKnowledgeVectorDb"
-                [optionLabel]="'name'"
-                [filter]="true"
-                filterBy="name,description"
-                [showClear]="true"
+                [suggestions]="vectorDbSuggestions"
+                (completeMethod)="searchVectorDbs($event)"
+                [dropdown]="true"
+                [field]="'name'"
+                [forceSelection]="true"
                 styleClass="w-full"
-                placeholder="Select a Vector DB"
               >
-                <ng-template pTemplate="item" let-item>
-                  {{item.name}} - {{item.description | slice:0:30}}{{item.description.length > 30 ? '...' : ''}}
+                <ng-template let-item pTemplate="item">
+                  {{ item.name }} - {{ item.description | slice:0:30 }}{{ item.description?.length > 30 ? '...' : '' }}
                 </ng-template>
-              </p-dropdown>
+              </p-autoComplete>
               <label class="ocx-required-label" for="aiContext_detail_vectorDb">
                 {{ 'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_VECTOR_DB' | translate }}
               </label>
@@ -132,14 +131,12 @@
             <p-multiSelect
               id="knowledge-urls-multiselect"
               [options]="knowledgeUrls"
-              [(ngModel)]="selectedKnowledgeUrls"
+              formControlName="aiKnowledgeUrls"
               optionLabel="name"
               display="chip"
               [filter]="true"
-              placeholder="Select Knowledge URLs"
-              (onChange)="onKnowledgeUrlsSelection($event)"
+              [placeholder]="'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_URLS_PLACEHOLDER' | translate"
               [showClear]="true"
-              [panelStyle]="{ 'max-height': '200px' }"
               styleClass="w-full"
             >
               <ng-template let-url pTemplate="item">
@@ -155,12 +152,11 @@
             <p-multiSelect
               id="knowledge-dbs-multiselect"
               [options]="knowledgeDbs"
-              [(ngModel)]="selectedKnowledgeDbs"
+              formControlName="aiKnowledgeDbs"
               optionLabel="name"
               display="chip"
               [filter]="true"
-              placeholder="Select Knowledge DBs"
-              (onChange)="onKnowledgeDbsSelection($event)"
+              [placeholder]="'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_DBS_PLACEHOLDER' | translate"
               [showClear]="true"
               styleClass="w-full"
             >
@@ -177,12 +173,11 @@
             <p-multiSelect
               id="knowledge-documents-multiselect"
               [options]="documents"
-              [(ngModel)]="selectedDocuments"
+              formControlName="aiKnowledgeDocuments"
               optionLabel="name"
               display="chip"
               [filter]="true"
-              placeholder="Select Knowledge Documents"
-              (onChange)="onDocumentsSelection($event)"
+              [placeholder]="'AI_CONTEXT_DETAILS.FORM.AI_KNOWLEDGE_DOCUMENTS_PLACEHOLDER' | translate"
               [showClear]="true"
               styleClass="w-full"
             >

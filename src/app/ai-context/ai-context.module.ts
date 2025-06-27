@@ -14,7 +14,7 @@ import {
 import { CalendarModule } from 'primeng/calendar'
 import { TableModule } from 'primeng/table'
 import { MultiSelectModule } from 'primeng/multiselect'
-
+import { AutoCompleteModule } from 'primeng/autocomplete'
 import { DropdownModule } from 'primeng/dropdown'
 import { SharedModule } from '../shared/shared.module'
 import { aiContextFeature } from './ai-context.reducers'
@@ -40,6 +40,7 @@ import { AiContextDetailsEffects } from './pages/ai-context-details/ai-context-d
     TableModule,
     MultiSelectModule,
     DropdownModule,
+    AutoCompleteModule,
     StoreModule.forFeature(aiContextFeature),
     EffectsModule.forFeature([AiContextDetailsEffects, AiContextSearchEffects]),
     TranslateModule

@@ -122,14 +122,16 @@ export class AiContextDetailsComponent implements OnInit {
           appId: vm.details?.appId,
           name: vm.details?.name,
           description: vm.details?.description,
-          aiKnowledgeBase: vm.details?.aIKnowledgeBase,
-          provider: vm.details?.provider,
-          aiKnowledgeVectorDb: vm.details?.aIKnowledgeVectorDb,
+          aiKnowledgeBase: vm.details?.aIKnowledgeBase || [],
+          provider: vm.details?.provider || [],
+          aiKnowledgeVectorDb: vm.details?.aIKnowledgeVectorDb || [],
           aiKnowledgeUrls: vm.details?.aIKnowledgeUrl || [],
           aiKnowledgeDbs: vm.details?.aIKnowledgeDbs || [],
           aiKnowledgeDocuments: vm.details?.aIKnowledgeDocuments || []
         })
 
+        this.providers = vm.details?.provider || []
+        this.knowledgeBases = vm.details?.aIKnowledgeBase || []
         this.knowledgeUrls = vm.details?.aIKnowledgeUrl || []
         this.knowledgeDbs = vm.details?.aIKnowledgeDbs || []
         this.documents = vm.details?.aIKnowledgeDocuments || []
@@ -160,23 +162,27 @@ export class AiContextDetailsComponent implements OnInit {
   knowledgeDbs: AIKnowledgeDatabase[] = []
   documents: AIKnowledgeDocument[] = []
 
-  selectedKnowledgeUrls: AIKnowledgeUrl[] = []
-  selectedKnowledgeDbs: AIKnowledgeDatabase[] = []
-  selectedDocuments: AIKnowledgeDocument[] = []
+  knowledgeBaseSuggestions: AIKnowledgeBase[] = []
+  providerSuggestions: AIProvider[] = []
+  vectorDbSuggestions: AIKnowledgeVectorDb[] = []
 
-  onKnowledgeUrlsSelection(event: { value: AIKnowledgeUrl[] }) {
-    this.selectedKnowledgeUrls = event.value
-    this.formGroup.patchValue({ aiKnowledgeUrls: this.selectedKnowledgeUrls })
+  searchKnowledgeBases(event: { query: string }) {
+    const query = event.query.toLowerCase()
+    this.knowledgeBaseSuggestions = this.knowledgeBases.filter((kb) =>
+      (kb.name + ' ' + kb.appId).toLowerCase().includes(query)
+    )
   }
 
-  onKnowledgeDbsSelection(event: { value: AIKnowledgeDatabase[] }) {
-    this.selectedKnowledgeDbs = event.value
-    this.formGroup.patchValue({ aiKnowledgeDbs: this.selectedKnowledgeDbs })
+  searchProviders(event: { query: string }) {
+    const query = event.query.toLowerCase()
+    this.providerSuggestions = this.providers.filter((p) => (p.name + ' ' + p.appId).toLowerCase().includes(query))
   }
 
-  onDocumentsSelection(event: { value: AIKnowledgeDocument[] }) {
-    this.selectedDocuments = event.value
-    this.formGroup.patchValue({ aiKnowledgeDocuments: this.selectedDocuments })
+  searchVectorDbs(event: { query: string }) {
+    const query = event.query.toLowerCase()
+    this.vectorDbSuggestions = this.vectorDbs.filter((vdb) =>
+      (vdb.name + ' ' + (vdb.description || '')).toLowerCase().includes(query)
+    )
   }
 
   edit() {

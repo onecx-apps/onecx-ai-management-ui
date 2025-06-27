@@ -25,7 +25,10 @@
       "AI_KNOWLEDGE_VECTOR_DB": "AIKnowledgeVectorDb",
       "AI_KNOWLEDGE_URLS": "AIKnowledgeURLs",
       "AI_KNOWLEDGE_DBS": "AIKnowledgeDatabases",
-      "AI_KNOWLEDGE_DOCUMENTS": "AIKnowledgeDocuments"
+      "AI_KNOWLEDGE_DOCUMENTS": "AIKnowledgeDocuments",
+      "AI_KNOWLEDGE_URLS_PLACEHOLDER": "Select AIKnowledge URLs",
+      "AI_KNOWLEDGE_DBS_PLACEHOLDER": "Select AIKnowledge Databases",
+      "AI_KNOWLEDGE_DOCUMENTS_PLACEHOLDER": "Select AIKnowledge Documents"
     },
     "CANCEL": {
       "HEADER": "Confirm cancel",
