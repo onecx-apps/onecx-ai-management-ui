@@ -34,7 +34,6 @@ describe('AiKnowledgeBaseSearchComponent', () => {
   }
 
   window.postMessage = (m: any) => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     listeners.forEach((l) =>
       l({
         data: m,

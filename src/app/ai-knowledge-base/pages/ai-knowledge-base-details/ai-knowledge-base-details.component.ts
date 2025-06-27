@@ -154,17 +154,10 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
     ])
   }
 
-  // function to show chosen contexts by a label, might be desired in the future
-  getContextFormValue(contexts: AIContext[]) {
-    return contexts.map((context) => ({
-      label: `${context.id}:${context.name}`,
-      value: context
-    }))
-  }
-
   edit() {
     this.store.dispatch(AiKnowledgeBaseDetailsActions.editButtonClicked())
   }
+
   goBack() {
     this.store.dispatch(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked())
   }

@@ -64,7 +64,7 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
     contextsLoaded: true,
     contextsLoadingIndicator: false,
     backNavigationPossible: true,
-    editMode: true,
+    editMode: false,
     isSubmitting: false
   }
 
@@ -134,25 +134,25 @@ describe('AiKnowledgeBaseDetailsComponent', () => {
     const inlineActions = await pageHeader.getInlineActionButtons()
     expect(inlineActions.length).toBe(2)
 
-    // const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
-    // expect(backAction).toBeTruthy()
+    const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
+    expect(backAction).toBeTruthy()
 
     const moreAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.ELLIPSIS_V)
     expect(moreAction).toBeNull()
   })
 
-  // it('should dispatch navigateBackButtonClicked action on back button click', async () => {
-  //   jest.spyOn(window.history, 'back')
-  //   const doneFn = jest.fn()
+  it('should dispatch navigateBackButtonClicked action on back button click', async () => {
+    jest.spyOn(window.history, 'back')
+    const doneFn = jest.fn()
 
-  //   const pageHeader = await aiKnowledgeBaseDetails.getHeader()
-  //   const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
-  //   store.scannedActions$.pipe(ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked)).subscribe(() => {
-  //     doneFn()
-  //   })
-  //   await backAction?.click()
-  //   expect(doneFn).toHaveBeenCalledTimes(1)
-  // })
+    const pageHeader = await aiKnowledgeBaseDetails.getHeader()
+    const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
+    store.scannedActions$.pipe(ofType(AiKnowledgeBaseDetailsActions.navigateBackButtonClicked)).subscribe(() => {
+      doneFn()
+    })
+    await backAction?.click()
+    expect(doneFn).toHaveBeenCalledTimes(1)
+  })
 
   it('should display item details in page header', async () => {
     component.headerLabels$ = of([
