@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Action, BreadcrumbService, ObjectDetailItem } from '@onecx/portal-integration-angular'
-import { map, Observable, tap } from 'rxjs'
+import { combineLatest, map, Observable } from 'rxjs'
 
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { PrimeIcons } from 'primeng/api'
 import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actions'
 import { selectAiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.selectors'
 import { AiKnowledgeBaseDetailsViewModel } from './ai-knowledge-base-details.viewmodel'
+import { AIContext } from 'src/app/shared/generated'
 
 @Component({
   selector: 'app-ai-knowledge-base-details',
@@ -27,7 +28,6 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
   )
 
   headerActions$: Observable<Action[]> = this.viewModel$.pipe(
-    tap((value) => console.log('View Model: ', value)),
     map((vm) => {
       const actions: Action[] = [
         {
@@ -95,33 +95,43 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
       return actions
     })
   )
+  displayContexts$: Observable<AIContext[]>
 
   constructor(
     private store: Store,
     private breadcrumbService: BreadcrumbService
   ) {
+    this.displayContexts$ = this.viewModel$.pipe(
+      map(({ details, contexts }) => {
+        const aiContexts = Array.isArray(details?.aiContext) ? details.aiContext : []
+        const missing = aiContexts.filter((ctx) => !contexts.some((c) => c.id === ctx.id))
+        if (missing.length === 0) {
+          return aiContexts
+        }
+        return [...aiContexts, ...missing]
+      })
+    )
+
     this.formGroup = new FormGroup({
       id: new FormControl('', [Validators.maxLength(255)]),
       name: new FormControl('', [Validators.maxLength(255)]),
       description: new FormControl('', [Validators.maxLength(255)]),
-      contexts: new FormControl([], [Validators.maxLength(255)])
+      aiContext: new FormControl([], [Validators.maxLength(255)])
     })
     this.formGroup.disable()
 
-    this.viewModel$.subscribe((vm) => {
-      console.log('VIEW MODEL: ', {
-        id: vm.details?.id,
-        name: vm.details?.name,
-        description: vm.details?.description,
-        contexts: vm.details?.contexts ?? []
-      })
-
+    combineLatest([this.viewModel$, this.displayContexts$]).subscribe(([vm, displayContexts]) => {
       if (!vm.editMode) {
-        this.formGroup.setValue({
+        const chosenContexts = vm.details?.aiContext ?? []
+        const matchedContexts = displayContexts.filter((context: AIContext) =>
+          chosenContexts.some((chosen: AIContext) => context.id === chosen.id)
+        )
+
+        this.formGroup.patchValue({
           id: vm.details?.id,
           name: vm.details?.name,
           description: vm.details?.description,
-          contexts: vm.details?.contexts ?? []
+          aiContext: matchedContexts
         })
         this.formGroup.markAsPristine()
       }
@@ -142,6 +152,14 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
         routerLink: '/ai-knowledge-base'
       }
     ])
+  }
+
+  // function to show chosen contexts by a label, might be desired in the future
+  getContextFormValue(contexts: AIContext[]) {
+    return contexts.map((context) => ({
+      label: `${context.id}:${context.name}`,
+      value: context
+    }))
   }
 
   edit() {

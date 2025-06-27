@@ -801,6 +801,7 @@ components:
           type: string
         message:
           type: string
+   
     GetAIKnowledgeVectorDbByIdResponse:
       type: object
       required:
@@ -857,7 +858,6 @@ components:
         aiContext:
           type: object
           $ref: '#/components/schemas/AIContext'
-    
     AIKnowledgeDocument:
       type: object
       required:
@@ -1087,8 +1087,6 @@ components:
           type: string
     AIKnowledgeBase:
       type: object
-      required:
-        - id
       properties:
         modificationCount:
           type: integer
@@ -1099,6 +1097,10 @@ components:
           type: string
         description:
           type: string
+        aiContext:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIContext'
     CreateAIKnowledgeBaseRequest:
       type: object
       properties:
@@ -1172,7 +1174,6 @@ components:
         dataObject:
           type: object
           $ref: '#/components/schemas/AIKnowledgeBase'
-        # "ACTION DE1: modify data object or use flat list here. https://onecx.github.io/docs/nx-plugins/current/general/getting_started/create-update/extend-form-fields.html#action-1"
     GetAIKnowledgeBaseByIdResponse:
       type: object
       required:

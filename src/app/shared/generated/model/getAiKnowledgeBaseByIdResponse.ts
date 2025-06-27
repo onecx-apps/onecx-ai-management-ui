@@ -7,10 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { AiKnowledgeBase } from './aiKnowledgeBase';
+import { AIKnowledgeBase } from './AIKnowledgeBase';
 
 
-export interface GetAiKnowledgeBaseByIdResponse { 
-    result: AiKnowledgeBase;
+export interface GetAIKnowledgeBaseByIdResponse { 
+    result: AIKnowledgeBase;
 }
 

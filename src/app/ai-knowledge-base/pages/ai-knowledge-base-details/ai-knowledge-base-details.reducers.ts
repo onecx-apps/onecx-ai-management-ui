@@ -3,7 +3,7 @@ import { AiKnowledgeBaseDetailsActions } from './ai-knowledge-base-details.actio
 import { AiKnowledgeBaseDetailsState } from './ai-knowledge-base-details.state'
 
 export const initialState: AiKnowledgeBaseDetailsState = {
-  details: { id: '', name: '', description: '', contexts: [], modificationCount: 0 },
+  details: { id: '', name: '', description: '', aiContext: [], modificationCount: 0 },
   detailsLoadingIndicator: true,
   detailsLoaded: false,
   contexts: [],
@@ -35,15 +35,12 @@ export const aiKnowledgeBaseDetailsReducer = createReducer(
   ),
   on(
     AiKnowledgeBaseDetailsActions.aiKnowledgeBaseContextsReceived,
-    (state: AiKnowledgeBaseDetailsState, { contexts }): AiKnowledgeBaseDetailsState => {
-      console.log('aiKnowledgeBaseDetailsReducer - contexts: ', contexts)
-      return {
-        ...state,
-        contexts,
-        contextsLoadingIndicator: false,
-        contextsLoaded: true
-      }
-    }
+    (state: AiKnowledgeBaseDetailsState, { contexts }): AiKnowledgeBaseDetailsState => ({
+      ...state,
+      contexts,
+      contextsLoadingIndicator: false,
+      contextsLoaded: true
+    })
   ),
   on(
     AiKnowledgeBaseDetailsActions.aiKnowledgeBaseContextsLoadingFailed,
