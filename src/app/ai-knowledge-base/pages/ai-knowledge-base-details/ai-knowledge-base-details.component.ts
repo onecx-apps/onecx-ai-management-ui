@@ -154,13 +154,6 @@ export class AiKnowledgeBaseDetailsComponent implements OnInit {
     ])
   }
 
-  getContextFormValue(contexts: AIContext[]) {
-    return contexts.map((context) => ({
-      label: `${context.id}:${context.name}`,
-      value: context
-    }))
-  }
-
   edit() {
     this.store.dispatch(AiKnowledgeBaseDetailsActions.editButtonClicked())
   }

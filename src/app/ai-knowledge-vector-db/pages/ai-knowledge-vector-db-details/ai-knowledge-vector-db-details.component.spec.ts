@@ -225,10 +225,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
 
     const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
     const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
-
-    console.log('backAction: ', backAction)
-    console.log('pageHeader: ', pageHeader)
-
     await backAction?.click()
 
     expect(window.history.back).toHaveBeenCalledTimes(1)

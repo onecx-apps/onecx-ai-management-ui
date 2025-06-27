@@ -93,7 +93,6 @@ export class AiKnowledgeBaseSearchEffects {
       concatLatestFrom(() => this.store.select(aiKnowledgeBaseSearchSelectors.selectResults)),
       mergeMap(([action, results]) => {
         const itemToDelete = results.find((item) => item.id === action.id)
-        console.log('ItemTO DELETEI: ', itemToDelete)
         return this.portalDialogService
           .openDialog<unknown>(
             'AI_KNOWLEDGE_BASE_DETAILS.DELETE.HEADER',
