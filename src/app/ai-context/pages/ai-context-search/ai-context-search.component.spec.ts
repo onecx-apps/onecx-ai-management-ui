@@ -74,7 +74,8 @@ describe('AiContextSearchComponent', () => {
     diagramComponentState: null,
     resultComponentState: null,
     searchHeaderComponentState: null,
-    chartVisible: false
+    chartVisible: false,
+    displayedColumns: []
   }
 
   beforeAll(() => {
@@ -288,46 +289,66 @@ describe('AiContextSearchComponent', () => {
     )
   })
 
-  // it('should dispatch displayedColumnsChanged on data view column change', async () => {
-  //   jest.spyOn(store, 'dispatch')
-  //   const columns = [
-  //     {
-  //       columnType: ColumnType.STRING,
-  //       nameKey: 'COLUMN_KEY',
-  //       id: 'column_1'
-  //     }
-  //   ]
-  //   store.overrideSelector(selectAiContextSearchViewModel, {
-  //     ...baseAiContextSearchViewModel,
-  //     results: [],
-  //     columns: columns,
-  //     displayedColumns: columns
-  //   })
-  //   store.refreshState()
+  it('should dispatch displayedColumnsChanged on data view column change', async () => {
+    jest.spyOn(store, 'dispatch')
 
-  //   const interactiveDataView = await aiContextSearch.getSearchResults()
-  //   ;(await (await interactiveDataView.getDataLayoutSelection()).getTableLayoutSelectionButton())?.click()
+    fixture = TestBed.createComponent(AiContextSearchComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+    aiContextSearch = await TestbedHarnessEnvironment.harnessForFixture(fixture, AiContextSearchHarness)
 
-  //   const columnGroupSelector = await interactiveDataView?.getCustomGroupColumnSelector()
-  //   expect(columnGroupSelector).toBeTruthy()
+    expect(store.dispatch).toHaveBeenCalledWith(
+      AiContextSearchActions.displayedColumnsChanged({ displayedColumns: aiContextSearchColumns })
+    )
 
-  //   await columnGroupSelector!.openCustomGroupColumnSelectorDialog()
-  //   const pickList = await columnGroupSelector!.getPicklist()
-  //   const transferControlButtons = await pickList.getTransferControlsButtons()
-  //   expect(transferControlButtons.length).toBe(4)
+    jest.clearAllMocks()
 
-  //   // Currently, all columns are selected. Next, we are unselecting all to have a clean test setting.
-  //   const deactivateAllColumnsButton = transferControlButtons[1]
-  //   await deactivateAllColumnsButton.click()
-  //   const inactiveItems = await pickList.getTargetListItems()
-  //   await inactiveItems[0].selectItem()
-  //   const activateCurrentColumnButton = transferControlButtons[2]
-  //   await activateCurrentColumnButton.click()
-  //   const saveButton = await columnGroupSelector!.getSaveButton()
-  //   await saveButton.click()
+    store.overrideSelector(selectAiContextSearchViewModel, {
+      ...baseAiContextSearchViewModel,
+      columns: [
+        {
+          columnType: ColumnType.STRING,
+          nameKey: 'COLUMN_KEY',
+          id: 'column_1'
+        },
+        {
+          columnType: ColumnType.STRING,
+          nameKey: 'SECOND_COLUMN_KEY',
+          id: 'column_2'
+        }
+      ]
+    })
+    store.refreshState()
 
-  //   expect(store.dispatch).toHaveBeenLastCalledWith(expect.objectContaining({ displayedColumns: columns }))
-  // })
+    const interactiveDataView = await aiContextSearch.getSearchResults()
+    const columnGroupSelector = await interactiveDataView?.getCustomGroupColumnSelector()
+    expect(columnGroupSelector).toBeTruthy()
+    await columnGroupSelector!.openCustomGroupColumnSelectorDialog()
+    const pickList = await columnGroupSelector!.getPicklist()
+    const transferControlButtons = await pickList.getTransferControlsButtons()
+    expect(transferControlButtons.length).toBe(4)
+    const activateAllColumnsButton = transferControlButtons[3]
+    await activateAllColumnsButton.click()
+    const saveButton = await columnGroupSelector!.getSaveButton()
+    await saveButton.click()
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      AiContextSearchActions.displayedColumnsChanged({
+        displayedColumns: [
+          {
+            columnType: ColumnType.STRING,
+            nameKey: 'COLUMN_KEY',
+            id: 'column_1'
+          },
+          {
+            columnType: ColumnType.STRING,
+            nameKey: 'SECOND_COLUMN_KEY',
+            id: 'column_2'
+          }
+        ]
+      })
+    )
+  })
 
   it('should dispatch chartVisibilityToggled on show/hide chart header', async () => {
     jest.spyOn(store, 'dispatch')

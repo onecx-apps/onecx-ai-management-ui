@@ -1,5 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store'
 import {
+  DataTableColumn,
   GroupByCountDiagramComponentState,
   InteractiveDataViewComponentState,
   SearchHeaderComponentState
@@ -53,6 +54,9 @@ export const AiContextSearchActions = createActionGroup({
     'Result component state changed': props<InteractiveDataViewComponentState>(),
     'Search header component state changed': props<SearchHeaderComponentState>(),
     'Diagram component state changed': props<GroupByCountDiagramComponentState>(),
-    'Chart visibility toggled': emptyProps()
+    'Chart visibility toggled': emptyProps(),
+    'Displayed columns changed': props<{
+      displayedColumns: DataTableColumn[]
+    }>()
   }
 })

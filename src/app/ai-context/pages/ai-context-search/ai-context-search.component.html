@@ -71,6 +71,7 @@
         [emptyResultsMessage]="
           'AI_CONTEXT_SEARCH.EMPTY_RESULTS' | translate
         "
+        (displayedColumnsChange)="onDisplayedColumnsChange($event)"
         [layout]="vm.resultComponentState?.layout ?? 'table'"
         [displayedColumns]="vm.resultComponentState?.displayedColumns ?? []"
         [supportedViewLayouts]="['table']"

@@ -11,6 +11,7 @@ export interface AiContextSearchViewModel {
   columns: DataTableColumn[]
   searchCriteria: AiContextSearchCriteria
   results: RowListGridData[]
+  displayedColumns: DataTableColumn[]
   resultComponentState: InteractiveDataViewComponentState | null
   searchHeaderComponentState: SearchHeaderComponentState | null
   diagramComponentState: DiagramComponentState | null

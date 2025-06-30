@@ -8,6 +8,7 @@ import { AiContextSearchState } from './ai-context-search.state'
 export const initialState: AiContextSearchState = {
   columns: aiContextSearchColumns,
   results: [],
+  displayedColumns: null,
   chartVisible: false,
   resultComponentState: null,
   searchHeaderComponentState: null,
@@ -89,6 +90,13 @@ export const aiContextSearchReducer = createReducer(
     (state: AiContextSearchState, diagramComponentState): AiContextSearchState => ({
       ...state,
       diagramComponentState
+    })
+  ),
+  on(
+    AiContextSearchActions.displayedColumnsChanged,
+    (state: AiContextSearchState, { displayedColumns }): AiContextSearchState => ({
+      ...state,
+      displayedColumns: displayedColumns.map((v) => v.id)
     })
   )
 )

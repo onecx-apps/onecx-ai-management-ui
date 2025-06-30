@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store'
 import { createChildSelectors } from '@onecx/ngrx-accelerator'
-import { RowListGridData } from '@onecx/portal-integration-angular'
+import { DataTableColumn, RowListGridData } from '@onecx/portal-integration-angular'
 import { aiContextFeature } from '../../ai-context.reducers'
 import { initialState } from './ai-context-search.reducers'
 import { AiContextSearchViewModel } from './ai-context-search.viewmodel'
@@ -15,10 +15,19 @@ export const selectResults = createSelector(aiContextSearchSelectors.selectResul
   }))
 })
 
+export const selectDisplayedColumns = createSelector(
+  aiContextSearchSelectors.selectColumns,
+  aiContextSearchSelectors.selectDisplayedColumns,
+  (columns, displayedColumns): DataTableColumn[] => {
+    return (displayedColumns?.map((d) => columns.find((c) => c.id === d)).filter((d) => d) as DataTableColumn[]) ?? []
+  }
+)
+
 export const selectAiContextSearchViewModel = createSelector(
   aiContextSearchSelectors.selectColumns,
   aiContextSearchSelectors.selectCriteria,
   selectResults,
+  selectDisplayedColumns,
   aiContextSearchSelectors.selectResultComponentState,
   aiContextSearchSelectors.selectSearchHeaderComponentState,
   aiContextSearchSelectors.selectDiagramComponentState,
@@ -29,6 +38,7 @@ export const selectAiContextSearchViewModel = createSelector(
     columns,
     searchCriteria,
     results,
+    displayedColumns,
     resultComponentState,
     searchHeaderComponentState,
     diagramComponentState,
@@ -39,6 +49,7 @@ export const selectAiContextSearchViewModel = createSelector(
     columns,
     searchCriteria,
     results,
+    displayedColumns,
     resultComponentState,
     searchHeaderComponentState,
     diagramComponentState,

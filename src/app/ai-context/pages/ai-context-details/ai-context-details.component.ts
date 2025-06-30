@@ -130,8 +130,6 @@ export class AiContextDetailsComponent implements OnInit {
           aiKnowledgeDocuments: vm.details?.aIKnowledgeDocuments || []
         })
 
-        console.log('FormGroup Values:', this.formGroup.value)
-
         this.providers = vm.details?.provider || []
         this.knowledgeBases = vm.details?.aIKnowledgeBase || []
         this.knowledgeUrls = vm.details?.aIKnowledgeUrl || []
@@ -169,7 +167,6 @@ export class AiContextDetailsComponent implements OnInit {
   vectorDbSuggestions: AIKnowledgeVectorDb[] = []
 
   searchKnowledgeBases(event: { query: string }) {
-    console.log(this.viewModel$.pipe(map((vm) => console.log(vm.details?.provider))))
     const query = event.query.toLowerCase()
     this.knowledgeBaseSuggestions = this.knowledgeBases.filter((kb) =>
       (kb.name + ' ' + kb.appId).toLowerCase().includes(query)

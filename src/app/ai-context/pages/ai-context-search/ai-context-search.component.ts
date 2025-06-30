@@ -143,7 +143,6 @@ export class AiContextSearchComponent implements OnInit {
   }
 
   details({ id }: RowListGridData) {
-    console.log('id: ', id)
     this.store.dispatch(AiContextSearchActions.detailsButtonClicked({ id }))
   }
 
@@ -153,6 +152,10 @@ export class AiContextSearchComponent implements OnInit {
 
   exportItems() {
     this.store.dispatch(AiContextSearchActions.exportButtonClicked())
+  }
+
+  onDisplayedColumnsChange(displayedColumns: DataTableColumn[]) {
+    this.store.dispatch(AiContextSearchActions.displayedColumnsChanged({ displayedColumns }))
   }
 
   toggleChartVisibility() {
