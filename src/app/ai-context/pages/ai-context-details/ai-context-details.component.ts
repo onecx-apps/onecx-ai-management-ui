@@ -110,9 +110,9 @@ export class AiContextDetailsComponent implements OnInit {
       aiKnowledgeBase: new FormControl(null),
       provider: new FormControl(null),
       aiKnowledgeVectorDb: new FormControl(null),
-      aiKnowledgeUrls: new FormControl([]),
-      aiKnowledgeDbs: new FormControl([]),
-      aiKnowledgeDocuments: new FormControl([])
+      aiKnowledgeUrls: new FormControl(null),
+      aiKnowledgeDbs: new FormControl(null),
+      aiKnowledgeDocuments: new FormControl(null)
     })
     this.formGroup.disable()
 
@@ -122,13 +122,15 @@ export class AiContextDetailsComponent implements OnInit {
           appId: vm.details?.appId,
           name: vm.details?.name,
           description: vm.details?.description,
-          aiKnowledgeBase: vm.details?.aIKnowledgeBase || [],
-          provider: vm.details?.provider || [],
-          aiKnowledgeVectorDb: vm.details?.aIKnowledgeVectorDb || [],
+          aiKnowledgeBase: Array.isArray(vm.details?.aIKnowledgeBase) ? vm.details?.aIKnowledgeBase[0] : null,
+          provider: Array.isArray(vm.details?.provider) ? vm.details?.provider[0] : null,
+          aiKnowledgeVectorDb: Array.isArray(vm.details?.aIKnowledgeVectorDb) ? vm.details?.aIKnowledgeVectorDb[0] : null,
           aiKnowledgeUrls: vm.details?.aIKnowledgeUrl || [],
           aiKnowledgeDbs: vm.details?.aIKnowledgeDbs || [],
           aiKnowledgeDocuments: vm.details?.aIKnowledgeDocuments || []
         })
+
+        console.log('FormGroup Values:', this.formGroup.value)
 
         this.providers = vm.details?.provider || []
         this.knowledgeBases = vm.details?.aIKnowledgeBase || []
@@ -167,6 +169,7 @@ export class AiContextDetailsComponent implements OnInit {
   vectorDbSuggestions: AIKnowledgeVectorDb[] = []
 
   searchKnowledgeBases(event: { query: string }) {
+    console.log(this.viewModel$.pipe(map((vm) => console.log(vm.details?.provider))))
     const query = event.query.toLowerCase()
     this.knowledgeBaseSuggestions = this.knowledgeBases.filter((kb) =>
       (kb.name + ' ' + kb.appId).toLowerCase().includes(query)
