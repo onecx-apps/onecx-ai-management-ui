@@ -104,17 +104,17 @@
       "SUCCESS": "Erstellung erfolgreich",
       "ERROR": "Erstellung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       }
     },
     "UPDATE": {
       "SUCCESS": "Aktualisierung erfolgreich",
-      "FAILED": "ACTION: Add Translation",
+      "FAILED": "Aktualisierung fehlgeschlagen",
       "ERROR": "Aktualisierung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       },
       "HEADER": "AiContext bearbeiten"
     },
@@ -141,17 +141,17 @@
       "SUCCESS": "Erstellung erfolgreich",
       "ERROR": "Erstellung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       }
     },
     "UPDATE": {
       "SUCCESS": "Aktualisierung erfolgreich",
-      "FAILED": "ACTION: Add Translation",
+      "FAILED": "Aktualisierung fehlgeschlagen",
       "ERROR": "Aktualisierung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       },
       "HEADER": "AIProvider bearbeiten"
     },
@@ -170,11 +170,11 @@
       "DETAILS_LOADING_FAILED": "Details konnten nicht geladen werden."
     },
     "GENERAL": {
-      "BACK": "Back",
-      "EDIT": "Edit",
-      "DELETE": "Delete",
-      "SAVE": "Save",
-      "CANCEL": "Cancel"
+      "BACK": "Zurück",
+      "EDIT": "Bearbeiten",
+      "DELETE": "Löschen",
+      "SAVE": "Speichern",
+      "CANCEL": "Abbrechen"
     },
     "FORM": {
       "NAME": "Name",
@@ -249,17 +249,17 @@
       "SUCCESS": "Erstellung erfolgreich",
       "ERROR": "Erstellung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       }
     },
     "UPDATE": {
       "SUCCESS": "Aktualisierung erfolgreich",
-      "FAILED": "ACTION: Add Translation",
+      "FAILED": "Aktualisierung fehlgeschlagen",
       "ERROR": "Aktualisierung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       },
       "HEADER": "AIKnowledgeVectorDb bearbeiten"
     },
@@ -351,17 +351,17 @@
       "SUCCESS": "Erstellung erfolgreich",
       "ERROR": "Erstellung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       }
     },
     "UPDATE": {
       "SUCCESS": "Aktualisierung erfolgreich",
-      "FAILED": "ACTION: Add Translation",
+      "FAILED": "Aktualisierung fehlgeschlagen",
       "ERROR": "Aktualisierung fehlgeschlagen",
       "FORM": {
-        "SAVE": "Save",
-        "CANCEL": "Cancel"
+        "SAVE": "Speichern",
+        "CANCEL": "Abbrechen"
       },
       "HEADER": "AIKnowledgeDocument bearbeiten"
     },

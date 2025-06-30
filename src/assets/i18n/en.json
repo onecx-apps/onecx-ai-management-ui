@@ -115,7 +115,7 @@
     },
     "UPDATE": {
       "SUCCESS": "Update successful",
-      "FAILED": "ACTION: Add Translation",
+      "FAILED": "Update failed",
       "ERROR": "Update failed",
       "FORM": {
         "SAVE": "Save",
@@ -152,7 +152,7 @@
     },
     "UPDATE": {
       "SUCCESS": "Update successful",
-      "FAILED": "ACTION: Add Translation",
+      "FAILED": "Update failed",
       "ERROR": "Update failed",
       "FORM": {
         "SAVE": "Save",
@@ -260,7 +260,7 @@
     },
     "UPDATE": {
       "SUCCESS": "Update successful",
-      "FAILED": "ACTION: Add Translation",
+      "FAILED": "Update failed",
       "ERROR": "Update failed",
       "FORM": {
         "SAVE": "Save",
@@ -362,7 +362,7 @@
     },
     "UPDATE": {
       "SUCCESS": "Update successful",
-      "FAILED": "ACTION: Add Translation",
+      "FAILED": "Update failed",
       "ERROR": "Update failed",
       "FORM": {
         "SAVE": "Save",

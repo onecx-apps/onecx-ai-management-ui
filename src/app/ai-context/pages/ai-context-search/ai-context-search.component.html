@@ -68,9 +68,7 @@
         viewPermission="AI_CONTEXT#VIEW"
         [data]="vm.results"
         [columns]="vm.columns"
-        [emptyResultsMessage]="
-          'AI_CONTEXT_SEARCH.EMPTY_RESULTS' | translate
-        "
+        [emptyResultsMessage]="'AI_CONTEXT_SEARCH.EMPTY_RESULTS' | translate"
         (displayedColumnsChange)="onDisplayedColumnsChange($event)"
         [layout]="vm.resultComponentState?.layout ?? 'table'"
         [displayedColumns]="vm.resultComponentState?.displayedColumns ?? []"

@@ -64,7 +64,6 @@ export class AiContextSearchComponent implements OnInit {
     })
   )
 
-  // ACTION S9: Select the column to be displayed in the diagram: https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/configure-result-diagram.html#action-3
   diagramColumnId = 'id'
   diagramColumn$ = this.viewModel$.pipe(
     map((vm) => vm.columns.find((e) => e.id === this.diagramColumnId) as DataTableColumn)
