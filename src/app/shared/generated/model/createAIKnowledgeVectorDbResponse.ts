@@ -7,16 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { AIContext } from './aIContext';
 
 
-export interface SearchAIProviderRequest { 
-    limit?: number;
-    id?: number;
+export interface CreateAIKnowledgeVectorDbResponse { 
     name?: string;
     description?: string;
-    llmUrl?: string;
-    appId?: string;
-    modelName?: string;
-    modelVersion?: string;
+    vdb?: string;
+    vdbCollection?: string;
+    aiContext?: AIContext;
 }
 

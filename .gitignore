@@ -4,6 +4,8 @@
 dist
 tmp
 /out-tsc
+.github/instructions
+.eslintcache
 
 # dependencies
 node_modules
@@ -43,3 +45,5 @@ Thumbs.db
 .nx/workspace-data
 
 .angular
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

@@ -24,6 +24,7 @@ import { metaReducers, reducers } from './app.reducers'
 import { Configuration } from './shared/generated'
 import { SharedModule } from './shared/shared.module'
 import { apiConfigProvider } from './shared/utils/apiConfigProvider.utils'
+import { provideNavigatedEventStoreConnector } from '@onecx/ngrx-accelerator'
 
 // Workaround for the following issue:
 // https://github.com/ngrx/platform/issues/3700
@@ -73,7 +74,8 @@ effectProvidersForWorkaround.forEach((p) => (p.ɵprov.providedIn = null))
       multi: true,
       deps: [Router, AppStateService]
     },
-    provideHttpClient(withInterceptorsFromDi())
+    provideHttpClient(withInterceptorsFromDi()),
+    provideNavigatedEventStoreConnector()
   ]
 })
 export class OnecxAiUiModule implements DoBootstrap {
