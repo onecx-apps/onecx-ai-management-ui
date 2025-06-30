@@ -2,6 +2,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
 import { LetDirective } from '@ngrx/component'
 import { ofType } from '@ngrx/effects'
@@ -11,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core'
 import { BreadcrumbService, PortalCoreModule, UserService } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { PrimeIcons } from 'primeng/api'
+import { AutoCompleteModule } from 'primeng/autocomplete'
 import { of } from 'rxjs'
 import { AiContextDetailsActions } from './ai-context-details.actions'
 import { AiContextDetailsComponent } from './ai-context-details.component'
@@ -82,7 +84,9 @@ describe('AiContextDetailsComponent', () => {
           // eslint-disable-next-line @typescript-eslint/no-require-imports
           require('./../../../../assets/i18n/de.json')
         ),
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        AutoCompleteModule,
+        ReactiveFormsModule
       ],
       providers: [
         provideMockStore({
@@ -139,8 +143,8 @@ describe('AiContextDetailsComponent', () => {
     const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
     expect(backAction).toBeTruthy()
 
-    const moreAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.ELLIPSIS_V)
-    expect(moreAction).toBeTruthy()
+    const moreActionButton = fixture.debugElement.nativeElement.querySelector('button .pi.pi-ellipsis-v')
+    expect(moreActionButton).toBeTruthy()
   })
 
   it('should dispatch navigateBackButtonClicked action on back button click', async () => {
