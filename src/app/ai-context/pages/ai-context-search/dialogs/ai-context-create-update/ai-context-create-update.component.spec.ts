@@ -1,4 +1,3 @@
-
 import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -38,12 +37,14 @@ describe('AiContextCreateUpdateComponent', () => {
         LetDirective,
         TranslateTestingModule.withTranslations(
           'en',
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
           require('./../../../../../../assets/i18n/en.json')
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
         ).withTranslations('de', require('./../../../../../../assets/i18n/de.json'))
       ],
-      providers: [BreadcrumbService, { provide: ActivatedRoute, useValue: mockActivatedRoute }, provideHttpClientTesting()]
+      providers: [
+        BreadcrumbService,
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        provideHttpClientTesting()
+      ]
     }).compileComponents()
 
     fixture = TestBed.createComponent(AiContextCreateUpdateComponent)
