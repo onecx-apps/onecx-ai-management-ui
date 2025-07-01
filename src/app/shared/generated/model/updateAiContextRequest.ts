@@ -7,9 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { AiContext } from './aiContext';
 
 
-export interface AIContext { 
-    appId?: string;
+export interface UpdateAiContextRequest { 
+    dataObject?: AiContext;
 }
 
