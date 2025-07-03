@@ -39,6 +39,7 @@ app:
             EXPORT: Export AIKnowledgeVectorDb
             VIEW: View mode for AIKnowledgeVectorDb
             SEARCH: Search AIKnowledgeVectorDb
+            BACK: Go Back AIKnowledgeVectorDb
           AI_PROVIDER:
             CREATE: Create AIProvider
             EDIT: Edit AIProvider

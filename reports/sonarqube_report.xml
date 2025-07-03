@@ -1,0 +1,133 @@
+<testExecutions version="1">
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/ai-knowledge-vector-db/pages/ai-knowledge-vector-db-details/ai-knowledge-vector-db-details.component.spec.ts">
+<testCase name="AIKnowledgeVectorDbDetailsComponent should create" duration="0">
+<skipped message="AIKnowledgeVectorDbDetailsComponent should create"/>
+</testCase>
+<testCase name="AIKnowledgeVectorDbDetailsComponent should display correct breadcrumbs" duration="0">
+<skipped message="AIKnowledgeVectorDbDetailsComponent should display correct breadcrumbs"/>
+</testCase>
+<testCase name="AIKnowledgeVectorDbDetailsComponent should display translated headers" duration="0">
+<skipped message="AIKnowledgeVectorDbDetailsComponent should display translated headers"/>
+</testCase>
+<testCase name="AIKnowledgeVectorDbDetailsComponent should have 2 inline actions" duration="2457" />
+<testCase name="AIKnowledgeVectorDbDetailsComponent should navigate back on back button click" duration="0">
+<skipped message="AIKnowledgeVectorDbDetailsComponent should navigate back on back button click"/>
+</testCase>
+<testCase name="AIKnowledgeVectorDbDetailsComponent should display item details in form fields" duration="0">
+<skipped message="AIKnowledgeVectorDbDetailsComponent should display item details in form fields"/>
+</testCase>
+<testCase name="AIKnowledgeVectorDbDetailsComponent should display item details in page header" duration="0">
+<skipped message="AIKnowledgeVectorDbDetailsComponent should display item details in page header"/>
+</testCase>
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/aiknowledge-document/pages/aiknowledge-document-details/aiknowledge-document-details.component.spec.ts">
+<testCase name="AIKnowledgeDocumentDetailsComponent should create" duration="1824" />
+<testCase name="AIKnowledgeDocumentDetailsComponent should display correct breadcrumbs" duration="450" />
+<testCase name="AIKnowledgeDocumentDetailsComponent should display translated headers" duration="231" />
+<testCase name="AIKnowledgeDocumentDetailsComponent should have 1 inline actions" duration="317" />
+<testCase name="AIKnowledgeDocumentDetailsComponent should navigate back on back button click" duration="326" />
+<testCase name="AIKnowledgeDocumentDetailsComponent should display item details in page header" duration="707" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/ai-knowledge-base/pages/ai-knowledge-base-details/ai-knowledge-base-details.component.spec.ts">
+<testCase name="AiKnowledgeBaseDetailsComponent should create" duration="2465" />
+<testCase name="AiKnowledgeBaseDetailsComponent should display correct breadcrumbs" duration="530" />
+<testCase name="AiKnowledgeBaseDetailsComponent should display translated headers" duration="528" />
+<testCase name="AiKnowledgeBaseDetailsComponent should have 2 inline actions" duration="618" />
+<testCase name="AiKnowledgeBaseDetailsComponent should dispatch navigateBackButtonClicked action on back button click" duration="595" />
+<testCase name="AiKnowledgeBaseDetailsComponent should display item details in page header" duration="870" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/aiprovider/pages/aiprovider-search/dialogs/aiprovider-create-update/aiprovider-create-update.component.spec.ts">
+<testCase name="AIProviderCreateUpdateComponent should create" duration="155" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/aiknowledge-document/pages/aiknowledge-document-search/dialogs/aiknowledge-document-create-update/aiknowledge-document-create-update.component.spec.ts">
+<testCase name="AIKnowledgeDocumentCreateUpdateComponent should create" duration="231" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/aiprovider/pages/aiprovider-details/aiprovider-details.component.spec.ts">
+<testCase name="AIProviderDetailsComponent should create" duration="605" />
+<testCase name="AIProviderDetailsComponent should display correct breadcrumbs" duration="711" />
+<testCase name="AIProviderDetailsComponent should display translated headers" duration="616" />
+<testCase name="AIProviderDetailsComponent should have 2 inline actions" duration="390" />
+<testCase name="AIProviderDetailsComponent should navigate back on back button click" duration="1048" />
+<testCase name="AIProviderDetailsComponent should display item details in form fields" duration="335" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/ai-knowledge-vector-db/pages/ai-knowledge-vector-db-search/dialogs/ai-knowledge-vector-db-create-update/ai-knowledge-vector-db-create-update.component.spec.ts">
+<testCase name="AIKnowledgeVectorDbCreateUpdateComponent should create" duration="192" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/ai-knowledge-base/pages/ai-knowledge-base-search/dialogs/aiknowledge-base-create-update/aiknowledge-base-create-update.component.spec.ts">
+<testCase name="AIKnowledgeBaseCreateUpdateComponent should create" duration="137" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/app.component.spec.ts">
+<testCase name="AppComponent should create the app" duration="166" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/ai-knowledge-base/pages/ai-knowledge-base-search/ai-knowledge-base-search.component.spec.ts">
+<testCase name="AiKnowledgeBaseSearchComponent should create the component" duration="3438" />
+<testCase name="AiKnowledgeBaseSearchComponent should dispatch resetButtonClicked action on resetSearch" duration="2283" />
+<testCase name="AiKnowledgeBaseSearchComponent should have 2 overFlow header actions when search config is disabled" duration="2658" />
+<testCase name="AiKnowledgeBaseSearchComponent should display hide chart action if chart is visible" duration="1931" />
+<testCase name="AiKnowledgeBaseSearchComponent should display chosen column in the diagram" duration="2359" />
+<testCase name="AiKnowledgeBaseSearchComponent should display correct breadcrumbs" duration="1344" />
+<testCase name="AiKnowledgeBaseSearchComponent should dispatch searchButtonClicked action on search" duration="1232" />
+<testCase name="AiKnowledgeBaseSearchComponent should dispatch viewModeChanged action on view mode changes" duration="1223" />
+<testCase name="AiKnowledgeBaseSearchComponent should dispatch displayedColumnsChanged on data view column change" duration="2605" />
+<testCase name="AiKnowledgeBaseSearchComponent should dispatch chartVisibilityToggled on show/hide chart header" duration="1326" />
+<testCase name="AiKnowledgeBaseSearchComponent should display translated headers" duration="1286" />
+<testCase name="AiKnowledgeBaseSearchComponent should display translated empty message when no search results" duration="1568" />
+<testCase name="AiKnowledgeBaseSearchComponent should not display chart when no results or toggled to not visible" duration="1530" />
+<testCase name="AiKnowledgeBaseSearchComponent should dispatch export csv data on export action click" duration="1095" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/aiknowledge-document/pages/aiknowledge-document-search/aiknowledge-document-search.component.spec.ts">
+<testCase name="AIKnowledgeDocumentSearchComponent should create the component" duration="3433" />
+<testCase name="AIKnowledgeDocumentSearchComponent should dispatch resetButtonClicked action on resetSearch" duration="2252" />
+<testCase name="AIKnowledgeDocumentSearchComponent should have 2 overFlow header actions when search config is disabled" duration="2770" />
+<testCase name="AIKnowledgeDocumentSearchComponent should display hide chart action if chart is visible" duration="1995" />
+<testCase name="AIKnowledgeDocumentSearchComponent should display chosen column in the diagram" duration="2347" />
+<testCase name="AIKnowledgeDocumentSearchComponent should display correct breadcrumbs" duration="1495" />
+<testCase name="AIKnowledgeDocumentSearchComponent should dispatch searchButtonClicked action on search" duration="1065" />
+<testCase name="AIKnowledgeDocumentSearchComponent should dispatch editAIKnowledgeDocumentButtonClicked action on item edit click" duration="1792" />
+<testCase name="AIKnowledgeDocumentSearchComponent should dispatch createAIKnowledgeDocumentButtonClicked action on create click" duration="1009" />
+<testCase name="AIKnowledgeDocumentSearchComponent should export csv data on export action click" duration="2212" />
+<testCase name="AIKnowledgeDocumentSearchComponent should dispatch viewModeChanged action on view mode changes" duration="1143" />
+<testCase name="AIKnowledgeDocumentSearchComponent should dispatch displayedColumnsChanged on data view column change" duration="2311" />
+<testCase name="AIKnowledgeDocumentSearchComponent should dispatch chartVisibilityToggled on show/hide chart header" duration="1059" />
+<testCase name="AIKnowledgeDocumentSearchComponent should display translated headers" duration="729" />
+<testCase name="AIKnowledgeDocumentSearchComponent should display translated empty message when no search results" duration="1430" />
+<testCase name="AIKnowledgeDocumentSearchComponent should not display chart when no results or toggled to not visible" duration="1139" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/ai-knowledge-vector-db/pages/ai-knowledge-vector-db-search/ai-knowledge-vector-db-search.component.spec.ts">
+<testCase name="AIKnowledgeVectorDbSearchComponent should create the component" duration="3564" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should dispatch resetButtonClicked action on resetSearch" duration="2378" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should have 2 overFlow header actions when search config is disabled" duration="2506" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should display hide chart action if chart is visible" duration="2040" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should display chosen column in the diagram" duration="2635" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should display correct breadcrumbs" duration="1437" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should dispatch searchButtonClicked action on search" duration="1701" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should dispatch editAIKnowledgeVectorDbButtonClicked action on item edit click" duration="1614" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should dispatch aiKnowledgeVectorDetailsClicked on on item delete click" duration="1825" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should dispatch createAIKnowledgeVectorDbButtonClicked action on create click" duration="1250" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should export csv data on export action click" duration="1852" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should dispatch viewModeChanged action on view mode changes" duration="769" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should dispatch displayedColumnsChanged on data view column change" duration="2062" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should dispatch chartVisibilityToggled on show/hide chart header" duration="1160" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should display translated headers" duration="588" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should display translated empty message when no search results" duration="1418" />
+<testCase name="AIKnowledgeVectorDbSearchComponent should not display chart when no results or toggled to not visible" duration="768" />
+</file>
+<file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/aiprovider/pages/aiprovider-search/aiprovider-search.component.spec.ts">
+<testCase name="AIProviderSearchComponent should create the component" duration="3576" />
+<testCase name="AIProviderSearchComponent should dispatch resetButtonClicked action on resetSearch" duration="2532" />
+<testCase name="AIProviderSearchComponent should have 2 overFlow header actions when search config is disabled" duration="2611" />
+<testCase name="AIProviderSearchComponent should display hide chart action if chart is visible" duration="1923" />
+<testCase name="AIProviderSearchComponent should display chosen column in the diagram" duration="2561" />
+<testCase name="AIProviderSearchComponent should display correct breadcrumbs" duration="1672" />
+<testCase name="AIProviderSearchComponent should dispatch searchButtonClicked action on search" duration="1372" />
+<testCase name="AIProviderSearchComponent should dispatch detailsButtonClicked action on item details click" duration="1482" />
+<testCase name="AIProviderSearchComponent should dispatch aiKnowledgeVectorDetailsClicked on on item delete click" duration="1984" />
+<testCase name="AIProviderSearchComponent should export csv data on export action click" duration="1893" />
+<testCase name="AIProviderSearchComponent should dispatch viewModeChanged action on view mode changes" duration="1147" />
+<testCase name="AIProviderSearchComponent should dispatch displayedColumnsChanged on data view column change" duration="2352" />
+<testCase name="AIProviderSearchComponent should dispatch chartVisibilityToggled on show/hide chart header" duration="1331" />
+<testCase name="AIProviderSearchComponent should display translated headers" duration="637" />
+<testCase name="AIProviderSearchComponent should display translated empty message when no search results" duration="1341" />
+<testCase name="AIProviderSearchComponent should not display chart when no results or toggled to not visible" duration="815" />
+</file>
+</testExecutions>
