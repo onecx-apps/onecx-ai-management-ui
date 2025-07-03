@@ -26,8 +26,6 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
   const origAddEventListener = window.addEventListener
   const origPostMessage = window.postMessage
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  /* eslint-disable @typescript-eslint/no-empty-function */
   let listeners: any[] = []
   window.addEventListener = (_type: any, listener: any) => {
     listeners.push(listener)
@@ -46,8 +44,6 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
       })
     )
   }
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-  /* eslint-enable @typescript-eslint/no-empty-function */
 
   afterAll(() => {
     window.addEventListener = origAddEventListener
@@ -106,10 +102,8 @@ describe('AIKnowledgeVectorDbSearchComponent', () => {
         LetDirective,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
         TranslateTestingModule.withTranslations('en', require('./../../../../assets/i18n/en.json')).withTranslations(
           'de',
-          // eslint-disable-next-line @typescript-eslint/no-require-imports
           require('./../../../../assets/i18n/de.json')
         ),
         NoopAnimationsModule

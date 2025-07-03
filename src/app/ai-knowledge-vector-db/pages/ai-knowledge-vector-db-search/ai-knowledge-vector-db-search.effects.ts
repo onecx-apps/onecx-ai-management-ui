@@ -20,8 +20,8 @@ import { PrimeIcons } from 'primeng/api'
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs'
 import {
   AIKnowledgeVectorDb,
-  CreateAIKnowledgeVectorDb,
-  UpdateAIKnowledgeVectorDb
+  CreateAIKnowledgeVectorDbRequest,
+  UpdateAIKnowledgeVectorDbRequest
 } from 'src/app/shared/generated'
 import { selectUrl } from 'src/app/shared/selectors/router.selectors'
 import { AIKnowledgeVectorDbBffService } from '../../../shared/generated'
@@ -63,8 +63,6 @@ export class AIKnowledgeVectorDbSearchEffects {
           if (!results.success || !equal(criteria, results.data)) {
             const params = {
               ...criteria
-              //TODO: Move to docs to explain how to only put the date part in the URL in case you have date and not datetime
-              //exampleDate: criteria.exampleDate?.toISOString()?.slice(0, 10)
             }
             this.router.navigate([], {
               relativeTo: this.route,
@@ -141,7 +139,7 @@ export class AIKnowledgeVectorDbSearchEffects {
         const itemToEditId = dialogResult.result.id
         const itemToEdit = {
           dataObject: dialogResult.result
-        } as UpdateAIKnowledgeVectorDb
+        } as UpdateAIKnowledgeVectorDbRequest
         return this.AIKnowledgeVectorDbService.updateAIKnowledgeVectorDb(itemToEditId, itemToEdit).pipe(
           map(() => {
             this.messageService.success({
@@ -194,7 +192,7 @@ export class AIKnowledgeVectorDbSearchEffects {
         }
         const toCreateItem = {
           dataObject: dialogResult.result
-        } as CreateAIKnowledgeVectorDb
+        } as CreateAIKnowledgeVectorDbRequest
         return this.AIKnowledgeVectorDbService.createAIKnowledgeVectorDb(toCreateItem).pipe(
           map(() => {
             this.messageService.success({
@@ -294,31 +292,29 @@ export class AIKnowledgeVectorDbSearchEffects {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearch(searchCriteria: Record<string, any>) {
-    return this.AIKnowledgeVectorDbService
-      .searchAIKnowledgeVectorDbs({
-        ...Object.entries(searchCriteria).reduce(
-          (acc, [key, value]) => ({
-            ...acc,
-            [key]: value instanceof Date ? value.toISOString() : value
-          }),
-          {}
-        )
-      })
-      .pipe(
-        map(({ results, totalNumberOfResults }) =>
-          AIKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsReceived({
-            results,
-            totalNumberOfResults
+    return this.AIKnowledgeVectorDbService.searchAIKnowledgeVectorDbs({
+      ...Object.entries(searchCriteria).reduce(
+        (acc, [key, value]) => ({
+          ...acc,
+          [key]: value instanceof Date ? value.toISOString() : value
+        }),
+        {}
+      )
+    }).pipe(
+      map(({ results, totalNumberOfResults }) =>
+        AIKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsReceived({
+          results,
+          totalNumberOfResults
+        })
+      ),
+      catchError((error) =>
+        of(
+          AIKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsLoadingFailed({
+            error
           })
-        ),
-        catchError((error) =>
-          of(
-            AIKnowledgeVectorDbSearchActions.aiKnowledgeVectorDbSearchResultsLoadingFailed({
-              error
-            })
-          )
         )
       )
+    )
   }
 
   rehydrateChartVisibility$ = createEffect(() => {

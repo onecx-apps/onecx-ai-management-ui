@@ -19,8 +19,8 @@ export const AIKnowledgeDocumentSearchActions = createActionGroup({
     'Edit AIKnowledge Document button clicked': props<{
       id: number | string
     }>(),
-    'Create AIKnowledge Document cancelled': emptyProps(),
     'Update AIKnowledge Document cancelled': emptyProps(),
+    'Create AIKnowledge Document cancelled': emptyProps(),
     'Create AIKnowledge Document succeeded': emptyProps(),
     'Update AIKnowledge Document succeeded': emptyProps(),
     'Create AIKnowledge Document failed': props<{

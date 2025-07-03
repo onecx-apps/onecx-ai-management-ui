@@ -11,14 +11,15 @@
     "lint:fix": "nx lint --fix",
     "test": "nx test",
     "test:ci": "nx test --watch=false --browsers=ChromeHeadless --code-coverage",
-    "prepare": "husky || true"
+    "prepare": "husky || true",
+    "sonar": "npx sonarqube-scanner -Dproject.settings=sonar-local-project.properties"
   },
+  "private": true,
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
   },
-  "private": true,
   "dependencies": {
     "@angular-architects/module-federation": "^18.0.4",
     "@angular/animations": "~18.2.0",
@@ -107,6 +108,9 @@
     "typescript-eslint": "^8.0.0",
     "webpack": "5.94.0",
     "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0"
+    "@commitlint/config-conventional": "^19.5.0",
+    "jest-sonar": "^0.2.16",
+    "jest-sonar-reporter": "^2.0.0",
+    "sonarqube-scanner": "^4.0.1"
   }
 }
