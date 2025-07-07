@@ -98,9 +98,16 @@ export class AiContextDetailsComponent implements OnInit {
 
   public formGroup: FormGroup
 
-  knowledgeBases: AIKnowledgeBase[] = []
-  providers: AIProvider[] = []
-  vectorDbs: AIKnowledgeVectorDb[] = []
+  providers$: Observable<AIProvider[]> = this.viewModel$.pipe(map((vm) => vm.details?.provider || []))
+  providerSuggestions: AIProvider[] = []
+
+  knowledgeBases$: Observable<AIKnowledgeBase[]> = this.viewModel$.pipe(map((vm) => vm.details?.aIKnowledgeBase || []))
+  knowledgeBaseSuggestions: AIKnowledgeBase[] = []
+
+  vectorDbs$: Observable<AIKnowledgeVectorDb[]> = this.viewModel$.pipe(
+    map((vm) => vm.details?.aIKnowledgeVectorDb || [])
+  )
+  vectorDbSuggestions: AIKnowledgeVectorDb[] = []
 
   knowledgeUrlOptions$: Observable<AIKnowledgeUrl[]> = this.viewModel$.pipe(
     map((vm) => vm.details?.aIKnowledgeUrl || [])
@@ -112,10 +119,6 @@ export class AiContextDetailsComponent implements OnInit {
     map((vm) => vm.details?.aIKnowledgeDocuments || [])
   )
 
-  knowledgeBaseSuggestions: AIKnowledgeBase[] = []
-  providerSuggestions: AIProvider[] = []
-  vectorDbSuggestions: AIKnowledgeVectorDb[] = []
-
   constructor(
     private store: Store,
     private breadcrumbService: BreadcrumbService
@@ -125,9 +128,9 @@ export class AiContextDetailsComponent implements OnInit {
       appId: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      aiKnowledgeBase: new FormControl([]),
-      provider: new FormControl([]),
-      aiKnowledgeVectorDb: new FormControl([]),
+      aiKnowledgeBase: new FormControl(null),
+      provider: new FormControl(null),
+      aiKnowledgeVectorDb: new FormControl(null),
       aiKnowledgeUrls: new FormControl([]),
       aiKnowledgeDbs: new FormControl([]),
       aiKnowledgeDocuments: new FormControl([])
@@ -140,18 +143,14 @@ export class AiContextDetailsComponent implements OnInit {
           appId: vm.details?.appId,
           name: vm.details?.name,
           description: vm.details?.description,
-          aiKnowledgeBase: Array.isArray(vm.details?.aIKnowledgeBase) ? vm.details?.aIKnowledgeBase[0] : null,
-          provider: Array.isArray(vm.details?.provider) ? vm.details?.provider[0] : null,
-          aiKnowledgeVectorDb: Array.isArray(vm.details?.aIKnowledgeVectorDb)
-            ? vm.details?.aIKnowledgeVectorDb[0]
-            : null,
+          aiKnowledgeBase: vm.details?.aIKnowledgeBase ? vm.details?.aIKnowledgeBase[0] : null,
+          provider: vm.details?.provider ? vm.details?.provider[0] : null,
+          aiKnowledgeVectorDb: vm.details?.aIKnowledgeVectorDb ? vm.details?.aIKnowledgeVectorDb[0] : null,
           aiKnowledgeUrls: vm.details?.aIKnowledgeUrl || [],
           aiKnowledgeDbs: vm.details?.aIKnowledgeDbs || [],
           aiKnowledgeDocuments: vm.details?.aIKnowledgeDocuments || []
         })
 
-        this.providers = vm.details?.provider || []
-        this.knowledgeBases = vm.details?.aIKnowledgeBase || []
         this.formGroup.markAsPristine()
       }
       if (vm.editMode) {
@@ -174,21 +173,31 @@ export class AiContextDetailsComponent implements OnInit {
 
   searchKnowledgeBases(event: { query: string }) {
     const query = event.query.toLowerCase()
-    this.knowledgeBaseSuggestions = this.knowledgeBases.filter((kb) =>
-      (kb.name + ' ' + kb.appId).toLowerCase().includes(query)
-    )
+    this.knowledgeBases$
+      .subscribe((bases) => {
+        this.knowledgeBaseSuggestions = bases.filter((kb) => (kb.name + ' ' + kb.appId).toLowerCase().includes(query))
+      })
+      .unsubscribe()
   }
 
   searchProviders(event: { query: string }) {
     const query = event.query.toLowerCase()
-    this.providerSuggestions = this.providers.filter((p) => (p.name + ' ' + p.appId).toLowerCase().includes(query))
+    this.providers$
+      .subscribe((providers) => {
+        this.providerSuggestions = providers.filter((p) => (p.name + ' ' + p.appId).toLowerCase().includes(query))
+      })
+      .unsubscribe()
   }
 
   searchVectorDbs(event: { query: string }) {
     const query = event.query.toLowerCase()
-    this.vectorDbSuggestions = this.vectorDbs.filter((vdb) =>
-      (vdb.name + ' ' + (vdb.description || '')).toLowerCase().includes(query)
-    )
+    this.vectorDbs$
+      .subscribe((vectorDbs) => {
+        this.vectorDbSuggestions = vectorDbs.filter((vdb) =>
+          (vdb.name + ' ' + (vdb.description || '')).toLowerCase().includes(query)
+        )
+      })
+      .unsubscribe()
   }
 
   edit() {
