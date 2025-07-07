@@ -957,13 +957,13 @@ components:
       properties:
         dataObject:
           type: object
-          $ref: AIProvider
+          $ref: "#/components/schemas/AIProvider"
     UpdateAIProvider:
       type: object
       properties:
         dataObject:
           type: object
-          $ref: AIProvider
+          $ref: "#/components/schemas/AIProvider"
     AIProviderCreateResponse:
       type: object
       properties:

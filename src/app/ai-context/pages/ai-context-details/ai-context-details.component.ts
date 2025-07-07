@@ -98,6 +98,24 @@ export class AiContextDetailsComponent implements OnInit {
 
   public formGroup: FormGroup
 
+  knowledgeBases: AIKnowledgeBase[] = []
+  providers: AIProvider[] = []
+  vectorDbs: AIKnowledgeVectorDb[] = []
+
+  knowledgeUrlOptions$: Observable<AIKnowledgeUrl[]> = this.viewModel$.pipe(
+    map((vm) => vm.details?.aIKnowledgeUrl || [])
+  )
+  knowledgeDbOptions$: Observable<AIKnowledgeDatabase[]> = this.viewModel$.pipe(
+    map((vm) => vm.details?.aIKnowledgeDbs || [])
+  )
+  documentOptions$: Observable<AIKnowledgeDocument[]> = this.viewModel$.pipe(
+    map((vm) => vm.details?.aIKnowledgeDocuments || [])
+  )
+
+  knowledgeBaseSuggestions: AIKnowledgeBase[] = []
+  providerSuggestions: AIProvider[] = []
+  vectorDbSuggestions: AIKnowledgeVectorDb[] = []
+
   constructor(
     private store: Store,
     private breadcrumbService: BreadcrumbService
@@ -107,12 +125,12 @@ export class AiContextDetailsComponent implements OnInit {
       appId: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      aiKnowledgeBase: new FormControl(null),
-      provider: new FormControl(null),
-      aiKnowledgeVectorDb: new FormControl(null),
-      aiKnowledgeUrls: new FormControl(null),
-      aiKnowledgeDbs: new FormControl(null),
-      aiKnowledgeDocuments: new FormControl(null)
+      aiKnowledgeBase: new FormControl([]),
+      provider: new FormControl([]),
+      aiKnowledgeVectorDb: new FormControl([]),
+      aiKnowledgeUrls: new FormControl([]),
+      aiKnowledgeDbs: new FormControl([]),
+      aiKnowledgeDocuments: new FormControl([])
     })
     this.formGroup.disable()
 
@@ -124,7 +142,9 @@ export class AiContextDetailsComponent implements OnInit {
           description: vm.details?.description,
           aiKnowledgeBase: Array.isArray(vm.details?.aIKnowledgeBase) ? vm.details?.aIKnowledgeBase[0] : null,
           provider: Array.isArray(vm.details?.provider) ? vm.details?.provider[0] : null,
-          aiKnowledgeVectorDb: Array.isArray(vm.details?.aIKnowledgeVectorDb) ? vm.details?.aIKnowledgeVectorDb[0] : null,
+          aiKnowledgeVectorDb: Array.isArray(vm.details?.aIKnowledgeVectorDb)
+            ? vm.details?.aIKnowledgeVectorDb[0]
+            : null,
           aiKnowledgeUrls: vm.details?.aIKnowledgeUrl || [],
           aiKnowledgeDbs: vm.details?.aIKnowledgeDbs || [],
           aiKnowledgeDocuments: vm.details?.aIKnowledgeDocuments || []
@@ -132,9 +152,6 @@ export class AiContextDetailsComponent implements OnInit {
 
         this.providers = vm.details?.provider || []
         this.knowledgeBases = vm.details?.aIKnowledgeBase || []
-        this.knowledgeUrls = vm.details?.aIKnowledgeUrl || []
-        this.knowledgeDbs = vm.details?.aIKnowledgeDbs || []
-        this.documents = vm.details?.aIKnowledgeDocuments || []
         this.formGroup.markAsPristine()
       }
       if (vm.editMode) {
@@ -154,17 +171,6 @@ export class AiContextDetailsComponent implements OnInit {
       }
     ])
   }
-
-  knowledgeBases: AIKnowledgeBase[] = []
-  providers: AIProvider[] = []
-  vectorDbs: AIKnowledgeVectorDb[] = []
-  knowledgeUrls: AIKnowledgeUrl[] = []
-  knowledgeDbs: AIKnowledgeDatabase[] = []
-  documents: AIKnowledgeDocument[] = []
-
-  knowledgeBaseSuggestions: AIKnowledgeBase[] = []
-  providerSuggestions: AIProvider[] = []
-  vectorDbSuggestions: AIKnowledgeVectorDb[] = []
 
   searchKnowledgeBases(event: { query: string }) {
     const query = event.query.toLowerCase()

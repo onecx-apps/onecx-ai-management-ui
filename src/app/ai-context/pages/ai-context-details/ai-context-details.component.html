@@ -130,7 +130,7 @@
             </label>
             <p-multiSelect
               id="knowledge-urls-multiselect"
-              [options]="knowledgeUrls"
+              [options]="(knowledgeUrlOptions$ | async) ?? []"
               formControlName="aiKnowledgeUrls"
               optionLabel="name"
               display="chip"
@@ -151,7 +151,7 @@
             </label>
             <p-multiSelect
               id="knowledge-dbs-multiselect"
-              [options]="knowledgeDbs"
+              [options]="(knowledgeDbOptions$ | async) ?? []"
               formControlName="aiKnowledgeDbs"
               optionLabel="name"
               display="chip"
@@ -172,7 +172,7 @@
             </label>
             <p-multiSelect
               id="knowledge-documents-multiselect"
-              [options]="documents"
+              [options]="(documentOptions$ | async) ?? []"
               formControlName="aiKnowledgeDocuments"
               optionLabel="name"
               display="chip"
