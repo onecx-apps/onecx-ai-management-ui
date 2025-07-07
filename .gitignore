@@ -4,8 +4,6 @@
 dist
 tmp
 /out-tsc
-.github/instructions
-.eslintcache
 
 # dependencies
 node_modules
@@ -30,20 +28,18 @@ node_modules
 /.sass-cache
 /connect.lock
 /coverage
+/reports
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
 testem.log
 /typings
-.husky/_
+.github/instructions
+.eslintcache
 
 # System Files
 .DS_Store
 Thumbs.db
 
-.nx/cache
-.nx/workspace-data
-
+.nx
 .angular
-.cursor/rules/nx-rules.mdc
-.github/instructions/nx.instructions.md
