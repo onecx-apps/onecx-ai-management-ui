@@ -243,7 +243,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     fixture.detectChanges()
     await fixture.whenStable()
 
-    // Ensure formGroup is initialized and updated
     if (!component.formGroup) {
       component.ngOnInit()
       fixture.detectChanges()
@@ -308,7 +307,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
   })
 
   it('should enable or disable the form based on editMode', async () => {
-    // Set up view model with editMode: false
     const viewModelView = {
       ...baseAIKnowledgeVectorDbDetailsViewModel,
       editMode: false
@@ -319,7 +317,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     await fixture.whenStable()
     expect(component.formGroup.disabled).toBeTruthy()
 
-    // Set up view model with editMode: true
     const viewModelEdit = {
       ...baseAIKnowledgeVectorDbDetailsViewModel,
       editMode: true
@@ -687,6 +684,82 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       const action = AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbFailed({ error: null })
       const state = AIKnowledgeVectorDbDetailsReducer(preState, action)
       expect(state.isSubmitting).toBe(false)
+    })
+  })
+
+  describe('AIKnowledgeVectorDbDetails Selectors', () => {
+    const baseState: any = {
+      details: {
+        id: '1',
+        name: 'Test',
+        aiContext: { id: 'ctx', name: 'Context' },
+        vdb: '',
+        vdbCollection: '',
+        modificationCount: 0
+      },
+      contexts: [{ id: 'ctx', name: 'Context' }],
+      detailsLoaded: true,
+      detailsLoadingIndicator: false,
+      contextsLoaded: true,
+      contextsLoadingIndicator: false,
+      backNavigationPossible: true,
+      editMode: false,
+      isSubmitting: false
+    }
+
+    // const rootState = {
+    //   aiKnowledgeVectorDbDetails: baseState
+    // }
+
+    // it.only('should select all child selectors', () => {
+    //   expect(AIKnowledgeVectorDbDetailsSelectors.selectDetails(rootState)).toEqual(baseState.details)
+    //   expect(AIKnowledgeVectorDbDetailsSelectors.selectContexts(rootState)).toEqual(baseState.contexts)
+    //   expect(AIKnowledgeVectorDbDetailsSelectors.selectDetailsLoaded(rootState)).toBe(true)
+    //   expect(AIKnowledgeVectorDbDetailsSelectors.selectEditMode(rootState)).toBe(false)
+    // })
+
+    it('should select the full view model', () => {
+      const result = selectAIKnowledgeVectorDbDetailsViewModel.projector(
+        baseState.details,
+        baseState.contexts,
+        baseState.detailsLoaded,
+        baseState.detailsLoadingIndicator,
+        baseState.contextsLoaded,
+        baseState.contextsLoadingIndicator,
+        true, // backNavigationPossible
+        baseState.editMode,
+        baseState.isSubmitting
+      )
+
+      expect(result).toEqual({
+        details: baseState.details,
+        contexts: baseState.contexts,
+        detailsLoaded: true,
+        detailsLoadingIndicator: false,
+        contextsLoaded: true,
+        contextsLoadingIndicator: false,
+        backNavigationPossible: true,
+        editMode: false,
+        isSubmitting: false
+      })
+    })
+
+    it('should handle undefined details and empty contexts', () => {
+      const result = selectAIKnowledgeVectorDbDetailsViewModel.projector(
+        undefined,
+        [],
+        false,
+        true,
+        false,
+        true,
+        false,
+        true,
+        false
+      )
+      expect(result.details).toBeUndefined()
+      expect(result.contexts).toEqual([])
+      expect(result.detailsLoaded).toBe(false)
+      expect(result.detailsLoadingIndicator).toBe(true)
     })
   })
 })

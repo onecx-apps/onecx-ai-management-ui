@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
   <file path="/home/mateuszstatkiewicz/OneCX/AIManagement/fork/onecx-ai-management-ui/src/app/ai-knowledge-vector-db/pages/ai-knowledge-vector-db-details/ai-knowledge-vector-db-details.component.spec.ts">
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should create" duration="1269"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should display correct breadcrumbs" duration="472"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should display translated headers" duration="394"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should have 2 inline actions" duration="253"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should navigate back on back button click" duration="210"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should display item details in form fields" duration="176"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should display item details in page header" duration="353"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should enable or disable the form based on editMode" duration="263"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should show the correct actions for edit and view modes" duration="286"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch edit action when edit() is called" duration="285"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch navigate back action when goBack() is called" duration="240"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch cancel action with dirty state when cancel() is called" duration="228"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch save action with form values when save() is called" duration="184"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch delete action when delete() is called" duration="201"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should call breadcrumbService.setItems on ngOnInit" duration="220"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should map contexts correctly in getContextFormValue" duration="242"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should execute actionCallback for each header action" duration="280"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch cancel action with pristine state when cancel() is called" duration="183"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should patch the form with details and matched context" duration="152"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should emit correct displayContexts$ for details with aiContext" duration="149"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should handle missing details gracefully" duration="209"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should handle empty contexts array gracefully" duration="304"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should return the initial state for an unknown action" duration="235"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbDetailsReceived" duration="202"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbDetailsLoadingFailed" duration="172"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbContextsReceived" duration="185"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbContextsLoadingFailed" duration="141"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle navigatedToDetailsPage" duration="143"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle editButtonClicked" duration="159"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle saveButtonClicked" duration="131"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle navigateBackButtonClicked" duration="135"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle cancelEditConfirmClicked and related actions" duration="143"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle updateAIKnowledgeVectorDbFailed" duration="131"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should create" duration="949"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should display correct breadcrumbs" duration="292"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should display translated headers" duration="261"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should have 2 inline actions" duration="232"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should navigate back on back button click" duration="339"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should display item details in form fields" duration="494"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should display item details in page header" duration="503"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should enable or disable the form based on editMode" duration="210"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should show the correct actions for edit and view modes" duration="345"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch edit action when edit() is called" duration="179"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch navigate back action when goBack() is called" duration="132"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch cancel action with dirty state when cancel() is called" duration="155"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch save action with form values when save() is called" duration="127"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch delete action when delete() is called" duration="145"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should call breadcrumbService.setItems on ngOnInit" duration="232"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should map contexts correctly in getContextFormValue" duration="251"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should execute actionCallback for each header action" duration="206"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch cancel action with pristine state when cancel() is called" duration="137"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should patch the form with details and matched context" duration="155"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should emit correct displayContexts$ for details with aiContext" duration="163"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should handle missing details gracefully" duration="169"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should handle empty contexts array gracefully" duration="175"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should return the initial state for an unknown action" duration="120"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbDetailsReceived" duration="129"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbDetailsLoadingFailed" duration="164"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbContextsReceived" duration="123"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbContextsLoadingFailed" duration="130"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle navigatedToDetailsPage" duration="113"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle editButtonClicked" duration="118"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle saveButtonClicked" duration="128"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle navigateBackButtonClicked" duration="123"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle cancelEditConfirmClicked and related actions" duration="156"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle updateAIKnowledgeVectorDbFailed" duration="151"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetails Selectors should select the full view model" duration="122"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetails Selectors should handle undefined details and empty contexts" duration="140"/>
   </file>
 </testExecutions>
