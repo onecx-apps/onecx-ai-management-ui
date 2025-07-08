@@ -5,7 +5,7 @@ import {
   InteractiveDataViewComponentState,
   SearchHeaderComponentState
 } from '@onecx/portal-integration-angular'
-import { AiContext } from '../../../shared/generated'
+import { AIContext } from '../../../shared/generated'
 import { AiContextSearchCriteria } from './ai-context-search.parameters'
 
 export const AiContextSearchActions = createActionGroup({
@@ -43,7 +43,7 @@ export const AiContextSearchActions = createActionGroup({
     }>(),
     'Reset button clicked': emptyProps(),
     'aiContext search results received': props<{
-      stream: AiContext[]
+      stream: AIContext[]
       size: number
       number: number
       totalElements: number

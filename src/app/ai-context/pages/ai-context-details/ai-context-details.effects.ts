@@ -10,7 +10,7 @@ import { PrimeIcons } from 'primeng/api'
 import { catchError, filter, map, mergeMap, of, switchMap, tap } from 'rxjs'
 import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
 import { selectRouteParam, selectUrl } from 'src/app/shared/selectors/router.selectors'
-import { AiContext, AiContextBffService, UpdateAiContextRequest } from '../../../shared/generated'
+import { AIContext, AIContextBffService, UpdateAIContextRequest } from '../../../shared/generated'
 import { AiContextDetailsActions } from './ai-context-details.actions'
 import { AiContextDetailsComponent } from './ai-context-details.component'
 import { aiContextDetailsSelectors } from './ai-context-details.selectors'
@@ -18,7 +18,7 @@ import { aiContextDetailsSelectors } from './ai-context-details.selectors'
 export class AiContextDetailsEffects {
   constructor(
     private actions$: Actions,
-    private aiContextService: AiContextBffService,
+    private aiContextService: AIContextBffService,
     private router: Router,
     private store: Store,
     private messageService: PortalMessageService,
@@ -42,7 +42,7 @@ export class AiContextDetailsEffects {
     return this.actions$.pipe(
       ofType(AiContextDetailsActions.navigatedToDetailsPage),
       switchMap(({ id }) =>
-        this.aiContextService.getAiContextById(id ?? '').pipe(
+        this.aiContextService.getAIContextById(id ?? '').pipe(
           map(({ result }) =>
             AiContextDetailsActions.aiContextDetailsReceived({
               details: result
@@ -75,7 +75,7 @@ export class AiContextDetailsEffects {
       ofType(AiContextDetailsActions.cancelButtonClicked),
       filter((action) => action.dirty),
       switchMap(() => {
-        return this.portalDialogService.openDialog<AiContext | undefined>(
+        return this.portalDialogService.openDialog<AIContext | undefined>(
           'AI_CONTEXT_DETAILS.CANCEL.HEADER',
           'AI_CONTEXT_DETAILS.CANCEL.MESSAGE',
           'AI_CONTEXT_DETAILS.CANCEL.CONFIRM'
@@ -106,8 +106,8 @@ export class AiContextDetailsEffects {
         }
         const itemToEdit = {
           dataObject: updatedItem
-        } as UpdateAiContextRequest
-        return this.aiContextService.updateAiContext(itemToEditId, itemToEdit).pipe(
+        } as UpdateAIContextRequest
+        return this.aiContextService.updateAIContext(itemToEditId, itemToEdit).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'AI_CONTEXT_DETAILS.UPDATE.SUCCESS'
@@ -147,7 +147,7 @@ export class AiContextDetailsEffects {
             }
           )
           .pipe(
-            map((state): [DialogState<unknown>, AiContext | undefined] => {
+            map((state): [DialogState<unknown>, AIContext | undefined] => {
               return [state, itemToDelete]
             })
           )
@@ -161,7 +161,7 @@ export class AiContextDetailsEffects {
           throw new Error('Item to delete or its ID not found!')
         }
 
-        return this.aiContextService.deleteAiContext(itemToDelete.id).pipe(
+        return this.aiContextService.deleteAIContext(itemToDelete.id).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'AI_CONTEXT_DETAILS.DELETE.SUCCESS'

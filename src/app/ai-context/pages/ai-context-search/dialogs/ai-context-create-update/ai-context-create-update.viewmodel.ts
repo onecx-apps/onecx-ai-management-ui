@@ -1,5 +1,5 @@
-import { AiContext } from '../../../../../shared/generated'
+import { AIContext } from '../../../../../shared/generated'
 
 export interface AiContextCreateUpdateViewModel {
-  itemToEdit: AiContext | undefined
+  itemToEdit: AIContext | undefined
 }

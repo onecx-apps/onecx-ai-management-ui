@@ -1,7 +1,7 @@
-import { AiContext } from '../../../shared/generated'
+import { AIContext } from '../../../shared/generated'
 
 export interface AiContextDetailsState {
-  details: AiContext | undefined
+  details: AIContext | undefined
   detailsLoadingIndicator: boolean
   backNavigationPossible: boolean
   detailsLoaded: boolean

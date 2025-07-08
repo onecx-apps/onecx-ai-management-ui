@@ -1,17 +1,17 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store'
-import { AiContext } from '../../../shared/generated'
+import { AIContext } from '../../../shared/generated'
 
 export const AiContextDetailsActions = createActionGroup({
-  source: 'AiContextDetails',
+  source: 'AIContextDetails',
   events: {
     'navigated to details page': props<{
       id: string | undefined
     }>(),
     'ai context details received': props<{
-      details: AiContext
+      details: AIContext
     }>(),
     'ai context reloaded details received': props<{
-      details: AiContext
+      details: AIContext
     }>(),
     'ai context details loading failed': props<{ error: string | null }>(),
     'edit mode set': props<{ editMode: boolean }>(),
@@ -30,7 +30,7 @@ export const AiContextDetailsActions = createActionGroup({
     'cancel edit not dirty': emptyProps(),
     'edit button clicked': emptyProps(),
     'save button clicked': props<{
-      details: AiContext
+      details: AIContext
     }>(),
     'cancel button clicked': props<{
       dirty: boolean

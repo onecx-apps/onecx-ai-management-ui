@@ -3,7 +3,7 @@ import { DialogButtonClicked, DialogPrimaryButtonDisabled, DialogResult } from '
 
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { map } from 'rxjs'
-import { AiContext } from 'src/app/shared/generated'
+import { AIContext } from 'src/app/shared/generated'
 
 import { AiContextCreateUpdateViewModel } from './ai-context-create-update.viewmodel'
 
@@ -15,7 +15,7 @@ import { AiContextCreateUpdateViewModel } from './ai-context-create-update.viewm
 export class AiContextCreateUpdateComponent
   implements
     DialogPrimaryButtonDisabled,
-    DialogResult<AiContext | undefined>,
+    DialogResult<AIContext | undefined>,
     DialogButtonClicked<AiContextCreateUpdateComponent>,
     OnInit
 {
@@ -26,7 +26,7 @@ export class AiContextCreateUpdateComponent
   public formGroup: FormGroup
 
   primaryButtonEnabled = new EventEmitter<boolean>()
-  dialogResult: AiContext | undefined = undefined
+  dialogResult: AIContext | undefined = undefined
 
   constructor() {
     this.formGroup = new FormGroup({

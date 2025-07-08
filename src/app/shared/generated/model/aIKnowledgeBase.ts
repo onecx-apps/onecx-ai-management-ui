@@ -15,6 +15,7 @@ export interface AIKnowledgeBase {
     id: string;
     name?: string;
     description?: string;
+    appId?: string;
     aiContext?: Array<AIContext>;
 }
 

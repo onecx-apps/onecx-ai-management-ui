@@ -9,7 +9,7 @@ import { ExportDataService, PortalMessageService, PortalDialogService, DialogSta
 import equal from 'fast-deep-equal'
 import { catchError, map, mergeMap, of, switchMap, tap } from 'rxjs'
 import { selectUrl } from 'src/app/shared/selectors/router.selectors'
-import { AiContext, AiContextBffService, CreateAiContextRequest, UpdateAiContextRequest } from '../../../shared/generated'
+import { AIContext, AIContextBffService, CreateAIContextRequest, UpdateAIContextRequest } from '../../../shared/generated'
 import { AiContextSearchActions } from './ai-context-search.actions'
 import { AiContextSearchComponent } from './ai-context-search.component'
 import { aiContextSearchCriteriasSchema } from './ai-context-search.parameters'
@@ -23,7 +23,7 @@ export class AiContextSearchEffects {
     private portalDialogService: PortalDialogService,
     private actions$: Actions,
     @SkipSelf() private route: ActivatedRoute,
-    private aiContextService: AiContextBffService,
+    private aiContextService: AIContextBffService,
     private router: Router,
     private store: Store,
     private messageService: PortalMessageService,
@@ -98,7 +98,7 @@ export class AiContextSearchEffects {
         return results.find((item) => item.id == action.id)
       }),
       mergeMap((itemToEdit) => {
-        return this.portalDialogService.openDialog<AiContext | undefined>(
+        return this.portalDialogService.openDialog<AIContext | undefined>(
           'AI_CONTEXT_CREATE_UPDATE.UPDATE.HEADER',
           {
             type: AiContextCreateUpdateComponent,
@@ -128,8 +128,8 @@ export class AiContextSearchEffects {
         }
         const itemToEdit = {
           aiContextData: dialogResult.result
-        } as UpdateAiContextRequest
-        return this.aiContextService.updateAiContext(itemToEditId, itemToEdit).pipe(
+        } as UpdateAIContextRequest
+        return this.aiContextService.updateAIContext(itemToEditId, itemToEdit).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'AI_CONTEXT_CREATE_UPDATE.UPDATE.SUCCESS'
@@ -155,7 +155,7 @@ export class AiContextSearchEffects {
     return this.actions$.pipe(
       ofType(AiContextSearchActions.createAiContextButtonClicked),
       switchMap(() => {
-        return this.portalDialogService.openDialog<AiContext | undefined>(
+        return this.portalDialogService.openDialog<AIContext | undefined>(
           'AI_CONTEXT_CREATE_UPDATE.CREATE.HEADER',
           {
             type: AiContextCreateUpdateComponent,
@@ -181,8 +181,8 @@ export class AiContextSearchEffects {
         }
         const toCreateItem = {
           aiContextData: dialogResult.result
-        } as CreateAiContextRequest
-        return this.aiContextService.createAiContext(toCreateItem).pipe(
+        } as CreateAIContextRequest
+        return this.aiContextService.createAIContext(toCreateItem).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'AI_CONTEXT_CREATE_UPDATE.CREATE.SUCCESS'
@@ -237,7 +237,7 @@ export class AiContextSearchEffects {
               }
             )
             .pipe(
-              map((state): [DialogState<unknown>, AiContext | undefined] => {
+              map((state): [DialogState<unknown>, AIContext | undefined] => {
                 console.log('Dialog STATE:', state)
                 console.log('Item to delete after dialog:', itemToDelete)
                 return [state, itemToDelete]
@@ -256,7 +256,7 @@ export class AiContextSearchEffects {
             throw new Error('Item to delete or its ID not found!')
           }
 
-          return this.aiContextService.deleteAiContext(itemToDelete.id).pipe(
+          return this.aiContextService.deleteAIContext(itemToDelete.id).pipe(
             map(() => {
               console.log('Dialog result SUCCESS:', dialogResult)
               console.log('Item to delete after dialog:', itemToDelete)
@@ -284,7 +284,7 @@ export class AiContextSearchEffects {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   performSearch(searchCriteria: Record<string, any>) {
     return this.aiContextService
-      .searchAiContexts({
+      .searchAIContexts({
         ...Object.entries(searchCriteria).reduce(
           (acc, [key, value]) => ({
             ...acc,
@@ -322,7 +322,7 @@ export class AiContextSearchEffects {
           this.exportDataService.exportCsv(
             viewModel.resultComponentState?.displayedColumns ?? [],
             viewModel.results,
-            'AiContext.csv'
+            'AIContext.csv'
           )
         })
       )

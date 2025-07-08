@@ -4,12 +4,12 @@ import {
   InteractiveDataViewComponentState,
   SearchHeaderComponentState
 } from '@onecx/portal-integration-angular'
-import { AiContext } from 'src/app/shared/generated'
+import { AIContext } from 'src/app/shared/generated'
 import { AiContextSearchCriteria } from './ai-context-search.parameters'
 
 export interface AiContextSearchState {
   columns: DataTableColumn[]
-  results: AiContext[]
+  results: AIContext[]
   displayedColumns: string[] | null
   chartVisible: boolean
   resultComponentState: InteractiveDataViewComponentState | null

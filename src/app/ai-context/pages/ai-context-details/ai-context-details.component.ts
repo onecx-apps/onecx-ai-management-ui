@@ -101,7 +101,7 @@ export class AiContextDetailsComponent implements OnInit {
   providers$: Observable<AIProvider[]> = this.viewModel$.pipe(map((vm) => vm.details?.provider || []))
   providerSuggestions: AIProvider[] = []
 
-  knowledgeBases$: Observable<AIKnowledgeBase[]> = this.viewModel$.pipe(map((vm) => vm.details?.aIKnowledgeBase || []))
+  knowledgeBases$: Observable<AIKnowledgeBase[]> = this.viewModel$.pipe(map((vm) => vm.details?.AIKnowledgeBase || []))
   knowledgeBaseSuggestions: AIKnowledgeBase[] = []
 
   vectorDbs$: Observable<AIKnowledgeVectorDb[]> = this.viewModel$.pipe(
@@ -143,7 +143,7 @@ export class AiContextDetailsComponent implements OnInit {
           appId: vm.details?.appId,
           name: vm.details?.name,
           description: vm.details?.description,
-          aiKnowledgeBase: vm.details?.aIKnowledgeBase ? vm.details?.aIKnowledgeBase[0] : null,
+          aiKnowledgeBase: vm.details?.AIKnowledgeBase ? vm.details?.AIKnowledgeBase[0] : null,
           provider: vm.details?.provider ? vm.details?.provider[0] : null,
           aiKnowledgeVectorDb: vm.details?.aIKnowledgeVectorDb ? vm.details?.aIKnowledgeVectorDb[0] : null,
           aiKnowledgeUrls: vm.details?.aIKnowledgeUrl || [],
