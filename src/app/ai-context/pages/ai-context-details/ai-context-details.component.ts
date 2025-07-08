@@ -124,16 +124,16 @@ export class AiContextDetailsComponent implements OnInit {
     private breadcrumbService: BreadcrumbService
   ) {
     this.formGroup = new FormGroup({
-      id: new FormControl(null, [Validators.maxLength(255)]),
+      id: new FormControl('', [Validators.maxLength(255)]),
       appId: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      aiKnowledgeBase: new FormControl(null),
+      AIKnowledgeBase: new FormControl(null),
       provider: new FormControl(null),
-      aiKnowledgeVectorDb: new FormControl(null),
-      aiKnowledgeUrls: new FormControl([]),
-      aiKnowledgeDbs: new FormControl([]),
-      aiKnowledgeDocuments: new FormControl([])
+      aIKnowledgeVectorDb: new FormControl(null),
+      aIKnowledgeUrl: new FormControl([]),
+      aIKnowledgeDbs: new FormControl([]),
+      aIKnowledgeDocuments: new FormControl([])
     })
     this.formGroup.disable()
 
@@ -143,12 +143,12 @@ export class AiContextDetailsComponent implements OnInit {
           appId: vm.details?.appId,
           name: vm.details?.name,
           description: vm.details?.description,
-          aiKnowledgeBase: vm.details?.AIKnowledgeBase ? vm.details?.AIKnowledgeBase[0] : null,
+          AIKnowledgeBase: vm.details?.AIKnowledgeBase ? vm.details?.AIKnowledgeBase[0] : null,
           provider: vm.details?.provider ? vm.details?.provider[0] : null,
-          aiKnowledgeVectorDb: vm.details?.aIKnowledgeVectorDb ? vm.details?.aIKnowledgeVectorDb[0] : null,
-          aiKnowledgeUrls: vm.details?.aIKnowledgeUrl || [],
-          aiKnowledgeDbs: vm.details?.aIKnowledgeDbs || [],
-          aiKnowledgeDocuments: vm.details?.aIKnowledgeDocuments || []
+          aIKnowledgeVectorDb: vm.details?.aIKnowledgeVectorDb ? vm.details?.aIKnowledgeVectorDb[0] : null,
+          aIKnowledgeUrl: vm.details?.aIKnowledgeUrl || [],
+          aIKnowledgeDbs: vm.details?.aIKnowledgeDbs || [],
+          aIKnowledgeDocuments: vm.details?.aIKnowledgeDocuments || []
         })
 
         this.formGroup.markAsPristine()
@@ -209,9 +209,18 @@ export class AiContextDetailsComponent implements OnInit {
   }
 
   save() {
+    const formValue = this.formGroup.value
+
+    const payload = {
+      ...formValue,
+      AIKnowledgeBase: formValue.AIKnowledgeBase ? [formValue.AIKnowledgeBase] : [],
+      provider: formValue.provider ? [formValue.provider] : [],
+      aIKnowledgeVectorDb: formValue.aIKnowledgeVectorDb ? [formValue.aIKnowledgeVectorDb] : []
+    }
+
     this.store.dispatch(
       AiContextDetailsActions.saveButtonClicked({
-        details: this.formGroup.value
+        details: payload
       })
     )
   }

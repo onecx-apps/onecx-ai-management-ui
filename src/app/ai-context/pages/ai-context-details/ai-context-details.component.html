@@ -66,7 +66,7 @@
             <span class="p-float-label mb-1" controlErrorAnchor>
               <p-autoComplete
                 id="aiContext_detail_knowledgeBase"
-                formControlName="aiKnowledgeBase"
+                formControlName="AIKnowledgeBase"
                 [suggestions]="knowledgeBaseSuggestions"
                 (completeMethod)="searchKnowledgeBases($event)"
                 [dropdown]="true"
@@ -106,7 +106,7 @@
             <span class="p-float-label mb-1" controlErrorAnchor>
               <p-autoComplete
                 id="aiContext_detail_vectorDb"
-                formControlName="aiKnowledgeVectorDb"
+                formControlName="aIKnowledgeVectorDb"
                 [suggestions]="vectorDbSuggestions"
                 (completeMethod)="searchVectorDbs($event)"
                 [dropdown]="true"
@@ -131,7 +131,7 @@
             <p-multiSelect
               id="knowledge-urls-multiselect"
               [options]="(knowledgeUrlOptions$ | async) ?? []"
-              formControlName="aiKnowledgeUrls"
+              formControlName="aIKnowledgeUrl"
               optionLabel="name"
               display="chip"
               [filter]="true"
@@ -152,7 +152,7 @@
             <p-multiSelect
               id="knowledge-dbs-multiselect"
               [options]="(knowledgeDbOptions$ | async) ?? []"
-              formControlName="aiKnowledgeDbs"
+              formControlName="aIKnowledgeDbs"
               optionLabel="name"
               display="chip"
               [filter]="true"
@@ -173,7 +173,7 @@
             <p-multiSelect
               id="knowledge-documents-multiselect"
               [options]="(documentOptions$ | async) ?? []"
-              formControlName="aiKnowledgeDocuments"
+              formControlName="aIKnowledgeDocuments"
               optionLabel="name"
               display="chip"
               [filter]="true"
