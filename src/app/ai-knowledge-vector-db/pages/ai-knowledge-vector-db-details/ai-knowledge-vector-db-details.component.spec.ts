@@ -10,13 +10,16 @@ import { BreadcrumbService, PortalCoreModule, UserService } from '@onecx/portal-
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { AIKnowledgeVectorDbDetailsComponent } from './ai-knowledge-vector-db-details.component'
 import { AIKnowledgeVectorDbDetailsHarness } from './ai-knowledge-vector-db-details.harness'
-import { initialState } from './ai-knowledge-vector-db-details.reducers'
+import { AIKnowledgeVectorDbDetailsReducer, initialState } from './ai-knowledge-vector-db-details.reducers'
 import { selectAIKnowledgeVectorDbDetailsViewModel } from './ai-knowledge-vector-db-details.selectors'
 import { AIKnowledgeVectorDbDetailsViewModel } from './ai-knowledge-vector-db-details.viewmodel'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AIKnowledgeDocumentStatusEnum } from 'src/app/shared/generated'
 import { PrimeIcons } from 'primeng/api'
 import { of } from 'rxjs'
+import { ofType } from '@ngrx/effects'
+import { AIKnowledgeVectorDbDetailsActions } from './ai-knowledge-vector-db-details.actions'
+import { AIKnowledgeVectorDbDetailsState } from './ai-knowledge-vector-db-details.state'
 
 describe('AIKnowledgeVectorDbDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -208,7 +211,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     expect(await pageHeader.getSubheaderText()).toEqual('Display of AIKnowledgeVectorDb Details')
   })
 
-  it.only('should have 2 inline actions', async () => {
+  it('should have 2 inline actions', async () => {
     const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
     const inlineActions = await pageHeader.getInlineActionButtons()
     expect(inlineActions.length).toBe(2)
@@ -222,12 +225,15 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
 
   it('should navigate back on back button click', async () => {
     jest.spyOn(window.history, 'back')
+    const doneFn = jest.fn()
 
     const pageHeader = await AIKnowledgeVectorDbDetails.getHeader()
     const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
+    store.scannedActions$.pipe(ofType(AIKnowledgeVectorDbDetailsActions.navigateBackButtonClicked)).subscribe(() => {
+      doneFn()
+    })
     await backAction?.click()
-
-    expect(window.history.back).toHaveBeenCalledTimes(1)
+    expect(doneFn).toHaveBeenCalledTimes(1)
   })
 
   it('should display item details in form fields', async () => {
@@ -299,5 +305,388 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     expect(await fourthDetailItem?.getLabel()).toEqual('fourth')
     expect(await fourthDetailItem?.getValue()).toEqual('fourth value')
     expect(await fourthDetailItem?.getIcon()).toEqual(PrimeIcons.QUESTION)
+  })
+
+  it('should enable or disable the form based on editMode', async () => {
+    // Set up view model with editMode: false
+    const viewModelView = {
+      ...baseAIKnowledgeVectorDbDetailsViewModel,
+      editMode: false
+    }
+    store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModelView)
+    store.refreshState()
+    fixture.detectChanges()
+    await fixture.whenStable()
+    expect(component.formGroup.disabled).toBeTruthy()
+
+    // Set up view model with editMode: true
+    const viewModelEdit = {
+      ...baseAIKnowledgeVectorDbDetailsViewModel,
+      editMode: true
+    }
+    store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModelEdit)
+    store.refreshState()
+    fixture.detectChanges()
+    await fixture.whenStable()
+    expect(component.formGroup.enabled).toBeTruthy()
+  })
+
+  it('should show the correct actions for edit and view modes', async () => {
+    // View mode: editMode = false
+    const viewModelView = {
+      ...baseAIKnowledgeVectorDbDetailsViewModel,
+      editMode: false
+    }
+    store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModelView)
+    store.refreshState()
+    fixture.detectChanges()
+    await fixture.whenStable()
+    let actions: any[] = []
+    component.headerActions$.subscribe((a) => (actions = a))
+    // In view mode, expect Back and Edit actions to be visible
+    const visibleActionsView = actions.filter((a) => a.showCondition)
+    const actionLabelsView = visibleActionsView.map((a) => a.labelKey)
+    expect(actionLabelsView).toContain('AI_KNOWLEDGE_BASE_DETAILS.GENERAL.BACK')
+    expect(actionLabelsView).toContain('AI_KNOWLEDGE_VECTOR_DB_DETAILS.GENERAL.EDIT')
+    expect(actionLabelsView).not.toContain('AI_KNOWLEDGE_BASE_DETAILS.GENERAL.SAVE')
+    expect(actionLabelsView).not.toContain('AI_KNOWLEDGE_BASE_DETAILS.GENERAL.CANCEL')
+
+    // Edit mode: editMode = true
+    const viewModelEdit = {
+      ...baseAIKnowledgeVectorDbDetailsViewModel,
+      editMode: true
+    }
+    store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModelEdit)
+    store.refreshState()
+    fixture.detectChanges()
+    await fixture.whenStable()
+    actions = []
+    component.headerActions$.subscribe((a) => (actions = a))
+    // In edit mode, expect Save and Cancel actions to be visible
+    const visibleActionsEdit = actions.filter((a) => a.showCondition)
+    const actionLabelsEdit = visibleActionsEdit.map((a) => a.labelKey)
+    expect(actionLabelsEdit).toContain('AI_KNOWLEDGE_BASE_DETAILS.GENERAL.SAVE')
+    expect(actionLabelsEdit).toContain('AI_KNOWLEDGE_BASE_DETAILS.GENERAL.CANCEL')
+    expect(actionLabelsEdit).not.toContain('AI_KNOWLEDGE_BASE_DETAILS.GENERAL.BACK')
+    expect(actionLabelsEdit).not.toContain('AI_KNOWLEDGE_VECTOR_DB_DETAILS.GENERAL.EDIT')
+  })
+
+  it('should dispatch edit action when edit() is called', () => {
+    const dispatchSpy = jest.spyOn(store, 'dispatch')
+    component.edit()
+    expect(dispatchSpy).toHaveBeenCalledWith(AIKnowledgeVectorDbDetailsActions.editButtonClicked())
+  })
+
+  it('should dispatch navigate back action when goBack() is called', () => {
+    const dispatchSpy = jest.spyOn(store, 'dispatch')
+    component.goBack()
+    expect(dispatchSpy).toHaveBeenCalledWith(AIKnowledgeVectorDbDetailsActions.navigateBackButtonClicked())
+  })
+
+  it('should dispatch cancel action with dirty state when cancel() is called', () => {
+    const dispatchSpy = jest.spyOn(store, 'dispatch')
+    component.formGroup.markAsDirty()
+    component.cancel()
+    expect(dispatchSpy).toHaveBeenCalledWith(AIKnowledgeVectorDbDetailsActions.cancelButtonClicked({ dirty: true }))
+  })
+
+  it('should dispatch save action with form values when save() is called', () => {
+    const dispatchSpy = jest.spyOn(store, 'dispatch')
+    // Set up form values
+    component.formGroup.setValue({
+      id: 'id',
+      name: 'name',
+      description: 'desc',
+      vdb: 'vdb',
+      vdbCollection: 'coll',
+      aiContext: { label: 'context', value: { id: 'test' } }
+    })
+    component.save()
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      AIKnowledgeVectorDbDetailsActions.saveButtonClicked({
+        details: {
+          id: 'id',
+          name: 'name',
+          description: 'desc',
+          vdb: 'vdb',
+          vdbCollection: 'coll',
+          aiContext: { id: 'test' }
+        }
+      })
+    )
+  })
+
+  it('should dispatch delete action when delete() is called', () => {
+    const dispatchSpy = jest.spyOn(store, 'dispatch')
+    component.delete()
+    expect(dispatchSpy).toHaveBeenCalledWith(AIKnowledgeVectorDbDetailsActions.deleteButtonClicked())
+  })
+
+  it('should call breadcrumbService.setItems on ngOnInit', () => {
+    const breadcrumbSpy = jest.spyOn(breadcrumbService, 'setItems')
+    component.ngOnInit()
+    expect(breadcrumbSpy).toHaveBeenCalledWith([
+      {
+        titleKey: 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.BREADCRUMB',
+        labelKey: 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.BREADCRUMB',
+        routerLink: '/ai-knowledge-vector-db'
+      }
+    ])
+  })
+
+  it('should map contexts correctly in getContextFormValue', () => {
+    const contexts = [
+      { id: '1', name: 'Name1' },
+      { id: '2', name: 'Name2' }
+    ] as any
+    const result = component.getContextFormValue(contexts)
+    expect(result).toEqual([
+      { label: '1:Name1', value: { id: '1', name: 'Name1' } },
+      { label: '2:Name2', value: { id: '2', name: 'Name2' } }
+    ])
+  })
+
+  it('should execute actionCallback for each header action', () => {
+    // Prepare spies for each method
+    const editSpy = jest.spyOn(component, 'edit')
+    const goBackSpy = jest.spyOn(component, 'goBack')
+    const cancelSpy = jest.spyOn(component, 'cancel')
+    const saveSpy = jest.spyOn(component, 'save')
+    const deleteSpy = jest.spyOn(component, 'delete')
+
+    // Set up view model for both modes
+    const viewModelView = {
+      ...baseAIKnowledgeVectorDbDetailsViewModel,
+      editMode: false
+    }
+    store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModelView)
+    store.refreshState()
+    fixture.detectChanges()
+    let actions: any[] = []
+    component.headerActions$.subscribe((a) => (actions = a))
+    // Call actionCallbacks in view mode
+    actions.forEach((action) => {
+      if (typeof action.actionCallback === 'function') {
+        action.actionCallback()
+      }
+    })
+    expect(editSpy).toHaveBeenCalled()
+    expect(goBackSpy).toHaveBeenCalled()
+    expect(cancelSpy).toHaveBeenCalled()
+    expect(saveSpy).toHaveBeenCalled()
+    expect(deleteSpy).toHaveBeenCalled()
+
+    // Edit mode
+    const viewModelEdit = {
+      ...baseAIKnowledgeVectorDbDetailsViewModel,
+      editMode: true
+    }
+    store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModelEdit)
+    store.refreshState()
+    fixture.detectChanges()
+    actions = []
+    component.headerActions$.subscribe((a) => (actions = a))
+    // Call actionCallbacks in edit mode
+    actions.forEach((action) => {
+      if (typeof action.actionCallback === 'function') {
+        action.actionCallback()
+      }
+    })
+    expect(cancelSpy).toHaveBeenCalled()
+    expect(saveSpy).toHaveBeenCalled()
+  })
+
+  it('should dispatch cancel action with pristine state when cancel() is called', () => {
+    const dispatchSpy = jest.spyOn(store, 'dispatch')
+    component.formGroup.markAsPristine()
+    component.cancel()
+    expect(dispatchSpy).toHaveBeenCalledWith(AIKnowledgeVectorDbDetailsActions.cancelButtonClicked({ dirty: false }))
+  })
+
+  it('should patch the form with details and matched context', () => {
+    const context = { id: 'ctx1', name: 'Context 1' } as any
+    const details = { ...baseAIKnowledgeVectorDbDetailsViewModel.details, aiContext: context } as any
+    const viewModel = {
+      ...baseAIKnowledgeVectorDbDetailsViewModel,
+      details,
+      editMode: false,
+      contexts: [context]
+    } as any
+    store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModel)
+    store.refreshState()
+    fixture.detectChanges()
+    expect(component.formGroup.value.id).toBe(details.id)
+    expect(component.formGroup.value.aiContext.value).toEqual(context)
+  })
+
+  it('should emit correct displayContexts$ for details with aiContext', (done) => {
+    const context = { value: [{ id: 'ctx1' }], name: 'Context 1' } as any
+    const details = { ...baseAIKnowledgeVectorDbDetailsViewModel.details, aiContext: context } as any
+    const viewModel = { ...baseAIKnowledgeVectorDbDetailsViewModel, details, contexts: [context] } as any
+    store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModel)
+    store.refreshState()
+    fixture.detectChanges()
+    component.displayContexts$.subscribe((contexts) => {
+      expect(contexts.length).toBeGreaterThan(0)
+      expect(contexts[0].value).toEqual(context)
+      done()
+    })
+  })
+
+  it('should handle missing details gracefully', () => {
+    const viewModel = { ...baseAIKnowledgeVectorDbDetailsViewModel, details: undefined } as any
+    store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModel)
+    store.refreshState()
+    fixture.detectChanges()
+    expect(component.formGroup.value.id).toBe('')
+  })
+
+  it('should handle empty contexts array gracefully', () => {
+    const details = { ...baseAIKnowledgeVectorDbDetailsViewModel.details, aiContext: { name: '', value: {} } } as any
+    const viewModel = { ...baseAIKnowledgeVectorDbDetailsViewModel, details, contexts: [] } as any
+    store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModel)
+    store.refreshState()
+    fixture.detectChanges()
+    expect(component.formGroup.value.aiContext).toStrictEqual({ label: 'undefined:', value: { name: '', value: {} } }) // or whatever default is expected
+  })
+
+  describe('AIKnowledgeVectorDbDetailsReducer (integration)', () => {
+    it('should return the initial state for an unknown action', () => {
+      const action = { type: 'Unknown' } as any
+      const state = AIKnowledgeVectorDbDetailsReducer(undefined, action)
+      expect(state).toBe(initialState)
+    })
+
+    it('should handle aiKnowledgeVectorDbDetailsReceived', () => {
+      const details = {
+        id: '1',
+        name: 'Test',
+        description: '',
+        aiContext: { id: 'ctx', name: 'Context' },
+        vdb: '',
+        vdbCollection: '',
+        modificationCount: 0
+      }
+      const action = AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsReceived({ details })
+      const state = AIKnowledgeVectorDbDetailsReducer(initialState, action)
+      expect(state.details).toEqual(details)
+      expect(state.detailsLoadingIndicator).toBe(false)
+      expect(state.detailsLoaded).toBe(true)
+    })
+
+    it('should handle aiKnowledgeVectorDbDetailsLoadingFailed', () => {
+      const preState: AIKnowledgeVectorDbDetailsState = {
+        ...initialState,
+        details: {
+          id: '2',
+          name: 'Old',
+          description: '',
+          aiContext: { id: 'ctx', name: 'Context' },
+          vdb: '',
+          vdbCollection: '',
+          modificationCount: 0
+        },
+        detailsLoadingIndicator: true,
+        detailsLoaded: true
+      }
+      const action = AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsLoadingFailed({ error: null })
+      const state = AIKnowledgeVectorDbDetailsReducer(preState, action)
+      expect(state.details).toEqual(initialState.details)
+      expect(state.detailsLoadingIndicator).toBe(false)
+      expect(state.detailsLoaded).toBe(false)
+    })
+
+    it('should handle aiKnowledgeVectorDbContextsReceived', () => {
+      const contexts = [{ id: 'ctx1', name: 'Context 1' }]
+      const action = AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbContextsReceived({ contexts })
+      const state = AIKnowledgeVectorDbDetailsReducer(initialState, action)
+      expect(state.contexts).toEqual(contexts)
+      expect(state.contextsLoadingIndicator).toBe(false)
+      expect(state.contextsLoaded).toBe(true)
+    })
+
+    it('should handle aiKnowledgeVectorDbContextsLoadingFailed', () => {
+      const preState: AIKnowledgeVectorDbDetailsState = {
+        ...initialState,
+        contexts: [{ id: 'ctx2', name: 'Old Context' }],
+        contextsLoadingIndicator: true,
+        contextsLoaded: true
+      }
+      const action = AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbContextsLoadingFailed({ error: null })
+      const state = AIKnowledgeVectorDbDetailsReducer(preState, action)
+      expect(state.contexts).toEqual(initialState.contexts)
+      expect(state.contextsLoadingIndicator).toBe(false)
+      expect(state.contextsLoaded).toBe(false)
+    })
+
+    it('should handle navigatedToDetailsPage', () => {
+      const preState: AIKnowledgeVectorDbDetailsState = {
+        ...initialState,
+        details: {
+          id: '2',
+          name: 'Old',
+          description: '',
+          aiContext: { id: 'ctx', name: 'Context' },
+          vdb: '',
+          vdbCollection: '',
+          modificationCount: 0
+        },
+        editMode: true
+      }
+      const action = AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: undefined })
+      const state = AIKnowledgeVectorDbDetailsReducer(preState, action)
+      expect(state).toEqual(initialState)
+    })
+
+    it('should handle editButtonClicked', () => {
+      const action = AIKnowledgeVectorDbDetailsActions.editButtonClicked()
+      const state = AIKnowledgeVectorDbDetailsReducer(initialState, action)
+      expect(state.editMode).toBe(true)
+    })
+
+    it('should handle saveButtonClicked', () => {
+      const details = {
+        id: '3',
+        name: 'Save',
+        description: '',
+        aiContext: { id: 'ctx', name: 'Context' },
+        vdb: '',
+        vdbCollection: '',
+        modificationCount: 0
+      }
+      const action = AIKnowledgeVectorDbDetailsActions.saveButtonClicked({ details })
+      const state = AIKnowledgeVectorDbDetailsReducer(initialState, action)
+      expect(state.details).toEqual(details)
+      expect(state.editMode).toBe(false)
+      expect(state.isSubmitting).toBe(true)
+    })
+
+    it('should handle navigateBackButtonClicked', () => {
+      const action = AIKnowledgeVectorDbDetailsActions.navigateBackButtonClicked()
+      const state = AIKnowledgeVectorDbDetailsReducer(initialState, action)
+      expect(state).toEqual(initialState)
+    })
+
+    it('should handle cancelEditConfirmClicked and related actions', () => {
+      const actions = [
+        AIKnowledgeVectorDbDetailsActions.cancelEditConfirmClicked(),
+        AIKnowledgeVectorDbDetailsActions.cancelEditNotDirty(),
+        AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbCancelled(),
+        AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbSucceeded()
+      ]
+      actions.forEach((action) => {
+        const preState: AIKnowledgeVectorDbDetailsState = { ...initialState, editMode: true, isSubmitting: true }
+        const state = AIKnowledgeVectorDbDetailsReducer(preState, action)
+        expect(state.editMode).toBe(false)
+        expect(state.isSubmitting).toBe(false)
+      })
+    })
+
+    it('should handle updateAIKnowledgeVectorDbFailed', () => {
+      const preState: AIKnowledgeVectorDbDetailsState = { ...initialState, isSubmitting: true }
+      const action = AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbFailed({ error: null })
+      const state = AIKnowledgeVectorDbDetailsReducer(preState, action)
+      expect(state.isSubmitting).toBe(false)
+    })
   })
 })
