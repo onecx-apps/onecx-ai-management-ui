@@ -1092,6 +1092,8 @@ components:
           type: string
         description:
           type: string
+        appId:
+          type: string
         aiContext:
           type: array
           items:
@@ -1266,11 +1268,17 @@ components:
         creationUser:
           type: string
         provider:
-          $ref: '#/components/schemas/AIProvider'
+          type: array
+          items:
+            $ref: '#/components/schemas/AIProvider'
         AIKnowledgeBase:
-          $ref: '#/components/schemas/AIKnowledgeBase'
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeBase'
         aIKnowledgeVectorDb:
-          $ref: '#/components/schemas/AIKnowledgeVectorDb'
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeVectorDb'
         aIKnowledgeUrl:
           type: array
           items:
