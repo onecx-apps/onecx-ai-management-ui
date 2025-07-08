@@ -9,6 +9,7 @@
  */
 
 
+<<<<<<< HEAD:src/app/shared/generated/model/searchAiContextRequest.ts
 export interface SearchAiContextRequest { 
     id?: number;
     /**
@@ -19,6 +20,9 @@ export interface SearchAiContextRequest {
      * The size of the page.
      */
     pageSize?: number;
+=======
+export interface CreateAIKnowledgeVectorDbRequest { 
+>>>>>>> upstream/main:src/app/shared/generated/model/createAIKnowledgeVectorDbRequest.ts
     name?: string;
     description?: string;
     appId?: string;

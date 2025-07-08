@@ -1,6 +1,7 @@
 .gitignore
 README.md
 api.module.ts
+api/aIContextBffService.service.ts
 api/aIKnowledgeDocumentBffService.service.ts
 api/aIKnowledgeVectorDbBffService.service.ts
 api/aIProviderBffService.service.ts
@@ -19,8 +20,6 @@ model/aIKnowledgeDocumentSearchResponse.ts
 model/aIKnowledgeDocumentUpdateResponse.ts
 model/aIKnowledgeUrl.ts
 model/aIKnowledgeVectorDb.ts
-model/aIKnowledgeVectorDbCreateResponse.ts
-model/aIKnowledgeVectorDbUpdateResponse.ts
 model/aIProvider.ts
 model/aIProviderCreateResponse.ts
 model/aIProviderSearchRequest.ts
@@ -28,7 +27,8 @@ model/aIProviderSearchResponse.ts
 model/aIProviderUpdateResponse.ts
 model/aiContext.ts
 model/createAIKnowledgeDocument.ts
-model/createAIKnowledgeVectorDb.ts
+model/createAIKnowledgeVectorDbRequest.ts
+model/createAIKnowledgeVectorDbResponse.ts
 model/createAIProvider.ts
 model/createAiContextRequest.ts
 model/createAiContextResponse.ts
@@ -40,12 +40,17 @@ model/models.ts
 model/problemDetailInvalidParam.ts
 model/problemDetailParam.ts
 model/problemDetailResponse.ts
+model/searchAIContextRequest.ts
+model/searchAIContextResponse.ts
+model/searchAIKnowledgeBaseRequest.ts
+model/searchAIKnowledgeBaseResponse.ts
 model/searchAIKnowledgeVectorDbRequest.ts
 model/searchAIKnowledgeVectorDbResponse.ts
 model/searchAiContextRequest.ts
 model/searchAiContextResponse.ts
 model/updateAIKnowledgeDocument.ts
-model/updateAIKnowledgeVectorDb.ts
+model/updateAIKnowledgeVectorDbRequest.ts
+model/updateAIKnowledgeVectorDbResponse.ts
 model/updateAIProvider.ts
 model/updateAiContextRequest.ts
 model/updateAiContextResponse.ts

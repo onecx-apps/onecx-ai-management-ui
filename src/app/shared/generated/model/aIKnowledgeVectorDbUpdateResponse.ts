@@ -10,7 +10,7 @@
 import { AiContext } from './aiContext';
 
 
-export interface AIKnowledgeVectorDbUpdateResponse { 
+export interface UpdateAIKnowledgeVectorDbUpdateResponse { 
     name?: string;
     description?: string;
     vdb?: string;

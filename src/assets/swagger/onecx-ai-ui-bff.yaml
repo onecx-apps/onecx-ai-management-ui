@@ -82,7 +82,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateAIKnowledgeVectorDb'
+              $ref: '#/components/schemas/UpdateAIKnowledgeVectorDbRequest'
       responses:
         '204':
           description: AIKnowledgeVectorDb updated
@@ -95,7 +95,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AIKnowledgeVectorDbUpdateResponse'
+                $ref: '#/components/schemas/UpdateAIKnowledgeVectorDbResponse'
         '400':
           description: Bad request
           content:
@@ -129,7 +129,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateAIKnowledgeVectorDb'
+              $ref: '#/components/schemas/CreateAIKnowledgeVectorDbRequest'
       responses:
         '201':
           description: New AIKnowledgeVectorDb created
@@ -142,7 +142,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AIKnowledgeVectorDbCreateResponse'
+                $ref: '#/components/schemas/CreateAIKnowledgeVectorDbResponse'
         '400':
           description: Bad request
           content:
@@ -431,15 +431,38 @@ paths:
       responses:
         '204':
           description: AIProvider deleted
-  /aiContext/{id}:
+
+  /AIKnowledgeBase/search:
+    post:
+      operationId: searchAIKnowledgeBases
+      tags:
+        - aiKnowledgeBaseBffService
+      description: This operation performs a search based on provided search criteria. Search for aiKnowledgeBase results.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAIKnowledgeBaseRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchAIKnowledgeBaseResponse'
+        '400':
+          description: Bad request
+        '500':
+          description: Something went wrong
+  /AIKnowledgeBase/{id}:
     get:
       x-onecx:
         permissions:
-          aiContext:
+          aiKnowledgeBase:
             - read
-      operationId: getAiContextById
+      operationId: getAIKnowledgeBaseById
       tags:
-        - AiContextBffService
+        - aiKnowledgeBaseBffService
       parameters:
         - name: id
           in: path
@@ -452,7 +475,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetAiContextByIdResponse'
+                $ref: '#/components/schemas/GetAIKnowledgeBaseByIdResponse'
         '400':
           description: Bad request
           content:
@@ -468,9 +491,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
     put:
-      operationId: updateAiContext
+      operationId: updateAiKnowledgeBase
       tags:
-        - AiContextBffService
+        - aiKnowledgeBaseBffService
       description: This operation performs an update.
       parameters:
         - name: id
@@ -483,10 +506,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateAiContextRequest'
+              $ref: '#/components/schemas/UpdateAIKnowledgeBaseRequest'
       responses:
         '204':
-          description: AiContext updated
+          description: aiKnowledgeBase updated
           headers:
             Location:
               required: true
@@ -496,7 +519,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdateAiContextResponse'
+                $ref: '#/components/schemas/UpdateAIKnowledgeBaseResponse'
         '400':
           description: Bad request
           content:
@@ -504,12 +527,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetailResponse'
         '404':
-          description: AiContext not found
+          description: aiKnowledgeBase not found
     delete:
       tags:
-        - AiContextBffService
-      operationId: deleteAiContext
-      description: Delete AiContext by id
+        - aiKnowledgeBaseBffService
+      operationId: deleteAiKnowledgeBase
+      description: Delete aiKnowledgeBase by id
       parameters:
         - name: id
           in: path
@@ -518,44 +541,22 @@ paths:
             type: string
       responses:
         '204':
-          description: AiContext deleted
-  /aiContext/search:
+          description: aiKnowledgeBase deleted
+  /aiKnowledgeBase:
     post:
-      operationId: searchAiContexts
+      operationId: createAIKnowledgeBase
       tags:
-        - AiContextBffService
-      description: This operation performs a search based on provided search criteria. Search for aiContext results.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchAiContextRequest'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchAiContextResponse'
-        '400':
-          description: Bad request
-        '500':
-          description: Something went wrong
-  /aiContext:
-    post:
-      operationId: createAiContext
-      tags:
-        - AiContextBffService
+        - aiKnowledgeBaseBffService
       description: This operation performs a create.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateAiContextRequest'
+              $ref: '#/components/schemas/CreateAIKnowledgeBaseRequest'
       responses:
         '201':
-          description: New AiContext created
+          description: New aiKnowledgeBase created
           headers:
             Location:
               required: true
@@ -565,7 +566,148 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateAiContextResponse'
+                $ref: '#/components/schemas/CreateAIKnowledgeBaseResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+  /aiContext/{id}:
+    get:
+      x-onecx:
+        permissions:
+          aiContext:
+            - read
+      operationId: getAIContextById
+      tags:
+        - AIContextBffService
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAIContextByIdResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+    put:
+      operationId: updateAIContext
+      tags:
+        - AIContextBffService
+      description: This operation performs an update.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAIContextRequest'
+      responses:
+        '204':
+          description: AIContext updated
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: url
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAIContextResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetailResponse'
+        '404':
+          description: AIContext not found
+    delete:
+      tags:
+        - AIContextBffService
+      operationId: deleteAIContext
+      description: Delete AIContext by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: AIContext deleted
+  /aiContext/search:
+    post:
+      operationId: searchAIContexts
+      tags:
+        - AIContextBffService
+      description: This operation performs a search based on provided search criteria. Search for aiContext results.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAIContextRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchAIContextResponse'
+        '400':
+          description: Bad request
+        '500':
+          description: Something went wrong
+  /aiContext:
+    post:
+      operationId: createAIContext
+      tags:
+        - AIContextBffService
+      description: This operation performs a create.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAIContextRequest'
+      responses:
+        '201':
+          description: New AIContext created
+          headers:
+            Location:
+              required: true
+              schema:
+                type: string
+                format: url
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateAIContextResponse'
         '400':
           description: Bad request
           content:
@@ -594,7 +736,7 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: '#/components/schemas/AiContext'
+          $ref: '#/components/schemas/AIContext'
     SearchAIKnowledgeVectorDbRequest:
       type: object
       properties:
@@ -662,7 +804,7 @@ components:
       properties:
         result:
           $ref: '#/components/schemas/AIKnowledgeVectorDb'
-    CreateAIKnowledgeVectorDb:
+    CreateAIKnowledgeVectorDbRequest:
       type: object
       properties:
         name:
@@ -671,7 +813,7 @@ components:
           type: string
         appId:
           type: string
-    UpdateAIKnowledgeVectorDb:
+    UpdateAIKnowledgeVectorDbRequest:
       type: object
       properties:
         name:
@@ -680,7 +822,10 @@ components:
           type: string
         appId:
           type: string
-    AIKnowledgeVectorDbCreateResponse:
+        aiContext:
+          type: object
+          $ref: '#/components/schemas/AIContext'
+    CreateAIKnowledgeVectorDbResponse:
       type: object
       properties:
         name:
@@ -693,8 +838,8 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: '#/components/schemas/AiContext'
-    AIKnowledgeVectorDbUpdateResponse:
+          $ref: '#/components/schemas/AIContext'
+    UpdateAIKnowledgeVectorDbResponse:
       type: object
       properties:
         name:
@@ -707,74 +852,7 @@ components:
           type: string
         aiContext:
           type: object
-          $ref: '#/components/schemas/AiContext'
-    AIKnowledgeBase:
-      properties:
-        modificationCount:
-          format: int32
-          type: integer
-        modificationUser:
-          type: string
-        creationUser:
-          type: string
-        id:
-          type: string
-        description:
-          type: string
-        name:
-          type: string
-        appId:
-          type: string
-        contexts:
-          type: array
-          items:
-            $ref: '#/components/schemas/AiContext'
-    AIKnowledgeUrl:
-      type: object
-      properties:
-        modificationCount:
-          format: int32
-          type: integer
-        modificationUser:
-          type: string
-        creationUser:
-          type: string
-        id:
-          type: string
-        url:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-    AIKnowledgeDatabase:
-      required:
-        - db
-        - user
-        - pwd
-      type: object
-      properties:
-        modificationCount:
-          format: int32
-          type: integer
-        modificationUser:
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        db:
-          type: string
-        user:
-          type: string
-        pwd:
-          type: string
-        tables:
-          type: array
-          items:
-            type: string
+          $ref: '#/components/schemas/AIContext'
     AIKnowledgeDocument:
       type: object
       required:
@@ -957,13 +1035,13 @@ components:
       properties:
         dataObject:
           type: object
-          $ref: "#/components/schemas/AIProvider"
+          $ref: '#/components/schemas/AIProvider'
     UpdateAIProvider:
       type: object
       properties:
         dataObject:
           type: object
-          $ref: "#/components/schemas/AIProvider"
+          $ref: '#/components/schemas/AIProvider'
     AIProviderCreateResponse:
       type: object
       properties:
@@ -1002,26 +1080,122 @@ components:
           type: string
         apiKey:
           type: string
-    UpdateAiContextRequest:
+    AIKnowledgeBase:
+      type: object
+      properties:
+        modificationCount:
+          type: integer
+          format: int32
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        aiContext:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIContext'
+    CreateAIKnowledgeBaseRequest:
+      type: object
+      properties:
+        dataObject:
+          $ref: '#/components/schemas/AIKnowledgeBase'
+    CreateAIKnowledgeBaseResponse:
       type: object
       properties:
         dataObject:
           type: object
-          $ref: '#/components/schemas/AiContext'
-    UpdateAiContextResponse:
+          $ref: '#/components/schemas/AIKnowledgeBase'
+    SearchAIKnowledgeBaseRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+          default: 0
+          description: The number of the page
+        pageSize:
+          type: integer
+          format: int32
+          default: 100
+          maximum: 1000
+          description: The size of the page.
+        name:
+          type: string
+        description:
+          type: string
+    SearchAIKnowledgeBaseResponse:
+      type: object
+      required:
+        - stream
+        - size
+        - number
+        - totalPages
+        - totalElements
+      properties:
+        stream:
+          type: array
+          items:
+            $ref: '#/components/schemas/AIKnowledgeBase'
+        size:
+          type: integer
+          format: int32
+          description: Current page size.
+        number:
+          type: integer
+          format: int32
+          description: Current page number.
+        totalElements:
+          type: integer
+          format: int64
+          description: Total number of results on the server.
+        totalPages:
+          type: integer
+          format: int64
+          description: Total pages.
+    UpdateAIKnowledgeBaseRequest:
       type: object
       properties:
         dataObject:
           type: object
-          $ref: '#/components/schemas/AiContext'
-    GetAiContextByIdResponse:
+          $ref: '#/components/schemas/AIKnowledgeBase'
+    UpdateAIKnowledgeBaseResponse:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: '#/components/schemas/AIKnowledgeBase'
+    GetAIKnowledgeBaseByIdResponse:
       type: object
       required:
         - result
       properties:
         result:
-          $ref: '#/components/schemas/AiContext'
-    SearchAiContextRequest:
+          $ref: '#/components/schemas/AIKnowledgeBase'
+    UpdateAIContextRequest:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: '#/components/schemas/AIContext'
+    UpdateAIContextResponse:
+      type: object
+      properties:
+        dataObject:
+          type: object
+          $ref: '#/components/schemas/AIContext'
+    GetAIContextByIdResponse:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          $ref: '#/components/schemas/AIContext'
+    SearchAIContextRequest:
       type: object
       properties:
         id:
@@ -1044,7 +1218,7 @@ components:
           type: string
         appId:
           type: string
-    SearchAiContextResponse:
+    SearchAIContextResponse:
       type: object
       required:
         - stream
@@ -1056,7 +1230,7 @@ components:
         stream:
           type: array
           items:
-            $ref: '#/components/schemas/AiContext'
+            $ref: '#/components/schemas/AIContext'
         size:
           type: integer
           format: int32
@@ -1073,7 +1247,7 @@ components:
           type: integer
           format: int64
           description: Total pages.
-    AiContext:
+    AIContext:
       type: object
       properties:
         id:
@@ -1092,17 +1266,11 @@ components:
         creationUser:
           type: string
         provider:
-          type: array
-          items:
-            $ref: '#/components/schemas/AIProvider'
-        aIKnowledgeBase:
-          type: array
-          items:
-            $ref: '#/components/schemas/AIKnowledgeBase'
+          $ref: '#/components/schemas/AIProvider'
+        AIKnowledgeBase:
+          $ref: '#/components/schemas/AIKnowledgeBase'
         aIKnowledgeVectorDb:
-          type: array
-          items:
-            $ref: '#/components/schemas/AIKnowledgeVectorDb'
+          $ref: '#/components/schemas/AIKnowledgeVectorDb'
         aIKnowledgeUrl:
           type: array
           items:
@@ -1115,14 +1283,60 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AIKnowledgeDocument'
-    CreateAiContextRequest:
+    CreateAIContextRequest:
       type: object
       properties:
         dataObject:
-          $ref: '#/components/schemas/AiContext'
-    CreateAiContextResponse:
+          $ref: '#/components/schemas/AIContext'
+    CreateAIContextResponse:
       type: object
       properties:
         dataObject:
           type: object
-          $ref: '#/components/schemas/AiContext'
+          $ref: '#/components/schemas/AIContext'
+    AIKnowledgeUrl:
+      type: object
+      properties:
+        modificationCount:
+          format: int32
+          type: integer
+        modificationUser:
+          type: string
+        creationUser:
+          type: string
+        id:
+          type: string
+        url:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    AIKnowledgeDatabase:
+      required:
+        - db
+        - user
+        - pwd
+      type: object
+      properties:
+        modificationCount:
+          format: int32
+          type: integer
+        modificationUser:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        db:
+          type: string
+        user:
+          type: string
+        pwd:
+          type: string
+        tables:
+          type: array
+          items:
+            type: string

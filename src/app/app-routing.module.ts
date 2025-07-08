@@ -21,6 +21,10 @@ export const routes: Routes = [
     matcher: startsWith('ai-knowledge-vector-db'),
     loadChildren: () =>
       import('./ai-knowledge-vector-db/ai-knowledge-vector-db.module').then((mod) => mod.AIKnowledgeVectorDbModule)
+  },
+  {
+    matcher: startsWith('ai-knowledge-base'),
+    loadChildren: () => import('./ai-knowledge-base/ai-knowledge-base.module').then((mod) => mod.AiKnowledgeBaseModule)
   }
 ]
 

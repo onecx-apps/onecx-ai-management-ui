@@ -1,3 +1,3 @@
 import { getOneCxSelectors } from '@onecx/ngrx-accelerator'
 
-export const { selectBackNavigationPossible } = getOneCxSelectors()
+export const { selectLocation, selectBackNavigationPossible } = getOneCxSelectors()
