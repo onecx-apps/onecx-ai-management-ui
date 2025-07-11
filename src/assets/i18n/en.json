@@ -279,7 +279,10 @@
       "DESCRIPTION": "Description",
       "VDB": "Vdb",
       "VDBCOLLECTION": "VdbCollection",
-      "AICONTEXT": "AI Context"
+      "AICONTEXT": {
+        "NAME":"AI Context",
+        "PLACEHOLDER": "Select an ai context"
+      }
     }
   },
   "AI_KNOWLEDGE_VECTOR_DB_SEARCH": {

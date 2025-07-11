@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/ai-knowledge-base/pages/ai-knowledge-base-details/ai-knowledge-base-details.component.spec.ts">
+    <testCase name="AiKnowledgeBaseDetailsComponent should create" duration="307"/>
+    <testCase name="AiKnowledgeBaseDetailsComponent should display correct breadcrumbs" duration="175"/>
+    <testCase name="AiKnowledgeBaseDetailsComponent should display translated headers" duration="118"/>
+    <testCase name="AiKnowledgeBaseDetailsComponent should have 2 inline actions" duration="112"/>
+    <testCase name="AiKnowledgeBaseDetailsComponent should dispatch navigateBackButtonClicked action on back button click" duration="112"/>
+    <testCase name="AiKnowledgeBaseDetailsComponent should display item details in page header" duration="209"/>
+  </file>
+</testExecutions>
