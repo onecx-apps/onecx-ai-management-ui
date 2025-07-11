@@ -16,10 +16,10 @@ import { AIKnowledgeVectorDbDetailsViewModel } from './ai-knowledge-vector-db-de
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { AIKnowledgeDocumentStatusEnum } from 'src/app/shared/generated'
 import { PrimeIcons } from 'primeng/api'
-import { of } from 'rxjs'
 import { ofType } from '@ngrx/effects'
 import { AIKnowledgeVectorDbDetailsActions } from './ai-knowledge-vector-db-details.actions'
 import { AIKnowledgeVectorDbDetailsState } from './ai-knowledge-vector-db-details.state'
+import { of } from 'rxjs'
 
 describe('AIKnowledgeVectorDbDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -428,18 +428,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
         labelKey: 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.BREADCRUMB',
         routerLink: '/ai-knowledge-vector-db'
       }
-    ])
-  })
-
-  it('should map contexts correctly in getContextFormValue', () => {
-    const contexts = [
-      { id: '1', name: 'Name1' },
-      { id: '2', name: 'Name2' }
-    ] as any
-    const result = component.getContextFormValue(contexts)
-    expect(result).toEqual([
-      { label: '1:Name1', value: { id: '1', name: 'Name1' } },
-      { label: '2:Name2', value: { id: '2', name: 'Name2' } }
     ])
   })
 

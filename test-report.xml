@@ -1,43 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/ai-knowledge-vector-db/pages/ai-knowledge-vector-db-search/ai-knowledge-vector-db-search.component.spec.ts">
-    <testCase name="AIKnowledgeVectorDbSearchComponent should create the component" duration="3764"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch resetButtonClicked action on resetSearch" duration="656"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should have 2 overFlow header actions when search config is disabled" duration="1115"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should display hide chart action if chart is visible" duration="594"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should display chosen column in the diagram" duration="2400"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should display correct breadcrumbs" duration="2245"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch searchButtonClicked action on search" duration="1245"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch editAIKnowledgeVectorDbButtonClicked action on item edit click" duration="704"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch aiKnowledgeVectorDetailsClicked on on item delete click" duration="799"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch createAIKnowledgeVectorDbButtonClicked action on create click" duration="443"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch detailsButtonClicked action on details" duration="324"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should convert Date values to UTC and dispatch searchButtonClicked with correct searchCriteria" duration="488"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should pass through non-date, non-empty values unchanged in searchCriteria" duration="294"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should set searchCriteria property to undefined for falsy non-date values" duration="283"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should handle isValidDate true branch for allowed key (using as any for coverage)" duration="345"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should pass through non-date, non-empty values unchanged in searchCriteria" duration="266"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should set searchCriteria property to undefined for falsy non-date values" duration="265"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should export csv data on export action click" duration="853"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch viewModeChanged action on view mode changes" duration="556"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch displayedColumnsChanged on data view column change" duration="1661"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch chartVisibilityToggled on show/hide chart header" duration="528"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should display translated headers" duration="357"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should display translated empty message when no search results" duration="875"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should not display chart when no results or toggled to not visible" duration="629"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should reset results and criteria on resetButtonClicked" duration="255"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set searchLoadingIndicator and criteria on searchButtonClicked" duration="469"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set results on aiKnowledgeVectorDbSearchResultsReceived" duration="368"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should clear results on aiKnowledgeVectorDbSearchResultsLoadingFailed" duration="375"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set chartVisible on chartVisibilityRehydrated" duration="334"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should toggle chartVisible on chartVisibilityToggled" duration="326"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set viewMode on viewModeChanged" duration="249"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set displayedColumns on displayedColumnsChanged" duration="272"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set criteria and searchLoadingIndicator=true when routerNavigatedAction succeeds and queryParams present" duration="258"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should not change state when routerNavigatedAction fails schema parse" duration="283"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearch selectors selectResults should map results to RowListGridData[]" duration="259"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearch selectors selectDisplayedColumns should map displayedColumns ids to columns" duration="275"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearch selectors selectAIKnowledgeVectorDbSearchViewModel should combine all selector results" duration="287"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearch selectors selectDisplayedColumns should return [] if displayedColumns is undefined" duration="256"/>
+  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/ai-knowledge-base/pages/ai-knowledge-base-details/ai-knowledge-base-details.component.spec.ts">
+    <testCase name="AiKnowledgeBaseDetailsComponent should create" duration="307"/>
+    <testCase name="AiKnowledgeBaseDetailsComponent should display correct breadcrumbs" duration="175"/>
+    <testCase name="AiKnowledgeBaseDetailsComponent should display translated headers" duration="118"/>
+    <testCase name="AiKnowledgeBaseDetailsComponent should have 2 inline actions" duration="112"/>
+    <testCase name="AiKnowledgeBaseDetailsComponent should dispatch navigateBackButtonClicked action on back button click" duration="112"/>
+    <testCase name="AiKnowledgeBaseDetailsComponent should display item details in page header" duration="209"/>
   </file>
 </testExecutions>
