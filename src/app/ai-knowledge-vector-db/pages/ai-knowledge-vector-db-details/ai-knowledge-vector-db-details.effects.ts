@@ -234,6 +234,10 @@ export class AIKnowledgeVectorDbDetailsEffects {
     {
       action: AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsLoadingFailed,
       key: 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.ERROR_MESSAGES.DETAILS_LOADING_FAILED'
+    },
+    {
+      action: AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbContextsLoadingFailed,
+      key: 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.ERROR_MESSAGES.CONTEXTS_LOADING_FAILED'
     }
   ]
 

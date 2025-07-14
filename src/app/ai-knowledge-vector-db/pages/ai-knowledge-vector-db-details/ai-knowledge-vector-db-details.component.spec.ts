@@ -1,25 +1,45 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { LetDirective } from '@ngrx/component'
 import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
-import { BreadcrumbService, PortalCoreModule, UserService } from '@onecx/portal-integration-angular'
+import {
+  BreadcrumbService,
+  PortalCoreModule,
+  PortalDialogService,
+  PortalMessageService,
+  UserService
+} from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { AIKnowledgeVectorDbDetailsComponent } from './ai-knowledge-vector-db-details.component'
 import { AIKnowledgeVectorDbDetailsHarness } from './ai-knowledge-vector-db-details.harness'
 import { AIKnowledgeVectorDbDetailsReducer, initialState } from './ai-knowledge-vector-db-details.reducers'
-import { selectAIKnowledgeVectorDbDetailsViewModel } from './ai-knowledge-vector-db-details.selectors'
+import {
+  AIKnowledgeVectorDbDetailsSelectors,
+  selectAIKnowledgeVectorDbDetailsViewModel
+} from './ai-knowledge-vector-db-details.selectors'
 import { AIKnowledgeVectorDbDetailsViewModel } from './ai-knowledge-vector-db-details.viewmodel'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { AIKnowledgeDocumentStatusEnum } from 'src/app/shared/generated'
+import {
+  AIContextBffService,
+  AIKnowledgeDocumentStatusEnum,
+  AIKnowledgeVectorDbBffService,
+  GetAIKnowledgeVectorDbByIdResponse,
+  SearchAIContextResponse,
+  UpdateAIKnowledgeVectorDbResponse
+} from 'src/app/shared/generated'
 import { PrimeIcons } from 'primeng/api'
 import { ofType } from '@ngrx/effects'
 import { AIKnowledgeVectorDbDetailsActions } from './ai-knowledge-vector-db-details.actions'
 import { AIKnowledgeVectorDbDetailsState } from './ai-knowledge-vector-db-details.state'
-import { of } from 'rxjs'
+import { ReplaySubject, of, throwError } from 'rxjs'
+import { AIKnowledgeVectorDbDetailsEffects } from './ai-knowledge-vector-db-details.effects'
+import { provideMockActions } from '@ngrx/effects/testing'
+import { HttpResponse } from '@angular/common/http'
+import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
 
 describe('AIKnowledgeVectorDbDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -44,6 +64,12 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     )
   }
 
+  const mockActivatedRoute = {
+    snapshot: {
+      data: {}
+    }
+  }
+
   afterAll(() => {
     window.addEventListener = origAddEventListener
     window.postMessage = origPostMessage
@@ -54,12 +80,14 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
   let store: MockStore<Store>
   let breadcrumbService: BreadcrumbService
   let AIKnowledgeVectorDbDetails: AIKnowledgeVectorDbDetailsHarness
+  let effects: AIKnowledgeVectorDbDetailsEffects
+  let actions$: ReplaySubject<any>
+  let aiKnowledgeVectorDbService: jest.Mocked<AIKnowledgeVectorDbBffService>
+  let aiContextService: jest.Mocked<AIContextBffService>
+  let portalDialogService: jest.Mocked<PortalDialogService>
+  let messageService: jest.Mocked<PortalMessageService>
+  let router: jest.Mocked<Router>
 
-  const mockActivatedRoute = {
-    snapshot: {
-      data: {}
-    }
-  }
   const baseAIKnowledgeVectorDbDetailsViewModel: AIKnowledgeVectorDbDetailsViewModel = {
     details: {
       id: '1',
@@ -148,6 +176,43 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
   }
 
   beforeEach(async () => {
+    actions$ = new ReplaySubject(1)
+    aiKnowledgeVectorDbService = {
+      getAIKnowledgeVectorDbById: jest.fn(),
+      updateAIKnowledgeVectorDb: jest.fn(),
+      deleteAIKnowledgeVectorDb: jest.fn()
+    } as unknown as jest.Mocked<AIKnowledgeVectorDbBffService>
+
+    aiContextService = {
+      searchAIContexts: jest.fn()
+    } as unknown as jest.Mocked<AIContextBffService>
+
+    portalDialogService = {
+      openDialog: jest.fn()
+    } as unknown as jest.Mocked<PortalDialogService>
+
+    router = {
+      events: of(),
+      navigate: jest.fn().mockReturnValue(Promise.resolve(true)),
+      parseUrl: jest.fn().mockImplementation((url: string) => ({
+        queryParams: {},
+        fragment: null,
+        toString: () => url
+      })),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      createUrlTree: jest.fn().mockImplementation((commands: any[], extras?: any) => ({
+        // Return a simple object that can be converted to string
+        toString: () => commands.join('/')
+      })),
+      isActive: jest.fn(),
+      serializeUrl: jest.fn().mockImplementation((urlTree: any) => urlTree.toString())
+    } as unknown as jest.Mocked<Router>
+
+    messageService = {
+      success: jest.fn(),
+      error: jest.fn()
+    } as unknown as jest.Mocked<PortalMessageService>
+
     await TestBed.configureTestingModule({
       declarations: [AIKnowledgeVectorDbDetailsComponent],
       imports: [
@@ -162,13 +227,25 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
         HttpClientTestingModule
       ],
       providers: [
+        AIKnowledgeVectorDbDetailsEffects,
+
         provideMockStore({
           initialState: { AIKnowledgeVectorDb: { details: initialState, backNavigationPossible: true } }
         }),
+        provideMockActions(() => actions$),
+
         BreadcrumbService,
-        { provide: ActivatedRoute, useValue: mockActivatedRoute }
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: AIKnowledgeVectorDbBffService, useValue: aiKnowledgeVectorDbService },
+        { provide: AIContextBffService, useValue: aiContextService },
+        { provide: Router, useValue: router },
+        { provide: PortalMessageService, useValue: messageService },
+        { provide: PortalDialogService, useValue: portalDialogService }
       ]
     }).compileComponents()
+
+    effects = TestBed.inject(AIKnowledgeVectorDbDetailsEffects)
+    effects.displayError$.subscribe()
 
     const userService = TestBed.inject(UserService)
     userService.hasPermission = () => true
@@ -187,6 +264,375 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       fixture,
       AIKnowledgeVectorDbDetailsHarness
     )
+  })
+
+  describe('AIKnowledgeVectorDbDetailsEffects', () => {
+    describe('saveButtonClicked$', () => {
+      it('should handle saveButtonClicked$ and dispatch saveAIKnowledgeVectorDbSucceeded on success', (done) => {
+        const details = { id: '123', name: 'Test DB' }
+        const res = new HttpResponse<UpdateAIKnowledgeVectorDbResponse>({ body: { name: 'Test DB' }, status: 200 })
+
+        aiKnowledgeVectorDbService.updateAIKnowledgeVectorDb.mockReturnValue(of(res))
+
+        store.overrideSelector(AIKnowledgeVectorDbDetailsSelectors.selectDetails, {
+          id: '123',
+          name: 'Original Name'
+          // ... other required properties that match the AIKnowledgeVectorDb type
+        })
+        store.refreshState()
+
+        actions$.next(AIKnowledgeVectorDbDetailsActions.saveButtonClicked({ details }))
+
+        effects.saveButtonClicked$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbSucceeded())
+          done()
+        })
+      })
+
+      it('should handle saveButtonClicked$ and dispatch saveAIKnowledgeVectorDbFailed on error', (done) => {
+        const details = { id: '123', name: 'Test DB' }
+        const error = 'Save failed'
+
+        aiKnowledgeVectorDbService.updateAIKnowledgeVectorDb.mockReturnValue(throwError(() => error))
+        actions$.next(AIKnowledgeVectorDbDetailsActions.saveButtonClicked({ details }))
+
+        effects.saveButtonClicked$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbFailed({ error }))
+          done()
+        })
+      })
+    })
+
+    describe('deleteButtonClicked$', () => {
+      it('should handle deleteButtonClicked$ and dispatch deleteAIKnowledgeVectorDbSucceeded on success', (done) => {
+        const res = new HttpResponse({ status: 204 })
+        const mockItemToDelete = {
+          id: '123',
+          name: 'Test Item',
+          description: 'Test Description'
+        }
+
+        portalDialogService.openDialog.mockReturnValue(
+          of({
+            button: 'primary',
+            data: mockItemToDelete,
+            result: []
+          })
+        )
+
+        aiKnowledgeVectorDbService.deleteAIKnowledgeVectorDb.mockReturnValue(of(res))
+        actions$.next(AIKnowledgeVectorDbDetailsActions.deleteButtonClicked())
+
+        effects.deleteButtonClicked$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.deleteAIKnowledgeVectorDbSucceeded())
+          done()
+        })
+      })
+
+      it('should handle deleteButtonClicked$ and dispatch deleteAIKnowledgeVectorDbFailed on error', (done) => {
+        const error = 'Delete failed'
+        const mockItemToDelete = {
+          id: '123',
+          name: 'Test Item',
+          description: 'Test Description'
+        }
+
+        portalDialogService.openDialog.mockReturnValue(
+          of({
+            button: 'primary',
+            data: mockItemToDelete,
+            result: []
+          })
+        )
+        aiKnowledgeVectorDbService.deleteAIKnowledgeVectorDb.mockReturnValue(throwError(() => error))
+
+        store.overrideSelector(AIKnowledgeVectorDbDetailsSelectors.selectDetails, mockItemToDelete)
+        store.refreshState()
+
+        actions$.next(AIKnowledgeVectorDbDetailsActions.deleteButtonClicked())
+
+        effects.deleteButtonClicked$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.deleteAIKnowledgeVectorDbFailed({ error }))
+          done()
+        })
+      })
+    })
+    describe('navigatedToDetailsPage$', () => {
+      it('should navigate to parent route on delete success', (done) => {
+        const mockUrl = '/some/path/to/item'
+        const expectedUrl = '/some/path'
+
+        router.navigate = jest.fn()
+        store.select = jest.fn().mockReturnValue(of(mockUrl))
+
+        actions$.next(AIKnowledgeVectorDbDetailsActions.deleteAIKnowledgeVectorDbSucceeded())
+
+        effects.deleteAIKnowledgeVectorDbSucceeded$.subscribe(() => {
+          expect(router.navigate).toHaveBeenCalledWith([expectedUrl])
+          done()
+        })
+      })
+    })
+
+    describe('loadContextsById$', () => {
+      it('should dispatch aiKnowledgeVectorDbDetailsReceived on successful loadItemById$', (done) => {
+        const details = { id: '123' }
+        const res = new HttpResponse<GetAIKnowledgeVectorDbByIdResponse>({
+          body: { result: details },
+          status: 200
+        })
+
+        aiKnowledgeVectorDbService.getAIKnowledgeVectorDbById.mockReturnValue(of(res.body as any))
+        actions$.next(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: '123' }))
+
+        effects.loadItemById$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsReceived({ details }))
+          done()
+        })
+      })
+
+      it('should dispatch aiKnowledgeVectorDbDetailsLoadingFailed on failed loadItemById$', (done) => {
+        aiKnowledgeVectorDbService.getAIKnowledgeVectorDbById.mockReturnValue(throwError(() => 'fail'))
+        actions$.next(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: '123' }))
+
+        effects.loadItemById$.subscribe((action) => {
+          expect(action).toEqual(
+            AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsLoadingFailed({ error: 'fail' })
+          )
+          done()
+        })
+      })
+
+      it('should dispatch aiKnowledgeVectorDbContextsReceived on successful loadContextsById$', (done) => {
+        const stream = [{ id: 'ctx1' }]
+        const res: SearchAIContextResponse = {
+          number: 1,
+          size: 2,
+          stream: stream,
+          totalElements: 3,
+          totalPages: 4
+        }
+
+        aiContextService.searchAIContexts.mockReturnValue(of(res as any))
+        actions$.next(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: '123' }))
+
+        effects.loadContextsById$.subscribe((action) => {
+          expect(action).toEqual(
+            AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbContextsReceived({ contexts: stream })
+          )
+          done()
+        })
+      })
+
+      it('should dispatch aiKnowledgeVectorDbContextsLoadingFailed on failed loadContextsById$', (done) => {
+        aiContextService.searchAIContexts.mockReturnValue(throwError(() => 'fail'))
+        actions$.next(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: '123' }))
+
+        effects.loadContextsById$.subscribe((action) => {
+          expect(action).toEqual(
+            AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbContextsLoadingFailed({ error: 'fail' })
+          )
+          done()
+        })
+      })
+
+      it('should load contexts and dispatch success action', (done) => {
+        // Arrange
+        const mockContexts = [{ id: '1', name: 'Context 1' }]
+        aiContextService.searchAIContexts.mockReturnValue(of({ stream: mockContexts } as any))
+
+        // Act
+        actions$.next(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: '123' }))
+
+        // Assert
+        effects.loadContextsById$.subscribe((action) => {
+          expect(aiContextService.searchAIContexts).toHaveBeenCalled()
+          expect(action).toEqual(
+            AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbContextsReceived({
+              contexts: mockContexts
+            })
+          )
+          done()
+        })
+      })
+
+      it('should handle error when loading contexts fails', (done) => {
+        // Arrange
+        const error = 'Failed to load contexts'
+        aiContextService.searchAIContexts.mockReturnValue(throwError(() => error))
+
+        // Act
+        actions$.next(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: '123' }))
+
+        // Assert
+        effects.loadContextsById$.subscribe((action) => {
+          expect(aiContextService.searchAIContexts).toHaveBeenCalled()
+          expect(action).toEqual(
+            AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbContextsLoadingFailed({
+              error
+            })
+          )
+          done()
+        })
+      })
+    })
+
+    describe('cancelButtonClick', () => {
+      it('should dispatch cancelEditNotDirty if cancelButtonClicked with dirty=false', (done) => {
+        actions$.next(AIKnowledgeVectorDbDetailsActions.cancelButtonClicked({ dirty: false }))
+        effects.cancelButtonNotDirty$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.cancelEditNotDirty())
+          done()
+        })
+      })
+
+      it('should dispatch cancelEditBackClicked if dialogResult.button is secondary', (done) => {
+        portalDialogService.openDialog.mockReturnValue(of({ button: 'secondary', result: [] }))
+        actions$.next(AIKnowledgeVectorDbDetailsActions.cancelButtonClicked({ dirty: true }))
+        effects.cancelButtonClickedDirty$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.cancelEditBackClicked())
+          done()
+        })
+      })
+
+      it('should dispatch cancelEditConfirmClicked if dialogResult.button is not secondary', (done) => {
+        portalDialogService.openDialog.mockReturnValue(of({ button: 'primary', result: [] }))
+        actions$.next(AIKnowledgeVectorDbDetailsActions.cancelButtonClicked({ dirty: true }))
+        effects.cancelButtonClickedDirty$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.cancelEditConfirmClicked())
+          done()
+        })
+      })
+
+      it('should handle secondary button click in dialog - dirty', (done) => {
+        // Arrange
+        portalDialogService.openDialog.mockReturnValue(of({ button: 'secondary' } as any))
+
+        // Act
+        actions$.next(AIKnowledgeVectorDbDetailsActions.cancelButtonClicked({ dirty: true }))
+
+        // Assert
+        effects.cancelButtonClickedDirty$.subscribe((action) => {
+          expect(portalDialogService.openDialog).toHaveBeenCalled()
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.cancelEditBackClicked())
+          done()
+        })
+      })
+
+      it('should handle primary button click in dialog - dirty', (done) => {
+        // Arrange
+        portalDialogService.openDialog.mockReturnValue(of({ button: 'primary' } as any))
+
+        // Act
+        actions$.next(AIKnowledgeVectorDbDetailsActions.cancelButtonClicked({ dirty: true }))
+
+        // Assert
+        effects.cancelButtonClickedDirty$.subscribe((action) => {
+          expect(portalDialogService.openDialog).toHaveBeenCalled()
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.cancelEditConfirmClicked())
+          done()
+        })
+      })
+    })
+
+    describe('displayError$', () => {
+      const testCases = [
+        {
+          description: 'should show error message for details loading failure',
+          action: AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbDetailsLoadingFailed({
+            error: 'Test error'
+          }),
+          expectedKey: 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.ERROR_MESSAGES.DETAILS_LOADING_FAILED'
+        },
+        {
+          description: 'should show error message for contexts loading failure',
+          action: AIKnowledgeVectorDbDetailsActions.aiKnowledgeVectorDbContextsLoadingFailed({
+            error: 'Test error'
+          }),
+          expectedKey: 'AI_KNOWLEDGE_VECTOR_DB_DETAILS.ERROR_MESSAGES.CONTEXTS_LOADING_FAILED'
+        }
+      ]
+
+      testCases.forEach(({ description, action, expectedKey }) => {
+        it(description, (done) => {
+          const errorSpy = jest.spyOn(messageService, 'error')
+
+          actions$.next(action)
+
+          setTimeout(() => {
+            try {
+              expect(errorSpy).toHaveBeenCalledWith({
+                summaryKey: expectedKey
+              })
+              done()
+            } catch (e) {
+              done(e)
+            }
+          }, 0)
+        })
+      })
+
+      it('should not show error message for unhandled actions', (done) => {
+        const errorSpy = jest.spyOn(messageService, 'error')
+
+        const unhandledAction = { type: '[Test] Unhandled Action' }
+        actions$.next(unhandledAction as any)
+
+        setTimeout(() => {
+          try {
+            expect(errorSpy).not.toHaveBeenCalled()
+            done()
+          } catch (e) {
+            done(e)
+          }
+        }, 0)
+      })
+    })
+
+    describe('navigateBack$', () => {
+      let backSpy: jest.SpyInstance
+
+      beforeEach(() => {
+        // Mock window.history.back
+        backSpy = jest.spyOn(window.history, 'back').mockImplementation(() => {})
+      })
+
+      afterEach(() => {
+        backSpy.mockRestore()
+      })
+
+      it('should navigate back when back navigation is possible', (done) => {
+        // Arrange
+        store.overrideSelector(selectBackNavigationPossible, true)
+        const action = AIKnowledgeVectorDbDetailsActions.navigateBackButtonClicked()
+
+        // Act
+        actions$.next(action)
+
+        // Assert
+        effects.navigateBack$.subscribe((result) => {
+          expect(backSpy).toHaveBeenCalled()
+          expect(result).toEqual(AIKnowledgeVectorDbDetailsActions.backNavigationStarted())
+          done()
+        })
+      })
+
+      it('should dispatch backNavigationFailed when back navigation is not possible', (done) => {
+        // Arrange
+        store.overrideSelector(selectBackNavigationPossible, false)
+        const action = AIKnowledgeVectorDbDetailsActions.navigateBackButtonClicked()
+
+        // Act
+        actions$.next(action)
+
+        // Assert
+        effects.navigateBack$.subscribe((result) => {
+          expect(backSpy).not.toHaveBeenCalled()
+          expect(result).toEqual(AIKnowledgeVectorDbDetailsActions.backNavigationFailed())
+          done()
+        })
+      })
+    })
   })
 
   it('should create', () => {
@@ -329,7 +775,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
   })
 
   it('should show the correct actions for edit and view modes', async () => {
-    // View mode: editMode = false
     const viewModelView = {
       ...baseAIKnowledgeVectorDbDetailsViewModel,
       editMode: false
@@ -340,7 +785,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     await fixture.whenStable()
     let actions: any[] = []
     component.headerActions$.subscribe((a) => (actions = a))
-    // In view mode, expect Back and Edit actions to be visible
     const visibleActionsView = actions.filter((a) => a.showCondition)
     const actionLabelsView = visibleActionsView.map((a) => a.labelKey)
     expect(actionLabelsView).toContain('AI_KNOWLEDGE_BASE_DETAILS.GENERAL.BACK')
@@ -694,17 +1138,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       editMode: false,
       isSubmitting: false
     }
-
-    // const rootState = {
-    //   aiKnowledgeVectorDbDetails: baseState
-    // }
-
-    // it.only('should select all child selectors', () => {
-    //   expect(AIKnowledgeVectorDbDetailsSelectors.selectDetails(rootState)).toEqual(baseState.details)
-    //   expect(AIKnowledgeVectorDbDetailsSelectors.selectContexts(rootState)).toEqual(baseState.contexts)
-    //   expect(AIKnowledgeVectorDbDetailsSelectors.selectDetailsLoaded(rootState)).toBe(true)
-    //   expect(AIKnowledgeVectorDbDetailsSelectors.selectEditMode(rootState)).toBe(false)
-    // })
 
     it('should select the full view model', () => {
       const result = selectAIKnowledgeVectorDbDetailsViewModel.projector(
