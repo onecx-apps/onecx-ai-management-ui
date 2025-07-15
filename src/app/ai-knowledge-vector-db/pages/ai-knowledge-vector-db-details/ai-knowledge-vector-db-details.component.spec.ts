@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, ActivatedRouteSnapshot, EventType, Router } from '@angular/router'
 import { LetDirective } from '@ngrx/component'
 import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
@@ -40,7 +40,8 @@ import { AIKnowledgeVectorDbDetailsEffects } from './ai-knowledge-vector-db-deta
 import { provideMockActions } from '@ngrx/effects/testing'
 import { HttpResponse } from '@angular/common/http'
 import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
-
+import { selectRouteParam } from 'src/app/shared/selectors/router.selectors'
+import { routerNavigatedAction } from '@ngrx/router-store'
 describe('AIKnowledgeVectorDbDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
   const origPostMessage = window.postMessage
@@ -191,21 +192,56 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       openDialog: jest.fn()
     } as unknown as jest.Mocked<PortalDialogService>
 
+    const mockId = '123'
     router = {
       events: of(),
       navigate: jest.fn().mockReturnValue(Promise.resolve(true)),
       parseUrl: jest.fn().mockImplementation((url: string) => ({
         queryParams: {},
         fragment: null,
-        toString: () => url
+        toString: () => url,
+        url
       })),
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      createUrlTree: jest.fn().mockImplementation((commands: any[], extras?: any) => ({
-        // Return a simple object that can be converted to string
+      createUrlTree: jest.fn().mockImplementation((commands: any[]) => ({
         toString: () => commands.join('/')
       })),
       isActive: jest.fn(),
-      serializeUrl: jest.fn().mockImplementation((urlTree: any) => urlTree.toString())
+      serializeUrl: jest.fn().mockImplementation((urlTree: any) => urlTree.toString()),
+      routerState: {
+        root: {
+          component: AIKnowledgeVectorDbDetailsComponent,
+          firstChild: {
+            component: AIKnowledgeVectorDbDetailsComponent,
+            paramMap: new Map([['id', mockId]]),
+            url: '',
+            urlSegments: [],
+            outlet: 'primary',
+            params: {},
+            queryParams: {},
+            fragment: null,
+            data: {},
+            children: []
+          }
+        },
+        snapshot: {
+          url: '',
+          root: {
+            component: AIKnowledgeVectorDbDetailsComponent,
+            firstChild: {
+              component: AIKnowledgeVectorDbDetailsComponent,
+              paramMap: new Map([['id', mockId]]),
+              url: '',
+              urlSegments: [],
+              outlet: 'primary',
+              params: {},
+              queryParams: {},
+              fragment: null,
+              data: {},
+              children: []
+            }
+          }
+        }
+      }
     } as unknown as jest.Mocked<Router>
 
     messageService = {
@@ -266,7 +302,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     )
   })
 
-  describe('AIKnowledgeVectorDbDetailsEffects', () => {
+  describe.only('AIKnowledgeVectorDbDetailsEffects', () => {
     describe('saveButtonClicked$', () => {
       it('should handle saveButtonClicked$ and dispatch saveAIKnowledgeVectorDbSucceeded on success', (done) => {
         const details = { id: '123', name: 'Test DB' }
@@ -277,7 +313,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
         store.overrideSelector(AIKnowledgeVectorDbDetailsSelectors.selectDetails, {
           id: '123',
           name: 'Original Name'
-          // ... other required properties that match the AIKnowledgeVectorDb type
         })
         store.refreshState()
 
@@ -298,6 +333,21 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
 
         effects.saveButtonClicked$.subscribe((action) => {
           expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbFailed({ error }))
+          done()
+        })
+      })
+
+      it('should handle saveButtonClicked$ with undefined itemToEditId and dispatch updateAIKnowledgeVectorDbCancelled', (done) => {
+        // Arrange
+        const details = { name: 'Test DB' } as any // details without id
+        store.overrideSelector(AIKnowledgeVectorDbDetailsSelectors.selectDetails, details)
+        store.refreshState()
+
+        actions$.next(AIKnowledgeVectorDbDetailsActions.saveButtonClicked({ details: { name: 'Updated Name' } } as any))
+
+        // Act & Assert
+        effects.saveButtonClicked$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbCancelled())
           done()
         })
       })
@@ -356,8 +406,59 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
           done()
         })
       })
-    })
-    describe('navigatedToDetailsPage$', () => {
+
+      it('should handle deleteButtonClicked$ and dispatch deleteAIKnowledgeVectorDbCancelled on cancel', (done) => {
+        const mockItemToDelete = {
+          id: '123',
+          name: 'Test Item',
+          description: 'Test Description'
+        }
+
+        portalDialogService.openDialog.mockReturnValue(
+          of({
+            button: 'secondary',
+            data: mockItemToDelete,
+            result: []
+          })
+        )
+        store.overrideSelector(AIKnowledgeVectorDbDetailsSelectors.selectDetails, mockItemToDelete)
+        store.refreshState()
+
+        actions$.next(AIKnowledgeVectorDbDetailsActions.deleteButtonClicked())
+
+        effects.deleteButtonClicked$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.deleteAIKnowledgeVectorDbCancelled())
+          done()
+        })
+      })
+
+      it('should handle deleteButtonClicked$ and throw an error on item not found', (done) => {
+        const mockItemToDelete = undefined
+
+        portalDialogService.openDialog.mockReturnValue(
+          of({
+            button: 'primary',
+            data: mockItemToDelete,
+            result: []
+          })
+        )
+        store.overrideSelector(AIKnowledgeVectorDbDetailsSelectors.selectDetails, mockItemToDelete)
+        store.refreshState()
+
+        actions$.next(AIKnowledgeVectorDbDetailsActions.deleteButtonClicked())
+
+        effects.deleteButtonClicked$.subscribe({
+          next: () => {
+            fail('Expected error to be thrown')
+            done()
+          },
+          error: (err) => {
+            expect(err.message).toBe('Item to delete not found!')
+            done()
+          }
+        })
+      })
+
       it('should navigate to parent route on delete success', (done) => {
         const mockUrl = '/some/path/to/item'
         const expectedUrl = '/some/path'
@@ -369,6 +470,36 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
 
         effects.deleteAIKnowledgeVectorDbSucceeded$.subscribe(() => {
           expect(router.navigate).toHaveBeenCalledWith([expectedUrl])
+          done()
+        })
+      })
+    })
+    describe.only('navigatedToDetailsPage$', () => {
+      it('should dispatch navigatedToDetailsPage with id', (done) => {
+        const mockId = '123'
+        const mockAction = routerNavigatedAction({
+          payload: {
+            event: {
+              urlAfterRedirects: '',
+              type: EventType.NavigationEnd,
+              id: 0,
+              url: ''
+            },
+            routerState: {
+              root: new ActivatedRouteSnapshot(),
+              url: ''
+            }
+          }
+        })
+
+        store.overrideSelector(selectRouteParam('id'), mockId)
+        store.refreshState()
+
+        actions$.next(mockAction)
+
+        effects.navigatedToDetailsPage$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: mockId }))
+          // expect(action).toEqual(action)
           done()
         })
       })
