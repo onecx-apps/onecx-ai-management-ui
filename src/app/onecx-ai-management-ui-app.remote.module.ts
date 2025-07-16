@@ -79,7 +79,7 @@ effectProvidersForWorkaround.forEach((p) => (p.ɵprov.providedIn = null))
   ]
 })
 export class OnecxAiUiManagementModule implements DoBootstrap {
-  constructor(private injector: Injector) {}
+  constructor(private readonly injector: Injector) {}
 
   ngDoBootstrap(): void {
     createAppEntrypoint(AppEntrypointComponent, 'onecx-ai-management-ui-webcomponent', this.injector)
