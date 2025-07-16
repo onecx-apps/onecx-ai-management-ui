@@ -102,10 +102,10 @@ export class AIKnowledgeVectorDbDetailsComponent implements OnInit {
         return actions
       })
     )
-    
+
     this.displayContexts$ = this.viewModel$.pipe(
       map(({ details, contexts }) => {
-        if (details?.aiContext) return this.getContextFormValue([...contexts, details?.aiContext])
+        if (details?.aiContext) return this.getContextFormValue([...contexts, details.aiContext])
         else return this.getContextFormValue(contexts)
       })
     )

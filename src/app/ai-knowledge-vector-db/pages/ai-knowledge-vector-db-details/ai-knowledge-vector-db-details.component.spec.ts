@@ -349,21 +349,37 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
           done()
         })
       })
+
+      it('should handle saveButtonClicked$ and dispatch updateAIKnowledgeVectorDbCancelled on success if details is undefined', (done) => {
+        const details = { id: '123', name: 'Test DB' }
+        const error = 'Update failed'
+
+        store.overrideSelector(AIKnowledgeVectorDbDetailsSelectors.selectDetails, undefined)
+        store.refreshState()
+
+        aiKnowledgeVectorDbService.deleteAIKnowledgeVectorDb.mockReturnValue(throwError(() => error))
+
+        actions$.next(AIKnowledgeVectorDbDetailsActions.saveButtonClicked({ details }))
+
+        effects.saveButtonClicked$.subscribe((action) => {
+          expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbCancelled())
+          done()
+        })
+      })
     })
 
     describe('deleteButtonClicked$', () => {
       it('should handle deleteButtonClicked$ and dispatch deleteAIKnowledgeVectorDbSucceeded on success', (done) => {
         const res = new HttpResponse({ status: 204 })
-        const mockItemToDelete = {
-          id: '123',
-          name: 'Test Item',
-          description: 'Test Description'
-        }
+        const details = { id: '123', name: 'Test Item', description: 'Test Description' }
+
+        store.overrideSelector(AIKnowledgeVectorDbDetailsSelectors.selectDetails, details)
+        store.refreshState()
 
         portalDialogService.openDialog.mockReturnValue(
           of({
             button: 'primary',
-            data: mockItemToDelete,
+            data: details,
             result: []
           })
         )
@@ -448,7 +464,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
         effects.deleteButtonClicked$.subscribe({
           next: () => {
             fail('Expected error to be thrown')
-            done()
           },
           error: (err) => {
             expect(err.message).toBe('Item to delete not found!')
@@ -472,6 +487,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
         })
       })
     })
+
     describe('navigatedToDetailsPage$', () => {
       it('should dispatch navigatedToDetailsPage with id', (done) => {
         const mockId = '123'

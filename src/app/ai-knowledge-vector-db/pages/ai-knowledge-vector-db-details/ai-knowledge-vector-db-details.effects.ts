@@ -126,13 +126,14 @@ export class AIKnowledgeVectorDbDetailsEffects {
       concatLatestFrom(() => this.store.select(AIKnowledgeVectorDbDetailsSelectors.selectDetails)),
       switchMap(([action, details]) => {
         const itemToEditId = details?.id
-        const updatedItem = {
-          ...details,
-          ...action.details
-        }
 
         if (!itemToEditId) {
           return of(AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbCancelled())
+        }
+
+        const updatedItem = {
+          ...details,
+          ...action.details
         }
         const itemToEdit = {
           dataObject: { ...updatedItem, appId: itemToEditId }
