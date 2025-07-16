@@ -25,12 +25,12 @@ import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.sel
 export class AIKnowledgeVectorDbDetailsEffects {
   constructor(
     private actions$: Actions,
-    private aiKnowledgeVectorDbService: AIKnowledgeVectorDbBffService,
-    private aiContextService: AIContextBffService,
+    private readonly aiKnowledgeVectorDbService: AIKnowledgeVectorDbBffService,
+    private readonly aiContextService: AIContextBffService,
     private router: Router,
     private store: Store,
-    private messageService: PortalMessageService,
-    private portalDialogService: PortalDialogService
+    private readonly messageService: PortalMessageService,
+    private readonly portalDialogService: PortalDialogService
   ) {}
 
   navigatedToDetailsPage$ = createEffect(() => {

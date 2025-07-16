@@ -5,7 +5,7 @@ dist
 tmp
 reports
 /out-tsc
-
+test-report.xml
 # dependencies
 node_modules
 
@@ -29,7 +29,6 @@ node_modules
 /.sass-cache
 /connect.lock
 /coverage
-/reports
 /libpeerconnection.log
 npm-debug.log
 yarn-error.log
