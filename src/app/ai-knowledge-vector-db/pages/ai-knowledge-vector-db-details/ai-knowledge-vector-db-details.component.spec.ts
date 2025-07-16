@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, ActivatedRouteSnapshot, EventType, Router } from '@angular/router'
 import { LetDirective } from '@ngrx/component'
 import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
@@ -40,8 +40,8 @@ import { AIKnowledgeVectorDbDetailsEffects } from './ai-knowledge-vector-db-deta
 import { provideMockActions } from '@ngrx/effects/testing'
 import { HttpResponse } from '@angular/common/http'
 import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
-// import { selectRouteParam } from 'src/app/shared/selectors/router.selectors'
-// import { routerNavigatedAction } from '@ngrx/router-store'
+import { selectRouteParam } from 'src/app/shared/selectors/router.selectors'
+import { routerNavigatedAction } from '@ngrx/router-store'
 describe('AIKnowledgeVectorDbDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
   const origPostMessage = window.postMessage
@@ -338,14 +338,12 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       })
 
       it('should handle saveButtonClicked$ with undefined itemToEditId and dispatch updateAIKnowledgeVectorDbCancelled', (done) => {
-        // Arrange
-        const details = { name: 'Test DB' } as any // details without id
+        const details = { name: 'Test DB' } as any
         store.overrideSelector(AIKnowledgeVectorDbDetailsSelectors.selectDetails, details)
         store.refreshState()
 
         actions$.next(AIKnowledgeVectorDbDetailsActions.saveButtonClicked({ details: { name: 'Updated Name' } } as any))
 
-        // Act & Assert
         effects.saveButtonClicked$.subscribe((action) => {
           expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.updateAIKnowledgeVectorDbCancelled())
           done()
@@ -474,34 +472,34 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
         })
       })
     })
-    // describe('navigatedToDetailsPage$', () => {
-    //   it('should dispatch navigatedToDetailsPage with id', (done) => {
-    //     const mockId = '123'
-    //     const mockAction = routerNavigatedAction({
-    //       payload: {
-    //         event: {
-    //           urlAfterRedirects: '',
-    //           type: EventType.NavigationEnd,
-    //           id: 0,
-    //           url: ''
-    //         },
-    //         routerState: {
-    //           root: new ActivatedRouteSnapshot(),
-    //           url: ''
-    //         }
-    //       }
-    //     })
+    describe('navigatedToDetailsPage$', () => {
+      it('should dispatch navigatedToDetailsPage with id', (done) => {
+        const mockId = '123'
+        const mockAction = routerNavigatedAction({
+          payload: {
+            event: {
+              urlAfterRedirects: '',
+              type: EventType.NavigationEnd,
+              id: 0,
+              url: ''
+            },
+            routerState: {
+              root: new ActivatedRouteSnapshot(),
+              url: ''
+            }
+          }
+        })
 
-    //     store.overrideSelector(selectRouteParam('id'), mockId)
-    //     store.refreshState()
+        store.overrideSelector(selectRouteParam('id'), mockId)
+        store.refreshState()
 
-    //     actions$.next(mockAction)
-    //     effects.navigatedToDetailsPage$.subscribe((action) => {
-    //       expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: mockId }))
-    //       done()
-    //     })
-    //   })
-    // })
+        actions$.next(mockAction)
+        effects.navigatedToDetailsPage$.subscribe((action) => {
+          expect(action.type).toEqual(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: mockId }).type)
+          done()
+        })
+      })
+    })
 
     describe('loadContextsById$', () => {
       it('should dispatch aiKnowledgeVectorDbDetailsReceived on successful loadItemById$', (done) => {
@@ -566,14 +564,11 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       })
 
       it('should load contexts and dispatch success action', (done) => {
-        // Arrange
         const mockContexts = [{ id: '1', name: 'Context 1' }]
         aiContextService.searchAIContexts.mockReturnValue(of({ stream: mockContexts } as any))
 
-        // Act
         actions$.next(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: '123' }))
 
-        // Assert
         effects.loadContextsById$.subscribe((action) => {
           expect(aiContextService.searchAIContexts).toHaveBeenCalled()
           expect(action).toEqual(
@@ -586,14 +581,11 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       })
 
       it('should handle error when loading contexts fails', (done) => {
-        // Arrange
         const error = 'Failed to load contexts'
         aiContextService.searchAIContexts.mockReturnValue(throwError(() => error))
 
-        // Act
         actions$.next(AIKnowledgeVectorDbDetailsActions.navigatedToDetailsPage({ id: '123' }))
 
-        // Assert
         effects.loadContextsById$.subscribe((action) => {
           expect(aiContextService.searchAIContexts).toHaveBeenCalled()
           expect(action).toEqual(
@@ -634,13 +626,10 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       })
 
       it('should handle secondary button click in dialog - dirty', (done) => {
-        // Arrange
         portalDialogService.openDialog.mockReturnValue(of({ button: 'secondary' } as any))
 
-        // Act
         actions$.next(AIKnowledgeVectorDbDetailsActions.cancelButtonClicked({ dirty: true }))
 
-        // Assert
         effects.cancelButtonClickedDirty$.subscribe((action) => {
           expect(portalDialogService.openDialog).toHaveBeenCalled()
           expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.cancelEditBackClicked())
@@ -649,13 +638,10 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       })
 
       it('should handle primary button click in dialog - dirty', (done) => {
-        // Arrange
         portalDialogService.openDialog.mockReturnValue(of({ button: 'primary' } as any))
 
-        // Act
         actions$.next(AIKnowledgeVectorDbDetailsActions.cancelButtonClicked({ dirty: true }))
 
-        // Assert
         effects.cancelButtonClickedDirty$.subscribe((action) => {
           expect(portalDialogService.openDialog).toHaveBeenCalled()
           expect(action).toEqual(AIKnowledgeVectorDbDetailsActions.cancelEditConfirmClicked())
@@ -722,7 +708,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       let backSpy: jest.SpyInstance
 
       beforeEach(() => {
-        // Mock window.history.back
         backSpy = jest.spyOn(window.history, 'back').mockImplementation(() => {})
       })
 
@@ -731,14 +716,11 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       })
 
       it('should navigate back when back navigation is possible', (done) => {
-        // Arrange
         store.overrideSelector(selectBackNavigationPossible, true)
         const action = AIKnowledgeVectorDbDetailsActions.navigateBackButtonClicked()
 
-        // Act
         actions$.next(action)
 
-        // Assert
         effects.navigateBack$.subscribe((result) => {
           expect(backSpy).toHaveBeenCalled()
           expect(result).toEqual(AIKnowledgeVectorDbDetailsActions.backNavigationStarted())
@@ -747,14 +729,11 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
       })
 
       it('should dispatch backNavigationFailed when back navigation is not possible', (done) => {
-        // Arrange
         store.overrideSelector(selectBackNavigationPossible, false)
         const action = AIKnowledgeVectorDbDetailsActions.navigateBackButtonClicked()
 
-        // Act
         actions$.next(action)
 
-        // Assert
         effects.navigateBack$.subscribe((result) => {
           expect(backSpy).not.toHaveBeenCalled()
           expect(result).toEqual(AIKnowledgeVectorDbDetailsActions.backNavigationFailed())
@@ -921,7 +900,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     expect(actionLabelsView).not.toContain('AI_KNOWLEDGE_BASE_DETAILS.GENERAL.SAVE')
     expect(actionLabelsView).not.toContain('AI_KNOWLEDGE_BASE_DETAILS.GENERAL.CANCEL')
 
-    // Edit mode: editMode = true
     const viewModelEdit = {
       ...baseAIKnowledgeVectorDbDetailsViewModel,
       editMode: true
@@ -932,7 +910,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     await fixture.whenStable()
     actions = []
     component.headerActions$.subscribe((a) => (actions = a))
-    // In edit mode, expect Save and Cancel actions to be visible
     const visibleActionsEdit = actions.filter((a) => a.showCondition)
     const actionLabelsEdit = visibleActionsEdit.map((a) => a.labelKey)
     expect(actionLabelsEdit).toContain('AI_KNOWLEDGE_BASE_DETAILS.GENERAL.SAVE')
@@ -962,7 +939,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
 
   it('should dispatch save action with form values when save() is called', () => {
     const dispatchSpy = jest.spyOn(store, 'dispatch')
-    // Set up form values
     component.formGroup.setValue({
       id: 'id',
       name: 'name',
@@ -1005,14 +981,12 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
   })
 
   it('should execute actionCallback for each header action', () => {
-    // Prepare spies for each method
     const editSpy = jest.spyOn(component, 'edit')
     const goBackSpy = jest.spyOn(component, 'goBack')
     const cancelSpy = jest.spyOn(component, 'cancel')
     const saveSpy = jest.spyOn(component, 'save')
     const deleteSpy = jest.spyOn(component, 'delete')
 
-    // Set up view model for both modes
     const viewModelView = {
       ...baseAIKnowledgeVectorDbDetailsViewModel,
       editMode: false
@@ -1022,7 +996,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     fixture.detectChanges()
     let actions: any[] = []
     component.headerActions$.subscribe((a) => (actions = a))
-    // Call actionCallbacks in view mode
     actions.forEach((action) => {
       if (typeof action.actionCallback === 'function') {
         action.actionCallback()
@@ -1034,7 +1007,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     expect(saveSpy).toHaveBeenCalled()
     expect(deleteSpy).toHaveBeenCalled()
 
-    // Edit mode
     const viewModelEdit = {
       ...baseAIKnowledgeVectorDbDetailsViewModel,
       editMode: true
@@ -1044,7 +1016,6 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     fixture.detectChanges()
     actions = []
     component.headerActions$.subscribe((a) => (actions = a))
-    // Call actionCallbacks in edit mode
     actions.forEach((action) => {
       if (typeof action.actionCallback === 'function') {
         action.actionCallback()
@@ -1105,7 +1076,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
     store.overrideSelector(selectAIKnowledgeVectorDbDetailsViewModel, viewModel)
     store.refreshState()
     fixture.detectChanges()
-    expect(component.formGroup.value.aiContext).toStrictEqual({ label: 'undefined:', value: { name: '', value: {} } }) // or whatever default is expected
+    expect(component.formGroup.value.aiContext).toStrictEqual({ label: 'undefined:', value: { name: '', value: {} } })
   })
 
   describe('AIKnowledgeVectorDbDetailsReducer (integration)', () => {
@@ -1276,7 +1247,7 @@ describe('AIKnowledgeVectorDbDetailsComponent', () => {
         baseState.detailsLoadingIndicator,
         baseState.contextsLoaded,
         baseState.contextsLoadingIndicator,
-        true, // backNavigationPossible
+        true,
         baseState.editMode,
         baseState.isSubmitting
       )

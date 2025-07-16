@@ -1,199 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testExecutions version="1">
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/aiprovider/pages/aiprovider-details/aiprovider-details.component.spec.ts">
-    <testCase name="AIProviderDetailsComponent should create" duration="1878"/>
-    <testCase name="AIProviderDetailsComponent should display correct breadcrumbs" duration="579"/>
-    <testCase name="AIProviderDetailsComponent should display translated headers" duration="377"/>
-    <testCase name="AIProviderDetailsComponent should have 2 inline actions" duration="278"/>
-    <testCase name="AIProviderDetailsComponent should navigate back on back button click" duration="664"/>
-    <testCase name="AIProviderDetailsComponent should display item details in form fields" duration="582"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/ai-knowledge-base/pages/ai-knowledge-base-details/ai-knowledge-base-details.component.spec.ts">
-    <testCase name="AiKnowledgeBaseDetailsComponent should create" duration="1933"/>
-    <testCase name="AiKnowledgeBaseDetailsComponent should display correct breadcrumbs" duration="675"/>
-    <testCase name="AiKnowledgeBaseDetailsComponent should display translated headers" duration="597"/>
-    <testCase name="AiKnowledgeBaseDetailsComponent should have 2 inline actions" duration="504"/>
-    <testCase name="AiKnowledgeBaseDetailsComponent should dispatch navigateBackButtonClicked action on back button click" duration="500"/>
-    <testCase name="AiKnowledgeBaseDetailsComponent should display item details in page header" duration="1071"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/aiknowledge-document/pages/aiknowledge-document-details/aiknowledge-document-details.component.spec.ts">
-    <testCase name="AIKnowledgeDocumentDetailsComponent should create" duration="314"/>
-    <testCase name="AIKnowledgeDocumentDetailsComponent should display correct breadcrumbs" duration="351"/>
-    <testCase name="AIKnowledgeDocumentDetailsComponent should display translated headers" duration="337"/>
-    <testCase name="AIKnowledgeDocumentDetailsComponent should have 1 inline actions" duration="186"/>
-    <testCase name="AIKnowledgeDocumentDetailsComponent should navigate back on back button click" duration="312"/>
-    <testCase name="AIKnowledgeDocumentDetailsComponent should display item details in page header" duration="554"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/ai-knowledge-vector-db/pages/ai-knowledge-vector-db-search/dialogs/ai-knowledge-vector-db-create-update/ai-knowledge-vector-db-create-update.component.spec.ts">
-    <testCase name="AIKnowledgeVectorDbCreateUpdateComponent should create" duration="177"/>
-    <testCase name="AIKnowledgeVectorDbCreateUpdateComponent should patch formGroup values from vm.itemToEdit on ngOnInit" duration="255"/>
-    <testCase name="AIKnowledgeVectorDbCreateUpdateComponent should set dialogResult with merged itemToEdit and form values on ocxDialogButtonClicked" duration="181"/>
-    <testCase name="AIKnowledgeVectorDbCreateUpdateComponent should emit true to primaryButtonEnabled when form is valid" duration="171"/>
-    <testCase name="AIKnowledgeVectorDbCreateUpdateComponent should emit false to primaryButtonEnabled when form is invalid" duration="117"/>
-    <testCase name="AIKnowledgeVectorDbCreateUpdateComponent should emit false to primaryButtonEnabled when form is invalid (maxLength)" duration="243"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/aiknowledge-document/pages/aiknowledge-document-search/dialogs/aiknowledge-document-create-update/aiknowledge-document-create-update.component.spec.ts">
-    <testCase name="AIKnowledgeDocumentCreateUpdateComponent should create" duration="125"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/aiprovider/pages/aiprovider-search/dialogs/aiprovider-create-update/aiprovider-create-update.component.spec.ts">
-    <testCase name="AIProviderCreateUpdateComponent should create" duration="172"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/ai-knowledge-base/pages/ai-knowledge-base-search/dialogs/aiknowledge-base-create-update/aiknowledge-base-create-update.component.spec.ts">
-    <testCase name="AIKnowledgeBaseCreateUpdateComponent should create" duration="117"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/ai-knowledge-base/pages/ai-knowledge-base-search/ai-knowledge-base-search.component.spec.ts">
-    <testCase name="AiKnowledgeBaseSearchComponent should create the component" duration="3991"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should dispatch resetButtonClicked action on resetSearch" duration="1975"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should have 2 overFlow header actions when search config is disabled" duration="2326"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should display hide chart action if chart is visible" duration="1833"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should display chosen column in the diagram" duration="2152"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should display correct breadcrumbs" duration="1388"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should dispatch searchButtonClicked action on search" duration="1318"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should dispatch viewModeChanged action on view mode changes" duration="1284"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should dispatch displayedColumnsChanged on data view column change" duration="3135"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should dispatch chartVisibilityToggled on show/hide chart header" duration="1596"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should display translated headers" duration="1143"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should display translated empty message when no search results" duration="1793"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should not display chart when no results or toggled to not visible" duration="1360"/>
-    <testCase name="AiKnowledgeBaseSearchComponent should dispatch export csv data on export action click" duration="1316"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/app.component.spec.ts">
-    <testCase name="AppComponent should create the app" duration="176"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/aiknowledge-document/pages/aiknowledge-document-search/aiknowledge-document-search.component.spec.ts">
-    <testCase name="AIKnowledgeDocumentSearchComponent should create the component" duration="4724"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should dispatch resetButtonClicked action on resetSearch" duration="2776"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should have 2 overFlow header actions when search config is disabled" duration="2558"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should display hide chart action if chart is visible" duration="2096"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should display chosen column in the diagram" duration="2391"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should display correct breadcrumbs" duration="1670"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should dispatch searchButtonClicked action on search" duration="1014"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should dispatch editAIKnowledgeDocumentButtonClicked action on item edit click" duration="1694"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should dispatch createAIKnowledgeDocumentButtonClicked action on create click" duration="1565"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should export csv data on export action click" duration="1884"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should dispatch viewModeChanged action on view mode changes" duration="1067"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should dispatch displayedColumnsChanged on data view column change" duration="2678"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should dispatch chartVisibilityToggled on show/hide chart header" duration="1170"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should display translated headers" duration="897"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should display translated empty message when no search results" duration="1426"/>
-    <testCase name="AIKnowledgeDocumentSearchComponent should not display chart when no results or toggled to not visible" duration="851"/>
-  </file>
   <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/ai-knowledge-vector-db/pages/ai-knowledge-vector-db-details/ai-knowledge-vector-db-details.component.spec.ts">
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects saveButtonClicked$ should handle saveButtonClicked$ and dispatch saveAIKnowledgeVectorDbSucceeded on success" duration="1917"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects saveButtonClicked$ should handle saveButtonClicked$ and dispatch saveAIKnowledgeVectorDbFailed on error" duration="446"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects saveButtonClicked$ should handle saveButtonClicked$ with undefined itemToEditId and dispatch updateAIKnowledgeVectorDbCancelled" duration="466"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects deleteButtonClicked$ should handle deleteButtonClicked$ and dispatch deleteAIKnowledgeVectorDbSucceeded on success" duration="354"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects deleteButtonClicked$ should handle deleteButtonClicked$ and dispatch deleteAIKnowledgeVectorDbFailed on error" duration="498"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects deleteButtonClicked$ should handle deleteButtonClicked$ and dispatch deleteAIKnowledgeVectorDbCancelled on cancel" duration="643"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects deleteButtonClicked$ should handle deleteButtonClicked$ and throw an error on item not found" duration="350"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects deleteButtonClicked$ should navigate to parent route on delete success" duration="317"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should dispatch aiKnowledgeVectorDbDetailsReceived on successful loadItemById$" duration="329"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should dispatch aiKnowledgeVectorDbDetailsLoadingFailed on failed loadItemById$" duration="467"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should dispatch aiKnowledgeVectorDbContextsReceived on successful loadContextsById$" duration="549"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should dispatch aiKnowledgeVectorDbContextsLoadingFailed on failed loadContextsById$" duration="396"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should load contexts and dispatch success action" duration="347"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should handle error when loading contexts fails" duration="360"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects cancelButtonClick should dispatch cancelEditNotDirty if cancelButtonClicked with dirty=false" duration="429"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects cancelButtonClick should dispatch cancelEditBackClicked if dialogResult.button is secondary" duration="340"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects cancelButtonClick should dispatch cancelEditConfirmClicked if dialogResult.button is not secondary" duration="306"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects cancelButtonClick should handle secondary button click in dialog - dirty" duration="307"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects cancelButtonClick should handle primary button click in dialog - dirty" duration="224"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects displayError$ should show error message for details loading failure" duration="345"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects displayError$ should show error message for contexts loading failure" duration="312"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects displayError$ should not show error message for unhandled actions" duration="287"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects navigateBack$ should navigate back when back navigation is possible" duration="317"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects navigateBack$ should dispatch backNavigationFailed when back navigation is not possible" duration="270"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should create" duration="301"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should display correct breadcrumbs" duration="455"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should display translated headers" duration="392"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should have 2 inline actions" duration="446"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should navigate back on back button click" duration="338"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should display item details in form fields" duration="353"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should display item details in page header" duration="545"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should enable or disable the form based on editMode" duration="392"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should show the correct actions for edit and view modes" duration="329"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch edit action when edit() is called" duration="219"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch navigate back action when goBack() is called" duration="196"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch cancel action with dirty state when cancel() is called" duration="362"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch save action with form values when save() is called" duration="164"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch delete action when delete() is called" duration="233"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should call breadcrumbService.setItems on ngOnInit" duration="218"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should execute actionCallback for each header action" duration="280"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch cancel action with pristine state when cancel() is called" duration="239"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should patch the form with details and matched context" duration="332"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should emit correct displayContexts$ for details with aiContext" duration="173"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should handle missing details gracefully" duration="249"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent should handle empty contexts array gracefully" duration="178"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should return the initial state for an unknown action" duration="135"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbDetailsReceived" duration="241"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbDetailsLoadingFailed" duration="168"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbContextsReceived" duration="151"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbContextsLoadingFailed" duration="133"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle navigatedToDetailsPage" duration="105"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle editButtonClicked" duration="110"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle saveButtonClicked" duration="105"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle navigateBackButtonClicked" duration="111"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle cancelEditConfirmClicked and related actions" duration="88"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle updateAIKnowledgeVectorDbFailed" duration="104"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetails Selectors should select the full view model" duration="82"/>
-    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetails Selectors should handle undefined details and empty contexts" duration="120"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/aiprovider/pages/aiprovider-search/aiprovider-search.component.spec.ts">
-    <testCase name="AIProviderSearchComponent should create the component" duration="4932"/>
-    <testCase name="AIProviderSearchComponent should dispatch resetButtonClicked action on resetSearch" duration="3004"/>
-    <testCase name="AIProviderSearchComponent should have 2 overFlow header actions when search config is disabled" duration="3158"/>
-    <testCase name="AIProviderSearchComponent should display hide chart action if chart is visible" duration="2102"/>
-    <testCase name="AIProviderSearchComponent should display chosen column in the diagram" duration="2667"/>
-    <testCase name="AIProviderSearchComponent should display correct breadcrumbs" duration="2129"/>
-    <testCase name="AIProviderSearchComponent should dispatch searchButtonClicked action on search" duration="1358"/>
-    <testCase name="AIProviderSearchComponent should dispatch detailsButtonClicked action on item details click" duration="1629"/>
-    <testCase name="AIProviderSearchComponent should dispatch aiKnowledgeVectorDetailsClicked on on item delete click" duration="1525"/>
-    <testCase name="AIProviderSearchComponent should export csv data on export action click" duration="1959"/>
-    <testCase name="AIProviderSearchComponent should dispatch viewModeChanged action on view mode changes" duration="1151"/>
-    <testCase name="AIProviderSearchComponent should dispatch displayedColumnsChanged on data view column change" duration="2729"/>
-    <testCase name="AIProviderSearchComponent should dispatch chartVisibilityToggled on show/hide chart header" duration="1138"/>
-    <testCase name="AIProviderSearchComponent should display translated headers" duration="781"/>
-    <testCase name="AIProviderSearchComponent should display translated empty message when no search results" duration="1084"/>
-    <testCase name="AIProviderSearchComponent should not display chart when no results or toggled to not visible" duration="817"/>
-  </file>
-  <file path="/home/ubuntu/PROJECTS/OneCX/AiManagement/onecx-ai-management-ui/src/app/ai-knowledge-vector-db/pages/ai-knowledge-vector-db-search/ai-knowledge-vector-db-search.component.spec.ts">
-    <testCase name="AIKnowledgeVectorDbSearchComponent should create the component" duration="3190"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch resetButtonClicked action on resetSearch" duration="2746"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should have 2 overFlow header actions when search config is disabled" duration="2919"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should display hide chart action if chart is visible" duration="1722"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should display chosen column in the diagram" duration="1777"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should display correct breadcrumbs" duration="1118"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch searchButtonClicked action on search" duration="893"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch editAIKnowledgeVectorDbButtonClicked action on item edit click" duration="1764"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch aiKnowledgeVectorDetailsClicked on on item delete click" duration="2328"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch createAIKnowledgeVectorDbButtonClicked action on create click" duration="1641"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch detailsButtonClicked action on details" duration="1112"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should convert Date values to UTC and dispatch searchButtonClicked with correct searchCriteria" duration="928"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should pass through non-date, non-empty values unchanged in searchCriteria" duration="1095"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should set searchCriteria property to undefined for falsy non-date values" duration="1345"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should handle isValidDate true branch for allowed key (using as any for coverage)" duration="1127"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should pass through non-date, non-empty values unchanged in searchCriteria" duration="847"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should set searchCriteria property to undefined for falsy non-date values" duration="747"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should export csv data on export action click" duration="1256"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch viewModeChanged action on view mode changes" duration="834"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch displayedColumnsChanged on data view column change" duration="1575"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should dispatch chartVisibilityToggled on show/hide chart header" duration="536"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should display translated headers" duration="468"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should display translated empty message when no search results" duration="999"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent should not display chart when no results or toggled to not visible" duration="622"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should reset results and criteria on resetButtonClicked" duration="317"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set searchLoadingIndicator and criteria on searchButtonClicked" duration="355"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set results on aiKnowledgeVectorDbSearchResultsReceived" duration="276"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should clear results on aiKnowledgeVectorDbSearchResultsLoadingFailed" duration="261"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set chartVisible on chartVisibilityRehydrated" duration="264"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should toggle chartVisible on chartVisibilityToggled" duration="221"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set viewMode on viewModeChanged" duration="274"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set displayedColumns on displayedColumnsChanged" duration="224"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should set criteria and searchLoadingIndicator=true when routerNavigatedAction succeeds and queryParams present" duration="270"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearchReducer should not change state when routerNavigatedAction fails schema parse" duration="239"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearch selectors selectResults should map results to RowListGridData[]" duration="260"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearch selectors selectDisplayedColumns should map displayedColumns ids to columns" duration="249"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearch selectors selectAIKnowledgeVectorDbSearchViewModel should combine all selector results" duration="272"/>
-    <testCase name="AIKnowledgeVectorDbSearchComponent AIKnowledgeVectorDbSearch selectors selectDisplayedColumns should return [] if displayedColumns is undefined" duration="225"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects saveButtonClicked$ should handle saveButtonClicked$ and dispatch saveAIKnowledgeVectorDbSucceeded on success" duration="942"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects saveButtonClicked$ should handle saveButtonClicked$ and dispatch saveAIKnowledgeVectorDbFailed on error" duration="388"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects saveButtonClicked$ should handle saveButtonClicked$ with undefined itemToEditId and dispatch updateAIKnowledgeVectorDbCancelled" duration="270"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects deleteButtonClicked$ should handle deleteButtonClicked$ and dispatch deleteAIKnowledgeVectorDbSucceeded on success" duration="233"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects deleteButtonClicked$ should handle deleteButtonClicked$ and dispatch deleteAIKnowledgeVectorDbFailed on error" duration="179"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects deleteButtonClicked$ should handle deleteButtonClicked$ and dispatch deleteAIKnowledgeVectorDbCancelled on cancel" duration="225"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects deleteButtonClicked$ should handle deleteButtonClicked$ and throw an error on item not found" duration="138"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects deleteButtonClicked$ should navigate to parent route on delete success" duration="153"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects navigatedToDetailsPage$ should dispatch navigatedToDetailsPage with id" duration="268"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should dispatch aiKnowledgeVectorDbDetailsReceived on successful loadItemById$" duration="179"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should dispatch aiKnowledgeVectorDbDetailsLoadingFailed on failed loadItemById$" duration="290"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should dispatch aiKnowledgeVectorDbContextsReceived on successful loadContextsById$" duration="167"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should dispatch aiKnowledgeVectorDbContextsLoadingFailed on failed loadContextsById$" duration="185"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should load contexts and dispatch success action" duration="206"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects loadContextsById$ should handle error when loading contexts fails" duration="155"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects cancelButtonClick should dispatch cancelEditNotDirty if cancelButtonClicked with dirty=false" duration="208"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects cancelButtonClick should dispatch cancelEditBackClicked if dialogResult.button is secondary" duration="156"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects cancelButtonClick should dispatch cancelEditConfirmClicked if dialogResult.button is not secondary" duration="150"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects cancelButtonClick should handle secondary button click in dialog - dirty" duration="201"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects cancelButtonClick should handle primary button click in dialog - dirty" duration="159"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects displayError$ should show error message for details loading failure" duration="137"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects displayError$ should show error message for contexts loading failure" duration="256"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects displayError$ should not show error message for unhandled actions" duration="159"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects navigateBack$ should navigate back when back navigation is possible" duration="184"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsEffects navigateBack$ should dispatch backNavigationFailed when back navigation is not possible" duration="211"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should create" duration="178"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should display correct breadcrumbs" duration="291"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should display translated headers" duration="195"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should have 2 inline actions" duration="299"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should navigate back on back button click" duration="210"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should display item details in form fields" duration="182"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should display item details in page header" duration="279"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should enable or disable the form based on editMode" duration="245"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should show the correct actions for edit and view modes" duration="163"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch edit action when edit() is called" duration="154"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch navigate back action when goBack() is called" duration="211"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch cancel action with dirty state when cancel() is called" duration="143"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch save action with form values when save() is called" duration="147"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch delete action when delete() is called" duration="210"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should call breadcrumbService.setItems on ngOnInit" duration="142"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should execute actionCallback for each header action" duration="209"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should dispatch cancel action with pristine state when cancel() is called" duration="248"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should patch the form with details and matched context" duration="164"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should emit correct displayContexts$ for details with aiContext" duration="204"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should handle missing details gracefully" duration="164"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent should handle empty contexts array gracefully" duration="214"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should return the initial state for an unknown action" duration="215"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbDetailsReceived" duration="136"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbDetailsLoadingFailed" duration="122"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbContextsReceived" duration="174"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle aiKnowledgeVectorDbContextsLoadingFailed" duration="145"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle navigatedToDetailsPage" duration="125"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle editButtonClicked" duration="209"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle saveButtonClicked" duration="194"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle navigateBackButtonClicked" duration="170"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle cancelEditConfirmClicked and related actions" duration="241"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetailsReducer (integration) should handle updateAIKnowledgeVectorDbFailed" duration="174"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetails Selectors should select the full view model" duration="197"/>
+    <testCase name="AIKnowledgeVectorDbDetailsComponent AIKnowledgeVectorDbDetails Selectors should handle undefined details and empty contexts" duration="229"/>
   </file>
 </testExecutions>
