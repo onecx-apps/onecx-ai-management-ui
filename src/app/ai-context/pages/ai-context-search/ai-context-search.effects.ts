@@ -20,13 +20,13 @@ import { PrimeIcons } from 'primeng/api'
 @Injectable()
 export class AiContextSearchEffects {
   constructor(
-    private portalDialogService: PortalDialogService,
-    private actions$: Actions,
-    private route: ActivatedRoute,
-    private aiContextService: AIContextBffService,
-    private router: Router,
-    private store: Store,
-    private messageService: PortalMessageService,
+    private readonly portalDialogService: PortalDialogService,
+    private readonly actions$: Actions,
+    private readonly route: ActivatedRoute,
+    private readonly aiContextService: AIContextBffService,
+    private readonly router: Router,
+    private readonly store: Store,
+    private readonly messageService: PortalMessageService,
     private readonly exportDataService: ExportDataService
   ) {}
 
@@ -252,7 +252,7 @@ export class AiContextSearchEffects {
             console.log('Item to delete after dialog:', itemToDelete)
             return of(AiContextSearchActions.deleteAiContextCancelled())
           }
-          if (!itemToDelete || !itemToDelete.id) {
+          if (!itemToDelete?.id) {
             this.messageService.error({
               summaryKey: 'AI_CONTEXT_DELETE.ERROR'
             })

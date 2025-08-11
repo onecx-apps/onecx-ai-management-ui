@@ -123,8 +123,8 @@ export class AiContextDetailsComponent implements OnInit {
   )
 
   constructor(
-    private store: Store,
-    private breadcrumbService: BreadcrumbService
+    private readonly store: Store,
+    private readonly breadcrumbService: BreadcrumbService
   ) {
     this.providersSuggestions$ = this.viewModel$.pipe(
       map(({ details, aiProviders }) => {

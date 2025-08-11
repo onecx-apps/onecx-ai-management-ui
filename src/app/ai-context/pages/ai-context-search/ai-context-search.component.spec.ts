@@ -882,7 +882,6 @@ describe('AiContextSearchComponent', () => {
 
     it('should set criteria and searchLoadingIndicator=true when routerNavigatedAction succeeds and queryParams present', () => {
       const { routerNavigatedAction } = require('@ngrx/router-store')
-      // Mock the schema to always succeed
       const mockSchema = require('./ai-context-search.parameters')
       jest.spyOn(mockSchema.aiContextSearchCriteriasSchema, 'safeParse').mockReturnValue({
         success: true,
@@ -897,7 +896,6 @@ describe('AiContextSearchComponent', () => {
 
     it('should not change state when routerNavigatedAction fails schema parse', () => {
       const { routerNavigatedAction } = require('@ngrx/router-store')
-      // Mock the schema to always fail
       const mockSchema = require('./ai-context-search.parameters')
       jest.spyOn(mockSchema.aiContextSearchCriteriasSchema, 'safeParse').mockReturnValue({
         success: false
@@ -905,7 +903,7 @@ describe('AiContextSearchComponent', () => {
       const preState = { ...initialState, criteria: { foo: 'bar' }, searchLoadingIndicator: true }
       const action = routerNavigatedAction({ payload: { routerState: { root: { queryParams: { foo: 'bar' } } } } })
       const state = aiContextSearchReducer(preState, action)
-      expect(state).toBe(preState) // unchanged
+      expect(state).toBe(preState)
     })
   })
 

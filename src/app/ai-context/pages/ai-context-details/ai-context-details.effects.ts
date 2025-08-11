@@ -27,15 +27,15 @@ import { aiContextDetailsSelectors } from './ai-context-details.selectors'
 @Injectable()
 export class AiContextDetailsEffects {
   constructor(
-    private actions$: Actions,
-    private aiContextService: AIContextBffService,
-    private aiProviderService: AIProviderBffService,
-    private aiKnowledgeBaseService: AiKnowledgeBaseBffService,
-    private aiKnowledgeVectorDB: AIKnowledgeVectorDbBffService,
-    private router: Router,
-    private store: Store,
-    private messageService: PortalMessageService,
-    private portalDialogService: PortalDialogService
+    private readonly actions$: Actions,
+    private readonly aiContextService: AIContextBffService,
+    private readonly aiProviderService: AIProviderBffService,
+    private readonly aiKnowledgeBaseService: AiKnowledgeBaseBffService,
+    private readonly aiKnowledgeVectorDB: AIKnowledgeVectorDbBffService,
+    private readonly router: Router,
+    private readonly store: Store,
+    private readonly messageService: PortalMessageService,
+    private readonly portalDialogService: PortalDialogService
   ) {}
 
   navigatedToDetailsPage$ = createEffect(() => {
@@ -239,7 +239,7 @@ export class AiContextDetailsEffects {
           return of(AiContextDetailsActions.deleteAiContextCancelled())
         }
 
-        if (!itemToDelete || !itemToDelete.id) {
+        if (!itemToDelete?.id) {
           throw new Error('Item to delete or its ID not found!')
         }
 
