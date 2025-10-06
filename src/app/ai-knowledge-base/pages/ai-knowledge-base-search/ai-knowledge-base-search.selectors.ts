@@ -13,7 +13,7 @@ export const selectResults = createSelector(
     return results.map((item) => ({
       ...item,
       imagePath: '',
-      id: item.id ?? 'unknown'
+      id: !item.id ? 'unknown' : item.id
     }))
   }
 )
