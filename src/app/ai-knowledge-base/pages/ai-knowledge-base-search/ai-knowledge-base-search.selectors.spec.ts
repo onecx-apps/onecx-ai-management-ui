@@ -12,6 +12,15 @@ describe('aiKnowledgeBaseSearch selectors', () => {
     ])
   })
 
+  it('should set id to "unknown" if id is undefined in selectResults', () => {
+    const results = [{ name: 'A' }, { id: '2', name: 'B' }]
+    const selected = selectResults.projector(results)
+    expect(selected).toEqual([
+      { imagePath: '', name: 'A', id: 'unknown' },
+      { imagePath: '', id: '2', name: 'B' }
+    ])
+  })
+
   it('should build AiKnowledgeBaseSearchViewModel in selectAiKnowledgeBaseSearchViewModel', () => {
     const columns = [
       { id: 'col1', nameKey: 'Col1', columnType: ColumnType.STRING },
