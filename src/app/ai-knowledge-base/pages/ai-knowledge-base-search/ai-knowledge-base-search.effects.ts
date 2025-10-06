@@ -120,7 +120,7 @@ export class AiKnowledgeBaseSearchEffects {
           throw new Error('Item to delete not found!')
         }
 
-        return this.aiKnowledgeBaseService.deleteAiKnowledgeBase(itemToDelete.id).pipe(
+        return this.aiKnowledgeBaseService.deleteAiKnowledgeBase(itemToDelete.id!).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'AI_KNOWLEDGE_BASE_DETAILS.DELETE.SUCCESS'
@@ -231,7 +231,7 @@ export class AiKnowledgeBaseSearchEffects {
         const itemToEdit = {
           aIKnowledgeDocumentData: dialogResult.result
         } as UpdateAIKnowledgeBaseRequest
-        return this.aiKnowledgeBaseService.updateAiKnowledgeBase(itemToEditId, itemToEdit).pipe(
+        return this.aiKnowledgeBaseService.updateAiKnowledgeBase(itemToEditId!, itemToEdit).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'AI_KNOWLEDGE_BASE_CREATE_UPDATE.UPDATE.SUCCESS'
