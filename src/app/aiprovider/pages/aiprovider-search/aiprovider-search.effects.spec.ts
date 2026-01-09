@@ -20,7 +20,6 @@ import { initialState} from './aiprovider-search.reducers'
 import { selectAIProviderSearchViewModel } from './aiprovider-search.selectors'
 import { AIProviderSearchViewModel } from './aiprovider-search.viewmodel'
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
-import { PrimeIcons } from 'primeng/api'
 
 describe('AIProviderSearchComponent effects', () => {
   let component: AIProviderSearchComponent
