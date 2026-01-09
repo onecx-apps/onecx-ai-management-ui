@@ -4,7 +4,7 @@ api.module.ts
 api/aIContextBffService.service.ts
 api/aIProviderBffService.service.ts
 api/api.ts
-api/mcpserverBffService.service.ts
+api/mCPServerBffService.service.ts
 configuration.ts
 encoder.ts
 git_push.sh
@@ -20,9 +20,8 @@ model/createAIContextResponse.ts
 model/createAIProvider.ts
 model/getAIContextByIdResponse.ts
 model/getAIProviderByIdResponse.ts
-model/getMcpserverByIdResponse.ts
+model/getMCPServerByIdResponse.ts
 model/mCPServer.ts
-model/mcpserver0.ts
 model/models.ts
 model/problemDetailInvalidParam.ts
 model/problemDetailParam.ts
@@ -34,7 +33,7 @@ model/searchMCPServerResponse.ts
 model/updateAIContextRequest.ts
 model/updateAIContextResponse.ts
 model/updateAIProvider.ts
-model/updateMcpserverRequest.ts
-model/updateMcpserverResponse.ts
+model/updateMCPServerRequest.ts
+model/updateMCPServerResponse.ts
 param.ts
 variables.ts

@@ -1,0 +1,17 @@
+import { ColumnType, DataTableColumn } from '@onecx/angular-accelerator'
+
+export const mcpserverSearchColumns: DataTableColumn[] = [
+  {
+    columnType: ColumnType.STRING,
+    id: 'changeMe',
+    nameKey: 'HELLO_SEARCH.RESULTS.HELLO',
+    filterable: true,
+    sortable: true,
+    predefinedGroupKeys: [
+      'HELLO_SEARCH.PREDEFINED_GROUP.DEFAULT',
+      'HELLO_SEARCH.PREDEFINED_GROUP.EXTENDED',
+      'HELLO_SEARCH.PREDEFINED_GROUP.FULL'
+    ]
+  }
+]
+// ACTION S6: Define search results columns: https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/configure-search-results.html#action-6

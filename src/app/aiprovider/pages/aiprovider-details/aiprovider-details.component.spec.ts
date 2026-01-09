@@ -6,7 +6,7 @@ import { LetDirective } from '@ngrx/component'
 import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
-import { BreadcrumbService, PortalCoreModule, UserService } from '@onecx/portal-integration-angular'
+import { AlwaysGrantPermissionChecker, BreadcrumbService, HAS_PERMISSION_CHECKER, PortalCoreModule, UserService } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { AIProviderDetailsComponent } from './aiprovider-details.component'
 import { AIProviderDetailsHarness } from './aiprovider-details.harness'
@@ -15,6 +15,7 @@ import { selectAIProviderDetailsViewModel } from './aiprovider-details.selectors
 import { AIProviderDetailsViewModel } from './aiprovider-details.viewmodel'
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ReactiveFormsModule } from '@angular/forms'
+import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
 
 describe('AIProviderDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -32,12 +33,12 @@ describe('AIProviderDetailsComponent', () => {
   }
 
   window.postMessage = (m: any) => {
-     
+
     listeners.forEach((l) =>
       l({
         data: m,
-        stopImmediatePropagation: () => {},
-        stopPropagation: () => {}
+        stopImmediatePropagation: () => { },
+        stopPropagation: () => { }
       })
     )
   }
@@ -96,12 +97,15 @@ describe('AIProviderDetailsComponent', () => {
         BreadcrumbService,
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        provideUserServiceMock(),
+        {
+          provide: HAS_PERMISSION_CHECKER,
+          useClass: AlwaysGrantPermissionChecker
+        }
       ]
     }).compileComponents()
 
-    const userService = TestBed.inject(UserService)
-    userService.hasPermission = () => true
     const translateService = TestBed.inject(TranslateService)
     translateService.use('en')
 
@@ -115,7 +119,7 @@ describe('AIProviderDetailsComponent', () => {
     fixture.detectChanges()
     aIProviderDetails = await TestbedHarnessEnvironment.harnessForFixture(fixture, AIProviderDetailsHarness)
   })
-  
+
   describe('AIProviderDetailsComponent UI', () => {
     it('should create', () => {
       expect(component).toBeTruthy()
@@ -160,10 +164,11 @@ describe('AIProviderDetailsComponent', () => {
 
       expect(window.history.back).toHaveBeenCalledTimes(1)
     })
+
     it('should display item details in form fields', async () => {
       store.overrideSelector(selectAIProviderDetailsViewModel, baseAIProviderDetaulsViewModel)
       store.refreshState()
-  
+
       const pageDetails = component.formGroup.value
       expect(pageDetails).toEqual({
         name: 'Test name',

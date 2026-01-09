@@ -19,6 +19,7 @@ export interface SearchMCPServerRequest {
      * The size of the page.
      */
     pageSize?: number;
-    changeMe?: string;
+    name?: string;
+    description?: string;
 }
 

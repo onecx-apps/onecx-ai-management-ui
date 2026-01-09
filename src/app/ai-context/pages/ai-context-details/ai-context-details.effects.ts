@@ -14,12 +14,10 @@ import {
   AIContext,
   AIContextBffService,
   AIProviderBffService,
-  AiKnowledgeBaseBffService,
+  MCPServerBffService,
   AIProviderSearchRequest,
   UpdateAIContextRequest,
-  AIKnowledgeVectorDbBffService,
-  SearchAIKnowledgeBaseRequest,
-  SearchAIKnowledgeVectorDbRequest
+  SearchMCPServerRequest,
 } from '../../../shared/generated'
 import { AiContextDetailsActions } from './ai-context-details.actions'
 import { AiContextDetailsComponent } from './ai-context-details.component'
@@ -30,8 +28,7 @@ export class AiContextDetailsEffects {
     private readonly actions$: Actions,
     private readonly aiContextService: AIContextBffService,
     private readonly aiProviderService: AIProviderBffService,
-    private readonly aiKnowledgeBaseService: AiKnowledgeBaseBffService,
-    private readonly aiKnowledgeVectorDB: AIKnowledgeVectorDbBffService,
+    private readonly MCPServerService: MCPServerBffService,
     private readonly router: Router,
     private readonly store: Store,
     private readonly messageService: PortalMessageService,
@@ -73,20 +70,20 @@ export class AiContextDetailsEffects {
     )
   })
 
-  loadAIKnowledgeBases$ = createEffect(() => {
+  loadMCPServers$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AiContextDetailsActions.navigatedToDetailsPage),
       switchMap(() => {
-        const fetchAllReq: SearchAIKnowledgeBaseRequest = { name: '', description: '' }
-        return this.aiKnowledgeBaseService.searchAIKnowledgeBases(fetchAllReq).pipe(
+        const fetchAllReq: SearchMCPServerRequest = { name: '', description: '' }
+        return this.MCPServerService.searchMCPServers(fetchAllReq).pipe(
           map(({ stream }) =>
-            AiContextDetailsActions.aiContextAiKnowledgeBasesReceived({
-              aiKnowledgeBases: stream
+            AiContextDetailsActions.aiContextMCPServersReceived({
+              MCPServers: stream
             })
           ),
           catchError((error) =>
             of(
-              AiContextDetailsActions.aiContextAiKnowledgeBasesLoadingFailed({
+              AiContextDetailsActions.aiContextMCPServersLoadingFailed({
                 error
               })
             )
@@ -110,29 +107,6 @@ export class AiContextDetailsEffects {
           catchError((error) =>
             of(
               AiContextDetailsActions.aiContextProvidersLoadingFailed({
-                error
-              })
-            )
-          )
-        )
-      })
-    )
-  })
-
-  loadVectorDbs$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(AiContextDetailsActions.navigatedToDetailsPage),
-      switchMap(() => {
-        const fetchAllReq: SearchAIKnowledgeVectorDbRequest = { id: undefined, name: '', description: '' }
-        return this.aiKnowledgeVectorDB.searchAIKnowledgeVectorDbs(fetchAllReq).pipe(
-          map(({ results }) =>
-            AiContextDetailsActions.aiContextAiKnowledgeVectorDbsReceived({
-              aiKnowledgeVectorDbs: results
-            })
-          ),
-          catchError((error) =>
-            of(
-              AiContextDetailsActions.aiContextAiKnowledgeVectorDbsLoadingFailed({
                 error
               })
             )
@@ -289,12 +263,8 @@ export class AiContextDetailsEffects {
       key: 'AI_CONTEXT_DETAILS.ERROR_MESSAGES.DETAILS_LOADING_FAILED'
     },
     {
-      action: AiContextDetailsActions.aiContextAiKnowledgeBasesLoadingFailed,
-      key: 'AI_KNOWLEDGE_BASE_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
-    },
-    {
-      action: AiContextDetailsActions.aiContextAiKnowledgeVectorDbsLoadingFailed,
-      key: 'AI_KNOWLEDGE_VECTOR_DB_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
+      action: AiContextDetailsActions.aiContextMCPServersLoadingFailed,
+      key: 'MCPSERVER_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
     },
     {
       action: AiContextDetailsActions.aiContextProvidersLoadingFailed,

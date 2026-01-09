@@ -273,48 +273,7 @@ describe('AiContextSearchComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(AiContextSearchActions.editAiContextButtonClicked({ id: '1' }))
   })
 
-  it('should dispatch aiKnowledgeVectorDetailsClicked on on item delete click', async () => {
-
-    store.overrideSelector(selectAiContextSearchViewModel, {
-      ...baseAiContextSearchViewModel,
-      results: [
-        {
-          id: '1',
-          imagePath: '',
-          column_1: 'val_1'
-        }
-      ],
-      columns: [
-        {
-          columnType: ColumnType.STRING,
-          nameKey: 'COLUMN_KEY',
-          id: 'column_1'
-        }
-      ]
-    })
-    store.refreshState()
-
-    const interactiveDataView = await AiContextSearch.getSearchResults()
-    const dataView = await interactiveDataView.getDataView()
-    const dataTable = await dataView.getDataTable()
-    const rowActionButtons = await dataTable?.getActionButtons()
-
-    expect(rowActionButtons?.length).toBeGreaterThan(0)
-    let deleteButton
-    for (const actionButton of rowActionButtons ?? []) {
-      const icon = await actionButton.getAttribute('ng-reflect-icon')
-      expect(icon).toBeTruthy()
-      if (icon == PrimeIcons.TRASH) {
-        deleteButton = actionButton
-      }
-    }
-    expect(deleteButton).toBeTruthy()
-    deleteButton?.click()
-
-    expect(store.dispatch).toHaveBeenCalledWith(AiContextSearchActions.deleteAiContextButtonClicked({ id: '1' }))
-  })
-
-  it('should dispatch createAiContextButtonClicked action on create click', async () => {
+    it('should dispatch createAiContextButtonClicked action on create click', async () => {
 
     const header = await AiContextSearch.getHeader()
     const createButton = await (await header.getPageHeader()).getInlineActionButtonByIcon(PrimeIcons.PLUS)

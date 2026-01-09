@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store'
 import { createChildSelectors } from '@onecx/ngrx-accelerator'
 import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
-import { AIContext, AIKnowledgeBase, AIKnowledgeVectorDb, AIProvider } from '../../../shared/generated'
+import { AIContext, MCPServer, AIProvider } from '../../../shared/generated'
 import { aiContextFeature } from '../../ai-context.reducers'
 import { initialState } from './ai-context-details.reducers'
 import { AiContextDetailsViewModel } from './ai-context-details.viewmodel'
@@ -15,12 +15,9 @@ export const selectAiContextDetailsViewModel = createSelector(
   aiContextDetailsSelectors.selectAiProviders,
   aiContextDetailsSelectors.selectAiProvidersLoadingIndicator,
   aiContextDetailsSelectors.selectAiProvidersLoaded,
-  aiContextDetailsSelectors.selectAiKnowledgeBases,
-  aiContextDetailsSelectors.selectAiKnowledgeBasesLoadingIndicator,
-  aiContextDetailsSelectors.selectAiKnowledgeBasesLoaded,
-  aiContextDetailsSelectors.selectAiKnowledgeVectorDbs,
-  aiContextDetailsSelectors.selectAiKnowledgeVectorDbsLoadingIndicator,
-  aiContextDetailsSelectors.selectAiKnowledgeVectorDbsLoaded,
+  aiContextDetailsSelectors.selectMcpServers,
+  aiContextDetailsSelectors.selectMcpServersLoadingIndicator,
+  aiContextDetailsSelectors.selectMcpServersLoaded,
   selectBackNavigationPossible,
   aiContextDetailsSelectors.selectEditMode,
   aiContextDetailsSelectors.selectIsSubmitting,
@@ -31,12 +28,9 @@ export const selectAiContextDetailsViewModel = createSelector(
     aiProviders: AIProvider[] | undefined,
     aiProvidersLoadingIndicator: boolean,
     aiProvidersLoaded: boolean,
-    aiKnowledgeBases: AIKnowledgeBase[] | undefined,
-    aiKnowledgeBasesLoadingIndicator: boolean,
-    aiKnowledgeBasesLoaded: boolean,
-    aiKnowledgeVectorDbs: AIKnowledgeVectorDb[] | undefined,
-    aiKnowledgeVectorDbsLoadingIndicator: boolean,
-    aiKnowledgeVectorDbsLoaded: boolean,
+    MCPServers: MCPServer[] | undefined,
+    MCPServersLoadingIndicator: boolean,
+    MCPServersLoaded: boolean,
     backNavigationPossible: boolean,
     editMode: boolean,
     isSubmitting: boolean
@@ -47,12 +41,9 @@ export const selectAiContextDetailsViewModel = createSelector(
     aiProviders,
     aiProvidersLoadingIndicator,
     aiProvidersLoaded,
-    aiKnowledgeBases,
-    aiKnowledgeBasesLoaded,
-    aiKnowledgeBasesLoadingIndicator,
-    aiKnowledgeVectorDbs,
-    aiKnowledgeVectorDbsLoadingIndicator,
-    aiKnowledgeVectorDbsLoaded,
+    MCPServers,
+    MCPServersLoaded,
+    MCPServersLoadingIndicator,
     backNavigationPossible,
     editMode,
     isSubmitting

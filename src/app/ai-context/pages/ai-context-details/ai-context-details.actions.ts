@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store'
-import { AIContext, AIKnowledgeBase, AIKnowledgeVectorDb, AIProvider } from '../../../shared/generated'
+import { AIContext, MCPServer, AIProvider } from '../../../shared/generated'
 
 export const AiContextDetailsActions = createActionGroup({
   source: 'AIContextDetails',
@@ -23,21 +23,13 @@ export const AiContextDetailsActions = createActionGroup({
     }>(),
     'ai context providers loading failed': props<{ error: string | null }>(),
 
-    'ai context aiKnowledgeBases received': props<{
-      aiKnowledgeBases: AIKnowledgeBase[]
+    'ai context MCPServers received': props<{
+      MCPServers: MCPServer[]
     }>(),
-    'ai context reloaded aiKnowledgeBases received': props<{
-      aiKnowledgeBases: AIKnowledgeBase[]
+    'ai context reloaded MCPServers received': props<{
+      MCPServers: MCPServer[]
     }>(),
-    'ai context aiKnowledgeBases loading failed': props<{ error: string | null }>(),
-
-    'ai context aiKnowledgeVectorDbs received': props<{
-      aiKnowledgeVectorDbs: AIKnowledgeVectorDb[]
-    }>(),
-    'ai context reloaded aiKnowledgeVectorDbs received': props<{
-      aiKnowledgeVectorDbs: AIKnowledgeVectorDb[]
-    }>(),
-    'ai context aiKnowledgeVectorDbs loading failed': props<{ error: string | null }>(),
+    'ai context MCPServers loading failed': props<{ error: string | null }>(),
 
     'edit mode set': props<{ editMode: boolean }>(),
     'Update ai context cancelled': emptyProps(),

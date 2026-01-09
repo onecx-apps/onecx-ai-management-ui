@@ -1,4 +1,4 @@
-import { AIContext, AIKnowledgeBase, AIKnowledgeVectorDb, AIProvider } from '../../../shared/generated'
+import { AIContext, MCPServer, AIProvider } from '../../../shared/generated'
 
 export interface AiContextDetailsViewModel {
   details: AIContext | undefined
@@ -9,14 +9,10 @@ export interface AiContextDetailsViewModel {
   aiProvidersLoaded: boolean
   aiProvidersLoadingIndicator: boolean
 
-  aiKnowledgeBases: AIKnowledgeBase[] | undefined
-  aiKnowledgeBasesLoaded: boolean
-  aiKnowledgeBasesLoadingIndicator: boolean
-
-  aiKnowledgeVectorDbs: AIKnowledgeVectorDb[] | undefined
-  aiKnowledgeVectorDbsLoaded: boolean
-  aiKnowledgeVectorDbsLoadingIndicator: boolean
-
+  MCPServers: MCPServer[] | undefined
+  MCPServersLoaded: boolean
+  MCPServersLoadingIndicator: boolean
+  
   backNavigationPossible: boolean
   editMode: boolean
   isSubmitting: boolean

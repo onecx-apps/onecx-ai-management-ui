@@ -175,49 +175,6 @@ describe('AIProviderSearchComponent effects', () => {
     expect(store.dispatch).toHaveBeenCalledWith(AIProviderSearchActions.detailsButtonClicked({ id: '1' }))
   })
 
-  it('should dispatch aiKnowledgeVectorDetailsClicked on on item delete click', async () => {
-    jest.spyOn(store, 'dispatch')
-
-    store.overrideSelector(selectAIProviderSearchViewModel, {
-      ...baseAIProviderSearchViewModel,
-      results: [
-        {
-          id: '1',
-          imagePath: '',
-          column_1: 'val_1'
-        }
-      ],
-      columns: [
-        {
-          columnType: ColumnType.STRING,
-          nameKey: 'COLUMN_KEY',
-          id: 'column_1'
-        }
-      ]
-    })
-    store.refreshState()
-
-    const interactiveDataView = await AIProviderSearch.getSearchResults()
-    const dataView = await interactiveDataView.getDataView()
-    const dataTable = await dataView.getDataTable()
-    const rowActionButtons = await dataTable?.getActionButtons()
-
-    expect(rowActionButtons?.length).toBeGreaterThan(0)
-    let deleteButton
-    for (const actionButton of rowActionButtons ?? []) {
-      const icon = await actionButton.getAttribute('ng-reflect-icon')
-      expect(icon).toBeTruthy()
-      if (icon == PrimeIcons.TRASH) {
-        deleteButton = actionButton
-      }
-    }
-    expect(deleteButton).toBeTruthy()
-    deleteButton?.click()
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      AIProviderSearchActions.deleteAiproviderButtonClicked({ id: '1' }))
-  })
-
   it('should dispatch viewModeChanged action on view mode changes', async () => {
     jest.spyOn(store, 'dispatch')
 

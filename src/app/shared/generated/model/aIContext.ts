@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { MCPServer } from './mCPServer';
 import { AIProvider } from './aIProvider';
 
 
@@ -19,5 +20,6 @@ export interface AIContext {
     modificationUser?: string;
     creationUser?: string;
     provider?: AIProvider;
+    mcpServers?: Array<MCPServer>;
 }
 

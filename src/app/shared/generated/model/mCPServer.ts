@@ -7,10 +7,17 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { AIContext } from './aIContext';
 
 
 export interface MCPServer { 
     modificationCount?: number;
     id: string;
+    name?: string;
+    description?: string;
+    url?: string;
+    apiKey?: string;
+    protocol?: string;
+    aiContext?: AIContext;
 }
 

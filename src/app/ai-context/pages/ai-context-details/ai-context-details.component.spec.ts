@@ -7,7 +7,9 @@ import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
 import {
+  AlwaysGrantPermissionChecker,
   BreadcrumbService,
+  HAS_PERMISSION_CHECKER,
   PortalCoreModule,
   PortalDialogService,
   PortalMessageService,
@@ -21,14 +23,12 @@ import { aiContextDetailsSelectors, selectAiContextDetailsViewModel } from './ai
 import { AiContextDetailsViewModel } from './ai-context-details.viewmodel'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import {
-  AIKnowledgeDocumentStatusEnum,
   AIContextBffService,
   UpdateAIContextResponse,
   GetAIContextByIdResponse,
-  AiKnowledgeBaseBffService,
-  SearchAIKnowledgeBaseResponse,
+  MCPServerBffService,
+  SearchMCPServerResponse,
   AIProviderBffService,
-  AIKnowledgeVectorDbBffService
 } from 'src/app/shared/generated'
 import { ofType } from '@ngrx/effects'
 import { AiContextDetailsActions } from './ai-context-details.actions'
@@ -44,6 +44,7 @@ import { MultiSelectModule } from 'primeng/multiselect'
 import { InputTextModule } from 'primeng/inputtext'
 import { PrimeIcons } from 'primeng/api'
 import { AiContextDetailsState } from './ai-context-details.state'
+import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
 
 describe('AiContextDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -62,8 +63,8 @@ describe('AiContextDetailsComponent', () => {
     listeners.forEach((l) =>
       l({
         data: m,
-        stopImmediatePropagation: () => {},
-        stopPropagation: () => {}
+        stopImmediatePropagation: () => { },
+        stopPropagation: () => { }
       })
     )
   }
@@ -88,8 +89,7 @@ describe('AiContextDetailsComponent', () => {
   let actions$: ReplaySubject<any>
   let aiContextService: jest.Mocked<AIContextBffService>
   let aiProviderService: jest.Mocked<AIProviderBffService>
-  let aiKnowledgeBaseService: jest.Mocked<AiKnowledgeBaseBffService>
-  let aiKnowledgeVectorDbs: jest.Mocked<AIKnowledgeVectorDbBffService>
+  let mcpServerService: jest.Mocked<MCPServerBffService>
   let portalDialogService: jest.Mocked<PortalDialogService>
   let messageService: jest.Mocked<PortalMessageService>
   let router: jest.Mocked<Router>
@@ -103,13 +103,13 @@ describe('AiContextDetailsComponent', () => {
       modificationCount: 1,
       modificationUser: 'user-1',
       creationUser: 'user-1',
-      AIKnowledgeBase: {
+      mcpServers: [{
         modificationCount: 1,
         id: 'id-1',
         name: 'name-1',
         description: 'description-1',
-        aiContext: []
-      },
+        aiContext: {}
+      }],
       provider: {
         modificationCount: 1,
         id: 'id-1',
@@ -120,49 +120,7 @@ describe('AiContextDetailsComponent', () => {
         modelName: 'modelName-1',
         modelVersion: 'modelVersion-1',
         apiKey: 'apiKey-1'
-      },
-      aIKnowledgeVectorDb: {
-        modificationCount: 1,
-        id: 'id-1',
-        name: 'aIKnowledgeVectorDb name',
-        description: 'aIKnowledgeVectorDb description',
-        vdb: 'vdb-1',
-        vdbCollection: 'vdbCollection-1',
-        aiContext: {}
-      },
-      aIKnowledgeUrl: [
-        {
-          modificationCount: 1,
-          modificationUser: 'user-1',
-          creationUser: 'user-1',
-          id: 'id-1',
-          url: 'url-1',
-          name: 'aIKnowledgeUrl name',
-          description: 'aIKnowledgeUrl description'
-        }
-      ],
-      aIKnowledgeDbs: [
-        {
-          modificationCount: 1,
-          modificationUser: 'user-1',
-          id: 'id-1',
-          name: 'aIKnowledgeDb name',
-          description: 'aIKnowledgeDb description',
-          db: 'db-1',
-          user: 'user-1',
-          pwd: 'string',
-          tables: ['string']
-        }
-      ],
-      aIKnowledgeDocuments: [
-        {
-          modificationCount: 1,
-          id: 'id-1',
-          name: 'aIKnowledgeDocument name',
-          documentRefId: 'refId-1',
-          status: AIKnowledgeDocumentStatusEnum.New
-        }
-      ]
+      }
     },
     detailsLoaded: true,
     detailsLoadingIndicator: false,
@@ -181,30 +139,17 @@ describe('AiContextDetailsComponent', () => {
     ],
     aiProvidersLoaded: true,
     aiProvidersLoadingIndicator: false,
-    aiKnowledgeBases: [
+    MCPServers: [
       {
         modificationCount: 1,
         id: 'id-1',
-        name: 'aIKnowledgeBase name',
-        description: 'aIKnowledgeBase description',
-        aiContext: []
-      }
-    ],
-    aiKnowledgeBasesLoaded: true,
-    aiKnowledgeBasesLoadingIndicator: false,
-    aiKnowledgeVectorDbs: [
-      {
-        modificationCount: 1,
-        id: 'id-1',
-        name: 'aIKnowledgeVectorDb name',
-        description: 'aIKnowledgeVectorDb description',
-        vdb: 'vdb-1',
-        vdbCollection: 'vdbCollection-1',
+        name: 'MCPServer name',
+        description: 'MCPServer description',
         aiContext: {}
       }
     ],
-    aiKnowledgeVectorDbsLoaded: true,
-    aiKnowledgeVectorDbsLoadingIndicator: false,
+    MCPServersLoaded: true,
+    MCPServersLoadingIndicator: false,
     backNavigationPossible: true,
     editMode: false,
     isSubmitting: false
@@ -223,13 +168,9 @@ describe('AiContextDetailsComponent', () => {
       searchAIProvider: jest.fn()
     } as unknown as jest.Mocked<AIProviderBffService>
 
-    aiKnowledgeBaseService = {
-      searchAIKnowledgeBases: jest.fn()
-    } as unknown as jest.Mocked<AiKnowledgeBaseBffService>
-
-    aiKnowledgeVectorDbs = {
-      searchAIKnowledgeVectorDbs: jest.fn()
-    } as unknown as jest.Mocked<AIKnowledgeVectorDbBffService>
+    mcpServerService = {
+      searchMCPServers: jest.fn()
+    } as unknown as jest.Mocked<MCPServerBffService>
 
     portalDialogService = {
       openDialog: jest.fn()
@@ -314,13 +255,16 @@ describe('AiContextDetailsComponent', () => {
           initialState: { AiContext: { details: initialState, backNavigationPossible: true } }
         }),
         provideMockActions(() => actions$),
-
+        provideUserServiceMock(),
+        {
+          provide: HAS_PERMISSION_CHECKER,
+          useClass: AlwaysGrantPermissionChecker
+        },
         BreadcrumbService,
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: AIContextBffService, useValue: aiContextService },
         { provide: AIProviderBffService, useValue: aiProviderService },
-        { provide: AiKnowledgeBaseBffService, useValue: aiKnowledgeBaseService },
-        { provide: AIKnowledgeVectorDbBffService, useValue: aiKnowledgeVectorDbs },
+        { provide: MCPServerBffService, useValue: mcpServerService },
         { provide: Router, useValue: router },
         { provide: PortalMessageService, useValue: messageService },
         { provide: PortalDialogService, useValue: portalDialogService }
@@ -564,7 +508,7 @@ describe('AiContextDetailsComponent', () => {
       })
     })
 
-    describe('searchAIKnowledgeBases$', () => {
+    describe('searchMCPServers$', () => {
       it('should dispatch aiContextDetailsReceived on successful loadItemById$', (done) => {
         const details = { id: '123' }
         const res = new HttpResponse<GetAIContextByIdResponse>({
@@ -625,63 +569,63 @@ describe('AiContextDetailsComponent', () => {
         })
       })
 
-      it('should dispatch aiContextAiKnowledgeBasesReceived on successful searchAIKnowledgeBases$', (done) => {
-        const knowledgeBases = [{ id: 'kb1', name: 'Knowledge Base 1' }]
-        const res = new HttpResponse<SearchAIKnowledgeBaseResponse>({
-          body: { stream: knowledgeBases, size: 1, number: 1, totalElements: 1, totalPages: 1 },
+      it('should dispatch aiContextMCPServersReceived on successful searchMCPServers$', (done) => {
+        const mcpServers = [{ id: 'kb1', name: 'MCPServer 1' }]
+        const res = new HttpResponse<SearchMCPServerResponse>({
+          body: { stream: mcpServers, size: 1, number: 1, totalElements: 1, totalPages: 1 },
           status: 200
         })
 
-        aiKnowledgeBaseService.searchAIKnowledgeBases.mockReturnValue(of(res.body as any))
+        mcpServerService.searchMCPServers.mockReturnValue(of(res.body as any))
         actions$.next(AiContextDetailsActions.navigatedToDetailsPage({ id: '123' }))
 
-        effects.loadAIKnowledgeBases$.subscribe((action) => {
+        effects.loadMCPServers$.subscribe((action) => {
           expect(action).toEqual(
-            AiContextDetailsActions.aiContextAiKnowledgeBasesReceived({
-              aiKnowledgeBases: knowledgeBases
+            AiContextDetailsActions.aiContextMCPServersReceived({
+              MCPServers: mcpServers
             })
           )
           done()
         })
       })
 
-      it('should dispatch aiContextAiKnowledgeBasesLoadingFailed on failed searchAIKnowledgeBases$', (done) => {
-        aiKnowledgeBaseService.searchAIKnowledgeBases.mockReturnValue(throwError(() => 'fail'))
+      it('should dispatch aiContextMCPServersLoadingFailed on failed searchMCPServers$', (done) => {
+        mcpServerService.searchMCPServers.mockReturnValue(throwError(() => 'fail'))
         actions$.next(AiContextDetailsActions.navigatedToDetailsPage({ id: '123' }))
 
-        effects.loadAIKnowledgeBases$.subscribe((action) => {
-          expect(action).toEqual(AiContextDetailsActions.aiContextAiKnowledgeBasesLoadingFailed({ error: 'fail' }))
+        effects.loadMCPServers$.subscribe((action) => {
+          expect(action).toEqual(AiContextDetailsActions.aiContextMCPServersLoadingFailed({ error: 'fail' }))
           done()
         })
       })
 
-      it('should load aiContextAiKnowledgeBases and dispatch success action', (done) => {
-        const knowledgeBases = [{ id: '1', name: 'Knowledge Base 1' }]
-        aiKnowledgeBaseService.searchAIKnowledgeBases.mockReturnValue(of({ stream: knowledgeBases } as any))
+      it('should load aiContextMCPServers and dispatch success action', (done) => {
+        const mcpServers = [{ id: '1', name: 'MCPServer 1' }]
+        mcpServerService.searchMCPServers.mockReturnValue(of({ stream: mcpServers } as any))
 
         actions$.next(AiContextDetailsActions.navigatedToDetailsPage({ id: '123' }))
 
-        effects.loadAIKnowledgeBases$.subscribe((action) => {
-          expect(aiKnowledgeBaseService.searchAIKnowledgeBases).toHaveBeenCalled()
+        effects.loadMCPServers$.subscribe((action) => {
+          expect(mcpServerService.searchMCPServers).toHaveBeenCalled()
           expect(action).toEqual(
-            AiContextDetailsActions.aiContextAiKnowledgeBasesReceived({
-              aiKnowledgeBases: knowledgeBases
+            AiContextDetailsActions.aiContextMCPServersReceived({
+              MCPServers: mcpServers
             })
           )
           done()
         })
       })
 
-      it('should handle error when loading aiContextAiKnowledgeBases fails', (done) => {
+      it('should handle error when loading aiContextMCPServers fails', (done) => {
         const error = 'Failed to load contexts'
-        aiKnowledgeBaseService.searchAIKnowledgeBases.mockReturnValue(throwError(() => error))
+        mcpServerService.searchMCPServers.mockReturnValue(throwError(() => error))
 
         actions$.next(AiContextDetailsActions.navigatedToDetailsPage({ id: '123' }))
 
-        effects.loadAIKnowledgeBases$.subscribe((action) => {
-          expect(aiKnowledgeBaseService.searchAIKnowledgeBases).toHaveBeenCalled()
+        effects.loadMCPServers$.subscribe((action) => {
+          expect(mcpServerService.searchMCPServers).toHaveBeenCalled()
           expect(action).toEqual(
-            AiContextDetailsActions.aiContextAiKnowledgeBasesLoadingFailed({
+            AiContextDetailsActions.aiContextMCPServersLoadingFailed({
               error
             })
           )
@@ -715,36 +659,6 @@ describe('AiContextDetailsComponent', () => {
 
         effects.loadProviders$.subscribe((action) => {
           expect(action).toEqual(AiContextDetailsActions.aiContextProvidersLoadingFailed({ error }))
-          done()
-        })
-      })
-    })
-
-    describe('loadVectorDbs$', () => {
-      it('should dispatch aiContextAiKnowledgeVectorDbsReceived on successful loadVectorDbs$', (done) => {
-        const vectorDbs = [{ id: 'vdb1', name: 'Vector DB 1' }]
-        aiKnowledgeVectorDbs.searchAIKnowledgeVectorDbs.mockReturnValue(of({ results: vectorDbs } as any))
-
-        actions$.next(AiContextDetailsActions.navigatedToDetailsPage({ id: '123' }))
-
-        effects.loadVectorDbs$.subscribe((action) => {
-          expect(action).toEqual(
-            AiContextDetailsActions.aiContextAiKnowledgeVectorDbsReceived({
-              aiKnowledgeVectorDbs: vectorDbs
-            })
-          )
-          done()
-        })
-      })
-
-      it('should dispatch aiContextAiKnowledgeVectorDbsLoadingFailed on failed loadVectorDbs$', (done) => {
-        const error = 'Failed to load vector dbs'
-        aiKnowledgeVectorDbs.searchAIKnowledgeVectorDbs.mockReturnValue(throwError(() => error))
-
-        actions$.next(AiContextDetailsActions.navigatedToDetailsPage({ id: '123' }))
-
-        effects.loadVectorDbs$.subscribe((action) => {
-          expect(action).toEqual(AiContextDetailsActions.aiContextAiKnowledgeVectorDbsLoadingFailed({ error }))
           done()
         })
       })
@@ -812,11 +726,11 @@ describe('AiContextDetailsComponent', () => {
           expectedKey: 'AI_CONTEXT_DETAILS.ERROR_MESSAGES.DETAILS_LOADING_FAILED'
         },
         {
-          description: 'should show error message for aiKnowledgeBases loading failure',
-          action: AiContextDetailsActions.aiContextAiKnowledgeBasesLoadingFailed({
+          description: 'should show error message for MCPServers loading failure',
+          action: AiContextDetailsActions.aiContextMCPServersLoadingFailed({
             error: 'Test error'
           }),
-          expectedKey: 'AI_KNOWLEDGE_BASE_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
+          expectedKey: 'MCPSERVER_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
         }
       ]
 
@@ -860,7 +774,7 @@ describe('AiContextDetailsComponent', () => {
       let backSpy: jest.SpyInstance
 
       beforeEach(() => {
-        backSpy = jest.spyOn(window.history, 'back').mockImplementation(() => {})
+        backSpy = jest.spyOn(window.history, 'back').mockImplementation(() => { })
       })
 
       afterEach(() => {
@@ -1093,12 +1007,8 @@ describe('AiContextDetailsComponent', () => {
         appId: 'appId',
         name: 'name',
         description: 'desc',
-        AIKnowledgeBase: { id: '', name: '' },
+        mcpServers: [{ id: '', name: '' }],
         provider: { id: '', name: '' },
-        aIKnowledgeVectorDb: { id: '', name: '' },
-        aIKnowledgeUrl: [],
-        aIKnowledgeDbs: [],
-        aIKnowledgeDocuments: []
       })
       component.save()
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -1108,12 +1018,8 @@ describe('AiContextDetailsComponent', () => {
             appId: 'appId',
             name: 'name',
             description: 'desc',
-            AIKnowledgeBase: { id: '', name: '' },
+            mcpServers: [{ id: '', name: '' }],
             provider: { id: '', name: '' },
-            aIKnowledgeVectorDb: { id: '', name: '' },
-            aIKnowledgeUrl: [],
-            aIKnowledgeDbs: [],
-            aIKnowledgeDocuments: []
           }
         })
       )
@@ -1205,36 +1111,20 @@ describe('AiContextDetailsComponent', () => {
       expect(component.formGroup.value.provider).toEqual(provider)
     })
 
-    it('should patch the form with details and matched knowledge base', () => {
-      const knowledgeBase = { id: 'kb1', name: 'Knowledge Base 1' } as any
-      const details = { ...baseAiContextDetailsViewModel.details, AIKnowledgeBase: knowledgeBase } as any
+    it('should patch the form with details and matched MCP Server', () => {
+      const mcpServer = { id: 'kb1', name: 'MCP Server 1' } as any
+      const details = { ...baseAiContextDetailsViewModel.details, MCPServer: mcpServer } as any
       const viewModel = {
         ...baseAiContextDetailsViewModel,
         details,
         editMode: false,
-        aiKnowledgeBases: [knowledgeBase]
+        MCPServers: [mcpServer]
       } as any
       store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
       store.refreshState()
       fixture.detectChanges()
       expect(component.formGroup.value.id).toBe(details.id)
-      expect(component.formGroup.value.AIKnowledgeBase).toEqual(knowledgeBase)
-    })
-
-    it('should patch the form with details and matched vector db', () => {
-      const vectorDb = { id: 'vdb1', name: 'Vector DB 1' } as any
-      const details = { ...baseAiContextDetailsViewModel.details, aIKnowledgeVectorDb: vectorDb } as any
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details,
-        editMode: false,
-        aiKnowledgeVectorDbs: [vectorDb]
-      } as any
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-      expect(component.formGroup.value.id).toBe(details.id)
-      expect(component.formGroup.value.aIKnowledgeVectorDb).toEqual(vectorDb)
+      expect(component.formGroup.value.MCPServer).toEqual(mcpServer)
     })
 
     it('should emit correct providersSuggestions$ for details with provider', (done) => {
@@ -1339,182 +1229,88 @@ describe('AiContextDetailsComponent', () => {
       })
     })
 
-    it('should emit correct knowledgeBaseSuggestions$ for details with knowledge base', (done) => {
-      const selectedKnowledgeBase = {
+    it('should emit correct mcpServerSuggestions$ for details with MCP Server', (done) => {
+      const selectedMcpServer = {
         id: 'id-1',
-        name: 'Selected Knowledge Base',
-        description: 'Selected knowledge base description',
-        aiContext: []
-      }
-
-      const otherKnowledgeBase = {
-        id: 'id-2',
-        name: 'Other Knowledge Base',
-        description: 'Other knowledge base description',
-        aiContext: []
-      }
-
-      const details = { ...baseAiContextDetailsViewModel.details, AIKnowledgeBase: selectedKnowledgeBase }
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details,
-        aiKnowledgeBases: [selectedKnowledgeBase, otherKnowledgeBase]
-      }
-
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-
-      component.knowledgeBaseSuggestions$.subscribe((knowledgeBases) => {
-        expect(knowledgeBases.length).toBe(1)
-        expect(knowledgeBases[0]).toEqual(otherKnowledgeBase)
-        expect(knowledgeBases).not.toContain(selectedKnowledgeBase)
-        done()
-      })
-    })
-
-    it('should emit correct knowledgeBaseSuggestions$ for details without knowledge base', (done) => {
-      const knowledgeBase1 = {
-        id: 'id-1',
-        name: 'Knowledge Base 1',
-        description: 'Knowledge base 1 description',
-        aiContext: []
-      }
-
-      const knowledgeBase2 = {
-        id: 'id-2',
-        name: 'Knowledge Base 2',
-        description: 'Knowledge base 2 description',
-        aiContext: []
-      }
-
-      const details = { ...baseAiContextDetailsViewModel.details, AIKnowledgeBase: undefined }
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details,
-        aiKnowledgeBases: [knowledgeBase1, knowledgeBase2]
-      }
-
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-
-      component.knowledgeBaseSuggestions$.subscribe((knowledgeBases) => {
-        expect(knowledgeBases.length).toBe(2)
-        expect(knowledgeBases).toContain(knowledgeBase1)
-        expect(knowledgeBases).toContain(knowledgeBase2)
-        done()
-      })
-    })
-
-    it('should emit empty array for knowledgeBaseSuggestions$ when aiKnowledgeBases is undefined', (done) => {
-      const details = { ...baseAiContextDetailsViewModel.details, AIKnowledgeBase: undefined }
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details,
-        aiKnowledgeBases: undefined
-      }
-
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-
-      component.knowledgeBaseSuggestions$.subscribe((knowledgeBases) => {
-        expect(knowledgeBases).toEqual([])
-        done()
-      })
-    })
-
-    it('should emit correct vectorDbSuggestions$ for details with vector db', (done) => {
-      const selectedVectorDb = {
-        id: 'id-1',
-        name: 'Selected Vector DB',
-        description: 'Selected vector db description',
-        vdb: 'vdb-1',
-        vdbCollection: 'collection-1',
+        name: 'Selected MCP Server',
+        description: 'Selected MCP Server description',
         aiContext: {}
       }
 
-      const otherVectorDb = {
+      const otherMcpServer = {
         id: 'id-2',
-        name: 'Other Vector DB',
-        description: 'Other vector db description',
-        vdb: 'vdb-2',
-        vdbCollection: 'collection-2',
+        name: 'Other MCP Server',
+        description: 'Other MCP Server description',
         aiContext: {}
       }
 
-      const details = { ...baseAiContextDetailsViewModel.details, aIKnowledgeVectorDb: selectedVectorDb }
+      const details = { ...baseAiContextDetailsViewModel.details, MCPServer: selectedMcpServer }
       const viewModel = {
         ...baseAiContextDetailsViewModel,
         details,
-        aiKnowledgeVectorDbs: [selectedVectorDb, otherVectorDb]
+        MCPServers: [selectedMcpServer, otherMcpServer]
       }
 
       store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
       store.refreshState()
       fixture.detectChanges()
 
-      component.vectorDbSuggestions$.subscribe((vectorDbs) => {
-        expect(vectorDbs.length).toBe(1)
-        expect(vectorDbs[0]).toEqual(otherVectorDb)
-        expect(vectorDbs).not.toContain(selectedVectorDb)
+      component.mcpServerSuggestions$.subscribe((mcpServers) => {
+        expect(mcpServers.length).toBe(1)
+        expect(mcpServers[0]).toEqual(otherMcpServer)
+        expect(mcpServers).not.toContain(selectedMcpServer)
         done()
       })
     })
 
-    it('should emit correct vectorDbSuggestions$ for details without vector db', (done) => {
-      const vectorDb1 = {
+    it('should emit correct mcpServerSuggestions$ for details without MCP Server', (done) => {
+      const mcpServer1 = {
         id: 'id-1',
-        name: 'Vector DB 1',
-        description: 'Vector db 1 description',
-        vdb: 'vdb-1',
-        vdbCollection: 'collection-1',
+        name: 'MCP Server 1',
+        description: 'MCP Server 1 description',
         aiContext: {}
       }
 
-      const vectorDb2 = {
+      const mcpServer2 = {
         id: 'id-2',
-        name: 'Vector DB 2',
-        description: 'Vector db 2 description',
-        vdb: 'vdb-2',
-        vdbCollection: 'collection-2',
+        name: 'MCP Server 2',
+        description: 'MCP Server 2 description',
         aiContext: {}
       }
 
-      const details = { ...baseAiContextDetailsViewModel.details, aIKnowledgeVectorDb: undefined }
+      const details = { ...baseAiContextDetailsViewModel.details, MCPServer: undefined }
       const viewModel = {
         ...baseAiContextDetailsViewModel,
         details,
-        aiKnowledgeVectorDbs: [vectorDb1, vectorDb2]
+        MCPServers: [mcpServer1, mcpServer2]
       }
 
       store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
       store.refreshState()
       fixture.detectChanges()
 
-      component.vectorDbSuggestions$.subscribe((vectorDbs) => {
-        expect(vectorDbs.length).toBe(2)
-        expect(vectorDbs).toContain(vectorDb1)
-        expect(vectorDbs).toContain(vectorDb2)
+      component.mcpServerSuggestions$.subscribe((mcpServers) => {
+        expect(mcpServers.length).toBe(2)
+        expect(mcpServers).toContain(mcpServer1)
+        expect(mcpServers).toContain(mcpServer2)
         done()
       })
     })
 
-    it('should emit empty array for vectorDbSuggestions$ when aiKnowledgeVectorDbs is undefined', (done) => {
-      const details = { ...baseAiContextDetailsViewModel.details, aIKnowledgeVectorDb: undefined }
+    it('should emit empty array for mcpServerSuggestions$ when MCPServers is undefined', (done) => {
+      const details = { ...baseAiContextDetailsViewModel.details, MCPServer: undefined }
       const viewModel = {
         ...baseAiContextDetailsViewModel,
         details,
-        aiKnowledgeVectorDbs: undefined
+        MCPServers: undefined
       }
 
       store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
       store.refreshState()
       fixture.detectChanges()
 
-      component.vectorDbSuggestions$.subscribe((vectorDbs) => {
-        expect(vectorDbs).toEqual([])
+      component.mcpServerSuggestions$.subscribe((mcpServers) => {
+        expect(mcpServers).toEqual([])
         done()
       })
     })
@@ -1525,21 +1321,6 @@ describe('AiContextDetailsComponent', () => {
       store.refreshState()
       fixture.detectChanges()
       expect(component.formGroup.value.id).toBe('')
-    })
-
-    it('should handle empty aIKnowledgeDocuments array gracefully', () => {
-      const details = {
-        ...baseAiContextDetailsViewModel.details,
-        aIKnowledgeDocuments: []
-      }
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details
-      }
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-      expect(component.formGroup.value.aIKnowledgeDocuments).toEqual([])
     })
 
     describe('aiContextDetailsReducer (integration)', () => {
@@ -1573,13 +1354,15 @@ describe('AiContextDetailsComponent', () => {
             id: '2',
             name: 'Old',
             description: '',
-            aIKnowledgeDbs: [
+            mcpServers: [
               {
                 id: 'ctx',
                 name: 'Context',
-                db: '',
-                user: '',
-                pwd: ''
+                apiKey: '',
+                protocol: '',
+                description: '',
+                modificationCount: 0,
+                url: ''
               }
             ]
           },
@@ -1616,50 +1399,27 @@ describe('AiContextDetailsComponent', () => {
         expect(state.aiProvidersLoaded).toBe(false)
       })
 
-      it('should handle aiContextAiKnowledgeBasesReceived', () => {
-        const aiknowledgeBases = [{ id: 'ctx1', name: 'Context 1' }]
-        const action = AiContextDetailsActions.aiContextAiKnowledgeBasesReceived({ aiKnowledgeBases: aiknowledgeBases })
+      it('should handle aiContextMCPServersReceived', () => {
+        const aimcpServers = [{ id: 'ctx1', name: 'Context 1' }]
+        const action = AiContextDetailsActions.aiContextMCPServersReceived({ MCPServers: aimcpServers })
         const state = aiContextDetailsReducer(initialState, action)
-        expect(state.aiKnowledgeBases).toEqual(aiknowledgeBases)
-        expect(state.aiKnowledgeBasesLoadingIndicator).toBe(false)
-        expect(state.aiKnowledgeBasesLoaded).toBe(true)
+        expect(state.mcpServers).toEqual(aimcpServers)
+        expect(state.mcpServersLoadingIndicator).toBe(false)
+        expect(state.mcpServersLoaded).toBe(true)
       })
 
-      it('should handle aiContextAiKnowledgeBasesLoadingFailed', () => {
+      it('should handle aiContextMCPServersLoadingFailed', () => {
         const preState: AiContextDetailsState = {
           ...initialState,
-          aiKnowledgeBases: [{ id: 'ctx2', name: 'Old Context' }],
-          aiKnowledgeBasesLoadingIndicator: true,
-          aiKnowledgeBasesLoaded: true
+          mcpServers: [{ id: 'ctx2', name: 'Old Context' }],
+          mcpServersLoadingIndicator: true,
+          mcpServersLoaded: true
         }
-        const action = AiContextDetailsActions.aiContextAiKnowledgeBasesLoadingFailed({ error: null })
+        const action = AiContextDetailsActions.aiContextMCPServersLoadingFailed({ error: null })
         const state = aiContextDetailsReducer(preState, action)
-        expect(state.aiKnowledgeBases).toEqual(initialState.aiKnowledgeBases)
-        expect(state.aiKnowledgeBasesLoadingIndicator).toBe(false)
-        expect(state.aiKnowledgeBasesLoaded).toBe(false)
-      })
-
-      it('should handle aiContextAiKnowledgeVectorDbsReceived', () => {
-        const aiKnowledgeVectorDbs = [{ id: 'kvdb1', name: 'KnowledgeVectorDB 1' }]
-        const action = AiContextDetailsActions.aiContextAiKnowledgeVectorDbsReceived({ aiKnowledgeVectorDbs })
-        const state = aiContextDetailsReducer(initialState, action)
-        expect(state.aiKnowledgeVectorDbs).toEqual(aiKnowledgeVectorDbs)
-        expect(state.aiKnowledgeVectorDbsLoadingIndicator).toBe(false)
-        expect(state.aiKnowledgeVectorDbsLoaded).toBe(true)
-      })
-
-      it('should handle aiContextAiKnowledgeVectorDbsLoadingFailed', () => {
-        const preState: AiContextDetailsState = {
-          ...initialState,
-          aiKnowledgeVectorDbs: [{ id: 'kvdb2', name: 'Old KnowledgeVectorDB' }],
-          aiKnowledgeVectorDbsLoadingIndicator: true,
-          aiKnowledgeVectorDbsLoaded: true
-        }
-        const action = AiContextDetailsActions.aiContextAiKnowledgeVectorDbsLoadingFailed({ error: null })
-        const state = aiContextDetailsReducer(preState, action)
-        expect(state.aiKnowledgeVectorDbs).toEqual(initialState.aiKnowledgeVectorDbs)
-        expect(state.aiKnowledgeVectorDbsLoadingIndicator).toBe(false)
-        expect(state.aiKnowledgeVectorDbsLoaded).toBe(false)
+        expect(state.mcpServers).toEqual(initialState.mcpServers)
+        expect(state.mcpServersLoadingIndicator).toBe(false)
+        expect(state.mcpServersLoaded).toBe(false)
       })
 
       it('should handle navigatedToDetailsPage', () => {
@@ -1669,13 +1429,15 @@ describe('AiContextDetailsComponent', () => {
             id: '2',
             name: 'Old',
             description: '',
-            aIKnowledgeDbs: [
+            mcpServers: [
               {
                 id: 'ctx',
                 name: 'Context',
-                db: '',
-                user: '',
-                pwd: ''
+                apiKey: '',
+                protocol: '',
+                description: '',
+                modificationCount: 0,
+                url: ''
               }
             ]
           },
@@ -1739,16 +1501,16 @@ describe('AiContextDetailsComponent', () => {
     })
 
     describe('AiContextDetails autocomplete search methods', () => {
-      it('should update knowledgeBaseQuery$ when searchKnowledgeBases is called', (done) => {
+      it('should update mcpServerQuery$ when searchMCPServers is called', (done) => {
         const searchQuery = 'test query'
         const searchEvent = { query: searchQuery }
 
-        component.knowledgeBaseQuery$.subscribe((query) => {
+        component.mcpServerQuery$.subscribe((query) => {
           expect(query).toBe(searchQuery)
           done()
         })
 
-        component.searchKnowledgeBases(searchEvent)
+        component.searchMCPServers(searchEvent)
       })
 
       it('should update providerQuery$ when searchProviders is called', (done) => {
@@ -1763,17 +1525,6 @@ describe('AiContextDetailsComponent', () => {
         component.searchProviders(searchEvent)
       })
 
-      it('should update vectorDbQuery$ when searchVectorDbs is called', (done) => {
-        const searchQuery = 'vector db search'
-        const searchEvent = { query: searchQuery }
-
-        component.vectorDbQuery$.subscribe((query) => {
-          expect(query).toBe(searchQuery)
-          done()
-        })
-
-        component.searchVectorDbs(searchEvent)
-      })
     })
 
     describe('AiContextDetails Selectors', () => {
@@ -1786,13 +1537,9 @@ describe('AiContextDetailsComponent', () => {
         aiProvidersLoaded: true,
         aiProvidersLoadingIndicator: false,
 
-        aiKnowledgeBases: [],
-        aiKnowledgeBasesLoaded: true,
-        aiKnowledgeBasesLoadingIndicator: false,
-
-        aiKnowledgeVectorDbs: [],
-        aiKnowledgeVectorDbsLoaded: true,
-        aiKnowledgeVectorDbsLoadingIndicator: false,
+        MCPServers: [],
+        MCPServersLoaded: true,
+        MCPServersLoadingIndicator: false,
 
         backNavigationPossible: true,
         editMode: false,
@@ -1809,13 +1556,9 @@ describe('AiContextDetailsComponent', () => {
           baseState.aiProvidersLoadingIndicator,
           baseState.aiProvidersLoaded,
 
-          baseState.aiKnowledgeBases,
-          baseState.aiKnowledgeBasesLoadingIndicator,
-          baseState.aiKnowledgeBasesLoaded,
-
-          baseState.aiKnowledgeVectorDbs,
-          baseState.aiKnowledgeVectorDbsLoadingIndicator,
-          baseState.aiKnowledgeVectorDbsLoaded,
+          baseState.MCPServers,
+          baseState.MCPServersLoadingIndicator,
+          baseState.MCPServersLoaded,
 
           true,
           baseState.editMode,
@@ -1831,13 +1574,9 @@ describe('AiContextDetailsComponent', () => {
           aiProvidersLoadingIndicator: false,
           aiProvidersLoaded: true,
 
-          aiKnowledgeBases: baseState.aiKnowledgeBases,
-          aiKnowledgeBasesLoadingIndicator: false,
-          aiKnowledgeBasesLoaded: true,
-
-          aiKnowledgeVectorDbs: baseState.aiKnowledgeVectorDbs,
-          aiKnowledgeVectorDbsLoadingIndicator: false,
-          aiKnowledgeVectorDbsLoaded: true,
+          MCPServers: baseState.MCPServers,
+          MCPServersLoadingIndicator: false,
+          MCPServersLoaded: true,
 
           backNavigationPossible: true,
           editMode: false,
@@ -1859,16 +1598,12 @@ describe('AiContextDetailsComponent', () => {
           false,
           true,
 
-          [],
-          false,
-          true,
-
           true,
           false,
           false
         )
         expect(result.details).toBeUndefined()
-        expect(result.aiKnowledgeBases).toEqual([])
+        expect(result.MCPServers).toEqual([])
         expect(result.detailsLoaded).toBe(false)
         expect(result.detailsLoadingIndicator).toBe(true)
       })

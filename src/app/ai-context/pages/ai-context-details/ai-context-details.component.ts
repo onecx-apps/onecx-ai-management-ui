@@ -8,11 +8,7 @@ import { AiContextDetailsActions } from './ai-context-details.actions'
 import { AiContextDetailsViewModel } from './ai-context-details.viewmodel'
 import { selectAiContextDetailsViewModel } from './ai-context-details.selectors'
 import {
-  AIKnowledgeBase,
-  AIKnowledgeDatabase,
-  AIKnowledgeDocument,
-  AIKnowledgeUrl,
-  AIKnowledgeVectorDb,
+  MCPServer,
   AIProvider
 } from 'src/app/shared/generated'
 
@@ -104,23 +100,8 @@ export class AiContextDetailsComponent implements OnInit {
   providerQuery$: BehaviorSubject<string> = new BehaviorSubject<string>('')
   filteredProviders$: Observable<AIProvider[]>
 
-  knowledgeBaseSuggestions$: Observable<AIKnowledgeBase[]>
-  knowledgeBaseQuery$: BehaviorSubject<string> = new BehaviorSubject<string>('')
-  filteredKnowledgeBases$: Observable<AIKnowledgeBase[]>
-
-  vectorDbSuggestions$: Observable<AIKnowledgeVectorDb[]>
-  vectorDbQuery$: BehaviorSubject<string> = new BehaviorSubject<string>('')
-  filteredVectorDbs$: Observable<AIKnowledgeVectorDb[]>
-
-  knowledgeUrlOptions$: Observable<AIKnowledgeUrl[]> = this.viewModel$.pipe(
-    map((vm) => vm.details?.aIKnowledgeUrl || [])
-  )
-  knowledgeDbOptions$: Observable<AIKnowledgeDatabase[]> = this.viewModel$.pipe(
-    map((vm) => vm.details?.aIKnowledgeDbs || [])
-  )
-  documentOptions$: Observable<AIKnowledgeDocument[]> = this.viewModel$.pipe(
-    map((vm) => vm.details?.aIKnowledgeDocuments || [])
-  )
+  mcpServerQuery$: BehaviorSubject<string> = new BehaviorSubject<string>('')
+  filteredMCPServers$: Observable<MCPServer[]>
 
   constructor(
     private readonly store: Store,
@@ -139,41 +120,18 @@ export class AiContextDetailsComponent implements OnInit {
       })
     )
 
-    this.knowledgeBaseSuggestions$ = this.viewModel$.pipe(
-      map(({ details, aiKnowledgeBases }) => {
-        return aiKnowledgeBases?.filter((kb) => !details?.AIKnowledgeBase || kb.id !== details.AIKnowledgeBase.id) || []
-      })
-    )
-    this.knowledgeBaseQuery$ = new BehaviorSubject<string>('')
-    this.filteredKnowledgeBases$ = combineLatest([
-      this.knowledgeBaseSuggestions$,
-      this.knowledgeBaseQuery$,
+    this.mcpServerQuery$ = new BehaviorSubject<string>('')
+    this.filteredMCPServers$ = combineLatest([
+      this.mcpServerQuery$,
       this.viewModel$
     ]).pipe(
-      map(([knowledgeBases, query, vm]) => {
-        const suggestions = [...(vm.details?.AIKnowledgeBase ? [vm.details.AIKnowledgeBase] : []), ...knowledgeBases]
-        return suggestions.filter((kb) =>
-          (kb.name + ' ' + (kb.appId || '')).toLowerCase().includes(query.toLowerCase())
+      map(([query, vm]) => {
+        const suggestions = [...(vm.details?.mcpServers ?? []), ...vm.MCPServers ?? []]
+        const res = suggestions.filter((mcp) =>
+          (mcp.name + ' ' + (mcp.protocol || '')).toLowerCase().includes(query.toLowerCase())
         )
-      })
-    )
-
-    this.vectorDbSuggestions$ = this.viewModel$.pipe(
-      map(({ details, aiKnowledgeVectorDbs }) => {
-        return (
-          aiKnowledgeVectorDbs?.filter(
-            (vdb) => !details?.aIKnowledgeVectorDb || vdb.id !== details.aIKnowledgeVectorDb.id
-          ) || []
-        )
-      })
-    )
-    this.vectorDbQuery$ = new BehaviorSubject<string>('')
-    this.filteredVectorDbs$ = combineLatest([this.vectorDbSuggestions$, this.vectorDbQuery$, this.viewModel$]).pipe(
-      map(([vectorDbs, query, vm]) => {
-        const suggestions = [...(vm.details?.aIKnowledgeVectorDb ? [vm.details.aIKnowledgeVectorDb] : []), ...vectorDbs]
-        return suggestions.filter((vdb) =>
-          (vdb.name + ' ' + (vdb.description || '')).toLowerCase().includes(query.toLowerCase())
-        )
+        console.log(query, suggestions, res)
+        return res        
       })
     )
 
@@ -182,12 +140,8 @@ export class AiContextDetailsComponent implements OnInit {
       appId: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      AIKnowledgeBase: new FormControl(undefined),
+      MCPServer: new FormControl(undefined),
       provider: new FormControl(undefined),
-      aIKnowledgeVectorDb: new FormControl(undefined),
-      aIKnowledgeUrl: new FormControl([]),
-      aIKnowledgeDbs: new FormControl([]),
-      aIKnowledgeDocuments: new FormControl([])
     })
     this.formGroup.disable()
 
@@ -198,12 +152,8 @@ export class AiContextDetailsComponent implements OnInit {
           appId: vm.details?.appId || '',
           name: vm.details?.name || '',
           description: vm.details?.description || '',
-          AIKnowledgeBase: vm.details?.AIKnowledgeBase,
+          MCPServer: vm.details?.mcpServers,
           provider: vm.details?.provider,
-          aIKnowledgeVectorDb: vm.details?.aIKnowledgeVectorDb,
-          aIKnowledgeUrl: vm.details?.aIKnowledgeUrl || [],
-          aIKnowledgeDbs: vm.details?.aIKnowledgeDbs || [],
-          aIKnowledgeDocuments: vm.details?.aIKnowledgeDocuments || []
         })
 
         this.formGroup.markAsPristine()
@@ -226,16 +176,16 @@ export class AiContextDetailsComponent implements OnInit {
     ])
   }
 
-  searchKnowledgeBases(event: { query: string }) {
-    this.knowledgeBaseQuery$.next(event.query)
+  getMCPName(mcpServer: MCPServer): string {
+    return mcpServer ? `${mcpServer.name} (${mcpServer.protocol})` : ''
+  }
+
+  searchMCPServers(event: { query: string }) {
+    this.mcpServerQuery$.next(event.query)
   }
 
   searchProviders(event: { query: string }) {
     this.providerQuery$.next(event.query)
-  }
-
-  searchVectorDbs(event: { query: string }) {
-    this.vectorDbQuery$.next(event.query)
   }
 
   edit() {

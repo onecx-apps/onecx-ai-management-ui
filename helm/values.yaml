@@ -21,25 +21,6 @@ app:
       enabled: true
       spec:
         permissions:
-          AI_KNOWLEDGE_DOCUMENT:
-            CREATE: Create AIKnowledgeDocument
-            EDIT: Edit AIKnowledgeDocument
-            DELETE: Delete AIKnowledgeDocument
-            SAVE: Update and save AIKnowledgeDocument
-            IMPORT: Import AIKnowledgeDocument
-            EXPORT: Export AIKnowledgeDocument
-            VIEW: View mode for AIKnowledgeDocument
-            SEARCH: Search AIKnowledgeDocument
-          AI_KNOWLEDGE_VECTOR_DB:
-            CREATE: Create AIKnowledgeVectorDb
-            EDIT: Edit AIKnowledgeVectorDb
-            DELETE: Delete AIKnowledgeVectorDb
-            SAVE: Update and save AIKnowledgeVectorDb
-            IMPORT: Import AIKnowledgeVectorDb
-            EXPORT: Export AIKnowledgeVectorDb
-            VIEW: View mode for AIKnowledgeVectorDb
-            SEARCH: Search AIKnowledgeVectorDb
-            BACK: Go Back AIKnowledgeVectorDb
           AI_PROVIDER:
             CREATE: Create AIProvider
             EDIT: Edit AIProvider
@@ -60,16 +41,16 @@ app:
             VIEW: View mode for aiContext
             SEARCH: Search aiContext
             BACK: Back to aiContext
-          AI_KNOWLEDGE_BASE:
-            CREATE: Create AIKnowledgeBase
-            EDIT: Edit AIKnowledgeBase
-            DELETE: Delete AIKnowledgeBase
-            SAVE: Update and save AIKnowledgeBase
-            IMPORT: Import AIKnowledgeBase
-            EXPORT: Export AIKnowledgeBase
-            VIEW: View mode for AIKnowledgeBase
-            SEARCH: Search AIKnowledgeBase
-            BACK: Back to AIKnowledgeBase
+          MCPSERVER:
+            CREATE: Create mcpserver
+            EDIT: Edit mcpserver
+            DELETE: Delete mcpserver
+            SAVE: Update and save mcpserver
+            IMPORT: Import mcpserver
+            EXPORT: Export mcpserver
+            VIEW: View mode for mcpserver
+            SEARCH: Search mcpserver
+            BACK: Navigate back in details of mcpserver
     keycloak:
       client:
         enabled: true

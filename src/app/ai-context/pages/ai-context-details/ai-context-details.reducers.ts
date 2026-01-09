@@ -9,12 +9,9 @@ export const initialState: AiContextDetailsState = {
   aiProviders: [],
   aiProvidersLoadingIndicator: true,
   aiProvidersLoaded: false,
-  aiKnowledgeBases: [],
-  aiKnowledgeBasesLoadingIndicator: true,
-  aiKnowledgeBasesLoaded: false,
-  aiKnowledgeVectorDbs: [],
-  aiKnowledgeVectorDbsLoadingIndicator: true,
-  aiKnowledgeVectorDbsLoaded: false,
+  mcpServers: [],
+  mcpServersLoadingIndicator: true,
+  mcpServersLoaded: false,
   backNavigationPossible: true,
   editMode: false,
   isSubmitting: false
@@ -59,39 +56,21 @@ export const aiContextDetailsReducer = createReducer(
     })
   ),
   on(
-    AiContextDetailsActions.aiContextAiKnowledgeBasesReceived,
-    (state: AiContextDetailsState, { aiKnowledgeBases }): AiContextDetailsState => ({
+    AiContextDetailsActions.aiContextMCPServersReceived,
+    (state: AiContextDetailsState, { MCPServers }): AiContextDetailsState => ({
       ...state,
-      aiKnowledgeBases,
-      aiKnowledgeBasesLoadingIndicator: false,
-      aiKnowledgeBasesLoaded: true
+      mcpServers: MCPServers,
+      mcpServersLoadingIndicator: false,
+      mcpServersLoaded: true
     })
   ),
   on(
-    AiContextDetailsActions.aiContextAiKnowledgeBasesLoadingFailed,
+    AiContextDetailsActions.aiContextMCPServersLoadingFailed,
     (state: AiContextDetailsState): AiContextDetailsState => ({
       ...state,
-      aiKnowledgeBases: [],
-      aiKnowledgeBasesLoadingIndicator: false,
-      aiKnowledgeBasesLoaded: false
-    })
-  ),
-  on(
-    AiContextDetailsActions.aiContextAiKnowledgeVectorDbsReceived,
-    (state: AiContextDetailsState, { aiKnowledgeVectorDbs }): AiContextDetailsState => ({
-      ...state,
-      aiKnowledgeVectorDbs,
-      aiKnowledgeVectorDbsLoadingIndicator: false,
-      aiKnowledgeVectorDbsLoaded: true
-    })
-  ),
-  on(
-    AiContextDetailsActions.aiContextAiKnowledgeVectorDbsLoadingFailed,
-    (state: AiContextDetailsState): AiContextDetailsState => ({
-      ...state,
-      aiKnowledgeVectorDbs: [],
-      aiKnowledgeVectorDbsLoadingIndicator: false,
-      aiKnowledgeVectorDbsLoaded: false
+      mcpServers: [],
+      mcpServersLoadingIndicator: false,
+      mcpServersLoaded: false
     })
   ),
   on(
