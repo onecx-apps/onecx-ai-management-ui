@@ -7,17 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { AIProvider } from './aIProvider';
 
 
-export interface AIContext { 
-    id?: string;
-    appId?: string;
-    name?: string;
-    description?: string;
+export interface Mcpserver { 
     modificationCount?: number;
-    modificationUser?: string;
-    creationUser?: string;
-    provider?: AIProvider;
+    id: string;
 }
 
