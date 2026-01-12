@@ -6,4 +6,5 @@ export interface MCPServerDetailsState {
   detailsLoaded: boolean
   editMode: boolean
   isSubmitting: boolean
+  isApiKeyHidden: boolean
 }

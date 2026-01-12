@@ -7,4 +7,5 @@ export interface MCPServerDetailsViewModel {
   detailsLoaded: boolean
   editMode: boolean
   isSubmitting: boolean
+  isApiKeyHidden: boolean
 }

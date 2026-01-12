@@ -24,8 +24,38 @@
               <label class="ocx-required-label" for="id"> {{ 'MCPSERVER_DETAILS.FORM.ID' | translate }} </label>
             </span>
           </div>
+          <div>
+          <div class="p-inputgroup mt-3 mb-1" >
+            <span class="p-float-label" controlErrorAnchor>
+              <input
+                pInputText
+                [type]="vm.isApiKeyHidden ? 'password' : 'text'"
+                id="mcpServer_detail_apiKey"
+                class="w-full pt-3 pb-2 text-responsive"
+                formControlName="apiKey"
+                [disabled]="!vm.editMode && !hasAPIKeyPermission()"
+              />
+              <label for="mcpServer_detail_apiKey">{{ 'MCPSERVER_DETAILS.FORM.APIKEY' | translate }} </label>
+            </span>
+            <a
+              *ocxIfPermission="'MCPSERVER#CHANGE_API_KEY'"
+              class="p-inputgroup-addon bg-primary pseudo-button pi pi-eye"
+              [ngClass]="{
+                'pi-eye': vm.isApiKeyHidden,
+                'pi-eye-slash': !vm.isApiKeyHidden,
+                'cursor-pointer': vm.editMode,
+                'p-disabled': !vm.editMode
+              }"
+              tabindex="0"
+              (click)="toggleApiKeyVisibility()"
+              (keydown.enter)="toggleApiKeyVisibility()"
+              [attr.aria-label]="'VIEW_API_KEY' | translate"
+            >
+            </a>
+          </div>
+        </div>
         </form>
-      </div>
+      </div>      
     </ocx-page-content>
   </div>
 </ocx-portal-page>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { TranslatePipe } from '@ngx-translate/core'
-import { Action, BreadcrumbService, ObjectDetailItem } from '@onecx/portal-integration-angular'
+import { Action, BreadcrumbService, ObjectDetailItem, UserService } from '@onecx/portal-integration-angular'
 import { map, Observable } from 'rxjs'
 
 import { FormControl, FormGroup, Validators } from '@angular/forms'
@@ -35,7 +35,7 @@ export class MCPServerDetailsComponent implements OnInit {
   headerActions$: Observable<Action[]> = this.viewModel$.pipe(
     map((vm) => {
       console.log("vm", vm)
-      
+
       const actions: Action[] = [
         {
           titleKey: 'MCPSERVER_DETAILS.GENERAL.BACK',
@@ -104,17 +104,20 @@ export class MCPServerDetailsComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private userService: UserService
   ) {
     this.formGroup = new FormGroup({
-      id: new FormControl(null, [Validators.maxLength(255)])
+      id: new FormControl(null, [Validators.maxLength(255)]),
+      apiKey: new FormControl(null, [Validators.maxLength(255)])
     })
     this.formGroup.disable()
 
     this.viewModel$.subscribe((vm) => {
       if (!vm.editMode) {
         this.formGroup.setValue({
-          id: vm.details?.id
+          id: vm.details?.id,
+          apiKey: vm.details?.apiKey
         })
         this.formGroup.markAsPristine()
       }
@@ -137,6 +140,10 @@ export class MCPServerDetailsComponent implements OnInit {
     ])
   }
 
+  hasAPIKeyPermission() {
+    return this.userService.hasPermission('MCPSERVER#CHANGE_API_KEY')
+  }
+
   edit() {
     this.store.dispatch(MCPServerDetailsActions.editButtonClicked())
   }
@@ -155,5 +162,9 @@ export class MCPServerDetailsComponent implements OnInit {
 
   delete() {
     this.store.dispatch(MCPServerDetailsActions.deleteButtonClicked())
+  }
+
+  toggleApiKeyVisibility() {
+    this.store.dispatch(MCPServerDetailsActions.apiKeyVisibilityToggled())
   }
 }

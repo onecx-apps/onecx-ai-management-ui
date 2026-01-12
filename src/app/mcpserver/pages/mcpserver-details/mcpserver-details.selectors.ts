@@ -15,19 +15,22 @@ export const selectMCPServerDetailsViewModel = createSelector(
   mcpserverDetailsSelectors.selectDetailsLoaded,
   mcpserverDetailsSelectors.selectEditMode,
   mcpserverDetailsSelectors.selectIsSubmitting,
+  mcpserverDetailsSelectors.selectIsApiKeyHidden,
   (
     details: MCPServer | undefined,
     detailsLoadingIndicator: boolean,
     backNavigationPossible: boolean,
     detailsLoaded: boolean,
     editMode: boolean,
-    isSubmitting: boolean
+    isSubmitting: boolean,
+    isApiKeyHidden: boolean
   ): MCPServerDetailsViewModel => ({
     details,
     detailsLoadingIndicator,
     backNavigationPossible,
     detailsLoaded,
     editMode,
-    isSubmitting
+    isSubmitting,
+    isApiKeyHidden
   })
 )

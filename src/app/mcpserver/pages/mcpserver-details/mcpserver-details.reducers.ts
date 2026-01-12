@@ -7,7 +7,8 @@ export const initialState: MCPServerDetailsState = {
   detailsLoadingIndicator: true,
   detailsLoaded: false,
   editMode: false,
-  isSubmitting: false
+  isSubmitting: false,
+  isApiKeyHidden: true
 }
 
 export const mcpserverDetailsReducer = createReducer(
@@ -65,6 +66,13 @@ export const mcpserverDetailsReducer = createReducer(
     (state: MCPServerDetailsState): MCPServerDetailsState => ({
       ...state,
       isSubmitting: false
+    })
+  ),
+  on(
+    MCPServerDetailsActions.apiKeyVisibilityToggled,
+    (state: MCPServerDetailsState): MCPServerDetailsState => ({
+      ...state,
+      isApiKeyHidden: !state.isApiKeyHidden
     })
   )
 )

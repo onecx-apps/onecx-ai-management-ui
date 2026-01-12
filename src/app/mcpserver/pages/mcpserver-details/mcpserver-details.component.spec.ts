@@ -44,8 +44,8 @@ describe('MCPServerDetailsComponent', () => {
     listeners.forEach((l) =>
       l({
         data: m,
-        stopImmediatePropagation: () => {},
-        stopPropagation: () => {}
+        stopImmediatePropagation: () => { },
+        stopPropagation: () => { }
       })
     )
   }
@@ -69,12 +69,14 @@ describe('MCPServerDetailsComponent', () => {
   const baseMCPServerDetailsViewModel: MCPServerDetailsViewModel = {
     details: {
       id: "",
+      apiKey: ""
     },
     detailsLoadingIndicator: false,
     detailsLoaded: true,
     backNavigationPossible: true,
     editMode: false,
     isSubmitting: false,
+    isApiKeyHidden: false
   }
 
   beforeEach(async () => {
@@ -146,7 +148,7 @@ describe('MCPServerDetailsComponent', () => {
   it('should have 2 inline actions', async () => {
     const pageHeader = await mcpserverDetails.getHeader()
     const inlineActions = await pageHeader.getInlineActionButtons()
-           
+
     expect(inlineActions.length).toBe(2)
 
     const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
