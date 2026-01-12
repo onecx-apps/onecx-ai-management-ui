@@ -15,8 +15,9 @@ import {
   AlwaysGrantPermissionChecker,
   BreadcrumbService,
   ColumnType,
+  DiagramType,
   HAS_PERMISSION_CHECKER,
-  PortalCoreModule  
+  PortalCoreModule
 } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { DialogService } from 'primeng/dynamicdialog'
@@ -27,6 +28,7 @@ import { MCPServerSearchHarness } from './mcpserver-search.harness'
 import { initialState } from './mcpserver-search.reducers'
 import { selectMCPServerSearchViewModel } from './mcpserver-search.selectors'
 import { MCPServerSearchViewModel } from './mcpserver-search.viewmodel'
+import { getUTCDateWithoutTimezoneIssues } from '@onecx/accelerator'
 
 describe('MCPServerSearchComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -46,8 +48,8 @@ describe('MCPServerSearchComponent', () => {
     listeners.forEach((l) =>
       l({
         data: m,
-        stopImmediatePropagation: () => {},
-        stopPropagation: () => {}
+        stopImmediatePropagation: () => { },
+        stopPropagation: () => { }
       })
     )
   }
@@ -282,13 +284,15 @@ describe('MCPServerSearchComponent', () => {
   })
 
   it('should dispatch searchButtonClicked action on search', (done) => {
+    const sampleDate = new Date(2024, 5, 1, 10, 0, 0)
     const formValue = formBuilder.group({
-      changeMe: '123'
+      changeMe: '123',
+      date: sampleDate
     })
     component.mcpserverSearchFormGroup = formValue
 
     store.scannedActions$.pipe(ofType(MCPServerSearchActions.searchButtonClicked)).subscribe((a) => {
-      expect(a.searchCriteria).toEqual({ changeMe: '123' })
+      expect(a.searchCriteria).toEqual({ changeMe: '123', date: getUTCDateWithoutTimezoneIssues(sampleDate) })
       done()
     })
 
@@ -305,6 +309,62 @@ describe('MCPServerSearchComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       MCPServerSearchActions.searchHeaderComponentStateChanged({
         activeViewMode: 'advanced'
+      })
+    )
+  })
+
+  it('should dispatch detailsButtonClicked action on details clicked', async () => {
+    jest.spyOn(store, 'dispatch')
+    const results = [
+      {
+        id: '1',
+        imagePath: '',
+        changeMe: 'val_1'
+      }
+    ]
+    const columns = [
+      {
+        columnType: ColumnType.STRING,
+        id: 'changeMe',
+        nameKey: 'HELLO_SEARCH.RESULTS.HELLO',
+        filterable: true,
+        sortable: true,
+        predefinedGroupKeys: [
+          'HELLO_SEARCH.PREDEFINED_GROUP.DEFAULT',
+          'HELLO_SEARCH.PREDEFINED_GROUP.EXTENDED',
+          'HELLO_SEARCH.PREDEFINED_GROUP.FULL'
+        ]
+      }
+    ]
+    store.overrideSelector(selectMCPServerSearchViewModel, {
+      ...baseMCPServerSearchViewModel,
+      results: results,
+      columns: columns,
+      displayedColumns: columns
+    })
+    store.refreshState()
+    const interactiveDataView = await mcpserverSearch.getSearchResults()
+    const dataView = await interactiveDataView.getDataView()
+    const dataTable = await dataView.getDataListGrid()
+    const editButtons = await dataTable!.getActionButtons('list')
+
+    await editButtons[0].click()
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      MCPServerSearchActions.detailsButtonClicked({ id: '1' })
+    )
+  })
+
+  it('should dispatch diagramComponentStateChanged action on diagram mode changes', async () => {
+    jest.spyOn(store, 'dispatch')
+
+    component.diagramComponentStateChanged({
+      activeDiagramType: DiagramType.PIE
+    })
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      MCPServerSearchActions.diagramComponentStateChanged({
+        activeDiagramType: DiagramType.PIE
       })
     )
   })
@@ -334,7 +394,7 @@ describe('MCPServerSearchComponent', () => {
     store.refreshState()
 
     const interactiveDataView = await mcpserverSearch.getSearchResults()
-    ;(await (await interactiveDataView.getDataLayoutSelection()).getTableLayoutSelectionButton())?.click()
+      ; (await (await interactiveDataView.getDataLayoutSelection()).getTableLayoutSelectionButton())?.click()
 
     const columnGroupSelector = await interactiveDataView?.getCustomGroupColumnSelector()
     expect(columnGroupSelector).toBeTruthy()

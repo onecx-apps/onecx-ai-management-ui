@@ -27,7 +27,6 @@ export const MCPServerDetailsActions = createActionGroup({
     }>(),
     'cancel edit back clicked': emptyProps(),
     'cancel edit confirm clicked': emptyProps(),
-    'cancel edit not dirty': emptyProps(),
     'edit button clicked': emptyProps(),
     'save button clicked': props<{
       details: MCPServer

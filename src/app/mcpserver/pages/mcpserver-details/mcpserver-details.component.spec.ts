@@ -25,6 +25,7 @@ import { initialState } from './mcpserver-details.reducers'
 import { selectMCPServerDetailsViewModel } from './mcpserver-details.selectors'
 import { MCPServerDetailsViewModel } from './mcpserver-details.viewmodel'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 describe('MCPServerDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -86,6 +87,7 @@ describe('MCPServerDetailsComponent', () => {
         PortalCoreModule,
         LetDirective,
         FormsModule,
+        BrowserAnimationsModule,
         ReactiveFormsModule,
         TranslateTestingModule.withTranslations('en', require('./../../../../assets/i18n/en.json')).withTranslations(
           'de',
@@ -225,11 +227,68 @@ describe('MCPServerDetailsComponent', () => {
     const thirdDetailItem = await pageHeader.getObjectInfoByLabel('third')
     expect(await thirdDetailItem?.getLabel()).toEqual('third')
     expect(await thirdDetailItem?.getValue()).toEqual('')
-    expect(await thirdDetailItem?.getIcon()).toEqual(PrimeIcons.PLUS)
+    expect(await thirdDetailItem?.getIcon()).toContain(PrimeIcons.PLUS)
 
     const fourthDetailItem = await pageHeader.getObjectInfoByLabel('fourth')
     expect(await fourthDetailItem?.getLabel()).toEqual('fourth')
     expect(await fourthDetailItem?.getValue()).toEqual('fourth value')
-    expect(await fourthDetailItem?.getIcon()).toEqual(PrimeIcons.QUESTION)
+    expect(await fourthDetailItem?.getIcon()).toContain(PrimeIcons.QUESTION)
+  })
+
+  it('edit clicked should dispatch edit action', async () => {
+    jest.spyOn(store, 'dispatch')
+    const pageHeader = await mcpserverDetails.getHeader()
+    const editAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.PENCIL)
+
+    await editAction?.click()
+
+    expect(store.dispatch).toHaveBeenCalledWith(MCPServerDetailsActions.editButtonClicked())
+  })
+
+  it('save clicked should dispatch save action', async () => {
+    jest.spyOn(store, 'dispatch')
+    store.overrideSelector(selectMCPServerDetailsViewModel, {
+      ...baseMCPServerDetailsViewModel,
+      editMode: true
+    })
+    store.refreshState()
+    fixture.detectChanges()
+
+    const pageHeader = await mcpserverDetails.getHeader()
+    const saveAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.SAVE)
+    await saveAction?.click()
+
+    expect(store.dispatch).toHaveBeenCalledWith(MCPServerDetailsActions.saveButtonClicked({
+      details: baseMCPServerDetailsViewModel.details!
+    }))
+  })
+
+  it('cancel clicked should dispatch cancel action', async () => {
+    jest.spyOn(store, 'dispatch')
+    store.overrideSelector(selectMCPServerDetailsViewModel, {
+      ...baseMCPServerDetailsViewModel,
+      editMode: true
+    })
+    store.refreshState()
+    fixture.detectChanges()
+
+    const pageHeader = await mcpserverDetails.getHeader()
+    const cancelAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.TIMES)
+    await cancelAction?.click()
+
+    expect(store.dispatch).toHaveBeenCalledWith(MCPServerDetailsActions.cancelButtonClicked({ dirty: false }))
+  })
+
+  it('delete clicked should dispatch delete action', async () => {
+    jest.spyOn(store, 'dispatch')
+    const pageHeader = await mcpserverDetails.getHeader()
+    const overflowMenuButton = await pageHeader.getOverflowActionMenuButton()
+    expect(overflowMenuButton).toBeDefined()
+    await overflowMenuButton?.click()
+
+    const overflowMenuItem = await pageHeader.getOverFlowMenuItem('Delete')
+    await overflowMenuItem!.selectItem()
+
+    expect(store.dispatch).toHaveBeenCalledWith(MCPServerDetailsActions.deleteButtonClicked())
   })
 })

@@ -1,7 +1,7 @@
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { Store } from '@ngrx/store'
-import { isValidDate } from '@onecx/accelerator'
+import { getUTCDateWithoutTimezoneIssues, isValidDate } from '@onecx/accelerator'
 import {
   Action,
   BreadcrumbService,
@@ -78,7 +78,7 @@ export class MCPServerSearchComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     @Inject(LOCALE_ID) public readonly locale: string,
     private readonly exportDataService: ExportDataService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.breadcrumbService.setItems([
@@ -108,16 +108,7 @@ export class MCPServerSearchComponent implements OnInit {
       (acc: Partial<MCPServerSearchCriteria>, [key, value]) => ({
         ...acc,
         [key]: isValidDate(value)
-          ? new Date(
-              Date.UTC(
-                value.getFullYear(),
-                value.getMonth(),
-                value.getDate(),
-                value.getHours(),
-                value.getMinutes(),
-                value.getSeconds()
-              )
-            )
+          ? getUTCDateWithoutTimezoneIssues(value)
           : value || undefined
       }),
       {}

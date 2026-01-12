@@ -61,16 +61,6 @@ export class MCPServerDetailsEffects {
     )
   })
 
-  cancelButtonNotDirty$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(MCPServerDetailsActions.cancelButtonClicked),
-      filter((action) => !action.dirty),
-      map(() => {
-        return MCPServerDetailsActions.cancelEditNotDirty()
-      })
-    )
-  })
-
   cancelButtonClickedDirty$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(MCPServerDetailsActions.cancelButtonClicked),

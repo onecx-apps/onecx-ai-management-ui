@@ -52,8 +52,14 @@ export const mcpserverDetailsReducer = createReducer(
     })
   ),
   on(
+    MCPServerDetailsActions.cancelButtonClicked,
+    (state: MCPServerDetailsState, { dirty }): MCPServerDetailsState => ({
+      ...state,
+      editMode: dirty ? state.editMode : false
+    })
+  ),
+  on(
     MCPServerDetailsActions.cancelEditConfirmClicked,
-    MCPServerDetailsActions.cancelEditNotDirty,
     MCPServerDetailsActions.updateMCPServerCancelled,
     MCPServerDetailsActions.updateMCPServerSucceeded,
     (state: MCPServerDetailsState): MCPServerDetailsState => ({
