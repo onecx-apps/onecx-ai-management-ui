@@ -96,7 +96,6 @@ export class AiContextDetailsComponent implements OnInit {
 
   public formGroup: FormGroup
 
-  providersSuggestions$: Observable<AIProvider[]>
   providerQuery$: BehaviorSubject<string> = new BehaviorSubject<string>('')
   filteredProviders$: Observable<AIProvider[]>
 
@@ -107,16 +106,14 @@ export class AiContextDetailsComponent implements OnInit {
     private readonly store: Store,
     private readonly breadcrumbService: BreadcrumbService
   ) {
-    this.providersSuggestions$ = this.viewModel$.pipe(
-      map(({ details, aiProviders }) => {
-        return aiProviders?.filter((p) => !details?.provider || p.id !== details.provider.id) || []
-      })
-    )
+
     this.providerQuery$ = new BehaviorSubject<string>('')
-    this.filteredProviders$ = combineLatest([this.providersSuggestions$, this.providerQuery$, this.viewModel$]).pipe(
-      map(([providers, query, vm]) => {
-        const suggestions = [...(vm.details?.provider ? [vm.details.provider] : []), ...providers]
-        return suggestions.filter((p) => (p.name + ' ' + (p.appId || '')).toLowerCase().includes(query.toLowerCase()))
+    this.filteredProviders$ = combineLatest([this.providerQuery$, this.viewModel$]).pipe(
+      map(([query, vm]) => {
+        const suggestions = [...(vm.details?.provider ? [vm.details.provider] : []), ...vm.aiProviders ?? []]
+        return suggestions.filter((p) =>
+          (p.name + ' ' + (p.appId || '')).toLowerCase().includes(query.toLowerCase())
+          && vm.details?.provider?.id !== p.id)
       })
     )
 
@@ -127,11 +124,10 @@ export class AiContextDetailsComponent implements OnInit {
     ]).pipe(
       map(([query, vm]) => {
         const suggestions = [...(vm.details?.mcpServers ?? []), ...vm.MCPServers ?? []]
-        const res = suggestions.filter((mcp) =>
+        return suggestions.filter((mcp) =>
           (mcp.name + ' ' + (mcp.protocol || '')).toLowerCase().includes(query.toLowerCase())
+          && vm.details?.mcpServers?.every(selected => selected.id !== mcp.id)
         )
-        console.log(query, suggestions, res)
-        return res        
       })
     )
 
@@ -140,7 +136,7 @@ export class AiContextDetailsComponent implements OnInit {
       appId: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      MCPServer: new FormControl(undefined),
+      mcpServers: new FormControl(undefined),
       provider: new FormControl(undefined),
     })
     this.formGroup.disable()
@@ -152,7 +148,7 @@ export class AiContextDetailsComponent implements OnInit {
           appId: vm.details?.appId || '',
           name: vm.details?.name || '',
           description: vm.details?.description || '',
-          MCPServer: vm.details?.mcpServers,
+          mcpServers: vm.details?.mcpServers,
           provider: vm.details?.provider,
         })
 

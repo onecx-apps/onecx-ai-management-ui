@@ -3,7 +3,7 @@ import { ColumnType, DataTableColumn } from '@onecx/angular-accelerator'
 export const mcpserverSearchColumns: DataTableColumn[] = [
   {
     columnType: ColumnType.STRING,
-    id: 'changeMe',
+    id: 'name',
     nameKey: 'HELLO_SEARCH.RESULTS.HELLO',
     filterable: true,
     sortable: true,

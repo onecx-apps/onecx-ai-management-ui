@@ -9,6 +9,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslatePipe, TranslateService } from '@ngx-translate/core'
 import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
 import {
+  AlwaysGrantPermissionChecker,
   BreadcrumbService,
   HAS_PERMISSION_CHECKER,
   PortalCoreModule,
@@ -23,6 +24,7 @@ import { MCPServerDetailsHarness } from './mcpserver-details.harness'
 import { initialState } from './mcpserver-details.reducers'
 import { selectMCPServerDetailsViewModel } from './mcpserver-details.selectors'
 import { MCPServerDetailsViewModel } from './mcpserver-details.viewmodel'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 describe('MCPServerDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -65,7 +67,9 @@ describe('MCPServerDetailsComponent', () => {
     }
   }
   const baseMCPServerDetailsViewModel: MCPServerDetailsViewModel = {
-    details: undefined,
+    details: {
+      id: "",
+    },
     detailsLoadingIndicator: false,
     detailsLoaded: true,
     backNavigationPossible: true,
@@ -79,6 +83,8 @@ describe('MCPServerDetailsComponent', () => {
       imports: [
         PortalCoreModule,
         LetDirective,
+        FormsModule,
+        ReactiveFormsModule,
         TranslateTestingModule.withTranslations('en', require('./../../../../assets/i18n/en.json')).withTranslations(
           'de',
           require('./../../../../assets/i18n/de.json')
@@ -94,22 +100,13 @@ describe('MCPServerDetailsComponent', () => {
         provideUserServiceMock(),
         {
           provide: HAS_PERMISSION_CHECKER,
-          useExisting: UserService
+          useClass: AlwaysGrantPermissionChecker
         }
       ]
     }).compileComponents()
+    const userServiceMock = TestBed.inject(UserService)
+    userServiceMock.permissions$.next(["MCPSERVER#BACK"])
 
-    const userService = TestBed.inject(UserService)
-    userService.permissions$.next([
-      'MCPSERVER#CREATE',
-      'MCPSERVER#EDIT',
-      'MCPSERVER#DELETE',
-      'MCPSERVER#IMPORT',
-      'MCPSERVER#EXPORT',
-      'MCPSERVER#VIEW',
-      'MCPSERVER#SEARCH',
-      'MCPSERVER#BACK'
-    ])
     const translateService = TestBed.inject(TranslateService)
     translateService.use('en')
 
@@ -149,13 +146,20 @@ describe('MCPServerDetailsComponent', () => {
   it('should have 2 inline actions', async () => {
     const pageHeader = await mcpserverDetails.getHeader()
     const inlineActions = await pageHeader.getInlineActionButtons()
+           
     expect(inlineActions.length).toBe(2)
 
     const backAction = await pageHeader.getInlineActionButtonByLabel('Back')
     expect(backAction).toBeTruthy()
 
-    const moreAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.ELLIPSIS_V)
-    expect(moreAction).toBeTruthy()
+    const editAction = await pageHeader.getInlineActionButtonByIcon(PrimeIcons.PENCIL)
+    expect(editAction).toBeTruthy()
+  })
+
+  it('should have overflow menu button', async () => {
+    const pageHeader = await mcpserverDetails.getHeader()
+    const overflowAction = await pageHeader.getOverflowActionMenuButton()
+    expect(overflowAction).toBeTruthy()
   })
 
   it('should dispatch navigateBackButtonClicked action on back button click', async () => {

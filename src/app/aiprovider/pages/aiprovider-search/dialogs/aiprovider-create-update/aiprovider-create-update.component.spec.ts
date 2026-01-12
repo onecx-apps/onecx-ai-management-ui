@@ -1,13 +1,14 @@
- 
+
 import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
 import { LetDirective } from '@ngrx/component'
-import { BreadcrumbService, PortalCoreModule } from '@onecx/portal-integration-angular'
+import { AlwaysGrantPermissionChecker, BreadcrumbService, HAS_PERMISSION_CHECKER, PortalCoreModule } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { AIProviderCreateUpdateComponent } from './aiprovider-create-update.component'
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -41,12 +42,18 @@ describe('AIProviderCreateUpdateComponent', () => {
           'en',
           // eslint-disable-next-line @typescript-eslint/no-require-imports
           require('./../../../../../../assets/i18n/en.json')
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
+          // eslint-disable-next-line @typescript-eslint/no-require-imports
         ).withTranslations('de', require('./../../../../../../assets/i18n/de.json'))
       ],
-      providers: [BreadcrumbService, { provide: ActivatedRoute, useValue: mockActivatedRoute }, 
+      providers: [BreadcrumbService, { provide: ActivatedRoute, useValue: mockActivatedRoute },
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()]
+        provideHttpClientTesting(),
+        provideUserServiceMock(),
+        {
+          provide: HAS_PERMISSION_CHECKER,
+          useClass: AlwaysGrantPermissionChecker
+        }
+      ],
     }).compileComponents()
 
     fixture = TestBed.createComponent(AIProviderCreateUpdateComponent)
@@ -57,7 +64,7 @@ describe('AIProviderCreateUpdateComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy()
   })
-  
+
   it('should set dialogResult with merged itemToEdit and form values on ocxDialogButtonClicked', () => {
     component.vm.itemToEdit = { id: '1', name: 'Old', description: 'OldDesc', appId: 'OldApp' }
     component.formGroup.setValue({ name: 'New', description: 'NewDesc', appId: 'NewApp' })

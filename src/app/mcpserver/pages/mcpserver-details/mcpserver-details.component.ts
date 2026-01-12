@@ -34,6 +34,8 @@ export class MCPServerDetailsComponent implements OnInit {
 
   headerActions$: Observable<Action[]> = this.viewModel$.pipe(
     map((vm) => {
+      console.log("vm", vm)
+      
       const actions: Action[] = [
         {
           titleKey: 'MCPSERVER_DETAILS.GENERAL.BACK',
@@ -91,15 +93,6 @@ export class MCPServerDetailsComponent implements OnInit {
           showCondition: !vm.editMode,
           actionCallback: () => {
             this.delete()
-          }
-        },
-        {
-          titleKey: 'MCPSERVER_DETAILS.GENERAL.MORE',
-          icon: PrimeIcons.ELLIPSIS_V,
-          show: 'always',
-          btnClass: '',
-          actionCallback: () => {
-            // TODO: add callback
           }
         }
       ]

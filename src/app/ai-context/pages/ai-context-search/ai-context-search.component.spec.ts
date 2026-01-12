@@ -11,8 +11,10 @@ import { Store, StoreModule } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
 import {
+  AlwaysGrantPermissionChecker,
   BreadcrumbService,
   ColumnType,
+  HAS_PERMISSION_CHECKER,
   PortalCoreModule,
   RowListGridData,
   UserService
@@ -27,6 +29,7 @@ import { initialState } from './ai-context-search.reducers'
 import { selectAiContextSearchViewModel } from './ai-context-search.selectors'
 import { AiContextSearchViewModel } from './ai-context-search.viewmodel'
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
+import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
 
 describe('AiContextSearchComponent', () => {
   let component: AiContextSearchComponent
@@ -74,7 +77,12 @@ describe('AiContextSearchComponent', () => {
         FormBuilder,
         { provide: ActivatedRoute, useValue: { snapshot: { data: {} } } },
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        provideUserServiceMock(),
+        {
+          provide: HAS_PERMISSION_CHECKER,
+          useClass: AlwaysGrantPermissionChecker
+        }
       ]
     }).compileComponents()
   })
@@ -273,7 +281,7 @@ describe('AiContextSearchComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(AiContextSearchActions.editAiContextButtonClicked({ id: '1' }))
   })
 
-    it('should dispatch createAiContextButtonClicked action on create click', async () => {
+  it('should dispatch createAiContextButtonClicked action on create click', async () => {
 
     const header = await AiContextSearch.getHeader()
     const createButton = await (await header.getPageHeader()).getInlineActionButtonByIcon(PrimeIcons.PLUS)
@@ -290,50 +298,50 @@ describe('AiContextSearchComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(AiContextSearchActions.detailsButtonClicked({ id: 'test-id' }))
   })
 
-describe('searchCriteria mapping', () => {
-  const cases = [
-    {
-      desc: 'should convert Date values to UTC and dispatch searchButtonClicked',
-      formValue: { name: new Date(2024, 4, 15, 12, 30, 45) },
-      expected: { name: new Date(Date.UTC(2024, 4, 15, 12, 30, 45)).toISOString() }
-    },
-    {
-      desc: 'should pass through non-date, non-empty values unchanged',
-      formValue: { name: 'testName' },
-      expected: { name: 'testName' }
-    },
-    {
-      desc: 'should set searchCriteria property to undefined for falsy non-date values',
-      formValue: { name: '' },
-      expected: { name: undefined }
-    }
-  ]
-  cases.forEach(({ desc, formValue, expected }) => {
-    it(desc, () => {
-      component.aiContextSearchFormGroup = {
-        value: formValue,
-        getRawValue: () => formValue
-      } as any
-      component.search(component.aiContextSearchFormGroup)
+  describe('searchCriteria mapping', () => {
+    const cases = [
+      {
+        desc: 'should convert Date values to UTC and dispatch searchButtonClicked',
+        formValue: { name: new Date(2024, 4, 15, 12, 30, 45) },
+        expected: { name: new Date(Date.UTC(2024, 4, 15, 12, 30, 45)).toISOString() }
+      },
+      {
+        desc: 'should pass through non-date, non-empty values unchanged',
+        formValue: { name: 'testName' },
+        expected: { name: 'testName' }
+      },
+      {
+        desc: 'should set searchCriteria property to undefined for falsy non-date values',
+        formValue: { name: '' },
+        expected: { name: undefined }
+      }
+    ]
+    cases.forEach(({ desc, formValue, expected }) => {
+      it(desc, () => {
+        component.aiContextSearchFormGroup = {
+          value: formValue,
+          getRawValue: () => formValue
+        } as any
+        component.search(component.aiContextSearchFormGroup)
 
-      const calls = (store.dispatch as jest.Mock).mock.calls
-      const found = calls.some(call => {
-      const action = call[0]
-      return (
-        action.type === '[AiContextSearch] Search button clicked' &&
-        action.searchCriteria &&
-        (
-          (action.searchCriteria.name instanceof Date
-            ? action.searchCriteria.name.toISOString()
-            : action.searchCriteria.name
-          ) === expected.name
-        )
-      )
-    })
-    expect(found).toBe(true)
+        const calls = (store.dispatch as jest.Mock).mock.calls
+        const found = calls.some(call => {
+          const action = call[0]
+          return (
+            action.type === '[AiContextSearch] Search button clicked' &&
+            action.searchCriteria &&
+            (
+              (action.searchCriteria.name instanceof Date
+                ? action.searchCriteria.name.toISOString()
+                : action.searchCriteria.name
+              ) === expected.name
+            )
+          )
+        })
+        expect(found).toBe(true)
+      })
     })
   })
-})
 
   it('should handle isValidDate true branch for allowed key (using as any for coverage)', () => {
     const testDate = new Date(2024, 4, 15, 12, 30, 45)
@@ -365,7 +373,7 @@ describe('searchCriteria mapping', () => {
     )
   })
 
-    describe('actions dispatch', () => {
+  describe('actions dispatch', () => {
     [
       {
         method: 'resultComponentStateChanged',
@@ -545,36 +553,36 @@ describe('searchCriteria mapping', () => {
   })
 
   it.each([
-  {
-    desc: 'should not display chart when no results',
-    viewModel: {
-      ...baseAiContextSearchViewModel,
-      results: [],
-      chartVisible: true,
-      columns: [{ columnType: ColumnType.STRING, nameKey: 'COLUMN_KEY', id: 'column_1' }]
+    {
+      desc: 'should not display chart when no results',
+      viewModel: {
+        ...baseAiContextSearchViewModel,
+        results: [],
+        chartVisible: true,
+        columns: [{ columnType: ColumnType.STRING, nameKey: 'COLUMN_KEY', id: 'column_1' }]
+      },
+      expected: null
     },
-    expected: null
-  },
-  {
-    desc: 'should not display chart when toggled to not visible',
-    viewModel: {
-      ...baseAiContextSearchViewModel,
-      results: [{ id: '1', imagePath: '', column_1: 'val_1' }],
-      chartVisible: false,
-      columns: [{ columnType: ColumnType.STRING, nameKey: 'COLUMN_KEY', id: 'column_1' }]
+    {
+      desc: 'should not display chart when toggled to not visible',
+      viewModel: {
+        ...baseAiContextSearchViewModel,
+        results: [{ id: '1', imagePath: '', column_1: 'val_1' }],
+        chartVisible: false,
+        columns: [{ columnType: ColumnType.STRING, nameKey: 'COLUMN_KEY', id: 'column_1' }]
+      },
+      expected: null
     },
-    expected: null
-  },
-  {
-    desc: 'should display chart when results and chartVisible are true',
-    viewModel: {
-      ...baseAiContextSearchViewModel,
-      results: [{ id: '1', imagePath: '', column_1: 'val_1' }],
-      chartVisible: true,
-      columns: [{ columnType: ColumnType.STRING, nameKey: 'COLUMN_KEY', id: 'column_1' }]
-    },
-    expected: true
-  }
+    {
+      desc: 'should display chart when results and chartVisible are true',
+      viewModel: {
+        ...baseAiContextSearchViewModel,
+        results: [{ id: '1', imagePath: '', column_1: 'val_1' }],
+        chartVisible: true,
+        columns: [{ columnType: ColumnType.STRING, nameKey: 'COLUMN_KEY', id: 'column_1' }]
+      },
+      expected: true
+    }
   ])('$desc', async ({ viewModel, expected }) => {
     component.diagramColumnId = 'column_1'
     store.overrideSelector(selectAiContextSearchViewModel, viewModel)

@@ -12,11 +12,11 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
 import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
 import {
+  AlwaysGrantPermissionChecker,
   BreadcrumbService,
   ColumnType,
   HAS_PERMISSION_CHECKER,
-  PortalCoreModule,
-  UserService
+  PortalCoreModule  
 } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { DialogService } from 'primeng/dynamicdialog'
@@ -124,25 +124,13 @@ describe('MCPServerSearchComponent', () => {
         provideUserServiceMock(),
         {
           provide: HAS_PERMISSION_CHECKER,
-          useExisting: UserService
+          useClass: AlwaysGrantPermissionChecker
         }
       ]
     }).compileComponents()
   })
 
   beforeEach(async () => {
-    const userService = TestBed.inject(UserService)
-    userService.permissions$.next([
-      'MCPSERVER#CREATE',
-      'MCPSERVER#EDIT',
-      'MCPSERVER#DELETE',
-      'MCPSERVER#IMPORT',
-      'MCPSERVER#EXPORT',
-      'MCPSERVER#VIEW',
-      'MCPSERVER#SEARCH',
-      'MCPSERVER#BACK'
-    ])
-    userService.hasPermission = () => true
     const translateService = TestBed.inject(TranslateService)
     translateService.use('en')
     formBuilder = TestBed.inject(FormBuilder)

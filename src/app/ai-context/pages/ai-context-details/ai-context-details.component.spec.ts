@@ -1,11 +1,16 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed'
-import { HttpClientTestingModule } from '@angular/common/http/testing'
+import { HttpResponse } from '@angular/common/http'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, ActivatedRouteSnapshot, EventType, Router } from '@angular/router'
 import { LetDirective } from '@ngrx/component'
+import { ofType } from '@ngrx/effects'
+import { provideMockActions } from '@ngrx/effects/testing'
+import { routerNavigatedAction } from '@ngrx/router-store'
 import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
+import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
 import {
   AlwaysGrantPermissionChecker,
   BreadcrumbService,
@@ -16,35 +21,31 @@ import {
   UserService
 } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
+import { PrimeIcons } from 'primeng/api'
+import { AutoCompleteModule } from 'primeng/autocomplete'
+import { InputTextModule } from 'primeng/inputtext'
+import { MultiSelectModule } from 'primeng/multiselect'
+import { ReplaySubject, of, throwError } from 'rxjs'
+import {
+  AIContext,
+  AIContextBffService,
+  AIProviderBffService,
+  GetAIContextByIdResponse,
+  MCPServer,
+  MCPServerBffService,
+  SearchMCPServerResponse,
+  UpdateAIContextResponse,
+} from 'src/app/shared/generated'
+import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
+import { selectRouteParam } from 'src/app/shared/selectors/router.selectors'
+import { AiContextDetailsActions } from './ai-context-details.actions'
 import { AiContextDetailsComponent } from './ai-context-details.component'
+import { AiContextDetailsEffects } from './ai-context-details.effects'
 import { AiContextDetailsHarness } from './ai-context-details.harness'
 import { aiContextDetailsReducer, initialState } from './ai-context-details.reducers'
 import { aiContextDetailsSelectors, selectAiContextDetailsViewModel } from './ai-context-details.selectors'
-import { AiContextDetailsViewModel } from './ai-context-details.viewmodel'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import {
-  AIContextBffService,
-  UpdateAIContextResponse,
-  GetAIContextByIdResponse,
-  MCPServerBffService,
-  SearchMCPServerResponse,
-  AIProviderBffService,
-} from 'src/app/shared/generated'
-import { ofType } from '@ngrx/effects'
-import { AiContextDetailsActions } from './ai-context-details.actions'
-import { ReplaySubject, of, throwError } from 'rxjs'
-import { AiContextDetailsEffects } from './ai-context-details.effects'
-import { provideMockActions } from '@ngrx/effects/testing'
-import { HttpResponse } from '@angular/common/http'
-import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
-import { selectRouteParam } from 'src/app/shared/selectors/router.selectors'
-import { routerNavigatedAction } from '@ngrx/router-store'
-import { AutoCompleteModule } from 'primeng/autocomplete'
-import { MultiSelectModule } from 'primeng/multiselect'
-import { InputTextModule } from 'primeng/inputtext'
-import { PrimeIcons } from 'primeng/api'
 import { AiContextDetailsState } from './ai-context-details.state'
-import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
+import { AiContextDetailsViewModel } from './ai-context-details.viewmodel'
 
 describe('AiContextDetailsComponent', () => {
   const origAddEventListener = window.addEventListener
@@ -246,8 +247,7 @@ describe('AiContextDetailsComponent', () => {
         TranslateTestingModule.withTranslations('en', require('./../../../../assets/i18n/en.json')).withTranslations(
           'de',
           require('./../../../../assets/i18n/de.json')
-        ),
-        HttpClientTestingModule
+        )
       ],
       providers: [
         AiContextDetailsEffects,
@@ -1112,207 +1112,19 @@ describe('AiContextDetailsComponent', () => {
     })
 
     it('should patch the form with details and matched MCP Server', () => {
-      const mcpServer = { id: 'kb1', name: 'MCP Server 1' } as any
-      const details = { ...baseAiContextDetailsViewModel.details, MCPServer: mcpServer } as any
+      const mcpServer = { id: 'kb1', name: 'MCP Server 1' } as MCPServer
+      const details = { ...baseAiContextDetailsViewModel.details, mcpServers: [mcpServer] } as AIContext
       const viewModel = {
         ...baseAiContextDetailsViewModel,
         details,
         editMode: false,
         MCPServers: [mcpServer]
-      } as any
+      } as AiContextDetailsViewModel
       store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
       store.refreshState()
       fixture.detectChanges()
       expect(component.formGroup.value.id).toBe(details.id)
-      expect(component.formGroup.value.MCPServer).toEqual(mcpServer)
-    })
-
-    it('should emit correct providersSuggestions$ for details with provider', (done) => {
-      const selectedProvider = {
-        id: 'id-1',
-        name: 'Selected Provider',
-        description: 'Selected provider description',
-        llmUrl: 'selected-url',
-        appId: 'selected-app',
-        modelName: 'selected-model',
-        modelVersion: '1.0',
-        apiKey: 'selected-key'
-      }
-
-      const otherProvider = {
-        id: 'id-2',
-        name: 'Other Provider',
-        description: 'Other provider description',
-        llmUrl: 'other-url',
-        appId: 'other-app',
-        modelName: 'other-model',
-        modelVersion: '2.0',
-        apiKey: 'other-key'
-      }
-
-      const details = { ...baseAiContextDetailsViewModel.details, provider: selectedProvider }
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details,
-        aiProviders: [selectedProvider, otherProvider]
-      }
-
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-
-      component.providersSuggestions$.subscribe((providers) => {
-        expect(providers.length).toBe(1)
-        expect(providers[0]).toEqual(otherProvider)
-        expect(providers).not.toContain(selectedProvider)
-        done()
-      })
-    })
-
-    it('should emit correct providersSuggestions$ for details without provider', (done) => {
-      const provider1 = {
-        id: 'id-1',
-        name: 'Provider 1',
-        description: 'Provider 1 description',
-        llmUrl: 'provider1-url',
-        appId: 'provider1-app',
-        modelName: 'provider1-model',
-        modelVersion: '1.0',
-        apiKey: 'provider1-key'
-      }
-
-      const provider2 = {
-        id: 'id-2',
-        name: 'Provider 2',
-        description: 'Provider 2 description',
-        llmUrl: 'provider2-url',
-        appId: 'provider2-app',
-        modelName: 'provider2-model',
-        modelVersion: '2.0',
-        apiKey: 'provider2-key'
-      }
-
-      const details = { ...baseAiContextDetailsViewModel.details, provider: undefined }
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details,
-        aiProviders: [provider1, provider2]
-      }
-
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-
-      component.providersSuggestions$.subscribe((providers) => {
-        expect(providers.length).toBe(2)
-        expect(providers).toContain(provider1)
-        expect(providers).toContain(provider2)
-        done()
-      })
-    })
-
-    it('should emit empty array for providersSuggestions$ when aiProviders is undefined', (done) => {
-      const details = { ...baseAiContextDetailsViewModel.details, provider: undefined }
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details,
-        aiProviders: undefined
-      }
-
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-
-      component.providersSuggestions$.subscribe((providers) => {
-        expect(providers).toEqual([])
-        done()
-      })
-    })
-
-    it('should emit correct mcpServerSuggestions$ for details with MCP Server', (done) => {
-      const selectedMcpServer = {
-        id: 'id-1',
-        name: 'Selected MCP Server',
-        description: 'Selected MCP Server description',
-        aiContext: {}
-      }
-
-      const otherMcpServer = {
-        id: 'id-2',
-        name: 'Other MCP Server',
-        description: 'Other MCP Server description',
-        aiContext: {}
-      }
-
-      const details = { ...baseAiContextDetailsViewModel.details, MCPServer: selectedMcpServer }
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details,
-        MCPServers: [selectedMcpServer, otherMcpServer]
-      }
-
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-
-      component.mcpServerSuggestions$.subscribe((mcpServers) => {
-        expect(mcpServers.length).toBe(1)
-        expect(mcpServers[0]).toEqual(otherMcpServer)
-        expect(mcpServers).not.toContain(selectedMcpServer)
-        done()
-      })
-    })
-
-    it('should emit correct mcpServerSuggestions$ for details without MCP Server', (done) => {
-      const mcpServer1 = {
-        id: 'id-1',
-        name: 'MCP Server 1',
-        description: 'MCP Server 1 description',
-        aiContext: {}
-      }
-
-      const mcpServer2 = {
-        id: 'id-2',
-        name: 'MCP Server 2',
-        description: 'MCP Server 2 description',
-        aiContext: {}
-      }
-
-      const details = { ...baseAiContextDetailsViewModel.details, MCPServer: undefined }
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details,
-        MCPServers: [mcpServer1, mcpServer2]
-      }
-
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-
-      component.mcpServerSuggestions$.subscribe((mcpServers) => {
-        expect(mcpServers.length).toBe(2)
-        expect(mcpServers).toContain(mcpServer1)
-        expect(mcpServers).toContain(mcpServer2)
-        done()
-      })
-    })
-
-    it('should emit empty array for mcpServerSuggestions$ when MCPServers is undefined', (done) => {
-      const details = { ...baseAiContextDetailsViewModel.details, MCPServer: undefined }
-      const viewModel = {
-        ...baseAiContextDetailsViewModel,
-        details,
-        MCPServers: undefined
-      }
-
-      store.overrideSelector(selectAiContextDetailsViewModel, viewModel)
-      store.refreshState()
-      fixture.detectChanges()
-
-      component.mcpServerSuggestions$.subscribe((mcpServers) => {
-        expect(mcpServers).toEqual([])
-        done()
-      })
+      expect(component.formGroup.value.mcpServers).toEqual([mcpServer])
     })
 
     it('should handle missing details gracefully', () => {

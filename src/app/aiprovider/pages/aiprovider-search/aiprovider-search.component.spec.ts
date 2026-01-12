@@ -1,4 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
@@ -8,7 +9,8 @@ import { LetDirective } from '@ngrx/component'
 import { Store, StoreModule } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
-import { BreadcrumbService, ColumnType, PortalCoreModule, UserService } from '@onecx/portal-integration-angular'
+import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
+import { AlwaysGrantPermissionChecker, BreadcrumbService, ColumnType, HAS_PERMISSION_CHECKER, PortalCoreModule } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { DialogService } from 'primeng/dynamicdialog'
 import { AIProviderSearchActions } from './aiprovider-search.actions'
@@ -18,7 +20,6 @@ import { AIProviderSearchHarness } from './aiprovider-search.harness'
 import { initialState } from './aiprovider-search.reducers'
 import { selectAIProviderSearchViewModel } from './aiprovider-search.selectors'
 import { AIProviderSearchViewModel } from './aiprovider-search.viewmodel'
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 describe('AIProviderSearchComponent', () => {
   let component: AIProviderSearchComponent
@@ -34,7 +35,7 @@ describe('AIProviderSearchComponent', () => {
   }
   const baseAIProviderSearchViewModel: AIProviderSearchViewModel = {
     columns: AIProviderSearchColumns,
-    searchCriteria: { 
+    searchCriteria: {
       name: undefined,
       description: undefined,
       llmUrl: undefined,
@@ -43,7 +44,7 @@ describe('AIProviderSearchComponent', () => {
       appId: undefined,
       id: undefined,
       limit: undefined
-     },
+    },
     results: [],
     displayedColumns: [],
     viewMode: 'basic',
@@ -75,13 +76,16 @@ describe('AIProviderSearchComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
+        provideUserServiceMock(),
+        {
+          provide: HAS_PERMISSION_CHECKER,
+          useClass: AlwaysGrantPermissionChecker
+        }
       ]
     }).compileComponents()
   })
 
   beforeEach(async () => {
-    const userService = TestBed.inject(UserService)
-    userService.hasPermission = () => true
     const translateService = TestBed.inject(TranslateService)
     translateService.use('en')
     formBuilder = TestBed.inject(FormBuilder)

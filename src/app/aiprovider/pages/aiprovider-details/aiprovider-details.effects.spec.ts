@@ -6,7 +6,7 @@ import { LetDirective } from '@ngrx/component'
 import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
-import { PortalCoreModule, UserService } from '@onecx/portal-integration-angular'
+import { AlwaysGrantPermissionChecker, HAS_PERMISSION_CHECKER, PortalCoreModule, UserService } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { AIProviderDetailsComponent } from './aiprovider-details.component'
 import { AIProviderDetailsHarness } from './aiprovider-details.harness'
@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { AIProviderSearchActions } from '../aiprovider-search/aiprovider-search.actions'
 import { AIProviderDetailsActions } from './aiprovider-details.actions'
 import { firstValueFrom } from 'rxjs'
+import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
 
 describe('AIProviderDetailsComponent actions & dispatch', () => {
   let component: AIProviderDetailsComponent
@@ -65,7 +66,12 @@ describe('AIProviderDetailsComponent actions & dispatch', () => {
         }),
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        provideUserServiceMock(),
+        {
+          provide: HAS_PERMISSION_CHECKER,
+          useClass: AlwaysGrantPermissionChecker
+        }
       ]
     }).compileComponents()
 

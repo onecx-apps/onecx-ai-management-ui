@@ -1,4 +1,5 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed'
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { provideHttpClientTesting } from '@angular/common/http/testing'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
@@ -9,17 +10,17 @@ import { ofType } from '@ngrx/effects'
 import { Store, StoreModule } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
-import { ColumnType, PortalCoreModule, UserService } from '@onecx/portal-integration-angular'
+import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
+import { AlwaysGrantPermissionChecker, ColumnType, HAS_PERMISSION_CHECKER, PortalCoreModule } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { DialogService } from 'primeng/dynamicdialog'
 import { AIProviderSearchActions } from './aiprovider-search.actions'
 import { AIProviderSearchColumns } from './aiprovider-search.columns'
 import { AIProviderSearchComponent } from './aiprovider-search.component'
 import { AIProviderSearchHarness } from './aiprovider-search.harness'
-import { initialState} from './aiprovider-search.reducers'
+import { initialState } from './aiprovider-search.reducers'
 import { selectAIProviderSearchViewModel } from './aiprovider-search.selectors'
 import { AIProviderSearchViewModel } from './aiprovider-search.viewmodel'
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 
 describe('AIProviderSearchComponent effects', () => {
   let component: AIProviderSearchComponent
@@ -35,7 +36,7 @@ describe('AIProviderSearchComponent effects', () => {
   }
   const baseAIProviderSearchViewModel: AIProviderSearchViewModel = {
     columns: AIProviderSearchColumns,
-    searchCriteria: { 
+    searchCriteria: {
       name: undefined,
       description: undefined,
       llmUrl: undefined,
@@ -44,7 +45,7 @@ describe('AIProviderSearchComponent effects', () => {
       appId: undefined,
       id: undefined,
       limit: undefined
-     },
+    },
     results: [],
     displayedColumns: [],
     viewMode: 'basic',
@@ -76,18 +77,21 @@ describe('AIProviderSearchComponent effects', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
+        provideUserServiceMock(),
+        {
+          provide: HAS_PERMISSION_CHECKER,
+          useClass: AlwaysGrantPermissionChecker
+        }
       ]
     }).compileComponents()
-    const userService = TestBed.inject(UserService)
-    userService.hasPermission = () => true
     const translateService = TestBed.inject(TranslateService)
     translateService.use('en')
     formBuilder = TestBed.inject(FormBuilder)
-  
+
     store = TestBed.inject(MockStore)
     store.overrideSelector(selectAIProviderSearchViewModel, baseAIProviderSearchViewModel)
     store.refreshState()
-  
+
     fixture = TestBed.createComponent(AIProviderSearchComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
@@ -95,7 +99,7 @@ describe('AIProviderSearchComponent effects', () => {
   })
 
 
- 
+
   it('should dispatch resetButtonClicked action on resetSearch', async () => {
     const doneFn = jest.fn()
     store.overrideSelector(selectAIProviderSearchViewModel, {
@@ -270,7 +274,7 @@ describe('AIProviderSearchComponent effects', () => {
 
   it('should dispatch editAiproviderButtonClicked action on edit()', () => {
     jest.spyOn(store, 'dispatch')
-    component.edit({ id: '123', imagePath: '' }) 
+    component.edit({ id: '123', imagePath: '' })
     expect(store.dispatch).toHaveBeenCalledWith(
       AIProviderSearchActions.editAiproviderButtonClicked({ id: '123' })
     )
