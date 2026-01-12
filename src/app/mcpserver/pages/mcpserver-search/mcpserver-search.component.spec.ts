@@ -283,20 +283,26 @@ describe('MCPServerSearchComponent', () => {
     expect(await searchBreadcrumbItem!.getText()).toEqual('Search')
   })
 
-  it('should dispatch searchButtonClicked action on search', (done) => {
+  it('should dispatch searchButtonClicked action on search', () => {
+    jest.spyOn(store, 'dispatch')
     const sampleDate = new Date(2024, 5, 1, 10, 0, 0)
     const formValue = formBuilder.group({
-      changeMe: '123',
-      date: sampleDate
+      name: 'just text',
+      description: sampleDate
     })
     component.mcpserverSearchFormGroup = formValue
 
-    store.scannedActions$.pipe(ofType(MCPServerSearchActions.searchButtonClicked)).subscribe((a) => {
-      expect(a.searchCriteria).toEqual({ changeMe: '123', date: getUTCDateWithoutTimezoneIssues(sampleDate) })
-      done()
-    })
 
     component.search(formValue)
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      MCPServerSearchActions.searchButtonClicked({
+        searchCriteria: {
+          name: 'just text',
+          description: getUTCDateWithoutTimezoneIssues(sampleDate)
+        } as any
+      })
+    )
   })
 
   it('should dispatch viewModeChanged action on view mode changes', async () => {

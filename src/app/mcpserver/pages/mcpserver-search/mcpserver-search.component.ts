@@ -109,7 +109,7 @@ export class MCPServerSearchComponent implements OnInit {
         ...acc,
         [key]: isValidDate(value)
           ? getUTCDateWithoutTimezoneIssues(value)
-          : value || undefined
+          : value
       }),
       {}
     )
