@@ -291,4 +291,51 @@ describe('MCPServerDetailsComponent', () => {
 
     expect(store.dispatch).toHaveBeenCalledWith(MCPServerDetailsActions.deleteButtonClicked())
   })
+
+  it('should dispatch apiKeyToggleVisibility action on api key visibility toggle', async () => {
+    jest.spyOn(store, 'dispatch')
+    store.overrideSelector(selectMCPServerDetailsViewModel, {
+      ...baseMCPServerDetailsViewModel,
+      isApiKeyHidden: true
+    })
+    store.refreshState()
+    fixture.detectChanges()
+
+    const toggleButton = await mcpserverDetails.getToggleAPIAccessButton()
+    expect(toggleButton).toBeDefined()
+    await toggleButton?.click()
+
+    expect(store.dispatch).toHaveBeenCalledWith(MCPServerDetailsActions.apiKeyVisibilityToggled())
+  })
+
+  it('should work with details', async () => {
+    store.overrideSelector(selectMCPServerDetailsViewModel, {
+      ...baseMCPServerDetailsViewModel,
+      details: {
+        id: "my-id",
+        apiKey: "my-apikey"
+      }
+    })
+    store.refreshState()
+    fixture.detectChanges()
+
+    const pageHeader = await mcpserverDetails.getHeader()
+    const idDetailItem = await pageHeader.getObjectInfoByLabel('HELLO_DETAILS.FORM.ID')
+    expect(await idDetailItem?.getValue()).toEqual('my-id')
+
+  })
+
+  it('handles missing details (covers optional chaining)', async () => {
+    store.overrideSelector(selectMCPServerDetailsViewModel, {
+      ...baseMCPServerDetailsViewModel,
+      details: undefined
+    } as any)
+    store.refreshState()
+    fixture.detectChanges()
+
+    const pageHeader = await mcpserverDetails.getHeader()
+    const idDetailItem = await pageHeader.getObjectInfoByLabel('HELLO_DETAILS.FORM.ID')
+    expect(await idDetailItem?.getValue()).toBeFalsy()    
+    expect(component.formGroup.get('id')?.value).toBeFalsy()
+  })
 })

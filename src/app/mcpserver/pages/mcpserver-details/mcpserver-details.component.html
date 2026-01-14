@@ -39,6 +39,7 @@
             </span>
             <a
               *ocxIfPermission="'MCPSERVER#CHANGE_API_KEY'"
+              data-testid="toggle-api-access-button"
               class="p-inputgroup-addon bg-primary pseudo-button pi pi-eye"
               [ngClass]="{
                 'pi-eye': vm.isApiKeyHidden,
@@ -49,7 +50,7 @@
               tabindex="0"
               (click)="toggleApiKeyVisibility()"
               (keydown.enter)="toggleApiKeyVisibility()"
-              [attr.aria-label]="'VIEW_API_KEY' | translate"
+              [attr.aria-label]="'MCPSERVER_DETAILS.FORM.VIEW_API_KEY' | translate"
             >
             </a>
           </div>
