@@ -17,8 +17,7 @@ import {
   HAS_PERMISSION_CHECKER,
   PortalCoreModule,
   PortalDialogService,
-  PortalMessageService,
-  UserService
+  PortalMessageService
 } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { PrimeIcons } from 'primeng/api'
@@ -274,8 +273,6 @@ describe('AiContextDetailsComponent', () => {
     effects = TestBed.inject(AiContextDetailsEffects)
     effects.displayError$.subscribe()
 
-    const userService = TestBed.inject(UserService)
-    userService.hasPermission = () => true
     const translateService = TestBed.inject(TranslateService)
     translateService.use('en')
 
