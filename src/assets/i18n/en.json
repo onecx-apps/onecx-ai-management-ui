@@ -17,7 +17,12 @@
     },
     "FORM": {
       "VIEW_API_KEY": "View API Key",
-      "ID": "ID"
+      "ID": "ID",
+      "URL": "URL",
+      "PROTOCOL": "Protocol",
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "APIKEY": "API Key"
     },
     "CANCEL": {
       "HEADER": "Confirm cancel",
@@ -73,10 +78,16 @@
       "FULL": "Full"
     },
     "RESULTS": {
-      "HELLO": "Hello"
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "URL": "URL",
+      "PROTOCOL": "Protocol"
     },
     "CRITERIA": {
-      "HELLO": "Hello"
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "URL": "URL",
+      "PROTOCOL": "Protocol"
     }
   },
   "AI_CONTEXT_DETAILS": {
@@ -129,7 +140,7 @@
     "TABLE": {
       "NAME": "Name",
       "DESCRIPTION": "Description",
-      "URL": "URL",      
+      "URL": "URL",
       "STATUS": "Status"
     }
   },

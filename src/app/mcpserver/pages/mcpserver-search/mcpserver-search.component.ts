@@ -88,7 +88,13 @@ export class MCPServerSearchComponent implements OnInit {
         routerLink: '/mcpserver'
       }
     ])
-    this.viewModel$.subscribe((vm) => this.mcpserverSearchFormGroup.patchValue(vm.searchCriteria))
+    this.viewModel$.subscribe((vm) => {
+      if (Object.keys(vm.searchCriteria).length === 0) {
+        this.mcpserverSearchFormGroup.reset()
+      } else {
+        this.mcpserverSearchFormGroup.patchValue(vm.searchCriteria)
+      }
+    })
   }
 
   resultComponentStateChanged(state: InteractiveDataViewComponentState) {

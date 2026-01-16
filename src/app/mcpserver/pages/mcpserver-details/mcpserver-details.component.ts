@@ -20,22 +20,24 @@ export class MCPServerDetailsComponent implements OnInit {
 
   headerLabels$: Observable<ObjectDetailItem[]> = this.viewModel$.pipe(
     map((vm) => {
-      const labels: ObjectDetailItem[] = [
-        //ACTION D1: Add header values here
+      const labels: ObjectDetailItem[] = [        
         {
-          label: 'HELLO_DETAILS.FORM.ID',
+          label: 'MCPSERVER_DETAILS.FORM.NAME',
           labelPipe: TranslatePipe,
-          value: vm.details?.id
-        }
+          value: vm.details?.name
+        },
+        {
+          label: 'MCPSERVER_DETAILS.FORM.URL',
+          labelPipe: TranslatePipe,
+          value: vm.details?.url
+        },
       ]
       return labels
     })
   )
 
   headerActions$: Observable<Action[]> = this.viewModel$.pipe(
-    map((vm) => {
-      console.log("vm", vm)
-
+    map((vm) => {      
       const actions: Action[] = [
         {
           titleKey: 'MCPSERVER_DETAILS.GENERAL.BACK',
@@ -101,6 +103,7 @@ export class MCPServerDetailsComponent implements OnInit {
   )
 
   public formGroup: FormGroup
+  hasAPIKeyPermission = false
 
   constructor(
     private store: Store,
@@ -109,25 +112,35 @@ export class MCPServerDetailsComponent implements OnInit {
   ) {
     this.formGroup = new FormGroup({
       id: new FormControl(null, [Validators.maxLength(255)]),
-      apiKey: new FormControl(null, [Validators.maxLength(255)])
+      apiKey: new FormControl(null, [Validators.maxLength(255)]),
+      name: new FormControl(null, [Validators.required, Validators.maxLength(255)]),
+      description: new FormControl(null, [Validators.required, Validators.maxLength(1024)]),
+      url: new FormControl(null, [Validators.required, Validators.maxLength(2048)]),
+      protocol: new FormControl(null, [Validators.required, Validators.maxLength(50)])
     })
     this.formGroup.disable()
 
     this.viewModel$.subscribe((vm) => {
       if (!vm.editMode) {
-        this.formGroup.setValue({
+        this.formGroup.patchValue({
           id: vm.details?.id,
-          apiKey: vm.details?.apiKey
+          apiKey: vm.details?.apiKey,
+          name: vm.details?.name,
+          description: vm.details?.description,
+          url: vm.details?.url,
+          protocol: vm.details?.protocol
         })
         this.formGroup.markAsPristine()
       }
 
       if (vm.editMode) {
         this.formGroup.enable()
-      } else {
+      } else {        
         this.formGroup.disable()
       }
     })
+
+    this.hasAPIKeyPermission = this.userService.hasPermission('MCPSERVER#CHANGE_API_KEY')
   }
 
   ngOnInit(): void {
@@ -138,10 +151,6 @@ export class MCPServerDetailsComponent implements OnInit {
         routerLink: '/mcpserver'
       }
     ])
-  }
-
-  hasAPIKeyPermission() {
-    return this.userService.hasPermission('MCPSERVER#CHANGE_API_KEY')
   }
 
   edit() {

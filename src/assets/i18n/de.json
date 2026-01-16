@@ -17,7 +17,12 @@
     },
     "FORM": {
       "VIEW_API_KEY": "API-Schlüssel anzeigen",
-      "ID": "ID"
+      "ID": "ID",
+      "URL": "URL",
+      "PROTOCOL": "Protokoll",
+      "NAME": "Name",
+      "DESCRIPTION": "Beschreibung",
+      "APIKEY": "API-Schlüssel"
     },
     "CANCEL": {
       "HEADER": "Abbruch bestätigen",
@@ -68,12 +73,18 @@
       "FULL": "Vollständig"
     },
     "RESULTS": {
-      "HELLO": "Hallo"
+      "NAME": "Name",
+      "DESCRIPTION": "Beschreibung",
+      "URL": "URL",
+      "PROTOCOL": "Protokoll"
     },
     "CRITERIA": {
-      "HELLO": "Hallo"
+      "NAME": "Name",
+      "DESCRIPTION": "Beschreibung",
+      "URL": "URL",
+      "PROTOCOL": "Protokoll"
     }
-  },  
+  },
   "AI_CONTEXT_DETAILS": {
     "HELP_ARTICLE_ID": "Hilfeartikel",
     "BREADCRUMB": "Details",

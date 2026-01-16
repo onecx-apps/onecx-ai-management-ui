@@ -671,6 +671,10 @@ components:
           type: string
         description:
           type: string
+        url:
+          type: string
+        protocol:
+          type: string
     SearchMCPServerResponse:
       type: object
       required:

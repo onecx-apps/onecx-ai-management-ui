@@ -23,16 +23,63 @@
               type="text"
               class="w-18rem"
               formControlName="name"
-              [pTooltip]="'HELLO_SEARCH.CRITERIA.HELLO' | translate"
+              [pTooltip]="'MCPSERVER_SEARCH.CRITERIA.NAME' | translate"
               tooltipPosition="top"
               tooltipEvent="hover"
             />
-            <label for="name" style="white-space: nowrap"> {{ 'HELLO_SEARCH.CRITERIA.HELLO' | translate }}</label>
+            <label for="name" style="white-space: nowrap"> {{ 'MCPSERVER_SEARCH.CRITERIA.NAME' | translate }}</label>
+          </span>
+        </div>
+
+        <div class="col-12 md:col-3">
+          <span class="p-float-label">
+            <input
+              pInputText
+              id="description"
+              type="text"
+              class="w-18rem"
+              formControlName="description"
+              [pTooltip]="'MCPSERVER_SEARCH.CRITERIA.DESCRIPTION' | translate"
+              tooltipPosition="top"
+              tooltipEvent="hover"
+            />
+            <label for="description" style="white-space: nowrap"> {{ 'MCPSERVER_SEARCH.CRITERIA.DESCRIPTION' | translate }}</label>
+          </span>
+        </div>
+
+        <div class="col-12 md:col-3">
+          <span class="p-float-label">
+            <input
+              pInputText
+              id="url"
+              type="text"
+              class="w-18rem"
+              formControlName="url"
+              [pTooltip]="'MCPSERVER_SEARCH.CRITERIA.URL' | translate"
+              tooltipPosition="top"
+              tooltipEvent="hover"
+            />
+            <label for="url" style="white-space: nowrap"> {{ 'MCPSERVER_SEARCH.CRITERIA.URL' | translate }}</label>
+          </span>
+        </div>
+
+        <div class="col-12 md:col-3">
+          <span class="p-float-label">
+            <input
+              pInputText
+              id="protocol"
+              type="text"
+              class="w-18rem"
+              formControlName="protocol"
+              [pTooltip]="'MCPSERVER_SEARCH.CRITERIA.PROTOCOL' | translate"
+              tooltipPosition="top"
+              tooltipEvent="hover"
+            />
+            <label for="protocol" style="white-space: nowrap"> {{ 'MCPSERVER_SEARCH.CRITERIA.PROTOCOL' | translate }}</label>
           </span>
         </div>
       </div>
-      <!--// ACTION S3: Specify here your desired search criterias:
-      https://onecx.github.io/docs/nx-plugins/current/general/getting_started/search/configure-search-criteria.html#action-3-->
+      
     </form>
   </ocx-search-header>
   <ocx-content-container layout="horizontal">

@@ -21,5 +21,7 @@ export interface SearchMCPServerRequest {
     pageSize?: number;
     name?: string;
     description?: string;
+    url?: string;
+    protocol?: string;
 }
 

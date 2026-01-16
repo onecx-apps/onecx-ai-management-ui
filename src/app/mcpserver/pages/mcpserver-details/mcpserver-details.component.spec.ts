@@ -61,6 +61,7 @@ describe('MCPServerDetailsComponent', () => {
   let store: MockStore<Store>
   let breadcrumbService: BreadcrumbService
   let mcpserverDetails: MCPServerDetailsHarness
+  let translateService: TranslateService
 
   const mockActivatedRoute = {
     snapshot: {
@@ -111,7 +112,7 @@ describe('MCPServerDetailsComponent', () => {
     const userServiceMock = TestBed.inject(UserService)
     userServiceMock.permissions$.next(["MCPSERVER#BACK"])
 
-    const translateService = TestBed.inject(TranslateService)
+    translateService = TestBed.inject(TranslateService)
     translateService.use('en')
 
     store = TestBed.inject(MockStore)
@@ -313,6 +314,7 @@ describe('MCPServerDetailsComponent', () => {
       ...baseMCPServerDetailsViewModel,
       details: {
         id: "my-id",
+        name: "my-name",
         apiKey: "my-apikey"
       }
     })
@@ -320,9 +322,9 @@ describe('MCPServerDetailsComponent', () => {
     fixture.detectChanges()
 
     const pageHeader = await mcpserverDetails.getHeader()
-    const idDetailItem = await pageHeader.getObjectInfoByLabel('HELLO_DETAILS.FORM.ID')
-    expect(await idDetailItem?.getValue()).toEqual('my-id')
-
+    const translatedLabel = translateService.instant('MCPSERVER_DETAILS.FORM.NAME')
+    const idDetailItem = await pageHeader.getObjectInfoByLabel(translatedLabel)
+    expect(await idDetailItem?.getValue()).toEqual('my-name')
   })
 
   it('handles missing details (covers optional chaining)', async () => {
@@ -334,8 +336,9 @@ describe('MCPServerDetailsComponent', () => {
     fixture.detectChanges()
 
     const pageHeader = await mcpserverDetails.getHeader()
-    const idDetailItem = await pageHeader.getObjectInfoByLabel('HELLO_DETAILS.FORM.ID')
-    expect(await idDetailItem?.getValue()).toBeFalsy()    
-    expect(component.formGroup.get('id')?.value).toBeFalsy()
+    const translatedLabel = translateService.instant('MCPSERVER_DETAILS.FORM.NAME')
+    const idDetailItem = await pageHeader.getObjectInfoByLabel(translatedLabel)
+    expect(await idDetailItem?.getValue()).toBeFalsy()
+    expect(component.formGroup.get('name')?.value).toBeFalsy()
   })
 })
