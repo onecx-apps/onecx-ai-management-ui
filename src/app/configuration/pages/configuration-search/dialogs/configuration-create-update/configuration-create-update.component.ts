@@ -29,8 +29,7 @@ export class ConfigurationCreateUpdateComponent
   dialogResult: Configuration | undefined = undefined
 
   constructor() {
-    this.formGroup = new FormGroup({
-      appId: new FormControl(null, [Validators.maxLength(255)]),
+    this.formGroup = new FormGroup({      
       name: new FormControl(null, [Validators.maxLength(255)]),
       description: new FormControl(null, [Validators.maxLength(255)])
     })

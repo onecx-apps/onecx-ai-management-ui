@@ -68,8 +68,6 @@ describe('ProviderDetailsComponent', () => {
       description: 'Test description',
       llmUrl: 'Test llmUrl',
       modelName: 'Test modelName',
-      modelVersion: 'Test modelVersion',
-      appId: 'Test AppId',
       apiKey: 'TestAPIKey'
     },
     editMode: false,
@@ -174,9 +172,7 @@ describe('ProviderDetailsComponent', () => {
         name: 'Test name',
         description: 'Test description',
         llmUrl: 'Test llmUrl',
-        modelName: 'Test modelName',
-        modelVersion: 'Test modelVersion',
-        appId: 'Test AppId',
+        modelName: 'Test modelName',                
         apiKey: 'TestAPIKey'
       })
     })

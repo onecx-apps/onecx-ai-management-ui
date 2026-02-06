@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { provideMockActions } from '@ngrx/effects/testing'
 import { MonoTypeOperatorFunction, ReplaySubject, map, of, throwError } from 'rxjs'
-import { MCPServerBffService } from '../../../shared/generated'
 import { ExportDataService, PortalMessageService } from '@onecx/portal-integration-angular'
 import { MCPServerSearchEffects } from './mcpserver-search.effects'
 import { MCPServerSearchActions } from './mcpserver-search.actions'
@@ -15,6 +14,7 @@ import { initialState } from './mcpserver-search.reducers'
 import { selectUrl } from 'src/app/shared/selectors/router.selectors'
 import { MCPServerSearchViewModel } from './mcpserver-search.viewmodel'
 import { routerNavigatedAction } from '@ngrx/router-store'
+import { McpServerService } from 'src/app/shared/generated'
 
 jest.mock('@onecx/ngrx-accelerator', () => {
   const actual = jest.requireActual('@onecx/ngrx-accelerator')
@@ -44,7 +44,7 @@ describe('MCPServerSearchEffects', () => {
   let store: MockStore<Store>
   let router: jest.Mocked<Router>
   let route: ActivatedRoute
-  let mcpService: jest.Mocked<MCPServerBffService>
+  let mcpService: jest.Mocked<McpServerService>
   let messageService: jest.Mocked<PortalMessageService>
   let exportDataService: jest.Mocked<ExportDataService>
 
@@ -57,8 +57,8 @@ describe('MCPServerSearchEffects', () => {
     actions$ = new ReplaySubject(1)
 
     mcpService = {
-      searchMCPServers: jest.fn()
-    } as unknown as jest.Mocked<MCPServerBffService>
+      findMCPServerByCriteria: jest.fn()
+    } as unknown as jest.Mocked<McpServerService>
 
     router = {
       navigate: jest.fn().mockReturnValue(Promise.resolve(true)),
@@ -102,7 +102,7 @@ describe('MCPServerSearchEffects', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: Router, useValue: router },
         { provide: ActivatedRoute, useValue: route },
-        { provide: MCPServerBffService, useValue: mcpService },
+        { provide: McpServerService, useValue: mcpService },
         { provide: PortalMessageService, useValue: messageService },
         { provide: ExportDataService, useValue: exportDataService }
       ]
@@ -228,7 +228,7 @@ describe('MCPServerSearchEffects', () => {
       store.overrideSelector(mcpserverSearchSelectors.selectCriteria, mockCriteria)
       store.refreshState()
 
-      mcpService.searchMCPServers.mockReturnValue(
+      mcpService.findMCPServerByCriteria.mockReturnValue(
         of({
           stream: [{ id: '1', name: 'Test MCP Server' }],
           size: 10,
@@ -280,7 +280,7 @@ describe('MCPServerSearchEffects', () => {
     it('should dispatch mcpserverSearchResultsLoadingFailed on search error', (done) => {
       const mockError = 'Search failed'
 
-      mcpService.searchMCPServers.mockReturnValue(throwError(() => mockError))
+      mcpService.findMCPServerByCriteria.mockReturnValue(throwError(() => mockError))
 
       effects.performSearch(mockCriteria).subscribe((action) => {
         expect(action.type).toEqual(MCPServerSearchActions.mcpserverSearchResultsLoadingFailed.type)
@@ -300,7 +300,7 @@ describe('MCPServerSearchEffects', () => {
         endDate: new Date('2023-12-31')
       }
 
-      const searchSpy = jest.spyOn(mcpService, 'searchMCPServers')
+      const searchSpy = jest.spyOn(mcpService, 'findMCPServerByCriteria')
 
       effects.performSearch(criteriaWithDate).subscribe(() => {
         expect(searchSpy).toHaveBeenCalledWith({

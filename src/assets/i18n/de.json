@@ -99,8 +99,7 @@
       "SAVE": "Speichern"
     },
     "FORM": {
-      "ID": "ID",
-      "APPID": "App Id",
+      "ID": "ID",      
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "MCP_SERVER": "MCP Servers",
@@ -155,13 +154,11 @@
       "SEARCH_CONFIG_UPDATE_FAILED": "Suchkonfiguration konnte nicht aktualisiert werden.",
       "SEARCH_CONFIGS_LOADING_FAILED": "Suchkonfigurationen konnten nicht geladen werden."
     },
-    "COLUMNS": {
-      "APPID": "App Id",
+    "COLUMNS": {      
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung"
     },
-    "INPUT_FIELDS": {
-      "APPID": "App Id",
+    "INPUT_FIELDS": {      
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung"
     },
@@ -194,8 +191,7 @@
       },
       "HEADER": "Configuration bearbeiten"
     },
-    "FORM": {
-      "APPID": "App Id",
+    "FORM": {      
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung"
     }
@@ -256,9 +252,7 @@
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "Modelname",
-      "MODELVERSION": "Modelversion",
-      "APPID": "App Id",
+      "MODELNAME": "Modelname",      
       "APIKEY": "API Key"
     }
   },

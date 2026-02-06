@@ -38,8 +38,6 @@ describe('ProviderDetailsComponent actions & dispatch', () => {
       description: 'Test description',
       llmUrl: 'Test llmUrl',
       modelName: 'Test modelName',
-      modelVersion: 'Test modelVersion',
-      appId: 'Test AppId',
       apiKey: 'TestAPIKey'
     },
     editMode: false,
@@ -190,7 +188,7 @@ describe('ProviderDetailsComponent actions & dispatch', () => {
 
   it('should patch form fields with empty string if details fields are undefined', async () => {
     store.overrideSelector(selectProviderDetailsViewModel, {
-      details: {id: ''},
+      details: {id: '', name: '', modelName: ''},
       editMode: false,
       isApiKeyHidden: false
     })
@@ -202,9 +200,7 @@ describe('ProviderDetailsComponent actions & dispatch', () => {
       name: '',
       description: undefined,
       llmUrl: undefined,
-      modelName: undefined,
-      modelVersion: undefined,
-      appId: undefined,
+      modelName: '',
       apiKey: undefined
     })
   })

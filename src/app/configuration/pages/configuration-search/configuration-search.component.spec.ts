@@ -40,8 +40,7 @@ describe('ConfigurationSearchComponent', () => {
 
   const baseConfigurationSearchViewModel: ConfigurationSearchViewModel = {
     columns: configurationSearchColumns,
-    searchCriteria: {
-      appId: '',
+    searchCriteria: {    
       name: '',
       description: ''
     },
@@ -346,7 +345,7 @@ describe('ConfigurationSearchComponent', () => {
   it('should handle isValidDate true branch for allowed key (using as any for coverage)', () => {
     const testDate = new Date(2024, 4, 15, 12, 30, 45)
     const formValue = {
-      appId: testDate as any
+      description: testDate as any
     }
     component.configurationSearchFormGroup = {
       value: formValue,
@@ -358,7 +357,7 @@ describe('ConfigurationSearchComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       ConfigurationSearchActions.searchButtonClicked({
         searchCriteria: {
-          appId: new Date(
+          description: new Date(
             Date.UTC(
               testDate.getFullYear(),
               testDate.getMonth(),

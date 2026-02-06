@@ -9,8 +9,6 @@ describe('ProviderSearch selectors', () => {
         description: 'Desc',
         llmUrl: 'url',
         modelName: 'model',
-        modelVersion: 'v1',
-        appId: 'app'
       }
     ]
     const mapped = selectResults.projector(results)
@@ -22,8 +20,6 @@ describe('ProviderSearch selectors', () => {
         description: 'Desc',
         llmUrl: 'url',
         modelName: 'model',
-        modelVersion: 'v1',
-        appId: 'app'
       }
     ])
   })
@@ -67,8 +63,6 @@ describe('ProviderSearch selectors', () => {
           description: undefined,
           llmUrl: undefined,
           modelName: 'model',
-          modelVersion: undefined,
-          appId: undefined
         }
       ],
       displayedColumns: [{ id: 'col1', nameKey: 'Col1' }],

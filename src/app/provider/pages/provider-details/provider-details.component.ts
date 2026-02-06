@@ -28,10 +28,8 @@ export class ProviderDetailsComponent implements OnInit {
     this.formGroup = new FormGroup({
       name: new FormControl(null, [Validators.maxLength(255)]),
       description: new FormControl(null, [Validators.maxLength(255)]),
-      llmUrl: new FormControl(null, [Validators.maxLength(255)]),
-      appId: new FormControl(null, [Validators.maxLength(255)]),
-      modelName: new FormControl(null, [Validators.maxLength(255)]),
-      modelVersion: new FormControl(null, [Validators.maxLength(255)]),
+      llmUrl: new FormControl(null, [Validators.maxLength(255)]),      
+      modelName: new FormControl(null, [Validators.maxLength(255)]),      
       apiKey: new FormControl(null, [Validators.maxLength(255)])
     })
   }

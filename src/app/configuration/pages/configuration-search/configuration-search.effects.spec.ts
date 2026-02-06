@@ -91,8 +91,7 @@ describe('ConfigurationSearchEffects', () => {
     } as unknown as jest.Mocked<ExportDataService>
 
     route = {
-      queryParams: of({
-        appId: 'test-app',
+      queryParams: of({        
         name: 'test-name',
         description: 'test-description'
       }),
@@ -132,8 +131,7 @@ describe('ConfigurationSearchEffects', () => {
     it('should navigate to update URL when criteria differs from query params', (done) => {
       const navigateSpy = jest.spyOn(router, 'navigate')
 
-      route.queryParams = of({
-        appId: 'different-app',
+      route.queryParams = of({        
         name: 'different-name',
         description: 'different-description'
       })
@@ -168,7 +166,7 @@ describe('ConfigurationSearchEffects', () => {
       const navigateSpy = jest.spyOn(router, 'navigate')
 
       route.queryParams = of({
-        appId: 'different-app'
+        name: 'different-name',
       })
 
       actions$.next(ConfigurationSearchActions.resetButtonClicked())
@@ -579,8 +577,7 @@ describe('ConfigurationSearchEffects', () => {
     })
 
     it('should use current search criteria from store', (done) => {
-      const customCriteria = {
-        appId: 'custom-app',
+      const customCriteria = {        
         name: 'custom-name',
         description: 'custom-desc'
       }

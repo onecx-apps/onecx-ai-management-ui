@@ -78,8 +78,8 @@ describe('ProviderCreateUpdateComponent', () => {
   })
 
   it('should patch formGroup with itemToEdit on ngOnInit', () => {
-    component.vm.itemToEdit = { id: '2', name: 'Patched', description: 'PatchedDesc', modelName: 'model' }
-    component.formGroup.setValue({ name: null, description: null, modelName: 'PatchedModel' })
+    component.vm.itemToEdit = { id: '2', name: 'Patched', description: 'PatchedDesc', modelName: 'PatchedModel' }
+    component.formGroup.setValue({ name: null, description: null, modelName: null })
     component.ngOnInit()
     expect(component.formGroup.value).toEqual({
       name: 'Patched',

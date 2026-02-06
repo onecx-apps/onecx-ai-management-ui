@@ -104,8 +104,7 @@
       "SAVE": "Save"
     },
     "FORM": {
-      "ID": "ID",
-      "APPID": "App Id",
+      "ID": "ID",      
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "MCP_SERVER": "MCP Server",
@@ -165,13 +164,11 @@
       "SEARCH_CONFIG_UPDATE_FAILED": "Update search configuration failed.",
       "SEARCH_CONFIGS_LOADING_FAILED": "Loading search configurations failed."
     },
-    "COLUMNS": {
-      "APPID": "App Id",
+    "COLUMNS": {      
       "NAME": "Name",
       "DESCRIPTION": "Description"
     },
-    "INPUT_FIELDS": {
-      "APPID": "App Id",
+    "INPUT_FIELDS": {      
       "NAME": "Name",
       "DESCRIPTION": "Description"
     },
@@ -204,8 +201,7 @@
       },
       "HEADER": "Update Configuration"
     },
-    "FORM": {
-      "APPID": "App Id",
+    "FORM": {      
       "NAME": "Name",
       "DESCRIPTION": "Description"
     }
@@ -243,8 +239,7 @@
     },
     "FORM": {
       "NAME": "Name",
-      "DESCRIPTION": "Description",
-      "APPID": "App Id"
+      "DESCRIPTION": "Description"      
     }
   },
   "AI_PROVIDER_DETAILS": {
@@ -266,9 +261,7 @@
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "Modelname",
-      "MODELVERSION": "Modelversion",
-      "APPID": "App Id",
+      "MODELNAME": "Modelname",      
       "APIKEY": "API Key"
     }
   },
@@ -307,8 +300,7 @@
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "Modelname",
-      "APPID": "App Id"
+      "MODELNAME": "Modelname"      
     },
     "PREDEFINED_GROUP": {
       "DEFAULT": "Default",

@@ -1,14 +1,6 @@
 import { ColumnType, DataTableColumn } from '@onecx/angular-accelerator'
 
-export const configurationSearchColumns: DataTableColumn[] = [
-  {
-    id: 'appId',
-    columnType: ColumnType.STRING,
-    nameKey: 'CONFIGURATION_SEARCH.COLUMNS.APPID',
-    filterable: true,
-    sortable: true,
-    predefinedGroupKeys: ['CONFIGURATION_SEARCH.PREDEFINED_GROUP.EXTENDED', 'CONFIGURATION_SEARCH.PREDEFINED_GROUP.FULL']
-  },
+export const configurationSearchColumns: DataTableColumn[] = [  
   {
     id: 'name',
     columnType: ColumnType.STRING,
