@@ -1,5 +1,5 @@
 /**
- * onecx-ai-management-bff
+ * onecx-ai bff
  *
  * 
  *
@@ -7,17 +7,22 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { AIContext } from './aIContext';
+import { ExecutionPolicy } from './executionPolicy';
 
 
 export interface MCPServer { 
     modificationCount?: number;
-    id: string;
+    creationDate?: string;
+    creationUser?: string;
+    modificationDate?: string;
+    modificationUser?: string;
+    id?: string;
     name?: string;
     description?: string;
     url?: string;
     apiKey?: string;
-    protocol?: string;
-    aiContext?: AIContext;
+    executionPolicy?: ExecutionPolicy;
 }
+
+
 

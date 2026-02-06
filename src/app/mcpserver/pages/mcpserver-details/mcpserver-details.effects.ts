@@ -10,7 +10,7 @@ import { PrimeIcons } from 'primeng/api'
 import { catchError, filter, map, mergeMap, of, switchMap, tap } from 'rxjs'
 import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
 import { selectRouteParam, selectUrl } from 'src/app/shared/selectors/router.selectors'
-import { MCPServer, MCPServerBffService, UpdateMCPServerRequest } from '../../../shared/generated'
+import { MCPServer, McpServerService, UpdateMCPServerRequest } from '../../../shared/generated'
 import { MCPServerDetailsActions } from './mcpserver-details.actions'
 import { MCPServerDetailsComponent } from './mcpserver-details.component'
 import { mcpserverDetailsSelectors } from './mcpserver-details.selectors'
@@ -18,13 +18,13 @@ import { mcpserverDetailsSelectors } from './mcpserver-details.selectors'
 @Injectable()
 export class MCPServerDetailsEffects {
   constructor(
-    private actions$: Actions,
-    private mcpserverService: MCPServerBffService,
-    private router: Router,
-    private store: Store,
-    private messageService: PortalMessageService,
-    private portalDialogService: PortalDialogService
-  ) {}
+    private readonly actions$: Actions,
+    private readonly mcpserverService: McpServerService,
+    private readonly router: Router,
+    private readonly store: Store,
+    private readonly messageService: PortalMessageService,
+    private readonly portalDialogService: PortalDialogService
+  ) { }
 
   navigatedToDetailsPage$ = createEffect(() => {
     return this.actions$.pipe(
@@ -44,7 +44,7 @@ export class MCPServerDetailsEffects {
       ofType(MCPServerDetailsActions.navigatedToDetailsPage),
       switchMap(({ id }) =>
         this.mcpserverService.getMCPServerById(id ?? '').pipe(
-          map(({ resource }) =>
+          map((resource) =>
             MCPServerDetailsActions.mCPServerDetailsReceived({
               details: resource
             })
@@ -96,9 +96,9 @@ export class MCPServerDetailsEffects {
           return of(MCPServerDetailsActions.updateMCPServerCancelled())
         }
         const itemToEdit = {
-          resource: updatedItem
+          ...updatedItem
         } as UpdateMCPServerRequest
-        return this.mcpserverService.updateMCPServer(itemToEditId, itemToEdit).pipe(
+        return this.mcpserverService.updateMCPServerById(itemToEditId, itemToEdit).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'MCPSERVER_DETAILS.UPDATE.SUCCESS'
@@ -147,11 +147,11 @@ export class MCPServerDetailsEffects {
         if (!dialogResult || dialogResult.button == 'secondary') {
           return of(MCPServerDetailsActions.deleteMCPServerCancelled())
         }
-        if (!itemToDelete) {
+        if (!itemToDelete?.id) {
           throw new Error('Item to delete not found!')
         }
 
-        return this.mcpserverService.deleteMCPServer(itemToDelete.id).pipe(
+        return this.mcpserverService.deleteMCPServerById(itemToDelete.id).pipe(
           map(() => {
             this.messageService.success({
               summaryKey: 'MCPSERVER_DETAILS.DELETE.SUCCESS'

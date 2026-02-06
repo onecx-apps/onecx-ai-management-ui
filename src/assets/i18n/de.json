@@ -18,8 +18,7 @@
     "FORM": {
       "VIEW_API_KEY": "API-Schlüssel anzeigen",
       "ID": "ID",
-      "URL": "URL",
-      "PROTOCOL": "Protokoll",
+      "URL": "URL",      
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "APIKEY": "API-Schlüssel"
@@ -75,21 +74,19 @@
     "RESULTS": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
-      "URL": "URL",
-      "PROTOCOL": "Protokoll"
+      "URL": "URL"      
     },
     "CRITERIA": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
-      "URL": "URL",
-      "PROTOCOL": "Protokoll"
+      "URL": "URL"
     }
   },
-  "AI_CONTEXT_DETAILS": {
+  "CONFIGURATION_DETAILS": {
     "HELP_ARTICLE_ID": "Hilfeartikel",
     "BREADCRUMB": "Details",
-    "HEADER": "AiContext Details",
-    "SUB_HEADER": "Anzeigen von AiContext Details",
+    "HEADER": "Configuration Details",
+    "SUB_HEADER": "Anzeigen von Configuration Details",
     "ERROR_MESSAGES": {
       "DETAILS_LOADING_FAILED": "Details konnten nicht geladen werden."
     },
@@ -107,7 +104,7 @@
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "MCP_SERVER": "MCP Servers",
-      "AIProvider": "AIProvider",
+      "PROVIDER": "Provider",
       "MCP_SERVERS_PLACEHOLDER": "Wählen Sie MCP Server aus"
     },
     "CANCEL": {
@@ -120,12 +117,12 @@
       "ERROR": "Speichern fehlgeschlagen"
     },
     "DELETE": {
-      "HEADER": "AiContext löschen",
-      "MESSAGE": "Bitte bestätigen Sie, dass Sie dieses AiContext löschen möchten.",
+      "HEADER": "Configuration löschen",
+      "MESSAGE": "Bitte bestätigen Sie, dass Sie dieses Configuration löschen möchten.",
       "CONFIRM": "Bestätigen",
       "CANCEL": "Abbrechen",
-      "SUCCESS": "AiContext erfolgreich gelöscht",
-      "ERROR": "Konnte AiContext nicht löschen"
+      "SUCCESS": "Configuration erfolgreich gelöscht",
+      "ERROR": "Konnte Configuration nicht löschen"
     },
     "TABLE": {
       "NAME": "Name",
@@ -134,9 +131,9 @@
       "STATUS": "Status"
     }
   },
-  "AI_CONTEXT_SEARCH": {
-    "HEADER": "AiContext Suche",
-    "SUB_HEADER": "Suchen und Anzeigen von AiContext",
+  "CONFIGURATION_SEARCH": {
+    "HEADER": "Configuration Suche",
+    "SUB_HEADER": "Suchen und Anzeigen von Configuration",
     "HELP_ARTICLE_ID": "Hilfeartikel",
     "EMPTY_RESULTS": "Keine Ergebnisse.",
     "BREADCRUMB": "Suche",
@@ -174,12 +171,12 @@
       "FULL": "Vollständig"
     }
   },
-  "AI_CONTEXT_CREATE_UPDATE": {
+  "CONFIGURATION_CREATE_UPDATE": {
     "ACTION": {
       "CREATE": "Erstellen"
     },
     "CREATE": {
-      "HEADER": "Neues AiContext erstellen",
+      "HEADER": "Neues Configuration erstellen",
       "SUCCESS": "Erstellung erfolgreich",
       "ERROR": "Erstellung fehlgeschlagen",
       "FORM": {
@@ -195,7 +192,7 @@
         "SAVE": "Speichern",
         "CANCEL": "Abbrechen"
       },
-      "HEADER": "AiContext bearbeiten"
+      "HEADER": "Configuration bearbeiten"
     },
     "FORM": {
       "APPID": "App Id",
@@ -204,19 +201,19 @@
     }
   },
   "AI_PROVIDER_DELETE": {
-    "HEADER": "AIProvider löschen",
-    "MESSAGE": "Bitte bestätigen, dass diese AIProvider gelöscht werden soll.",
+    "HEADER": "Provider löschen",
+    "MESSAGE": "Bitte bestätigen, dass dieser Provider gelöscht werden soll.",
     "CONFIRM": "Bestätigen",
     "CANCEL": "Abbrechen",
-    "SUCCESS": "AIProvider erfolgreich gelöscht",
-    "ERROR": "Konnte AIProvider nicht löschen"
+    "SUCCESS": "Provider erfolgreich gelöscht",
+    "ERROR": "Konnte Provider nicht löschen"
   },
   "AI_PROVIDER_CREATE_UPDATE": {
     "ACTION": {
       "CREATE": "Erstellen"
     },
     "CREATE": {
-      "HEADER": "Neues AIProvider erstellen",
+      "HEADER": "Neues Provider erstellen",
       "SUCCESS": "Erstellung erfolgreich",
       "ERROR": "Erstellung fehlgeschlagen",
       "FORM": {
@@ -232,19 +229,19 @@
         "SAVE": "Speichern",
         "CANCEL": "Abbrechen"
       },
-      "HEADER": "AIProvider bearbeiten"
+      "HEADER": "Provider bearbeiten"
     },
     "FORM": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
-      "APPID": "App Id"
+      "TYPE": "Typ"
     }
   },
   "AI_PROVIDER_DETAILS": {
     "HELP_ARTICLE_ID": "Hilfeartikel",
     "BREADCRUMB": "Details",
-    "HEADER": "AIProvider Details",
-    "SUB_HEADER": "Anzeigen von AIProvider Details",
+    "HEADER": "Provider Details",
+    "SUB_HEADER": "Anzeigen von Provider Details",
     "ERROR_MESSAGES": {
       "DETAILS_LOADING_FAILED": "Details konnten nicht geladen werden."
     },
@@ -266,8 +263,8 @@
     }
   },
   "AI_PROVIDER_SEARCH": {
-    "HEADER": "AIProvider Suche",
-    "SUB_HEADER": "Suchen und Anzeigen von AIProvider",
+    "HEADER": "Provider Suche",
+    "SUB_HEADER": "Suchen und Anzeigen von Provider",
     "HELP_ARTICLE_ID": "Hilfeartikel",
     "EMPTY_RESULTS": "Keine Ergebnisse.",
     "BREADCRUMB": "Suche",
@@ -294,16 +291,13 @@
       "DESCRIPTION": "Beschreibung",
       "LLMURL": "LlmUrl",
       "MODELNAME": "Modelname",
-      "MODELVERSION": "Modelversion",
-      "APPID": "App Id"
+      "TYPE": "Typ"
     },
     "COLUMNS": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "Modelname",
-      "MODELVERSION": "Modelversion",
-      "APPID": "App Id"
+      "MODELNAME": "Modelname"
     },
     "PREDEFINED_GROUP": {
       "DEFAULT": "Standard",

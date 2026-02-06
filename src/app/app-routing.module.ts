@@ -9,12 +9,12 @@ export const routes: Routes = [
     loadChildren: () => import('./mcpserver/mcpserver.module').then((mod) => mod.MCPServerModule)
   },
   {
-    matcher: startsWith('aicontext'),
-    loadChildren: () => import('./ai-context/ai-context.module').then((mod) => mod.AiContextModule)
+    matcher: startsWith('configuration'),
+    loadChildren: () => import('./configuration/configuration.module').then((mod) => mod.ConfigurationModule)
   },
   {
-    matcher: startsWith('aiprovider'),
-    loadChildren: () => import('./aiprovider/aiprovider.module').then((mod) => mod.AIProviderModule)
+    matcher: startsWith('provider'),
+    loadChildren: () => import('./provider/provider.module').then((mod) => mod.ProviderModule)
   }
 ]
 

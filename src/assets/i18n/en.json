@@ -19,7 +19,6 @@
       "VIEW_API_KEY": "View API Key",
       "ID": "ID",
       "URL": "URL",
-      "PROTOCOL": "Protocol",
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "APIKEY": "API Key"
@@ -80,21 +79,19 @@
     "RESULTS": {
       "NAME": "Name",
       "DESCRIPTION": "Description",
-      "URL": "URL",
-      "PROTOCOL": "Protocol"
+      "URL": "URL"
     },
     "CRITERIA": {
       "NAME": "Name",
       "DESCRIPTION": "Description",
-      "URL": "URL",
-      "PROTOCOL": "Protocol"
+      "URL": "URL"
     }
   },
-  "AI_CONTEXT_DETAILS": {
+  "CONFIGURATION_DETAILS": {
     "HELP_ARTICLE_ID": "Help Article",
     "BREADCRUMB": "Details",
-    "HEADER": "AiContext Details",
-    "SUB_HEADER": "Display of AiContext Details",
+    "HEADER": "Configuration Details",
+    "SUB_HEADER": "Display of Configuration Details",
     "ERROR_MESSAGES": {
       "DETAILS_LOADING_FAILED": "Loading details failed."
     },
@@ -112,7 +109,7 @@
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "MCP_SERVER": "MCP Server",
-      "AIProvider": "AIProvider",
+      "Provider": "Provider",
       "MCP_SERVERS_PLACEHOLDER": "Select MCP Servers"
     },
     "CANCEL": {
@@ -127,15 +124,15 @@
         "SAVE": "Save",
         "CANCEL": "Cancel"
       },
-      "HEADER": "Update AiContext"
+      "HEADER": "Update Configuration"
     },
     "DELETE": {
-      "HEADER": "Delete AiContext",
-      "MESSAGE": "Please confirm that you want to delete this AiContext.",
+      "HEADER": "Delete Configuration",
+      "MESSAGE": "Please confirm that you want to delete this Configuration.",
       "CONFIRM": "Confirm",
       "CANCEL": "Cancel",
-      "SUCCESS": "AiContext deleted successfully",
-      "ERROR": "Could not delete AiContext"
+      "SUCCESS": "Configuration deleted successfully",
+      "ERROR": "Could not delete Configuration"
     },
     "TABLE": {
       "NAME": "Name",
@@ -144,9 +141,9 @@
       "STATUS": "Status"
     }
   },
-  "AI_CONTEXT_SEARCH": {
-    "HEADER": "AiContext Search",
-    "SUB_HEADER": "Searching and displaying of AiContext",
+  "CONFIGURATION_SEARCH": {
+    "HEADER": "Configuration Search",
+    "SUB_HEADER": "Searching and displaying of Configuration",
     "HELP_ARTICLE_ID": "Help Article",
     "EMPTY_RESULTS": "No results.",
     "BREADCRUMB": "Search",
@@ -184,12 +181,12 @@
       "FULL": "Full"
     }
   },
-  "AI_CONTEXT_CREATE_UPDATE": {
+  "CONFIGURATION_CREATE_UPDATE": {
     "ACTION": {
       "CREATE": "Create"
     },
     "CREATE": {
-      "HEADER": "Create AiContext",
+      "HEADER": "Create Configuration",
       "SUCCESS": "Creation succesful",
       "ERROR": "Creation failed",
       "FORM": {
@@ -205,7 +202,7 @@
         "SAVE": "Save",
         "CANCEL": "Cancel"
       },
-      "HEADER": "Update AiContext"
+      "HEADER": "Update Configuration"
     },
     "FORM": {
       "APPID": "App Id",
@@ -214,19 +211,19 @@
     }
   },
   "AI_PROVIDER_DELETE": {
-    "HEADER": "Delete AIProvider",
-    "MESSAGE": "Please confirm that you want to delete this AIProvider.",
+    "HEADER": "Delete Provider",
+    "MESSAGE": "Please confirm that you want to delete this Provider.",
     "CONFIRM": "Confirm",
     "CANCEL": "Cancel",
-    "SUCCESS": "AIProvider deleted successfully",
-    "ERROR": "Could not delete AIProvider"
+    "SUCCESS": "Provider deleted successfully",
+    "ERROR": "Could not delete Provider"
   },
   "AI_PROVIDER_CREATE_UPDATE": {
     "ACTION": {
       "CREATE": "Create"
     },
     "CREATE": {
-      "HEADER": "Create AIProvider",
+      "HEADER": "Create Provider",
       "SUCCESS": "Creation succesful",
       "ERROR": "Creation failed",
       "FORM": {
@@ -242,7 +239,7 @@
         "SAVE": "Save",
         "CANCEL": "Cancel"
       },
-      "HEADER": "Update AIProvider"
+      "HEADER": "Update Provider"
     },
     "FORM": {
       "NAME": "Name",
@@ -253,8 +250,8 @@
   "AI_PROVIDER_DETAILS": {
     "HELP_ARTICLE_ID": "Help Article",
     "BREADCRUMB": "Details",
-    "HEADER": "AIProvider Details",
-    "SUB_HEADER": "Display of AIProvider Details",
+    "HEADER": "Provider Details",
+    "SUB_HEADER": "Display of Provider Details",
     "ERROR_MESSAGES": {
       "DETAILS_LOADING_FAILED": "Loading details failed."
     },
@@ -276,8 +273,8 @@
     }
   },
   "AI_PROVIDER_SEARCH": {
-    "HEADER": "AIProvider Search",
-    "SUB_HEADER": "Searching and displaying of AIProvider",
+    "HEADER": "Provider Search",
+    "SUB_HEADER": "Searching and displaying of Provider",
     "HELP_ARTICLE_ID": "Help Article",
     "EMPTY_RESULTS": "No results.",
     "BREADCRUMB": "Search",
@@ -303,16 +300,14 @@
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "Modelname",
-      "MODELVERSION": "Modelversion",
-      "APPID": "App Id"
+      "MODELNAME": "Modelname",      
+      "TYPE": "Type"
     },
     "COLUMNS": {
       "NAME": "Name",
       "DESCRIPTION": "Description",
       "LLMURL": "LlmUrl",
       "MODELNAME": "Modelname",
-      "MODELVERSION": "Modelversion",
       "APPID": "App Id"
     },
     "PREDEFINED_GROUP": {

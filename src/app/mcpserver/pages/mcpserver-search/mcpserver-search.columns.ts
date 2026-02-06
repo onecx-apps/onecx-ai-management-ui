@@ -24,18 +24,7 @@ export const mcpserverSearchColumns: DataTableColumn[] = [
       'MCP_SERVER_SEARCH.PREDEFINED_GROUP.EXTENDED',
       'MCP_SERVER_SEARCH.PREDEFINED_GROUP.FULL'
     ]
-  },
-  {
-    columnType: ColumnType.STRING,
-    id: 'protocol',
-    nameKey: 'MCP_SERVER_SEARCH.RESULTS.PROTOCOL',
-    filterable: true,
-    sortable: true,
-    predefinedGroupKeys: [
-      'MCP_SERVER_SEARCH.PREDEFINED_GROUP.EXTENDED',
-      'MCP_SERVER_SEARCH.PREDEFINED_GROUP.FULL'
-    ]
-  },
+  },  
   {
     columnType: ColumnType.STRING,
     id: 'url',

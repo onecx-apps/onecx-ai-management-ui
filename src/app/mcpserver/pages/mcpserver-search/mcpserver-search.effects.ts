@@ -8,8 +8,8 @@ import { filterForNavigatedTo, filterOutQueryParamsHaveNotChanged } from '@onecx
 import { ExportDataService, PortalMessageService } from '@onecx/portal-integration-angular'
 import equal from 'fast-deep-equal'
 import { catchError, map, of, switchMap, tap } from 'rxjs'
+import { McpServerService } from 'src/app/shared/generated'
 import { selectUrl } from 'src/app/shared/selectors/router.selectors'
-import { MCPServerBffService } from '../../../shared/generated'
 import { MCPServerSearchActions } from './mcpserver-search.actions'
 import { MCPServerSearchComponent } from './mcpserver-search.component'
 import { mcpserverSearchCriteriasSchema } from './mcpserver-search.parameters'
@@ -18,14 +18,14 @@ import { mcpserverSearchSelectors, selectMCPServerSearchViewModel } from './mcps
 @Injectable()
 export class MCPServerSearchEffects {
   constructor(
-    private actions$: Actions,
-    @SkipSelf() private route: ActivatedRoute,
-    private mcpserverService: MCPServerBffService,
-    private router: Router,
-    private store: Store,
-    private messageService: PortalMessageService,
+    private readonly actions$: Actions,
+    @SkipSelf() private readonly route: ActivatedRoute,
+    private readonly mcpserverService: McpServerService,
+    private readonly router: Router,
+    private readonly store: Store,
+    private readonly messageService: PortalMessageService,
     private readonly exportDataService: ExportDataService
-  ) {}
+  ) { }
 
   syncParamsToUrl$ = createEffect(
     () => {
@@ -81,7 +81,7 @@ export class MCPServerSearchEffects {
 
   performSearch(searchCriteria: Record<string, any>) {
     return this.mcpserverService
-      .searchMCPServers({
+      .findMCPServerByCriteria({
         ...Object.entries(searchCriteria).reduce(
           (acc, [key, value]) => ({
             ...acc,

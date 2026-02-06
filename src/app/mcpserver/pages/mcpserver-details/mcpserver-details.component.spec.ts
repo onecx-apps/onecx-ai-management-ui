@@ -71,7 +71,10 @@ describe('MCPServerDetailsComponent', () => {
   const baseMCPServerDetailsViewModel: MCPServerDetailsViewModel = {
     details: {
       id: "",
-      apiKey: ""
+      apiKey: "",
+      description: "",
+      name: "",
+      url: ""      
     },
     detailsLoadingIndicator: false,
     detailsLoaded: true,

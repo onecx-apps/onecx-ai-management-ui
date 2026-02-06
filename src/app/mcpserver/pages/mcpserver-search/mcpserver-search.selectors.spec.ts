@@ -6,29 +6,29 @@ describe('McpServerSearch selectors', () => {
   describe('selectResults projector', () => {
     it('should map MCPServer results to RowListGridData[]', () => {
       const input = [
-        { id: '1', name: 'A', description: 'desc', url: 'http://a', apiKey: 'key1', protocol: 'http' },
-        { id: '2', name: 'B', description: 'desc2', url: 'http://b', apiKey: 'key2', protocol: 'https' }
+        { id: '1', name: 'A', description: 'desc', url: 'http://a', apiKey: 'key1' },
+        { id: '2', name: 'B', description: 'desc2', url: 'http://b', apiKey: 'key2' }
       ]
       const expected = [
-        { imagePath: '', id: '1', name: 'A', description: 'desc', url: 'http://a', apiKey: 'key1', protocol: 'http' },
-        { imagePath: '', id: '2', name: 'B', description: 'desc2', url: 'http://b', apiKey: 'key2', protocol: 'https' }
+        { imagePath: '', id: '1', name: 'A', description: 'desc', url: 'http://a', apiKey: 'key1' },
+        { imagePath: '', id: '2', name: 'B', description: 'desc2', url: 'http://b', apiKey: 'key2' }
       ]
       expect(selectors.selectResults.projector(input)).toEqual(expected)
     })
 
-    it('should preserve nested aiContext when present', () => {
+    it('should preserve nested configuration when present', () => {
       const input = [
-        { id: '3', name: 'C', description: 'desc3', aiContext: { id: 'ai1', name: 'AI' } }
+        { id: '3', name: 'C', description: 'desc3', configuration: { id: 'ai1', name: 'AI' } }
       ]
       const expected = [
-        { imagePath: '', id: '3', name: 'C', description: 'desc3', aiContext: { id: 'ai1', name: 'AI' } }
+        { imagePath: '', id: '3', name: 'C', description: 'desc3', configuration: { id: 'ai1', name: 'AI' } }
       ]
       expect(selectors.selectResults.projector(input)).toEqual(expected)
     })
 
   })
 
-  it('selectAiContextSearchViewModel should combine all selector results', () => {
+  it('selectConfigurationSearchViewModel should combine all selector results', () => {
     const columns = [{ id: 'col1', nameKey: 'Col 1', columnType: ColumnType.STRING }]
     const searchCriteria = {
       name: 'Test Name',

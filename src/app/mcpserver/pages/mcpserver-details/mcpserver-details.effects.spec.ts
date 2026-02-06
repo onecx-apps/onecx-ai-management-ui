@@ -7,7 +7,7 @@ import { DialogState, PortalDialogService, PortalMessageService } from '@onecx/p
 import { MonoTypeOperatorFunction, ReplaySubject, map, of, throwError } from 'rxjs'
 import { selectBackNavigationPossible } from 'src/app/shared/selectors/onecx.selectors'
 import { selectRouteParams, selectUrl } from 'src/app/shared/selectors/router.selectors'
-import { MCPServer, MCPServerBffService } from '../../../shared/generated'
+import { MCPServer, McpServerService } from '../../../shared/generated'
 import { MCPServerDetailsActions } from './mcpserver-details.actions'
 import { MCPServerDetailsComponent } from './mcpserver-details.component'
 import { MCPServerDetailsEffects } from './mcpserver-details.effects'
@@ -34,7 +34,7 @@ describe('MCPServerDetailsEffects', () => {
     let actions$: ReplaySubject<any>
     let effects: MCPServerDetailsEffects
     let store: MockStore
-    let mcpService: jest.Mocked<MCPServerBffService>
+    let mcpService: jest.Mocked<McpServerService>
     let router: jest.Mocked<Router>
     let messageService: jest.Mocked<PortalMessageService>
     let portalDialogService: jest.Mocked<PortalDialogService>
@@ -51,9 +51,9 @@ describe('MCPServerDetailsEffects', () => {
 
         mcpService = {
             getMCPServerById: jest.fn(),
-            updateMCPServer: jest.fn(),
-            deleteMCPServer: jest.fn()
-        } as unknown as jest.Mocked<MCPServerBffService>
+            updateMCPServerById: jest.fn(),
+            deleteMCPServerById: jest.fn()
+        } as unknown as jest.Mocked<McpServerService>
 
         router = {
             navigate: jest.fn().mockResolvedValue(true),
@@ -121,7 +121,7 @@ describe('MCPServerDetailsEffects', () => {
                 MCPServerDetailsEffects,
                 provideMockActions(() => actions$),
                 provideMockStore({ initialState: {} }),
-                { provide: MCPServerBffService, useValue: mcpService },
+                { provide: McpServerService, useValue: mcpService },
                 { provide: Router, useValue: router },
                 { provide: PortalMessageService, useValue: messageService },
                 { provide: PortalDialogService, useValue: portalDialogService },
@@ -181,7 +181,7 @@ describe('MCPServerDetailsEffects', () => {
     describe('loadMCPServerById$', () => {
         it('should dispatch mCPServerDetailsReceived on success', (done) => {
             const resource = { id: '1', apiKey: 'k' } as MCPServer
-            mcpService.getMCPServerById.mockReturnValue(of({ resource }) as any)
+            mcpService.getMCPServerById.mockReturnValue(of({ ...resource }) as any)
 
             actions$.next(MCPServerDetailsActions.navigatedToDetailsPage({ id: '1' }))
 
@@ -249,13 +249,13 @@ describe('MCPServerDetailsEffects', () => {
             store.overrideSelector(mcpserverDetailsSelectors.selectDetails, details)
             store.refreshState()
 
-            mcpService.updateMCPServer.mockReturnValue(of({}) as any)
+            mcpService.updateMCPServerById.mockReturnValue(of({}) as any)
 
             const newDetails = { apiKey: 'new' }
             actions$.next(MCPServerDetailsActions.saveButtonClicked({ details: newDetails as any }))
 
             effects.saveButtonClicked$.subscribe((action) => {
-                expect(mcpService.updateMCPServer).toHaveBeenCalledWith('1', { resource: { ...details, ...newDetails } })
+                expect(mcpService.updateMCPServerById).toHaveBeenCalledWith('1', { ...details, ...newDetails })
                 expect(messageService.success).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.UPDATE.SUCCESS' })
                 expect(action).toEqual(MCPServerDetailsActions.updateMCPServerSucceeded())
                 done()
@@ -268,7 +268,7 @@ describe('MCPServerDetailsEffects', () => {
             store.refreshState()
 
             const err = 'update failed'
-            mcpService.updateMCPServer.mockReturnValue(throwError(() => err) as any)
+            mcpService.updateMCPServerById.mockReturnValue(throwError(() => err) as any)
 
             actions$.next(MCPServerDetailsActions.saveButtonClicked({ details: { apiKey: 'new' } as any }))
 
@@ -299,12 +299,12 @@ describe('MCPServerDetailsEffects', () => {
             store.overrideSelector(mcpserverDetailsSelectors.selectDetails, { id: '2' } as any)
             store.refreshState()
 
-            mcpService.deleteMCPServer.mockReturnValue(of({}) as any)
+            mcpService.deleteMCPServerById.mockReturnValue(of({}) as any)
 
             actions$.next(MCPServerDetailsActions.deleteButtonClicked())
 
             effects.deleteButtonClicked$.subscribe((action) => {
-                expect(mcpService.deleteMCPServer).toHaveBeenCalledWith('2')
+                expect(mcpService.deleteMCPServerById).toHaveBeenCalledWith('2')
                 expect(messageService.success).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.DELETE.SUCCESS' })
                 expect(action).toEqual(MCPServerDetailsActions.deleteMCPServerSucceeded())
                 done()
@@ -317,7 +317,7 @@ describe('MCPServerDetailsEffects', () => {
             store.refreshState()
 
             const err = 'delete failed'
-            mcpService.deleteMCPServer.mockReturnValue(throwError(() => err) as any)
+            mcpService.deleteMCPServerById.mockReturnValue(throwError(() => err) as any)
 
             actions$.next(MCPServerDetailsActions.deleteButtonClicked())
 

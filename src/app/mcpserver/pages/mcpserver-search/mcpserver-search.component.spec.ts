@@ -73,7 +73,7 @@ describe('MCPServerSearchComponent', () => {
   }
   const baseMCPServerSearchViewModel: MCPServerSearchViewModel = {
     columns: mcpserverSearchColumns,
-    searchCriteria: { name: '', description: '' },
+    searchCriteria: { name: '' },
     searchExecuted: true,
     results: [],
     searchLoadingIndicator: false,

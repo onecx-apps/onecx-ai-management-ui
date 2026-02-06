@@ -115,8 +115,7 @@ export class MCPServerDetailsComponent implements OnInit {
       apiKey: new FormControl(null, [Validators.maxLength(255)]),
       name: new FormControl(null, [Validators.required, Validators.maxLength(255)]),
       description: new FormControl(null, [Validators.required, Validators.maxLength(1024)]),
-      url: new FormControl(null, [Validators.required, Validators.maxLength(2048)]),
-      protocol: new FormControl(null, [Validators.required, Validators.maxLength(50)])
+      url: new FormControl(null, [Validators.required, Validators.maxLength(2048)]),      
     })
     this.formGroup.disable()
 
@@ -128,7 +127,6 @@ export class MCPServerDetailsComponent implements OnInit {
           name: vm.details?.name,
           description: vm.details?.description,
           url: vm.details?.url,
-          protocol: vm.details?.protocol
         })
         this.formGroup.markAsPristine()
       }
