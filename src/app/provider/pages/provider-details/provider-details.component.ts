@@ -41,8 +41,8 @@ export class ProviderDetailsComponent implements OnInit {
       map((vm) => {
         const actions: Action[] = [
           {
-            titleKey: 'AI_PROVIDER_DETAILS.GENERAL.BACK',
-            labelKey: 'AI_PROVIDER_DETAILS.GENERAL.BACK',
+            titleKey: 'PROVIDER_DETAILS.GENERAL.BACK',
+            labelKey: 'PROVIDER_DETAILS.GENERAL.BACK',
             show: 'always',
             icon: PrimeIcons.ARROW_LEFT,
             conditional: true,
@@ -52,8 +52,8 @@ export class ProviderDetailsComponent implements OnInit {
             }
           },
           {
-            titleKey: 'AI_PROVIDER_DETAILS.GENERAL.EDIT',
-            labelKey: 'AI_PROVIDER_DETAILS.GENERAL.EDIT',
+            titleKey: 'PROVIDER_DETAILS.GENERAL.EDIT',
+            labelKey: 'PROVIDER_DETAILS.GENERAL.EDIT',
             show: 'always',
             icon: PrimeIcons.PENCIL,
             conditional: true,
@@ -63,8 +63,8 @@ export class ProviderDetailsComponent implements OnInit {
             }
           },
           {
-            titleKey: 'AI_PROVIDER_DETAILS.GENERAL.DELETE',
-            labelKey: 'AI_PROVIDER_DETAILS.GENERAL.DELETE',
+            titleKey: 'PROVIDER_DETAILS.GENERAL.DELETE',
+            labelKey: 'PROVIDER_DETAILS.GENERAL.DELETE',
             icon: PrimeIcons.TRASH,
             show: 'asOverflow',
             btnClass: '',
@@ -75,8 +75,8 @@ export class ProviderDetailsComponent implements OnInit {
             },
           },
           {
-            titleKey: 'AI_PROVIDER_DETAILS.GENERAL.CANCEL',
-            labelKey: 'AI_PROVIDER_DETAILS.GENERAL.CANCEL',
+            titleKey: 'PROVIDER_DETAILS.GENERAL.CANCEL',
+            labelKey: 'PROVIDER_DETAILS.GENERAL.CANCEL',
             show: 'always',
             icon: PrimeIcons.TIMES,
             conditional: true,
@@ -86,8 +86,8 @@ export class ProviderDetailsComponent implements OnInit {
             }
           },
           {
-            titleKey: 'AI_PROVIDER_DETAILS.GENERAL.SAVE',
-            labelKey: 'AI_PROVIDER_DETAILS.GENERAL.SAVE',
+            titleKey: 'PROVIDER_DETAILS.GENERAL.SAVE',
+            labelKey: 'PROVIDER_DETAILS.GENERAL.SAVE',
             show: 'always',
             icon: PrimeIcons.SAVE,
             conditional: true,
@@ -116,8 +116,8 @@ export class ProviderDetailsComponent implements OnInit {
 
     this.breadcrumbService.setItems([
       {
-        titleKey: 'AI_PROVIDER_DETAILS.BREADCRUMB',
-        labelKey: 'AI_PROVIDER_DETAILS.BREADCRUMB',
+        titleKey: 'PROVIDER_DETAILS.BREADCRUMB',
+        labelKey: 'PROVIDER_DETAILS.BREADCRUMB',
         routerLink: '/provider'
       }
     ])
@@ -138,7 +138,7 @@ export class ProviderDetailsComponent implements OnInit {
     } else {
       this.formGroup.enable()
     }
-    if(!this.user.hasPermission('AI_PROVIDER#CHANGE_API_KEY')) {
+    if(!this.user.hasPermission('PROVIDER#CHANGE_API_KEY')) {
       this.formGroup.get('apiKey')?.disable()
     }
   }

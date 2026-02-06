@@ -9,6 +9,10 @@ export const routes: Routes = [
     loadChildren: () => import('./mcpserver/mcpserver.module').then((mod) => mod.MCPServerModule)
   },
   {
+    matcher: startsWith(''),
+    loadChildren: () => import('./configuration/configuration.module').then((mod) => mod.ConfigurationModule)
+  },
+  {
     matcher: startsWith('configuration'),
     loadChildren: () => import('./configuration/configuration.module').then((mod) => mod.ConfigurationModule)
   },

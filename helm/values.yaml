@@ -21,7 +21,7 @@ app:
       enabled: true
       spec:
         permissions:
-          AI_PROVIDER:
+          PROVIDER:
             CREATE: Create Provider
             EDIT: Edit Provider
             DELETE: Delete Provider

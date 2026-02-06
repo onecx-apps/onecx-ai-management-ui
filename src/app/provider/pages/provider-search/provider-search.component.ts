@@ -42,26 +42,26 @@ export class ProviderSearchComponent implements OnInit {
       map((vm) => {
         const actions: Action[] = [
           {
-            labelKey: 'AI_PROVIDER_CREATE_UPDATE.ACTION.CREATE',
+            labelKey: 'PROVIDER_CREATE_UPDATE.ACTION.CREATE',
             icon: PrimeIcons.PLUS,
             show: 'always',
             actionCallback: () => this.create()
           },
           {
-            labelKey: 'AI_PROVIDER_SEARCH.HEADER_ACTIONS.EXPORT_ALL',
+            labelKey: 'PROVIDER_SEARCH.HEADER_ACTIONS.EXPORT_ALL',
             icon: PrimeIcons.DOWNLOAD,
-            titleKey: 'AI_PROVIDER_SEARCH.HEADER_ACTIONS.EXPORT_ALL',
+            titleKey: 'PROVIDER_SEARCH.HEADER_ACTIONS.EXPORT_ALL',
             show: 'asOverflow',
             actionCallback: () => this.exportItems()
           },
           {
             labelKey: vm.chartVisible
-              ? 'AI_PROVIDER_SEARCH.HEADER_ACTIONS.HIDE_CHART'
-              : 'AI_PROVIDER_SEARCH.HEADER_ACTIONS.SHOW_CHART',
+              ? 'PROVIDER_SEARCH.HEADER_ACTIONS.HIDE_CHART'
+              : 'PROVIDER_SEARCH.HEADER_ACTIONS.SHOW_CHART',
             icon: PrimeIcons.EYE,
             titleKey: vm.chartVisible
-              ? 'AI_PROVIDER_SEARCH.HEADER_ACTIONS.HIDE_CHART'
-              : 'AI_PROVIDER_SEARCH.HEADER_ACTIONS.SHOW_CHART',
+              ? 'PROVIDER_SEARCH.HEADER_ACTIONS.HIDE_CHART'
+              : 'PROVIDER_SEARCH.HEADER_ACTIONS.SHOW_CHART',
             show: 'asOverflow',
             actionCallback: () => this.toggleChartVisibility()
           }
@@ -83,8 +83,8 @@ export class ProviderSearchComponent implements OnInit {
 
     this.breadcrumbService.setItems([
       {
-        titleKey: 'AI_PROVIDER_SEARCH.BREADCRUMB',
-        labelKey: 'AI_PROVIDER_SEARCH.BREADCRUMB',
+        titleKey: 'PROVIDER_SEARCH.BREADCRUMB',
+        labelKey: 'PROVIDER_SEARCH.BREADCRUMB',
         routerLink: '/provider'
       }
     ])

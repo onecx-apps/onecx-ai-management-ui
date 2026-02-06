@@ -259,7 +259,7 @@ export class ConfigurationDetailsEffects {
     },
     {
       action: ConfigurationDetailsActions.configurationProvidersLoadingFailed,
-      key: 'AI_PROVIDER_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
+      key: 'PROVIDER_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
     }
   ]
 

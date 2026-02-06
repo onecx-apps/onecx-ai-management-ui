@@ -10,11 +10,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
 import { AngularAuthModule } from '@onecx/angular-auth'
 import { addInitializeModuleGuard } from '@onecx/angular-integration-interface'
+import { provideTranslationPathFromMeta } from '@onecx/angular-utils'
 import { createAppEntrypoint, initializeRouter } from '@onecx/angular-webcomponents'
 import { provideNavigatedEventStoreConnector } from '@onecx/ngrx-accelerator'
 import {
   AppStateService,
   ConfigurationService,
+  createTranslateLoader,
   PortalCoreModule
 } from '@onecx/portal-integration-angular'
 import { AppEntrypointComponent } from './app-entrypoint.component'
@@ -24,7 +26,6 @@ import { metaReducers, reducers } from './app.reducers'
 import { APIConfiguration } from './shared/generated'
 import { SharedModule } from './shared/shared.module'
 import { apiConfigProvider } from './shared/utils/apiConfigProvider.utils'
-import { createTranslateLoader } from '@onecx/angular-utils'
 
 // Workaround for the following issue:
 // https://github.com/ngrx/platform/issues/3700
@@ -75,7 +76,8 @@ effectProvidersForWorkaround.forEach((p) => (p.ɵprov.providedIn = null))
       deps: [Router, AppStateService]
     },
     provideHttpClient(withInterceptorsFromDi()),
-    provideNavigatedEventStoreConnector()
+    provideNavigatedEventStoreConnector(),
+    provideTranslationPathFromMeta(import.meta.url, 'assets/i18n/'),
   ]
 })
 export class OnecxAiUiManagementModule implements DoBootstrap {

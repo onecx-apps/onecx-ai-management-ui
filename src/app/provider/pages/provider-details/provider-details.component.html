@@ -1,11 +1,11 @@
 <ocx-portal-page
-  permission="AI_PROVIDER#VIEW"
-  [helpArticleId]="'AI_PROVIDER_DETAILS.HELP_ARTICLE_ID' | translate"
+  permission="PROVIDER#VIEW"
+  [helpArticleId]="'PROVIDER_DETAILS.HELP_ARTICLE_ID' | translate"
   *ngrxLet="viewModel$; let vm"
 >
   <ocx-page-header
-    [header]="'AI_PROVIDER_DETAILS.HEADER' | translate"
-    [subheader]="'AI_PROVIDER_DETAILS.SUB_HEADER' | translate"
+    [header]="'PROVIDER_DETAILS.HEADER' | translate"
+    [subheader]="'PROVIDER_DETAILS.SUB_HEADER' | translate"
     [actions]="(headerActions$ | async) ?? []"
     [disableDefaultActions]="true"
     [manualBreadcrumbs]="true"
@@ -24,7 +24,7 @@
               formControlName="name"
             />
             <label class="ocx-required-label" for="Provider_detail_name">
-              {{ 'AI_PROVIDER_DETAILS.FORM.NAME' | translate }}
+              {{ 'PROVIDER_DETAILS.FORM.NAME' | translate }}
             </label>
           </span>
         </div>
@@ -38,7 +38,7 @@
               formControlName="description"
             />
             <label class="ocx-required-label" for="Provider_detail_description">
-              {{ 'AI_PROVIDER_DETAILS.FORM.DESCRIPTION' | translate }}
+              {{ 'PROVIDER_DETAILS.FORM.DESCRIPTION' | translate }}
             </label>
           </span>
         </div>
@@ -52,7 +52,7 @@
               formControlName="llmUrl"
             />
             <label class="ocx-required-label" for="Provider_detail_llmUrl">
-              {{ 'AI_PROVIDER_DETAILS.FORM.LLMURL' | translate }}
+              {{ 'PROVIDER_DETAILS.FORM.LLMURL' | translate }}
             </label>
           </span>
         </div>        
@@ -66,11 +66,11 @@
               formControlName="modelName"
             />
             <label class="ocx-required-label" for="Provider_detail_modelName">
-              {{ 'AI_PROVIDER_DETAILS.FORM.MODELNAME' | translate }}
+              {{ 'PROVIDER_DETAILS.FORM.MODELNAME' | translate }}
             </label>
           </span>
         </div>        
-        <div>
+        <div *ocxIfPermission="'PROVIDER#CHANGE_API_KEY'">
           <div class="p-inputgroup mt-3 mb-1" >
             <span class="p-float-label" controlErrorAnchor>
               <input
@@ -80,10 +80,9 @@
                 class="w-full pt-3 pb-2 text-responsive"
                 formControlName="apiKey"
               />
-              <label for="Provider_detail_apiKey">{{ 'AI_PROVIDER_DETAILS.FORM.APIKEY' | translate }} </label>
+              <label for="Provider_detail_apiKey">{{ 'PROVIDER_DETAILS.FORM.APIKEY' | translate }} </label>
             </span>
-            <a
-              *ocxIfPermission="'AI_PROVIDER#CHANGE_API_KEY'"
+            <a              
               class="p-inputgroup-addon bg-primary pseudo-button pi pi-eye"
               [ngClass]="{
                 'pi-eye': vm.isApiKeyHidden,

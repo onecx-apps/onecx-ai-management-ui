@@ -108,7 +108,7 @@ describe('ProviderDetailsComponent actions & dispatch', () => {
     await fixture.whenStable()
 
     const actions = await firstValueFrom(component.headerActions$)
-    const deleteAction = actions.find(a => a.labelKey === 'AI_PROVIDER_DETAILS.GENERAL.DELETE')
+    const deleteAction = actions.find(a => a.labelKey === 'PROVIDER_DETAILS.GENERAL.DELETE')
     expect(deleteAction).toBeDefined()
     deleteAction!.actionCallback()
     expect(deleteSpy).toHaveBeenCalledWith('')
@@ -161,7 +161,7 @@ describe('ProviderDetailsComponent actions & dispatch', () => {
     await fixture.whenStable()
 
     const actions = await firstValueFrom(component.headerActions$)
-    const deleteAction = actions.find(a => a.labelKey === 'AI_PROVIDER_DETAILS.GENERAL.DELETE')
+    const deleteAction = actions.find(a => a.labelKey === 'PROVIDER_DETAILS.GENERAL.DELETE')
 
     expect(deleteAction).toBeDefined()
     deleteAction!.actionCallback()

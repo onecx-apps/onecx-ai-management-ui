@@ -6,8 +6,7 @@ import { LetDirective } from '@ngrx/component'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 import { TranslateModule } from '@ngx-translate/core'
-import {
-  addInitializeModuleGuard,
+import {  
   PortalCoreModule,
   providePortalDialogService
 } from '@onecx/portal-integration-angular'
@@ -25,6 +24,7 @@ import { ConfigurationSearchEffects } from './pages/configuration-search/configu
 import { ConfigurationCreateUpdateComponent } from './pages/configuration-search/dialogs/configuration-create-update/configuration-create-update.component'
 import { ConfigurationDetailsComponent } from './pages/configuration-details/configuration-details.component'
 import { ConfigurationDetailsEffects } from './pages/configuration-details/configuration-details.effects'
+import { addInitializeModuleGuard } from '@onecx/angular-integration-interface'
 
 @NgModule({
   providers: [providePortalDialogService()],

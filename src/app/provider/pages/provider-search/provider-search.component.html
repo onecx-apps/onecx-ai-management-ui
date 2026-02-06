@@ -1,16 +1,17 @@
 <ocx-portal-page
-  permission="AI_PROVIDER#SEARCH"
-  [helpArticleId]="'AI_PROVIDER_SEARCH.HELP_ARTICLE_ID' | translate"
+  permission="PROVIDER#SEARCH"
+  [helpArticleId]="'PROVIDER_SEARCH.HELP_ARTICLE_ID' | translate"
   *ngrxLet="viewModel$; let vm"
 >
   <ocx-search-header
-    [headline]="'AI_PROVIDER_SEARCH.HEADER' | translate"
-    [subheader]="'AI_PROVIDER_SEARCH.SUB_HEADER' | translate"
+    [headline]="'PROVIDER_SEARCH.HEADER' | translate"
+    [subheader]="'PROVIDER_SEARCH.SUB_HEADER' | translate"
     (searched)="search(ProviderSearchFormGroup)"
     (resetted)="resetSearch()"
     [manualBreadcrumbs]="true"
     [actions]="(headerActions$ | async) ?? []"
     (viewModeChanged)="viewModeChanged($event)"
+    [viewMode]="vm.viewMode"
   >
     <form [formGroup]="ProviderSearchFormGroup">
       <div class="grid mt-0 p-fluid">
@@ -24,10 +25,10 @@
               class="p-inputtext p-component"
               [ngModel]="vm.searchCriteria.name"
             />
-            <label for="name">{{ 'AI_PROVIDER_SEARCH.CRITERIA.NAME' | translate }}</label>
+            <label for="name">{{ 'PROVIDER_SEARCH.CRITERIA.NAME' | translate }}</label>
           </span>
         </div>
-        <!-- <div class="col-12 md:col-3">
+        <div class="col-12 md:col-3">
           <span class="p-float-label">
             <input
               id="description"
@@ -37,9 +38,9 @@
               class="p-inputtext p-component"
               [ngModel]="vm.searchCriteria.description"
             />
-            <label for="description">{{ 'AI_PROVIDER_SEARCH.CRITERIA.DESCRIPTION' | translate }}</label>
+            <label for="description">{{ 'PROVIDER_SEARCH.CRITERIA.DESCRIPTION' | translate }}</label>
           </span>
-        </div> -->
+        </div>
         <div class="col-12 md:col-3">
           <span class="p-float-label">
             <input
@@ -50,7 +51,7 @@
               class="p-inputtext p-component"
               [ngModel]="vm.searchCriteria.llmUrl"
             />
-            <label for="llmUrl">{{ 'AI_PROVIDER_SEARCH.CRITERIA.LLMURL' | translate }}</label>
+            <label for="llmUrl">{{ 'PROVIDER_SEARCH.CRITERIA.LLMURL' | translate }}</label>
           </span>
         </div>
         <div class="col-12 md:col-3">
@@ -63,7 +64,7 @@
               class="p-inputtext p-component"
               [ngModel]="vm.searchCriteria.modelName"
             />
-            <label for="modelName">{{ 'AI_PROVIDER_SEARCH.CRITERIA.MODELNAME' | translate }}</label>
+            <label for="modelName">{{ 'PROVIDER_SEARCH.CRITERIA.MODELNAME' | translate }}</label>
           </span>
         </div>
         <div class="col-12 md:col-3">
@@ -76,7 +77,7 @@
               class="p-inputtext p-component"
               [ngModel]="vm.searchCriteria.type"
             />
-            <label for="type">{{ 'AI_PROVIDER_SEARCH.CRITERIA.TYPE' | translate }}</label>
+            <label for="type">{{ 'PROVIDER_SEARCH.CRITERIA.TYPE' | translate }}</label>
           </span>
         </div>
       </div>
@@ -86,16 +87,16 @@
     <ocx-content class="w-full">
       <ocx-interactive-data-view
         (deleteItem)="delete($event)"
-        deletePermission="AI_PROVIDER#DELETE"
+        deletePermission="PROVIDER#DELETE"
         (editItem)="edit($event)"
-        editPermission="AI_PROVIDER#EDIT"
+        editPermission="PROVIDER#EDIT"
         (viewItem)="details($event)"
-        viewPermission="AI_PROVIDER#VIEW"
+        viewPermission="PROVIDER#VIEW"
         [data]="vm.results"
         [columns]="vm.columns"
         [listGridPaginator]="false"
         [emptyResultsMessage]="
-          'AI_PROVIDER_SEARCH.EMPTY_RESULTS' | translate
+          'PROVIDER_SEARCH.EMPTY_RESULTS' | translate
         "
         [supportedViewLayouts]="['table']"
         (displayedColumnsChange)="onDisplayedColumnsChange($event)"
@@ -114,7 +115,7 @@
           *ngIf="diagramColumn$ | async as diagramColumn"
           [data]="vm.results"
           [column]="diagramColumn"
-          sumKey="AI_PROVIDER_SEARCH.DIAGRAM.SUM"
+          sumKey="PROVIDER_SEARCH.DIAGRAM.SUM"
         ></ocx-group-by-count-diagram>
       </div>
     </ocx-content>

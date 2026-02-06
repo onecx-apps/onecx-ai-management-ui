@@ -4,48 +4,48 @@ export const ProviderSearchColumns: DataTableColumn[] = [
     {
         columnType: ColumnType.STRING,
         id: 'name',
-        nameKey: 'AI_PROVIDER_SEARCH.COLUMNS.NAME',
+        nameKey: 'PROVIDER_SEARCH.COLUMNS.NAME',
         filterable: true,
         sortable: true,
         predefinedGroupKeys: [
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.DEFAULT',
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.EXTENDED',
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.FULL'
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.DEFAULT',
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.EXTENDED',
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.FULL'
         ]
     },
     {
         columnType: ColumnType.STRING,
         id: 'description',
-        nameKey: 'AI_PROVIDER_SEARCH.COLUMNS.DESCRIPTION',
+        nameKey: 'PROVIDER_SEARCH.COLUMNS.DESCRIPTION',
         filterable: true,
         sortable: true,
         predefinedGroupKeys: [
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.EXTENDED',
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.FULL'
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.EXTENDED',
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.FULL'
         ]
     },
     {
         columnType: ColumnType.STRING,
         id: 'llmUrl',
-        nameKey: 'AI_PROVIDER_SEARCH.COLUMNS.LLMURL',
+        nameKey: 'PROVIDER_SEARCH.COLUMNS.LLMURL',
         filterable: true,
         sortable: true,
         predefinedGroupKeys: [
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.DEFAULT',
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.EXTENDED',
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.FULL'
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.DEFAULT',
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.EXTENDED',
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.FULL'
         ]
     },
     {
         columnType: ColumnType.STRING,
         id: 'modelName',
-        nameKey: 'AI_PROVIDER_SEARCH.COLUMNS.MODELNAME',
+        nameKey: 'PROVIDER_SEARCH.COLUMNS.MODELNAME',
         filterable: true,
         sortable: true,
         predefinedGroupKeys: [
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.DEFAULT',
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.EXTENDED',
-            'AI_PROVIDER_SEARCH.PREDEFINED_GROUP.FULL'
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.DEFAULT',
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.EXTENDED',
+            'PROVIDER_SEARCH.PREDEFINED_GROUP.FULL'
         ]
     },
 ]

@@ -281,7 +281,7 @@ describe('ProviderSearchComponent effects', () => {
 
     component.ngOnInit()
     component.headerActions$.subscribe((actions) => {
-      const createAction = actions.find(a => a.labelKey === 'AI_PROVIDER_CREATE_UPDATE.ACTION.CREATE')
+      const createAction = actions.find(a => a.labelKey === 'PROVIDER_CREATE_UPDATE.ACTION.CREATE')
       expect(createAction).toBeTruthy()
       createAction!.actionCallback()
       expect(component.create).toHaveBeenCalled()

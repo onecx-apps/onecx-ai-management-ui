@@ -66,25 +66,29 @@ describe('ProviderCreateUpdateComponent', () => {
   })
 
   it('should set dialogResult with merged itemToEdit and form values on ocxDialogButtonClicked', () => {
-    component.vm.itemToEdit = { id: '1', name: 'Old', description: 'OldDesc', modelName: 'model' }
-    component.formGroup.setValue({ name: 'New', description: 'NewDesc', modelName: 'NewModel' })
+    component.vm.itemToEdit = { id: '1', name: 'Old', description: 'OldDesc', modelName: 'model', llmUrl: 'OldUrl', apiKey: 'OldKey'}
+    component.formGroup.setValue({ name: 'New', description: 'NewDesc', modelName: 'NewModel', llmUrl: 'NewUrl', apiKey: 'NewKey' })
     component.ocxDialogButtonClicked()
     expect(component.dialogResult).toEqual({
       id: '1',
       name: 'New',
       description: 'NewDesc',
-      modelName: 'NewModel'
+      modelName: 'NewModel',
+      llmUrl: 'NewUrl',
+      apiKey: 'NewKey'
     })
   })
 
   it('should patch formGroup with itemToEdit on ngOnInit', () => {
-    component.vm.itemToEdit = { id: '2', name: 'Patched', description: 'PatchedDesc', modelName: 'PatchedModel' }
-    component.formGroup.setValue({ name: null, description: null, modelName: null })
+    component.vm.itemToEdit = { id: '2', name: 'Patched', description: 'PatchedDesc', modelName: 'PatchedModel', llmUrl: 'PatchedUrl', apiKey: 'PatchedKey'}
+    component.formGroup.setValue({ name: null, description: null, modelName: null, llmUrl: null, apiKey: null })
     component.ngOnInit()
     expect(component.formGroup.value).toEqual({
       name: 'Patched',
       description: 'PatchedDesc',
-      modelName: 'PatchedModel'
+      modelName: 'PatchedModel',
+      llmUrl: 'PatchedUrl',
+      apiKey: 'PatchedKey'
     })
   })
 })

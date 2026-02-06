@@ -6,7 +6,7 @@ import { LetDirective } from '@ngrx/component'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 import { TranslateModule } from '@ngx-translate/core'
-import { addInitializeModuleGuard, PortalCoreModule, providePortalDialogService } from '@onecx/portal-integration-angular'
+import { PortalCoreModule, providePortalDialogService } from '@onecx/portal-integration-angular'
 import { CalendarModule } from 'primeng/calendar'
 import { SharedModule } from '../shared/shared.module'
 import { mcpserverFeature } from './mcpserver.reducers'
@@ -15,6 +15,7 @@ import { MCPServerDetailsComponent } from './pages/mcpserver-details/mcpserver-d
 import { MCPServerSearchComponent } from './pages/mcpserver-search/mcpserver-search.component'
 import { MCPServerDetailsEffects } from './pages/mcpserver-details/mcpserver-details.effects'
 import { MCPServerSearchEffects } from './pages/mcpserver-search/mcpserver-search.effects'
+import { addInitializeModuleGuard } from '@onecx/angular-integration-interface'
 
 @NgModule({
   providers: [providePortalDialogService()],

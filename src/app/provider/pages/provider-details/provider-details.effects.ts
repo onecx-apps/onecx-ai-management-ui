@@ -60,7 +60,7 @@ export class ProviderDetailsEffects {
   errorMessages: { action: Action; key: string }[] = [
     {
       action: ProviderDetailsActions.providerDetailsLoadingFailed,
-      key: 'AI_PROVIDER_DETAILS.ERROR_MESSAGES.DETAILS_LOADING_FAILED'
+      key: 'PROVIDER_DETAILS.ERROR_MESSAGES.DETAILS_LOADING_FAILED'
     }
   ]
 

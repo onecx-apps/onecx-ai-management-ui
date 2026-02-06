@@ -110,8 +110,7 @@ export class MCPServerDetailsComponent implements OnInit {
     private breadcrumbService: BreadcrumbService,
     private userService: UserService
   ) {
-    this.formGroup = new FormGroup({
-      id: new FormControl(null, [Validators.maxLength(255)]),
+    this.formGroup = new FormGroup({      
       apiKey: new FormControl(null, [Validators.maxLength(255)]),
       name: new FormControl(null, [Validators.required, Validators.maxLength(255)]),
       description: new FormControl(null, [Validators.required, Validators.maxLength(1024)]),
@@ -121,8 +120,7 @@ export class MCPServerDetailsComponent implements OnInit {
 
     this.viewModel$.subscribe((vm) => {
       if (!vm.editMode) {
-        this.formGroup.patchValue({
-          id: vm.details?.id,
+        this.formGroup.patchValue({          
           apiKey: vm.details?.apiKey,
           name: vm.details?.name,
           description: vm.details?.description,

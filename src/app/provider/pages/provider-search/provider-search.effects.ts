@@ -98,7 +98,7 @@ export class ProviderSearchEffects {
       }),
       mergeMap((itemToEdit) => {
         return this.portalDialogService.openDialog<Provider | undefined>(
-          'AI_PROVIDER_CREATE_UPDATE.UPDATE.HEADER',
+          'PROVIDER_CREATE_UPDATE.UPDATE.HEADER',
           {
             type: ProviderCreateUpdateComponent,
             inputs: {
@@ -107,8 +107,8 @@ export class ProviderSearchEffects {
               }
             }
           },
-          'AI_PROVIDER_CREATE_UPDATE.UPDATE.FORM.SAVE',
-          'AI_PROVIDER_CREATE_UPDATE.UPDATE.FORM.CANCEL',
+          'PROVIDER_CREATE_UPDATE.UPDATE.FORM.SAVE',
+          'PROVIDER_CREATE_UPDATE.UPDATE.FORM.CANCEL',
           {
             baseZIndex: 100
           }
@@ -128,7 +128,7 @@ export class ProviderSearchEffects {
         return this.providerService.updateProvider(itemToEditId, itemToEdit).pipe(
           map(() => {
             this.messageService.success({
-              summaryKey: 'AI_PROVIDER_CREATE_UPDATE.UPDATE.SUCCESS'
+              summaryKey: 'PROVIDER_CREATE_UPDATE.UPDATE.SUCCESS'
             })
             return ProviderSearchActions.updateProviderSucceeded()
           })
@@ -136,7 +136,7 @@ export class ProviderSearchEffects {
       }),
       catchError((error) => {
         this.messageService.error({
-          summaryKey: 'AI_PROVIDER_CREATE_UPDATE.UPDATE.ERROR'
+          summaryKey: 'PROVIDER_CREATE_UPDATE.UPDATE.ERROR'
         })
         return of(
           ProviderSearchActions.updateProviderFailed({
@@ -152,7 +152,7 @@ export class ProviderSearchEffects {
       ofType(ProviderSearchActions.createProviderButtonClicked),
       switchMap(() => {
         return this.portalDialogService.openDialog<Provider | undefined>(
-          'AI_PROVIDER_CREATE_UPDATE.CREATE.HEADER',
+          'PROVIDER_CREATE_UPDATE.CREATE.HEADER',
           {
             type: ProviderCreateUpdateComponent,
             inputs: {
@@ -161,8 +161,8 @@ export class ProviderSearchEffects {
               }
             }
           },
-          'AI_PROVIDER_CREATE_UPDATE.CREATE.FORM.SAVE',
-          'AI_PROVIDER_CREATE_UPDATE.CREATE.FORM.CANCEL',
+          'PROVIDER_CREATE_UPDATE.CREATE.FORM.SAVE',
+          'PROVIDER_CREATE_UPDATE.CREATE.FORM.CANCEL',
           {
             baseZIndex: 100
           }
@@ -181,7 +181,7 @@ export class ProviderSearchEffects {
         return this.providerService.createProvider(toCreateItem).pipe(
           map(() => {
             this.messageService.success({
-              summaryKey: 'AI_PROVIDER_CREATE_UPDATE.CREATE.SUCCESS'
+              summaryKey: 'PROVIDER_CREATE_UPDATE.CREATE.SUCCESS'
             })
             return ProviderSearchActions.createProviderSucceeded()
           })
@@ -189,7 +189,7 @@ export class ProviderSearchEffects {
       }),
       catchError((error) => {
         this.messageService.error({
-          summaryKey: 'AI_PROVIDER_CREATE_UPDATE.CREATE.ERROR'
+          summaryKey: 'PROVIDER_CREATE_UPDATE.CREATE.ERROR'
         })
         return of(
           ProviderSearchActions.createProviderFailed({
@@ -218,7 +218,7 @@ export class ProviderSearchEffects {
         return this.providerService.updateProvider(itemToEditId, itemToEdit).pipe(
           map(() => {
             this.messageService.success({
-              summaryKey: 'AI_PROVIDER_CREATE_UPDATE.UPDATE.SUCCESS'
+              summaryKey: 'PROVIDER_CREATE_UPDATE.UPDATE.SUCCESS'
             })
             return ProviderSearchActions.updateProviderSucceeded()
           })
@@ -226,7 +226,7 @@ export class ProviderSearchEffects {
       }),
       catchError((error) => {
         this.messageService.error({
-          summaryKey: 'AI_PROVIDER_CREATE_UPDATE.UPDATE.ERROR'
+          summaryKey: 'PROVIDER_CREATE_UPDATE.UPDATE.ERROR'
         })
         return of(
           ProviderSearchActions.updateProviderFailed({
@@ -255,14 +255,14 @@ export class ProviderSearchEffects {
       mergeMap((itemToDelete) => {
         return this.portalDialogService
           .openDialog<unknown>(
-            'AI_PROVIDER_DELETE.HEADER',
-            'AI_PROVIDER_DELETE.MESSAGE',
+            'PROVIDER_DELETE.HEADER',
+            'PROVIDER_DELETE.MESSAGE',
             {
-              key: 'AI_PROVIDER_DELETE.CONFIRM',
+              key: 'PROVIDER_DELETE.CONFIRM',
               icon: PrimeIcons.CHECK
             },
             {
-              key: 'AI_PROVIDER_DELETE.CANCEL',
+              key: 'PROVIDER_DELETE.CANCEL',
               icon: PrimeIcons.TIMES
             }
           )
@@ -283,7 +283,7 @@ export class ProviderSearchEffects {
         return this.providerService.deleteProvider(itemToDelete.id).pipe(
           map(() => {
             this.messageService.success({
-              summaryKey: 'AI_PROVIDER_DELETE.SUCCESS'
+              summaryKey: 'PROVIDER_DELETE.SUCCESS'
             })
             return ProviderSearchActions.deleteProviderSucceeded()
           })
@@ -291,7 +291,7 @@ export class ProviderSearchEffects {
       }),
       catchError((error) => {
         this.messageService.error({
-          summaryKey: 'AI_PROVIDER_DELETE.ERROR'
+          summaryKey: 'PROVIDER_DELETE.ERROR'
         })
         return of(
           ProviderSearchActions.deleteProviderFailed({
@@ -381,7 +381,7 @@ export class ProviderSearchEffects {
   errorMessages: { action: Action; key: string }[] = [
     {
       action: ProviderSearchActions.providerSearchResultsLoadingFailed,
-      key: 'AI_PROVIDER_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
+      key: 'PROVIDER_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
     }
   ]
 

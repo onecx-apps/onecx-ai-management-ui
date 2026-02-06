@@ -18,7 +18,7 @@
     "FORM": {
       "VIEW_API_KEY": "API-Schlüssel anzeigen",
       "ID": "ID",
-      "URL": "URL",      
+      "URL": "URL",
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "APIKEY": "API-Schlüssel"
@@ -74,7 +74,7 @@
     "RESULTS": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
-      "URL": "URL"      
+      "URL": "URL"
     },
     "CRITERIA": {
       "NAME": "Name",
@@ -99,7 +99,7 @@
       "SAVE": "Speichern"
     },
     "FORM": {
-      "ID": "ID",      
+      "ID": "ID",
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "MCP_SERVER": "MCP Servers",
@@ -154,11 +154,11 @@
       "SEARCH_CONFIG_UPDATE_FAILED": "Suchkonfiguration konnte nicht aktualisiert werden.",
       "SEARCH_CONFIGS_LOADING_FAILED": "Suchkonfigurationen konnten nicht geladen werden."
     },
-    "COLUMNS": {      
+    "COLUMNS": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung"
     },
-    "INPUT_FIELDS": {      
+    "INPUT_FIELDS": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung"
     },
@@ -191,12 +191,12 @@
       },
       "HEADER": "Configuration bearbeiten"
     },
-    "FORM": {      
+    "FORM": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung"
     }
   },
-  "AI_PROVIDER_DELETE": {
+  "PROVIDER_DELETE": {
     "HEADER": "Provider löschen",
     "MESSAGE": "Bitte bestätigen, dass dieser Provider gelöscht werden soll.",
     "CONFIRM": "Bestätigen",
@@ -204,7 +204,7 @@
     "SUCCESS": "Provider erfolgreich gelöscht",
     "ERROR": "Konnte Provider nicht löschen"
   },
-  "AI_PROVIDER_CREATE_UPDATE": {
+  "PROVIDER_CREATE_UPDATE": {
     "ACTION": {
       "CREATE": "Erstellen"
     },
@@ -230,10 +230,12 @@
     "FORM": {
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
-      "TYPE": "Typ"
+      "MODELNAME": "Modelname",
+      "LLMURL": "Llm-Url",
+      "APIKEY": "API Schlüssel"
     }
   },
-  "AI_PROVIDER_DETAILS": {
+  "PROVIDER_DETAILS": {
     "HELP_ARTICLE_ID": "Hilfeartikel",
     "BREADCRUMB": "Details",
     "HEADER": "Provider Details",
@@ -252,11 +254,11 @@
       "NAME": "Name",
       "DESCRIPTION": "Beschreibung",
       "LLMURL": "LlmUrl",
-      "MODELNAME": "Modelname",      
+      "MODELNAME": "Modelname",
       "APIKEY": "API Key"
     }
   },
-  "AI_PROVIDER_SEARCH": {
+  "PROVIDER_SEARCH": {
     "HEADER": "Provider Suche",
     "SUB_HEADER": "Suchen und Anzeigen von Provider",
     "HELP_ARTICLE_ID": "Hilfeartikel",
