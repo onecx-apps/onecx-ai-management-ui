@@ -106,8 +106,6 @@ export class ConfigurationDetailsComponent implements OnInit {
     private readonly store: Store,
     private readonly breadcrumbService: BreadcrumbService
   ) {
-
-    this.providerQuery$ = new BehaviorSubject<string>('')
     this.filteredProviders$ = combineLatest([this.providerQuery$, this.viewModel$]).pipe(
       map(([query, vm]) => {
         const suggestions = [...(vm.details?.llmProvider ? [vm.details.llmProvider] : []), ...vm.Providers ?? []]
