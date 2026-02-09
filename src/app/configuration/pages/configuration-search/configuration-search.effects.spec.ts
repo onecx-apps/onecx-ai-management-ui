@@ -1,21 +1,22 @@
 import { TestBed } from '@angular/core/testing'
 import { ActivatedRoute, Router } from '@angular/router'
 import { RouterTestingModule } from '@angular/router/testing'
+import { provideMockActions } from '@ngrx/effects/testing'
+import { routerNavigatedAction } from '@ngrx/router-store'
 import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
-import { provideMockActions } from '@ngrx/effects/testing'
+import { PortalMessageServiceMock, providePortalMessageServiceMock } from '@onecx/angular-integration-interface/mocks'
+import { ExportDataService, PortalDialogService } from '@onecx/portal-integration-angular'
 import { MonoTypeOperatorFunction, ReplaySubject, map, of, throwError } from 'rxjs'
-import { ExportDataService, PortalMessageService, PortalDialogService } from '@onecx/portal-integration-angular'
-import { ConfigurationSearchEffects } from './configuration-search.effects'
+import { ConfigurationService } from 'src/app/shared/generated'
+import { selectUrl } from 'src/app/shared/selectors/router.selectors'
 import { ConfigurationSearchActions } from './configuration-search.actions'
-import { configurationSearchSelectors, selectConfigurationSearchViewModel } from './configuration-search.selectors'
+import { ConfigurationSearchEffects } from './configuration-search.effects'
 import { ConfigurationSearchCriteria } from './configuration-search.parameters'
 import { initialState } from './configuration-search.reducers'
-import { selectUrl } from 'src/app/shared/selectors/router.selectors'
+import { configurationSearchSelectors, selectConfigurationSearchViewModel } from './configuration-search.selectors'
 import { ConfigurationSearchViewModel } from './configuration-search.viewmodel'
 import { ConfigurationCreateUpdateComponent } from './dialogs/configuration-create-update/configuration-create-update.component'
-import { routerNavigatedAction } from '@ngrx/router-store'
-import { ConfigurationService } from 'src/app/shared/generated'
 
 jest.mock('@onecx/ngrx-accelerator', () => {
   const actual = jest.requireActual('@onecx/ngrx-accelerator')
@@ -45,19 +46,21 @@ describe('ConfigurationSearchEffects', () => {
   let store: MockStore<Store>
   let router: jest.Mocked<Router>
   let route: ActivatedRoute
+  
   let configurationService: jest.Mocked<ConfigurationService>
   let portalDialogService: jest.Mocked<PortalDialogService>
-  let messageService: jest.Mocked<PortalMessageService>
   let exportDataService: jest.Mocked<ExportDataService>
 
+  let mockMessageService: PortalMessageServiceMock
+
   const mockCriteria: ConfigurationSearchCriteria = {
-    name: 'test-name',    
+    name: 'test-name',
   }
 
   beforeEach(async () => {
     actions$ = new ReplaySubject(1)
 
-    configurationService = {      
+    configurationService = {
       createConfiguration: jest.fn(),
       updateConfiguration: jest.fn(),
       deleteConfiguration: jest.fn(),
@@ -81,17 +84,12 @@ describe('ConfigurationSearchEffects', () => {
       openDialog: jest.fn()
     } as unknown as jest.Mocked<PortalDialogService>
 
-    messageService = {
-      success: jest.fn(),
-      error: jest.fn()
-    } as unknown as jest.Mocked<PortalMessageService>
-
     exportDataService = {
       exportCsv: jest.fn()
     } as unknown as jest.Mocked<ExportDataService>
 
     route = {
-      queryParams: of({        
+      queryParams: of({
         name: 'test-name',
         description: 'test-description'
       }),
@@ -113,10 +111,12 @@ describe('ConfigurationSearchEffects', () => {
         { provide: ActivatedRoute, useValue: route },
         { provide: ConfigurationService, useValue: configurationService },
         { provide: PortalDialogService, useValue: portalDialogService },
-        { provide: PortalMessageService, useValue: messageService },
-        { provide: ExportDataService, useValue: exportDataService }
+        { provide: ExportDataService, useValue: exportDataService },
+        providePortalMessageServiceMock()
       ]
     }).compileComponents()
+
+    mockMessageService = TestBed.inject(PortalMessageServiceMock)
 
     effects = TestBed.inject(ConfigurationSearchEffects)
     store = TestBed.inject(MockStore)
@@ -131,7 +131,7 @@ describe('ConfigurationSearchEffects', () => {
     it('should navigate to update URL when criteria differs from query params', (done) => {
       const navigateSpy = jest.spyOn(router, 'navigate')
 
-      route.queryParams = of({        
+      route.queryParams = of({
         name: 'different-name',
         description: 'different-description'
       })
@@ -390,7 +390,7 @@ describe('ConfigurationSearchEffects', () => {
 
       configurationService.updateConfiguration.mockReturnValue(of({}) as never)
 
-      const messageSuccessSpy = jest.spyOn(messageService, 'success')
+      const messageSuccessSpy = jest.spyOn(mockMessageService, 'success')
 
       actions$.next(ConfigurationSearchActions.editConfigurationButtonClicked({ id: 'test-123' }))
 
@@ -406,26 +406,26 @@ describe('ConfigurationSearchEffects', () => {
       })
     });
 
-   [
-    {
-      desc: 'should dispatch updateConfigurationCancelled when dialog is cancelled',
-      dialogResult: { button: 'secondary', result: null }
-    },
-    {
-      desc: 'should dispatch updateConfigurationCancelled when dialog result is null',
-      dialogResult: null
-    }
-  ].forEach(({ desc, dialogResult }) => {
-    it(desc, (done) => {
-      portalDialogService.openDialog.mockReturnValue(of(dialogResult) as never)
-      actions$.next(ConfigurationSearchActions.editConfigurationButtonClicked({ id: 'test-123' }))
-      effects.editButtonClicked$.subscribe((action) => {
-        expect(action.type).toEqual(ConfigurationSearchActions.updateConfigurationCancelled.type)
-        expect(configurationService.updateConfiguration).not.toHaveBeenCalled()
-        done()
+    [
+      {
+        desc: 'should dispatch updateConfigurationCancelled when dialog is cancelled',
+        dialogResult: { button: 'secondary', result: null }
+      },
+      {
+        desc: 'should dispatch updateConfigurationCancelled when dialog result is null',
+        dialogResult: null
+      }
+    ].forEach(({ desc, dialogResult }) => {
+      it(desc, (done) => {
+        portalDialogService.openDialog.mockReturnValue(of(dialogResult) as never)
+        actions$.next(ConfigurationSearchActions.editConfigurationButtonClicked({ id: 'test-123' }))
+        effects.editButtonClicked$.subscribe((action) => {
+          expect(action.type).toEqual(ConfigurationSearchActions.updateConfigurationCancelled.type)
+          expect(configurationService.updateConfiguration).not.toHaveBeenCalled()
+          done()
+        })
       })
     })
-  })
 
     it('should dispatch updateConfigurationFailed when API call fails', (done) => {
       const mockDialogResult = {
@@ -437,7 +437,7 @@ describe('ConfigurationSearchEffects', () => {
       portalDialogService.openDialog.mockReturnValue(of(mockDialogResult) as never)
       configurationService.updateConfiguration.mockReturnValue(throwError(() => mockError))
 
-      const messageErrorSpy = jest.spyOn(messageService, 'error')
+      const messageErrorSpy = jest.spyOn(mockMessageService, 'error')
 
       actions$.next(ConfigurationSearchActions.editConfigurationButtonClicked({ id: 'test-123' }))
 
@@ -459,7 +459,7 @@ describe('ConfigurationSearchEffects', () => {
 
       portalDialogService.openDialog.mockReturnValue(of(mockDialogResult) as never)
 
-      const messageErrorSpy = jest.spyOn(messageService, 'error')
+      const messageErrorSpy = jest.spyOn(mockMessageService, 'error')
 
       actions$.next(ConfigurationSearchActions.editConfigurationButtonClicked({ id: 'test-123' }))
 
@@ -480,7 +480,7 @@ describe('ConfigurationSearchEffects', () => {
 
       portalDialogService.openDialog.mockReturnValue(of(mockDialogResult) as never)
 
-      const messageErrorSpy = jest.spyOn(messageService, 'error')
+      const messageErrorSpy = jest.spyOn(mockMessageService, 'error')
 
       actions$.next(ConfigurationSearchActions.editConfigurationButtonClicked({ id: 'test-123' }))
 
@@ -577,7 +577,7 @@ describe('ConfigurationSearchEffects', () => {
     })
 
     it('should use current search criteria from store', (done) => {
-      const customCriteria = {        
+      const customCriteria = {
         name: 'custom-name',
         description: 'custom-desc'
       }
@@ -620,7 +620,7 @@ describe('ConfigurationSearchEffects', () => {
 
       configurationService.deleteConfiguration.mockReturnValue(of({}) as never)
 
-      const messageSuccessSpy = jest.spyOn(messageService, 'success')
+      const messageSuccessSpy = jest.spyOn(mockMessageService, 'success')
 
       actions$.next(ConfigurationSearchActions.deleteConfigurationButtonClicked({ id: 'test-123' }))
 
@@ -666,7 +666,7 @@ describe('ConfigurationSearchEffects', () => {
 
       configurationService.deleteConfiguration.mockReturnValue(throwError(() => mockError))
 
-      const messageErrorSpy = jest.spyOn(messageService, 'error')
+      const messageErrorSpy = jest.spyOn(mockMessageService, 'error')
 
       actions$.next(ConfigurationSearchActions.deleteConfigurationButtonClicked({ id: 'test-123' }))
 
@@ -719,7 +719,7 @@ describe('ConfigurationSearchEffects', () => {
 
       portalDialogService.openDialog.mockReturnValue(of(mockDialogResult) as never)
 
-      const messageErrorSpy = jest.spyOn(messageService, 'error')
+      const messageErrorSpy = jest.spyOn(mockMessageService, 'error')
 
       effects.deleteButtonClicked$.subscribe((action) => {
         expect(action.type).toEqual(ConfigurationSearchActions.deleteConfigurationFailed.type)
@@ -796,9 +796,11 @@ describe('ConfigurationSearchEffects', () => {
       portalDialogService.openDialog.mockReturnValue(of(mockDialogResult) as never)
       configurationService.createConfiguration.mockReturnValue(of({}) as never)
 
+      const messageSuccessSpy = jest.spyOn(mockMessageService, 'success')
+
       effects.createButtonClicked$.subscribe((action) => {
         expect(configurationService.createConfiguration).toHaveBeenCalledWith(expectedCreateRequest)
-        expect(messageService.success).toHaveBeenCalledWith({
+        expect(messageSuccessSpy).toHaveBeenCalledWith({
           summaryKey: 'CONFIGURATION_CREATE_UPDATE.CREATE.SUCCESS'
         })
         expect(action).toEqual(ConfigurationSearchActions.createConfigurationSucceeded())
@@ -837,8 +839,10 @@ describe('ConfigurationSearchEffects', () => {
 
       portalDialogService.openDialog.mockReturnValue(of(mockDialogResult) as never)
 
+      const messageErrorSpy = jest.spyOn(mockMessageService, 'error')
+
       effects.createButtonClicked$.subscribe((action) => {
-        expect(messageService.error).toHaveBeenCalledWith({
+        expect(messageErrorSpy).toHaveBeenCalledWith({
           summaryKey: 'CONFIGURATION_CREATE_UPDATE.CREATE.ERROR'
         })
         expect(action).toEqual(
@@ -863,8 +867,10 @@ describe('ConfigurationSearchEffects', () => {
       portalDialogService.openDialog.mockReturnValue(of(mockDialogResult) as never)
       configurationService.createConfiguration.mockReturnValue(throwError(() => apiError) as never)
 
+      const messageErrorSpy = jest.spyOn(mockMessageService, 'error')
+
       effects.createButtonClicked$.subscribe((action) => {
-        expect(messageService.error).toHaveBeenCalledWith({
+        expect(messageErrorSpy).toHaveBeenCalledWith({
           summaryKey: 'CONFIGURATION_CREATE_UPDATE.CREATE.ERROR'
         })
         expect(action).toEqual(
@@ -880,42 +886,42 @@ describe('ConfigurationSearchEffects', () => {
   })
 
   describe('exportData$', () => {
-   [
-    {
-      desc: 'should handle export with empty displayed columns',
-      viewModel: {
-        columns: [],
-        searchCriteria: {},
-        results: [
-          { id: '1', name: 'Context 1', description: 'Description 1', imagePath: '' }
-        ],
-        displayedColumns: [],
-        resultComponentState: { displayedColumns: undefined },
-        searchHeaderComponentState: null,
-        diagramComponentState: null,
-        chartVisible: false,
-        searchLoadingIndicator: false,
-        searchExecuted: true
+    [
+      {
+        desc: 'should handle export with empty displayed columns',
+        viewModel: {
+          columns: [],
+          searchCriteria: {},
+          results: [
+            { id: '1', name: 'Context 1', description: 'Description 1', imagePath: '' }
+          ],
+          displayedColumns: [],
+          resultComponentState: { displayedColumns: undefined },
+          searchHeaderComponentState: null,
+          diagramComponentState: null,
+          chartVisible: false,
+          searchLoadingIndicator: false,
+          searchExecuted: true
+        }
+      },
+      {
+        desc: 'should handle export with null resultComponentState',
+        viewModel: {
+          columns: [],
+          searchCriteria: {},
+          results: [
+            { id: '1', name: 'Context 1', description: 'Description 1', imagePath: '' }
+          ],
+          displayedColumns: [],
+          resultComponentState: null,
+          searchHeaderComponentState: null,
+          diagramComponentState: null,
+          chartVisible: false,
+          searchLoadingIndicator: false,
+          searchExecuted: true
+        }
       }
-    },
-    {
-      desc: 'should handle export with null resultComponentState',
-      viewModel: {
-        columns: [],
-        searchCriteria: {},
-        results: [
-          { id: '1', name: 'Context 1', description: 'Description 1', imagePath: '' }
-        ],
-        displayedColumns: [],
-        resultComponentState: null,
-        searchHeaderComponentState: null,
-        diagramComponentState: null,
-        chartVisible: false,
-        searchLoadingIndicator: false,
-        searchExecuted: true
-      }
-    }
-  ].forEach(({ desc, viewModel }) => {
+    ].forEach(({ desc, viewModel }) => {
       it(desc, (done) => {
         store.overrideSelector(selectConfigurationSearchViewModel, viewModel)
         effects.exportData$.subscribe(() => {
@@ -989,8 +995,9 @@ describe('ConfigurationSearchEffects', () => {
 
   describe('displayError$', () => {
     it('should display error message when configurationSearchResultsLoadingFailed action is dispatched', (done) => {
+      const messageErrorSpy = jest.spyOn(mockMessageService, 'error')
       effects.displayError$.subscribe(() => {
-        expect(messageService.error).toHaveBeenCalledWith({
+        expect(messageErrorSpy).toHaveBeenCalledWith({
           summaryKey: 'CONFIGURATION_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
         })
         done()
@@ -1000,8 +1007,10 @@ describe('ConfigurationSearchEffects', () => {
     })
 
     it('should not display error message for actions not in errorMessages array', (done) => {
+      const messageErrorSpy = jest.spyOn(mockMessageService, 'error')
+
       setTimeout(() => {
-        expect(messageService.error).not.toHaveBeenCalled()
+        expect(messageErrorSpy).not.toHaveBeenCalled()
         done()
       }, 0)
 

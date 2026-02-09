@@ -10,7 +10,7 @@ import { routerNavigatedAction } from '@ngrx/router-store'
 import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
 import { TranslateService } from '@ngx-translate/core'
-import { provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
+import { PortalMessageServiceMock, providePortalMessageServiceMock, provideUserServiceMock } from '@onecx/angular-integration-interface/mocks'
 import {
   Action,
   AlwaysGrantPermissionChecker,
@@ -18,7 +18,6 @@ import {
   HAS_PERMISSION_CHECKER,
   PortalCoreModule,
   PortalDialogService,
-  PortalMessageService
 } from '@onecx/portal-integration-angular'
 import { TranslateTestingModule } from 'ngx-translate-testing'
 import { PrimeIcons } from 'primeng/api'
@@ -91,7 +90,7 @@ describe('ConfigurationDetailsComponent', () => {
   let providerService: jest.Mocked<ProviderService>
   let mcpServerService: jest.Mocked<McpServerService>
   let portalDialogService: jest.Mocked<PortalDialogService>
-  let messageService: jest.Mocked<PortalMessageService>
+  let messageService: PortalMessageServiceMock
   let router: jest.Mocked<Router>
 
   const baseConfigurationDetailsViewModel: ConfigurationDetailsViewModel = {
@@ -213,10 +212,7 @@ describe('ConfigurationDetailsComponent', () => {
       }
     } as unknown as jest.Mocked<Router>
 
-    messageService = {
-      success: jest.fn(),
-      error: jest.fn()
-    } as unknown as jest.Mocked<PortalMessageService>
+
 
     await TestBed.configureTestingModule({
       declarations: [ConfigurationDetailsComponent],
@@ -250,10 +246,12 @@ describe('ConfigurationDetailsComponent', () => {
         { provide: ProviderService, useValue: providerService },
         { provide: McpServerService, useValue: mcpServerService },
         { provide: Router, useValue: router },
-        { provide: PortalMessageService, useValue: messageService },
-        { provide: PortalDialogService, useValue: portalDialogService }
+        { provide: PortalDialogService, useValue: portalDialogService },
+        providePortalMessageServiceMock()
       ]
     }).compileComponents()
+
+    messageService = TestBed.inject(PortalMessageServiceMock)
 
     effects = TestBed.inject(ConfigurationDetailsEffects)
     effects.displayError$.subscribe()
@@ -912,10 +910,10 @@ describe('ConfigurationDetailsComponent', () => {
       }
       store.overrideSelector(selectConfigurationDetailsViewModel, viewModelView)
       store.refreshState()
-      
+
       fixture.detectChanges()
       await fixture.whenStable()
-      
+
       expect(component.formGroup.disabled).toBeTruthy()
 
       const viewModelEdit = {
@@ -924,7 +922,7 @@ describe('ConfigurationDetailsComponent', () => {
       }
       store.overrideSelector(selectConfigurationDetailsViewModel, viewModelEdit)
       store.refreshState()
-     
+
       fixture.detectChanges()
       await fixture.whenStable()
 
@@ -935,7 +933,7 @@ describe('ConfigurationDetailsComponent', () => {
       const viewModelView = {
         ...baseConfigurationDetailsViewModel,
         editMode: false
-      }  
+      }
       store.overrideSelector(selectConfigurationDetailsViewModel, viewModelView)
       store.refreshState()
 
@@ -973,7 +971,7 @@ describe('ConfigurationDetailsComponent', () => {
 
     it('should dispatch edit action when edit() is called', () => {
       const dispatchSpy = jest.spyOn(store, 'dispatch')
-      
+
       component.edit()
 
       expect(dispatchSpy).toHaveBeenCalledWith(ConfigurationDetailsActions.editButtonClicked())
@@ -998,7 +996,7 @@ describe('ConfigurationDetailsComponent', () => {
 
     it('should dispatch save action with form values when save() is called', () => {
       const mockValue = {
-        id: 'id',        
+        id: 'id',
         name: 'name',
         description: 'desc',
         mcpServers: [{ id: '', name: '' }],

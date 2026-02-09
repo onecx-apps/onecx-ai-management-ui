@@ -1,20 +1,21 @@
 import { TestBed } from '@angular/core/testing'
 import { ActivatedRoute, Router } from '@angular/router'
 import { RouterTestingModule } from '@angular/router/testing'
+import { provideMockActions } from '@ngrx/effects/testing'
+import { routerNavigatedAction } from '@ngrx/router-store'
 import { Store } from '@ngrx/store'
 import { MockStore, provideMockStore } from '@ngrx/store/testing'
-import { provideMockActions } from '@ngrx/effects/testing'
+import { PortalMessageServiceMock, providePortalMessageServiceMock } from '@onecx/angular-integration-interface/mocks'
+import { ExportDataService } from '@onecx/portal-integration-angular'
 import { MonoTypeOperatorFunction, ReplaySubject, map, of, throwError } from 'rxjs'
-import { ExportDataService, PortalMessageService } from '@onecx/portal-integration-angular'
-import { MCPServerSearchEffects } from './mcpserver-search.effects'
+import { McpServerService } from 'src/app/shared/generated'
+import { selectUrl } from 'src/app/shared/selectors/router.selectors'
 import { MCPServerSearchActions } from './mcpserver-search.actions'
-import { mcpserverSearchSelectors, selectMCPServerSearchViewModel } from './mcpserver-search.selectors'
+import { MCPServerSearchEffects } from './mcpserver-search.effects'
 import { MCPServerSearchCriteria } from './mcpserver-search.parameters'
 import { initialState } from './mcpserver-search.reducers'
-import { selectUrl } from 'src/app/shared/selectors/router.selectors'
+import { mcpserverSearchSelectors, selectMCPServerSearchViewModel } from './mcpserver-search.selectors'
 import { MCPServerSearchViewModel } from './mcpserver-search.viewmodel'
-import { routerNavigatedAction } from '@ngrx/router-store'
-import { McpServerService } from 'src/app/shared/generated'
 
 jest.mock('@onecx/ngrx-accelerator', () => {
   const actual = jest.requireActual('@onecx/ngrx-accelerator')
@@ -45,7 +46,7 @@ describe('MCPServerSearchEffects', () => {
   let router: jest.Mocked<Router>
   let route: ActivatedRoute
   let mcpService: jest.Mocked<McpServerService>
-  let messageService: jest.Mocked<PortalMessageService>
+  let messageService: PortalMessageServiceMock
   let exportDataService: jest.Mocked<ExportDataService>
 
   const mockCriteria: MCPServerSearchCriteria = {
@@ -73,9 +74,7 @@ describe('MCPServerSearchEffects', () => {
       events: of()
     } as unknown as jest.Mocked<Router>
 
-    messageService = {
-      error: jest.fn()
-    } as unknown as jest.Mocked<PortalMessageService>
+    // messageService will be injected as PortalMessageServiceMock
 
     exportDataService = {
       exportCsv: jest.fn()
@@ -103,11 +102,12 @@ describe('MCPServerSearchEffects', () => {
         { provide: Router, useValue: router },
         { provide: ActivatedRoute, useValue: route },
         { provide: McpServerService, useValue: mcpService },
-        { provide: PortalMessageService, useValue: messageService },
-        { provide: ExportDataService, useValue: exportDataService }
+        { provide: ExportDataService, useValue: exportDataService },
+        providePortalMessageServiceMock()
       ]
     }).compileComponents()
 
+    messageService = TestBed.inject(PortalMessageServiceMock)
     // Instead of letting Angular DI try to resolve the @SkipSelf() ActivatedRoute (which has no parent injector in TestBed),
     // construct the effect instance manually and pass the desired route object as the "parent".
     const { Actions } = await import('@ngrx/effects')
@@ -316,26 +316,26 @@ describe('MCPServerSearchEffects', () => {
   describe('exportData$', () => {
     it('should handle export with empty displayed columns', (done) => {
       const mockViewModel = {
-      columns: [],
-      searchCriteria: {},
-      results: [
-        { id: '1', name: 'Server 1', description: 'Description 1', imagePath: '' }
-      ],
-      displayedColumns: [],
-      resultComponentState: { displayedColumns: undefined },
-      searchHeaderComponentState: null,
-      diagramComponentState: null,
-      chartVisible: false,
-      searchLoadingIndicator: false,
-      searchExecuted: true
+        columns: [],
+        searchCriteria: {},
+        results: [
+          { id: '1', name: 'Server 1', description: 'Description 1', imagePath: '' }
+        ],
+        displayedColumns: [],
+        resultComponentState: { displayedColumns: undefined },
+        searchHeaderComponentState: null,
+        diagramComponentState: null,
+        chartVisible: false,
+        searchLoadingIndicator: false,
+        searchExecuted: true
       } as unknown as MCPServerSearchViewModel
 
       store.overrideSelector(selectMCPServerSearchViewModel, mockViewModel)
       store.refreshState()
 
       effects.exportData$.subscribe(() => {
-      expect(exportDataService.exportCsv).toHaveBeenCalled()
-      done()
+        expect(exportDataService.exportCsv).toHaveBeenCalled()
+        done()
       })
 
       actions$.next(MCPServerSearchActions.exportButtonClicked())
@@ -343,26 +343,26 @@ describe('MCPServerSearchEffects', () => {
 
     it('should handle export with null resultComponentState', (done) => {
       const mockViewModel = {
-      columns: [],
-      searchCriteria: {},
-      results: [
-        { id: '1', name: 'Server 1', description: 'Description 1', imagePath: '' }
-      ],
-      displayedColumns: [],
-      resultComponentState: null,
-      searchHeaderComponentState: null,
-      diagramComponentState: null,
-      chartVisible: false,
-      searchLoadingIndicator: false,
-      searchExecuted: true
+        columns: [],
+        searchCriteria: {},
+        results: [
+          { id: '1', name: 'Server 1', description: 'Description 1', imagePath: '' }
+        ],
+        displayedColumns: [],
+        resultComponentState: null,
+        searchHeaderComponentState: null,
+        diagramComponentState: null,
+        chartVisible: false,
+        searchLoadingIndicator: false,
+        searchExecuted: true
       } as unknown as MCPServerSearchViewModel
 
       store.overrideSelector(selectMCPServerSearchViewModel, mockViewModel)
       store.refreshState()
 
       effects.exportData$.subscribe(() => {
-      expect(exportDataService.exportCsv).toHaveBeenCalled()
-      done()
+        expect(exportDataService.exportCsv).toHaveBeenCalled()
+        done()
       })
 
       actions$.next(MCPServerSearchActions.exportButtonClicked())
@@ -429,8 +429,9 @@ describe('MCPServerSearchEffects', () => {
 
   describe('displayError$', () => {
     it('should display error message when mcpserverSearchResultsLoadingFailed action is dispatched', (done) => {
+      const errorSpy = jest.spyOn(messageService, 'error')
       effects.displayError$.subscribe(() => {
-        expect(messageService.error).toHaveBeenCalledWith({
+        expect(errorSpy).toHaveBeenCalledWith({
           summaryKey: 'MCPSERVER_SEARCH.ERROR_MESSAGES.SEARCH_RESULTS_LOADING_FAILED'
         })
         done()
@@ -440,8 +441,9 @@ describe('MCPServerSearchEffects', () => {
     })
 
     it('should not display error message for actions not in errorMessages array', (done) => {
+      const errorSpy = jest.spyOn(messageService, 'error')
       setTimeout(() => {
-        expect(messageService.error).not.toHaveBeenCalled()
+        expect(errorSpy).not.toHaveBeenCalled()
         done()
       }, 0)
 

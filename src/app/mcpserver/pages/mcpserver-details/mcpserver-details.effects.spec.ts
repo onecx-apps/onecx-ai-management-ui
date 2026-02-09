@@ -12,6 +12,7 @@ import { MCPServerDetailsActions } from './mcpserver-details.actions'
 import { MCPServerDetailsComponent } from './mcpserver-details.component'
 import { MCPServerDetailsEffects } from './mcpserver-details.effects'
 import { mcpserverDetailsSelectors } from './mcpserver-details.selectors'
+import { PortalMessageServiceMock, providePortalMessageServiceMock } from '@onecx/angular-integration-interface/mocks'
 
 jest.mock('@onecx/ngrx-accelerator', () => {
     const actual = jest.requireActual('@onecx/ngrx-accelerator')
@@ -35,9 +36,10 @@ describe('MCPServerDetailsEffects', () => {
     let effects: MCPServerDetailsEffects
     let store: MockStore
     let mcpService: jest.Mocked<McpServerService>
-    let router: jest.Mocked<Router>
-    let messageService: jest.Mocked<PortalMessageService>
+    let router: jest.Mocked<Router>    
     let portalDialogService: jest.Mocked<PortalDialogService>
+
+    let mockMessageService: PortalMessageServiceMock
 
     const mockId = 'test-id'
     const mockActivatedRoute = {
@@ -107,11 +109,6 @@ describe('MCPServerDetailsEffects', () => {
             }
         } as unknown as jest.Mocked<Router>
 
-        messageService = {
-            success: jest.fn(),
-            error: jest.fn()
-        } as unknown as jest.Mocked<PortalMessageService>
-
         portalDialogService = {
             openDialog: jest.fn()
         } as unknown as jest.Mocked<PortalDialogService>
@@ -122,12 +119,14 @@ describe('MCPServerDetailsEffects', () => {
                 provideMockActions(() => actions$),
                 provideMockStore({ initialState: {} }),
                 { provide: McpServerService, useValue: mcpService },
-                { provide: Router, useValue: router },
-                { provide: PortalMessageService, useValue: messageService },
+                { provide: Router, useValue: router },                
                 { provide: PortalDialogService, useValue: portalDialogService },
                 { provide: ActivatedRoute, useValue: mockActivatedRoute },
+                providePortalMessageServiceMock()
             ]
         }).compileComponents()
+
+        mockMessageService = TestBed.inject(PortalMessageServiceMock)
 
         // Instead of letting Angular DI try to resolve the @SkipSelf() ActivatedRoute (which has no parent injector in TestBed),
         // construct the effect instance manually and pass the desired route object as the "parent".
@@ -138,13 +137,10 @@ describe('MCPServerDetailsEffects', () => {
             mcpService,
             router,
             TestBed.inject(MockStore),
-            messageService,
+            mockMessageService as any,
             portalDialogService
         )
         store = TestBed.inject(MockStore)
-
-        // effects = TestBed.inject(MCPServerDetailsEffects)
-        // store = TestBed.inject(MockStore)
     })
 
     describe('navigatedToDetailsPage$', () => {
@@ -245,6 +241,7 @@ describe('MCPServerDetailsEffects', () => {
         })
 
         it('should call update and dispatch success on success', (done) => {
+            const successSpy = jest.spyOn(mockMessageService, 'success')
             const details = { id: '1', apiKey: 'old' } as MCPServer
             store.overrideSelector(mcpserverDetailsSelectors.selectDetails, details)
             store.refreshState()
@@ -256,13 +253,14 @@ describe('MCPServerDetailsEffects', () => {
 
             effects.saveButtonClicked$.subscribe((action) => {
                 expect(mcpService.updateMCPServerById).toHaveBeenCalledWith('1', { ...details, ...newDetails })
-                expect(messageService.success).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.UPDATE.SUCCESS' })
+                expect(successSpy).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.UPDATE.SUCCESS' })
                 expect(action).toEqual(MCPServerDetailsActions.updateMCPServerSucceeded())
                 done()
             })
         })
 
         it('should dispatch failed and show error on update failure', (done) => {
+            const errorSpy = jest.spyOn(mockMessageService, 'error')
             const details = { id: '1', apiKey: 'old' } as MCPServer
             store.overrideSelector(mcpserverDetailsSelectors.selectDetails, details)
             store.refreshState()
@@ -274,7 +272,7 @@ describe('MCPServerDetailsEffects', () => {
 
             effects.saveButtonClicked$.subscribe((action) => {
                 expect(action.type).toEqual(MCPServerDetailsActions.updateMCPServerFailed.type)
-                expect(messageService.error).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.UPDATE.ERROR' })
+                expect(errorSpy).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.UPDATE.ERROR' })
                 done()
             })
         })
@@ -295,6 +293,7 @@ describe('MCPServerDetailsEffects', () => {
         })
 
         it('should delete and dispatch success on API success', (done) => {
+            const successSpy = jest.spyOn(mockMessageService, 'success')
             portalDialogService.openDialog.mockReturnValue(of({ button: 'primary' } as DialogState<any>) as any)
             store.overrideSelector(mcpserverDetailsSelectors.selectDetails, { id: '2' } as any)
             store.refreshState()
@@ -305,13 +304,14 @@ describe('MCPServerDetailsEffects', () => {
 
             effects.deleteButtonClicked$.subscribe((action) => {
                 expect(mcpService.deleteMCPServerById).toHaveBeenCalledWith('2')
-                expect(messageService.success).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.DELETE.SUCCESS' })
+                expect(successSpy).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.DELETE.SUCCESS' })
                 expect(action).toEqual(MCPServerDetailsActions.deleteMCPServerSucceeded())
                 done()
             })
         })
 
         it('should dispatch failed and show error when delete API fails', (done) => {
+            const errorSpy = jest.spyOn(mockMessageService, 'error')
             portalDialogService.openDialog.mockReturnValue(of({ button: 'primary' } as DialogState<any>) as any)
             store.overrideSelector(mcpserverDetailsSelectors.selectDetails, { id: '2' } as any)
             store.refreshState()
@@ -323,7 +323,7 @@ describe('MCPServerDetailsEffects', () => {
 
             effects.deleteButtonClicked$.subscribe((action) => {
                 expect(action.type).toEqual(MCPServerDetailsActions.deleteMCPServerFailed.type)
-                expect(messageService.error).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.DELETE.ERROR' })
+                expect(errorSpy).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.DELETE.ERROR' })
                 done()
             })
         })
@@ -346,17 +346,20 @@ describe('MCPServerDetailsEffects', () => {
 
     describe('displayError$', () => {
         it('should display error message on mCPServerDetailsLoadingFailed', (done) => {
+            const errorSpy = jest.spyOn(mockMessageService, 'error')
             actions$.next(MCPServerDetailsActions.mCPServerDetailsLoadingFailed({ error: 'err' }))
 
             effects.displayError$.subscribe(() => {
-                expect(messageService.error).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.ERROR_MESSAGES.DETAILS_LOADING_FAILED' })
+                expect(errorSpy).toHaveBeenCalledWith({ summaryKey: 'MCPSERVER_DETAILS.ERROR_MESSAGES.DETAILS_LOADING_FAILED' })
                 done()
             })
         })
 
         it('should not display on unrelated action', (done) => {
+            const errorSpy = jest.spyOn(mockMessageService, 'error')
+            
             setTimeout(() => {
-                expect(messageService.error).not.toHaveBeenCalled()
+                expect(errorSpy).not.toHaveBeenCalled()
                 done()
             }, 0)
 
